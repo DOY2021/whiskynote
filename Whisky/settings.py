@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'drf_yasg',
     #Apps
+    'api.apps.ApiConfig',
 ]
 
 SITE_ID = 1
