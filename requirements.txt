@@ -1,6 +1,7 @@
 Django
 djangorestframework
 django-rest-auth
+django-rest-swagger
 dj-rest-auth
 django-allauth
 django-crispy-forms
@@ -10,4 +11,3 @@ psycopg2-binary
 pillow
 six
 requests
-
