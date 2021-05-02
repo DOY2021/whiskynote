@@ -1,0 +1,13 @@
+Django
+djangorestframework
+django-rest-auth
+dj-rest-auth
+django-allauth
+django-crispy-forms
+drf-yasg
+django-humanize
+psycopg2-binary
+pillow
+six
+requests
+
