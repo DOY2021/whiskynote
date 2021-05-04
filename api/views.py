@@ -39,7 +39,6 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
-
 #Profile
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
@@ -128,7 +127,7 @@ class CustomLoginView(GenericAPIView):
 class CustomConfirmEmailView(APIView):
 
     permission_classes = [AllowAny]
-    
+
     def get(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
@@ -170,38 +169,4 @@ class ProfileListAPIView(generics.ListCreateAPIView):
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-
-
-'''
-class ProfileViewSet(ReadOnlyModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class MyProfileViewSet(generics.ListAPIView):
-    serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        return queryset.filter(user = self.request.user)
-
-class OwnProfileCheck(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        return obj.user_profile == request.user.profile
-
-class ProfileUpdateView(generics.UpdateAPIView):
-    serializer_class = ProfileSerializer
-    permisssion_classes = (permissions.IsAuthenticatedOrReadOnly,OwnProfileCheck)
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        return queryset.filter(user = self.request.user)
-
-    def perform_update(self, serializer):
-        serializer.save(user = self.request.user)
-'''
 
