@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     #DFR
     'rest_framework',
     'rest_framework.authtoken',
+    #password-reset
     #allauth
     'allauth',
     'allauth.account',
@@ -59,7 +60,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
 ]
 
-SITE_ID = 1
+SITE_ID = 1 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,6 +89,11 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_AUTH_SERIALIZERS = {
+    'PASSWORD_RESET_SERIALIZER': 
+        'api.serializers.PasswordResetSerializer',
+}
 
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
