@@ -169,14 +169,12 @@ class PasswordResetConfirmView(GenericAPIView):
     """
     serializer_class = PasswordResetConfirmSerializer
     permission_classes = (AllowAny,)
-    lookup_url_kwarg = 'uidb64'
 
     @sensitive_post_parameters_m
     def dispatch(self, *args, **kwargs):
         return super(PasswordResetConfirmView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        uidb64 = self.kwargs.get(self.lookup_url_kwarg)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
