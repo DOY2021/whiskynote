@@ -39,6 +39,9 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
+#Password Reset
+from api.serializers import PasswordResetConfirmSerializer
+
 #Profile
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
@@ -152,6 +155,34 @@ class CustomConfirmEmailView(APIView):
         return qs
 
 confirm_email = CustomConfirmEmailView.as_view()
+
+
+#Password Reset
+class PasswordResetConfirmView(GenericAPIView):
+    """
+    Password reset e-mail link is confirmed, therefore
+    this resets the user's password.
+
+    Accepts the following POST parameters: token, uid,
+        new_password1, new_password2
+    Returns the success/fail message.
+    """
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+    lookup_url_kwarg = 'uidb64'
+
+    @sensitive_post_parameters_m
+    def dispatch(self, *args, **kwargs):
+        return super(PasswordResetConfirmView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        uidb64 = self.kwargs.get(self.lookup_url_kwarg)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"detail": ("Password has been reset with the new password.")}
+        )
 
 #ProfileListView
 class MyProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view

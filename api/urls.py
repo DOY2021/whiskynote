@@ -11,8 +11,9 @@ from rest_framework import permissions
 
 #CustomUrls
 from rest_auth.views import (
-    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
     )
+from api.views import PasswordResetConfirmView
 
 urlpatterns = [
     #rest-auth
