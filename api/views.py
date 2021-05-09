@@ -41,7 +41,7 @@ from allauth.account import app_settings, signals
 
 #API
 from api.models import Profile, Whisky
-from api.serializers import ProfileSerializer, WhiskySerializer
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer
 
 #Password Reset
 from api.serializers import PasswordResetConfirmSerializer
@@ -183,18 +183,20 @@ class PasswordResetConfirmView(GenericAPIView):
             {"detail": ("Password has been reset with the new password.")}
         )
 
+#ProfileCreateView
+class ProfileCreateAPIView(generics.CreateAPIView):
+    model = Profile
+    serializer_class = ProfileCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user_id = self.request.user.pk)
+
+
 #ProfileListView
-class MyProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
+class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
     serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        return queryset.filter(user = self.request.user)
-
-class ProfileListAPIView(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
