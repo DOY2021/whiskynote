@@ -132,6 +132,5 @@ dmypy.json
 *.swp
 *.pyc
 .DS_Store
-secret.json
 media/
-
+secret.json
