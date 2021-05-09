@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView
+from api.views import confirm_email, CustomLoginView, MyProfileViewSet, ProfileListAPIView, ProfileDetailAPIView, WhiskyListAPIView, WhiskyDetailAPIView
 
 from rest_framework import permissions
 
@@ -32,6 +32,15 @@ urlpatterns = [
     #email verification
     re_path(r'^account-confirm-email/$', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', confirm_email, name='account_confirm_email'),
+
+    #profile
+    path("myprofile/", MyProfileViewSet.as_view(), name = 'myprofile'),
+    path("profile/", ProfileListAPIView.as_view(), name = 'profile'),
+    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+
+    #whisky
+    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
+    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
     ]
 
     #Media setting

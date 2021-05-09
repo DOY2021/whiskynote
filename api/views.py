@@ -39,15 +39,16 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
+#API
+from api.models import Profile, Whisky
+from api.serializers import ProfileSerializer, WhiskySerializer
+
 #Password Reset
 from api.serializers import PasswordResetConfirmSerializer
 
-#Profile
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from api.models import Profile
-from api.serializers import ProfileSerializer
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -199,3 +200,10 @@ class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+class WhiskyListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskySerializer
+
+class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskySerializer

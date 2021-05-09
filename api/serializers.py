@@ -11,6 +11,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
+from api.models import Profile, Whisky
 
 # Get the UserModel
 UserModel = get_user_model()
@@ -95,7 +96,6 @@ class PasswordResetSerializer(serializers.Serializer):
         }
         self.reset_form.save(**opts)
 
-
 class PasswordResetConfirmSerializer(serializers.Serializer):
     """
     Serializer for requesting a password reset e-mail.
@@ -153,16 +153,14 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     def save(self):
         return self.set_password_form.save()
 
-
-from api.models import Profile
-
+      
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
-    posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
+    #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
 
     class Meta:
         model = Profile
-        fields = ("user", "id", "nickname", "bio", "profile_photo", "posts")
+        fields = ("id", "user", "nickname", "bio", "profile_photo", )
 
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
@@ -170,3 +168,9 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("profile_photo", )
+
+
+class WhiskySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Whisky
+        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)

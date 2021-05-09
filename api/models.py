@@ -29,17 +29,19 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.user.username
-'''
-class ProfileStatus(models.Model):
-	user_profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
-	status_content = models.CharField(max_length = 240)
-	created_at = models.DateTimeField(auto_now_add = True)
-	updated_at = models.DateTimeField(auto_now = True)
 
-	class Meta :
-		verbose_name_plural = "statuses"
+class Whisky(models.Model):
+	name = models.CharField(max_length = 100)
+	brand = models.CharField(max_length = 100, null = True)
+	whisky_detail = models.TextField(null=True, blank = True)
+	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
+	whisky_rating = models.IntegerField()
+	created_at = models.DateTimeField(auto_now_add = True)
+
+	class Meta:
+		verbose_name = 'whisky'
+		verbose_name_plural = 'whiskies'
+		ordering  = ['name',]
 
 	def __str__(self):
-		return str(self.user_profile)
-'''
-
+		return self.name
