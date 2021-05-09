@@ -94,7 +94,7 @@ class PasswordResetSerializer(serializers.Serializer):
         }
         self.reset_form.save(**opts)
 
-from api.models import Profile
+from api.models import Profile, Whisky
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -111,12 +111,9 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
-'''
-class ProfileStatusSerializer(serializers.ModelSerializer):
-    user_profile = serializers.StringRelatedField(read_only=True)
 
+class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = "__all__"
-'''
+        model = Whisky
+        fields = ("id", "name", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
 
