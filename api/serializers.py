@@ -153,7 +153,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     def save(self):
         return self.set_password_form.save()
 
-      
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
@@ -162,6 +162,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("id", "user", "nickname", "bio", "profile_photo", )
 
+
+class ProfileCreateSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ("user", "nickname", "bio", "profile_photo")
+
+        def create(self, validated_data):
+            profile = Profile.objects.create(user = user)
+
+            return profile
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
 
