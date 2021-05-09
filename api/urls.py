@@ -37,7 +37,7 @@ urlpatterns = [
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
-
+    
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),

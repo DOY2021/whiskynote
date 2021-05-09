@@ -164,7 +164,6 @@ class PasswordResetConfirmView(GenericAPIView):
     """
     Password reset e-mail link is confirmed, therefore
     this resets the user's password.
-
     Accepts the following POST parameters: token, uid,
         new_password1, new_password2
     Returns the success/fail message.
@@ -198,7 +197,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
 
 
 #ProfileListView
-class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
+class ProfileViewSet(generics.ListAPIView):   #/profile/all : simple profile list view
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

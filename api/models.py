@@ -36,6 +36,7 @@ class Whisky(models.Model):
 	whisky_detail = models.TextField(null=True, blank = True)
 	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
 	whisky_rating = models.IntegerField()
+	#reaction_count = models.IntegerField(null = True, blank = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 
 	class Meta:
@@ -45,3 +46,18 @@ class Whisky(models.Model):
 
 	def __str__(self):
 		return self.name
+'''
+class Reaction(models.Model):
+    user = models.ForeignKey(User)
+    whiskey = models.ForeignKey(Whisky)
+    review_title = models.CharField(max_length=255)
+    review_body = models.TextField()
+    review_rating = models.IntegerField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        default_related_name = "reaction"
+'''
