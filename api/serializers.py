@@ -98,11 +98,11 @@ from api.models import Profile, Whisky
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
-    posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
+    #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
 
     class Meta:
         model = Profile
-        fields = ("user", "id", "nickname", "bio", "profile_photo", "posts")
+        fields = ("id", "user", "nickname", "bio", "profile_photo", )
 
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
@@ -115,5 +115,5 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
-        fields = ("id", "name", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
 

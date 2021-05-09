@@ -32,6 +32,7 @@ class Profile(models.Model):
 
 class Whisky(models.Model):
 	name = models.CharField(max_length = 100)
+	brand = models.CharField(max_length = 100, null = True)
 	whisky_detail = models.TextField(null=True, blank = True)
 	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
 	whisky_rating = models.IntegerField()
