@@ -9,6 +9,7 @@ import SignInput from '../../shared/Input/SignInput/SignInput';
 import S from './SignUp.styled';
 import useSignUpErr from './useSignUpErr';
 import CSRFToken from '../../shared/CSRFToken';
+import KakaoLogin from './KakaoLogin';
 
 export type RegisterDataProp = {
   type: 'success' | 'fail';
@@ -98,6 +99,9 @@ function SignUp() {
             회원가입 후 텍스터의 큐레이션 서비스를 이용해보세요.
           </S.SignUpHeaderH2>
         </S.SignUpHeader>
+        
+        <KakaoLogin></KakaoLogin>
+
         <S.SignUpForm onSubmit={handleRegisterSubmit}>
           <CSRFToken />
           <SignInput
