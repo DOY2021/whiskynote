@@ -21,7 +21,7 @@ def user_path(instance, filename):
 '''
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete= models.CASCADE)
-	nickname = models.CharField(max_length = 64)
+	nickname = models.CharField(max_length = 64, unique=True)
 	bio = models.CharField(max_length = 240, blank = True)
 	profile_photo = models.ImageField(null = True, blank=True)
 	created_at = models.DateTimeField(auto_now_add = True, editable=False)
