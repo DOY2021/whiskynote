@@ -33,12 +33,17 @@ function KakaoLogin(){
   const kakaoLoginClickHandler = () => {
     Kakao.Auth.login({
       success: function (response) {
+        console.log(response),
         Kakao.API.request({
           url: '/v2/user/me',
+          data: {
+            property_keys: ["kakao_account.nickname"]
+          },
           success: function(response){
             console.log(response);
             history.push('/login');
-          }
+          },
+        
         },   
         )
       },
