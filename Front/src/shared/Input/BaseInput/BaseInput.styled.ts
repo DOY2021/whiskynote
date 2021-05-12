@@ -1,5 +1,5 @@
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
-import Palette from '../../../lib/css/Palette';
+import Palette from '../../../css/Palette';
 
 type StyledBaseInputProp = {
   width: any;

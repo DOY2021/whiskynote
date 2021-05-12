@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Palette from '../../lib/css/Pallete';
+
 import Button from '../../shared/Button/Button';
 import { Link } from 'react-router-dom';
+import Palette from '../../css/Palette';
 
 const Nav = styled.div`
   background-color: white;
