@@ -46,5 +46,5 @@ export default {
   SignInHeader,
   SignInHeaderH1,
   SignInForm,
-  SignInBtnContainer
+  SignInBtnContainer,
 };
