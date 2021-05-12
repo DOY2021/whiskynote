@@ -22,7 +22,7 @@ const sizes = {
     paddingLeft: '24px',
     paddingRight: '24px',
     paddingTop: '12px',
-    paddingBottom: '12px'
+    paddingBottom: '12px',
   },
   large: {
     height: '40px',
@@ -30,7 +30,7 @@ const sizes = {
     paddingLeft: '24px',
     paddingRight: '24px',
     paddingTop: '8px',
-    paddingBottom: '8px'
+    paddingBottom: '8px',
   },
   medium: {
     height: '32px',
@@ -38,7 +38,7 @@ const sizes = {
     paddingLeft: '20px',
     paddingRight: '20px',
     paddingTop: '6px',
-    paddingBottom: '6px'
+    paddingBottom: '6px',
   },
   small: {
     height: '28px',
@@ -46,7 +46,7 @@ const sizes = {
     paddingLeft: '16px',
     paddingRight: '16px',
     paddingTop: '5px',
-    paddingBottom: '5px'
+    paddingBottom: '5px',
   },
   xsmall: {
     height: '24px',
@@ -54,7 +54,7 @@ const sizes = {
     paddingLeft: '16px',
     paddingRight: '16px',
     paddingTop: '4px',
-    paddingBottom: '4px'
+    paddingBottom: '4px',
   },
 };
 
@@ -73,7 +73,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (!hover && !active && !disabled) {
     switch (variant) {
       case 'primary':
-        return Palette.Green500;
+        return Palette.YB500;
       case 'secondary':
         return Palette.Violet500;
       case 'grayscale':
@@ -85,7 +85,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (hover) {
     switch (variant) {
       case 'primary':
-        return Palette.Green600;
+        return Palette.YB600;
       case 'secondary':
         return Palette.Violet600;
       case 'grayscale':
@@ -97,7 +97,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (active) {
     switch (variant) {
       case 'primary':
-        return Palette.Green400;
+        return Palette.YB400;
       case 'secondary':
         return Palette.Violet400;
       case 'grayscale':
@@ -109,7 +109,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (disabled) {
     switch (variant) {
       case 'primary':
-        return Palette.Green200;
+        return Palette.YB200;
       case 'secondary':
         return Palette.Violet200;
       case 'grayscale':

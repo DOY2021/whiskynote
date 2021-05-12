@@ -6,6 +6,7 @@ import S from './SignIn.styled';
 import SignInput from '../../shared/Input/SignInput/SignInput';
 import { Link } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
+import NaverLogin from '../../api/Naver-social';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -70,6 +71,7 @@ function SignIn() {
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
+          <NaverLogin />
           <S.SignInBtnContainer>
             <Link to="/signup">
               <Button size="small" variant="primary" type="text">
@@ -84,7 +86,7 @@ function SignIn() {
             </Link>
             <Button
               size="medium"
-              variant="secondary"
+              variant="primary"
               disabled={loading || !password || !email}
             >
               로그인
