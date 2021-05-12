@@ -39,12 +39,16 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
-#Profile
+#API
+from api.models import Profile, Whisky
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer
+
+#Password Reset
+from api.serializers import PasswordResetConfirmSerializer
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from api.models import Profile
-from api.serializers import ProfileSerializer
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -153,20 +157,55 @@ class CustomConfirmEmailView(APIView):
 
 confirm_email = CustomConfirmEmailView.as_view()
 
+
+#Password Reset
+class PasswordResetConfirmView(GenericAPIView):
+    """
+    Password reset e-mail link is confirmed, therefore
+    this resets the user's password.
+
+    Accepts the following POST parameters: token, uid,
+        new_password1, new_password2
+    Returns the success/fail message.
+    """
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    @sensitive_post_parameters_m
+    def dispatch(self, *args, **kwargs):
+        return super(PasswordResetConfirmView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"detail": ("Password has been reset with the new password.")}
+        )
+
+#ProfileCreateView
+class ProfileCreateAPIView(generics.CreateAPIView):
+    model = Profile
+    serializer_class = ProfileCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user_id = self.request.user.pk)
+
+
 #ProfileListView
-class MyProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
+class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
     serializer_class = ProfileSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def get_queryset(self):
-        queryset = Profile.objects.all()
-        return queryset.filter(user = self.request.user)
-
-class ProfileListAPIView(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+class WhiskyListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskySerializer
+
+class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskySerializer
