@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import Palette from '../../../lib/css/Pallete';
-import Typography from '../../../lib/css/Typography';
+import Palette from '../../../css/Palette';
+import Typography from '../../../css/Typography';
 import BaseInput from '../BaseInput/BaseInput';
 
 type StyledSignInputProp = {
@@ -28,11 +28,10 @@ export const StyledSignInput = styled(BaseInput)<StyledSignInputProp>`
         padding-top: 20px;
         padding-left: 16px;
       `;
-    }
-    else {
+    } else {
       return css`
-      padding-left: 16px;
-    `;
+        padding-left: 16px;
+      `;
     }
   }}
 `;

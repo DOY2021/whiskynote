@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Palette from '../../lib/css/Pallete';
+import Palette from '../../css/Palette';
 
 export type ButtonSize = 'xlarge' | 'large' | 'medium' | 'small' | 'xsmall';
 export type ButtonVariant = 'primary' | 'secondary' | 'grayscale';

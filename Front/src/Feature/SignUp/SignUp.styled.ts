@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../lib/css/Mixin';
-import Typography from '../../lib/css/Typography';
+import { absoluteCenter, responsiveSize } from '../../css/Mixin';
+import Typography from '../../css/Typography';
 import Button from '../../shared/Button/Button';
 import { FaCheckSquare } from 'react-icons/fa';
-import Palette from '../../lib/css/Pallete';
+import Palette from '../../css/Palette';
 
 const SignFormWidth = '432px';
 
@@ -64,7 +64,7 @@ const SignUpPolicyIcon = styled(FaCheckSquare)<SignUpPolicyIconProp>`
   ${({ isChecked }) => {
     if (isChecked)
       return css`
-        color: ${Palette.Green300};
+        color: ${Palette.YB300};
         border: none;
       `;
   }}

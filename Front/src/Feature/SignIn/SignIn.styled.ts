@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../lib/css/Mixin';
-import Typography from '../../lib/css/Typography';
+import { absoluteCenter, responsiveSize } from '../../css/Mixin';
+import Typography from '../../css/Typography';
 
 const SignInWrapper = styled.div`
   ${absoluteCenter}
@@ -46,5 +46,5 @@ export default {
   SignInHeader,
   SignInHeaderH1,
   SignInForm,
-  SignInBtnContainer
+  SignInBtnContainer,
 };
