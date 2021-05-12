@@ -86,7 +86,7 @@ function SignIn() {
             </Link>
             <Button
               size="medium"
-              variant="secondary"
+              variant="primary"
               disabled={loading || !password || !email}
             >
               로그인

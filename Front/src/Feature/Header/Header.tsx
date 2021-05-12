@@ -45,10 +45,10 @@ const MenuLink = styled(Link)`
   text-align: center;
 
   &:hover {
-    color: ${Palette.Green600};
+    color: ${Palette.YB600};
   }
   &:active {
-    color: ${Palette.Green500};
+    color: ${Palette.YB500};
   }
 `;
 
