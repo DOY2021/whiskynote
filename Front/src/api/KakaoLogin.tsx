@@ -11,13 +11,13 @@ declare global {
 const KakaoLoginBtn = styled.div` {
   margin-top: 10px;
   padding: 0 0 0 20px;
-  height: 60px;
+  height: 56px;
   line-height: 60px;
   background-color: #fee500;
-  font-size: 15px;
+  font-size: 12px;
   color: #111;
   display: inline-block;
-  width: 432px;
+  width: 184.95px;
   border-radius: 5px;
   font-weight: 700;
   text-align: center;
@@ -33,17 +33,11 @@ function KakaoLogin(){
   const kakaoLoginClickHandler = () => {
     Kakao.Auth.login({
       success: function (response) {
-        console.log(response),
         Kakao.API.request({
           url: '/v2/user/me',
-          data: {
-            property_keys: ["kakao_account.nickname"]
-          },
           success: function(response){
-            console.log(response);
             history.push('/login');
           },
-        
         },   
         )
       },

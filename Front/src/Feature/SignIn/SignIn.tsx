@@ -7,6 +7,7 @@ import SignInput from '../../shared/Input/SignInput/SignInput';
 import { Link } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
+import KakaoLogin from '../../api/KakaoLogin';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -72,6 +73,8 @@ function SignIn() {
             errorMsg={errMsg.non_field_errors}
           />
           <NaverLogin />
+          <KakaoLogin></KakaoLogin>
+          
           <S.SignInBtnContainer>
             <Link to="/signup">
               <Button size="small" variant="primary" type="text">
