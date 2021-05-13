@@ -3,7 +3,13 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Palette from '../../css/Palette';
 
-export type ButtonSize = 'xlarge' | 'large' | 'medium' | 'small' | 'xsmall';
+export type ButtonSize =
+  | 'xlarge'
+  | 'large'
+  | 'medium'
+  | 'small'
+  | 'xsmall'
+  | 'login';
 export type ButtonVariant = 'primary' | 'secondary' | 'grayscale';
 
 export interface ButtonProp {
@@ -56,10 +62,20 @@ const sizes = {
     paddingTop: '4px',
     paddingBottom: '4px',
   },
+  login: {
+    height: '48px',
+    width: '432px',
+    fontSize: '12px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+  },
 };
 
 const sizeStyles = css<ButtonProp>`
   ${({ size }) => css`
+    ${size === 'login' && `width: ${sizes.login.width};`}
     height: ${sizes[size ?? 'medium'].height};
     font-size: ${sizes[size ?? 'medium'].fontSize};
     padding-left: ${sizes[size ?? 'medium'].paddingLeft};
