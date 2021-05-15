@@ -41,8 +41,10 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer
+from api.models import Profile, Whisky, Reaction
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, ReactionSerializer
+#Custom Permission
+from api.permissions import IsOwnerOrReadOnly
 
 #Password Reset
 from api.serializers import PasswordResetConfirmSerializer
@@ -211,6 +213,7 @@ class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         file_obj = request.data['profile_photo']
         return self.update(request, *args, **kwargs)
 
+
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
@@ -218,3 +221,21 @@ class WhiskyListAPIView(generics.ListAPIView):
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+
+class ReactionCreateView(generics.ListCreateAPIView):
+    queryset = Reaction.objects.all()
+    serializer_class = ReactionSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        whisky_id = self.request.data["whisky"]
+        serializer.save(user=self.request.user, whisky = Whisky.objects.get(pk=whisky_id))
+
+class ReactionListAPIView(generics.ListAPIView):
+    queryset = Reaction.objects.all()
+    serializer_class = ReactionSerializer
+
+class ReactionDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reaction.objects.all()
+    serializer_class = ReactionSerializer
+    permission_classes = (IsOwnerOrReadOnly,)

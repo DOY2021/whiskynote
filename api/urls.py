@@ -5,7 +5,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView, ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView, WhiskyListAPIView, WhiskyDetailAPIView
+from api.views import confirm_email, CustomLoginView,\
+    ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
+    WhiskyListAPIView, WhiskyDetailAPIView,\
+    ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
 
@@ -41,6 +44,11 @@ urlpatterns = [
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    
+    #reaction
+    path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
+    path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
+    path("reaction/<int:pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
     ]
 
     #Media setting

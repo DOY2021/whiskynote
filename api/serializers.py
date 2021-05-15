@@ -11,7 +11,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky
+from api.models import Profile, Whisky, Reaction
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -204,3 +204,10 @@ class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+
+class ReactionSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    whisky = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Reaction
+        fields = "__all__"

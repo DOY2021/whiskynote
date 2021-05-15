@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky
+from api.models import Profile, Whisky, Reaction
 # Register your models here.
 
 @admin.register(Profile)
@@ -9,4 +9,8 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
 	list_display = ("id", "name", "whisky_detail", "whisky_region", "whisky_rating")
-	search_fiels = ["name", "whisky_region"]
+	search_fields = ["name", "whisky_region"]
+
+@admin.register(Reaction)
+class ReactionAdmin(admin.ModelAdmin):
+	list_display = ("id","whisky", "user", "review_title","review_body", "review_rating")
