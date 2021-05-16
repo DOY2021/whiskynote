@@ -9,7 +9,8 @@ export type ButtonSize =
   | 'medium'
   | 'small'
   | 'xsmall'
-  | 'login';
+  | 'login'
+  | 'fit';
 export type ButtonVariant = 'primary' | 'secondary' | 'grayscale';
 
 export interface ButtonProp {
@@ -71,11 +72,20 @@ const sizes = {
     paddingTop: '4px',
     paddingBottom: '4px',
   },
+  fit: {
+    height: '100%',
+    width: '100%',
+    fontSize: '12px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+  },
 };
 
 const sizeStyles = css<ButtonProp>`
   ${({ size }) => css`
-    ${size === 'login' && `width: ${sizes.login.width};`}
+    ${(size === 'login' || size === 'fit') && `width: ${sizes.login.width};`}
     height: ${sizes[size ?? 'medium'].height};
     font-size: ${sizes[size ?? 'medium'].fontSize};
     padding-left: ${sizes[size ?? 'medium'].paddingLeft};

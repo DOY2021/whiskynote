@@ -85,7 +85,7 @@ function SignIn() {
             >
               로그인
             </Button>
-            <Link to="/signup">
+            <Link to="/signup/type-choice">
               <Button size="login" variant="primary">
                 회원가입
               </Button>

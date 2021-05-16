@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import Typography from './Typography';
 
 export const GlobalStyle = createGlobalStyle`
     ${reset}
@@ -28,10 +29,14 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: inherit;
     }
-    input,button, input:focus {
+    input,button, input:focus, textarea, textarea:focus {
         outline: none;
         
         border: none;
         box-sizing: border-box;
+    }
+
+    textarea::placeholder{
+        ${Typography.body1}
     }
 `;
