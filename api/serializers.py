@@ -13,6 +13,18 @@ from rest_framework.exceptions import ValidationError
 #from posts.models import Post
 from api.models import Profile, Whisky
 
+#CustomTokenSerializer
+from rest_auth.models import TokenModel
+from rest_auth.utils import import_callable
+from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+# This is to allow you to override the UserDetailsSerializer at any time.
+# If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
+rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
+UserDetailsSerializer = import_callable(
+    rest_auth_serializers.get('USER_DETAILS_SERIALIZER', DefaultUserDetailsSerializer)
+)
+
+
 # Get the UserModel
 UserModel = get_user_model()
 
@@ -66,6 +78,12 @@ class CustomLoginSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
 
+class CustomTokenSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = TokenModel
+        fields = ('key', 'user', 'user_id')
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
