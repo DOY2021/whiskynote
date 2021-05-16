@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
+import KakaoMap from '../Map/KakaoMap';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -43,6 +44,9 @@ function SignIn() {
 
   return (
     <S.SignInWrapper>
+
+      {/* <KakaoMap></KakaoMap> */}
+
       <S.SignInTemplate>
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
