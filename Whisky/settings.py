@@ -93,9 +93,13 @@ TEMPLATES = [
 ]
 
 REST_AUTH_SERIALIZERS = {
-    'PASSWORD_RESET_SERIALIZER': 
+    'PASSWORD_RESET_SERIALIZER':
         'api.serializers.PasswordResetSerializer',
-}
+
+    #CustomTokenSerializer
+    'TOKEN_SERIALIZER': 'api.serializers.CustomTokenSerializer' 
+
+        }
 
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
