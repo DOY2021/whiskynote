@@ -48,6 +48,10 @@ function SignIn() {
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
         </S.SignInHeader>
+        <div>
+          <NaverLogin />
+          <KakaoLogin></KakaoLogin>
+        </div>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
             inputLabel=""
@@ -72,28 +76,25 @@ function SignIn() {
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
-          <NaverLogin />
-          <KakaoLogin></KakaoLogin>
-          
+
           <S.SignInBtnContainer>
-            <Link to="/signup">
-              <Button size="small" variant="primary" type="text">
-                회원가입
-              </Button>
-            </Link>
-            {/* TODO: add link for forgot ID/PW */}
-            <Link to="/">
-              <Button size="small" variant="grayscale" type="text">
-                아이디/비밀번호 찾기
-              </Button>
-            </Link>
             <Button
-              size="medium"
+              size="login"
               variant="primary"
               disabled={loading || !password || !email}
             >
               로그인
             </Button>
+            <Link to="/signup/type-choice">
+              <Button size="login" variant="primary">
+                회원가입
+              </Button>
+            </Link>
+            <Link to="/">
+              <Button size="small" variant="grayscale" type="text">
+                아이디/비밀번호 찾기
+              </Button>
+            </Link>
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>
@@ -102,3 +103,5 @@ function SignIn() {
 }
 
 export default SignIn;
+
+/* TODO: add link for forgot ID/PW */
