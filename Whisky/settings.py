@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     #swagger
     'rest_framework_swagger',
     'drf_yasg',
+    #friendship
+    'rest_friendship',
     #Apps
     'api.apps.ApiConfig',
 ]
