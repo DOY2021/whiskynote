@@ -11,3 +11,4 @@ psycopg2-binary
 pillow
 six
 requests
+django-rest-friendship
