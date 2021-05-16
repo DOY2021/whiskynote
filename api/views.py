@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.decorators import api_view
+from rest_framework.parsers import FormParser, MultiPartParser, FileUploadParser
 
 #Custom Login
 from .serializers import CustomLoginSerializer
@@ -187,8 +188,12 @@ class PasswordResetConfirmView(GenericAPIView):
 class ProfileCreateAPIView(generics.CreateAPIView):
     model = Profile
     serializer_class = ProfileCreateSerializer
+    parser_classes = (FormParser, MultiPartParser)
 
     def perform_create(self, serializer):
+        #File Upload
+        file_obj = serializer.validated_data['profile_photo']
+        #
         serializer.save(user_id = self.request.user.pk)
 
 
