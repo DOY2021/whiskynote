@@ -206,6 +206,11 @@ class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    parser_classes = (FormParser, MultiPartParser)
+
+    def put(self, request, *args, **kwargs):
+        file_obj = request.validated_data['profile_photo']
+        return self.update(request, *args, **kwargs)
 
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
