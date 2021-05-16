@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/indent */
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
 type InputHookProp = [
   string,
   React.Dispatch<React.SetStateAction<string>>,
-  (event: React.ChangeEvent<HTMLInputElement>) => void,
+  (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => void,
   () => void,
 ];
 

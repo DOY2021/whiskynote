@@ -11,6 +11,7 @@ const SignInWrapper = styled.div`
 const SignInTemplate = styled.div`
   ${absoluteCenter}
   flex-direction: column;
+  justify-content: space-around;
   ${responsiveSize('720px', '620px', '30%', '50%')}
 `;
 
@@ -30,14 +31,15 @@ const SignInForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  ${responsiveSize('432px', '205px', '10%', '10%')}
+  ${responsiveSize('432px', '300px', '10%', '10%')}
   margUp: 40px 0;
 `;
 
 const SignInBtnContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  ${responsiveSize('432px', '50px', '10%', '10%')}
+  ${responsiveSize('432px', '150px', '10%', '10%')}
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 export default {

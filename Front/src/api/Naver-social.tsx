@@ -25,7 +25,7 @@ export default function NaverLogin() {
       loginButton: {
         color: 'green',
         type: 3,
-        height: 40,
+        height: 50,
       },
     });
     naverLogin.init();

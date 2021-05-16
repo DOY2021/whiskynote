@@ -1,23 +1,24 @@
-import React from "react";
-import { useHistory } from "react-router";
-import styled from "styled-components";
+import React from 'react';
+import { useHistory } from 'react-router';
+import styled from 'styled-components';
 
 const { Kakao } = window; //for TypeScript
 declare global {
   interface Window {
-    Kakao: any; 
+    Kakao: any;
   }
 }
 const KakaoLoginBtn = styled.div` {
+  box-sizing: border-box;
   margin-top: 10px;
-  padding: 0 0 0 20px;
-  height: 56px;
-  line-height: 60px;
+  margin-bottom: 20px;
+  height: 50px;
+  line-height: 50px;
   background-color: #fee500;
   font-size: 12px;
   color: #111;
   display: inline-block;
-  width: 184.95px;
+  width: 231.2px;
   border-radius: 5px;
   font-weight: 700;
   text-align: center;
@@ -28,34 +29,31 @@ const KakaoLoginBtn = styled.div` {
   background-position: 15px;
 `;
 
-function KakaoLogin(){
+function KakaoLogin() {
   const history = useHistory();
   const kakaoLoginClickHandler = () => {
     Kakao.Auth.login({
       success: function (response) {
         Kakao.API.request({
           url: '/v2/user/me',
-          success: function(response){
+          success: function (response) {
             history.push('/login');
           },
-        },   
-        )
+        });
       },
-      fail: function(err){
-        console.log(err)
-      }
-    })
-    
-  }
+      fail: function (err) {
+        console.log(err);
+      },
+    });
+  };
 
-  return(
+  return (
     <div>
-    <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
-      카카오 로그인
-    </KakaoLoginBtn>
+      <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
+        카카오 로그인
+      </KakaoLoginBtn>
     </div>
   );
-  
 }
 
 export default KakaoLogin;
