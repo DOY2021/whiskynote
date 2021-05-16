@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Texter</title>
+    <title>Eau de vie</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
     </style>
@@ -17,5 +18,8 @@
   <body>
     <div id="root"></div>
     <script src="/dist/bundle.js"></script>
+    <script>Kakao.init("f6230ce288380f4604713c303d50bfb3");
+     console.log(Kakao.isInitialized());//sdk초기화
+    </script>
   </body>
 </html>

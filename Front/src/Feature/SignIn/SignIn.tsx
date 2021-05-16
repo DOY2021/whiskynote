@@ -7,6 +7,7 @@ import SignInput from '../../shared/Input/SignInput/SignInput';
 import { Link } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
+import KakaoLogin from '../../api/KakaoLogin';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -28,9 +29,8 @@ function SignIn() {
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    console.log(email, password);
     const response = await authAPI.postLogin({ email, password });
-    console.log(response);
+    console.log(response.data.key);
 
     if (response.type === 'success') {
       //TODO: redirect to landing page
@@ -47,6 +47,11 @@ function SignIn() {
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
         </S.SignInHeader>
+        <S.SocialLoginWrapper>
+          <NaverLogin />
+          <KakaoLogin></KakaoLogin>
+          </S.SocialLoginWrapper>
+        <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
             inputLabel=""
@@ -55,7 +60,7 @@ function SignIn() {
             value={email}
             name="email"
             onChange={handleEmailInput}
-            placeholder="imtexter@gmail.com"
+            placeholder="이메일"
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
@@ -67,30 +72,29 @@ function SignIn() {
             value={password}
             name="password"
             onChange={handlePasswordInput}
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="비밀번호"
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
-          <NaverLogin />
+          
           <S.SignInBtnContainer>
-            <Link to="/signup">
-              <Button size="small" variant="primary" type="text">
-                회원가입
-              </Button>
-            </Link>
-            {/* TODO: add link for forgot ID/PW */}
-            <Link to="/">
-              <Button size="small" variant="grayscale" type="text">
-                아이디/비밀번호 찾기
-              </Button>
-            </Link>
             <Button
-              size="medium"
+              size="login"
               variant="primary"
               disabled={loading || !password || !email}
             >
               로그인
             </Button>
+            <Link to="/signup/type-choice">
+              <Button size="login" variant="primary">
+                회원가입
+              </Button>
+            </Link>
+            <Link to="/">
+              <Button size="small" variant="grayscale" type="text">
+                이메일/비밀번호 찾기
+              </Button>
+            </Link>
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>
@@ -99,3 +103,5 @@ function SignIn() {
 }
 
 export default SignIn;
+
+/* TODO: add link for forgot ID/PW */

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Palette from '../../lib/css/Pallete';
+import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
 import { Link } from 'react-router-dom';
+import Palette from '../../css/Palette';
 
 const Nav = styled.div`
   background-color: white;
@@ -14,9 +15,10 @@ const NavHeader = styled.div`
   width: 100%;
 `;
 const NavLeft = styled.div`
-  width: 30%;
+  width: 20%;
   align-items: center;
   text-align: center;
+  cursor: pointer;
 `;
 const NavCenter = styled.div`
   display: inline-flex;
@@ -27,16 +29,16 @@ const NavCenter = styled.div`
 `;
 
 const NavRight = styled.div`
-  width: 30%;
+  width: 20%;
   text-align: center;
 `;
 
 const MenuLink = styled(Link)`
   font-size: 16px;
-  color: ${Palette.Gray800};
+  color: #495057;
   font-family: 'Noto Sans KR', sans-serif;
 
-  width: 120px;
+  width: 100px;
   height: 60px;
   display: inline-flex;
   justify-content: center;
@@ -52,6 +54,17 @@ const MenuLink = styled(Link)`
   }
 `;
 
+const SearchInput = styled.input`
+  background-color: white;
+`
+
+const SearchIcon = styled(FaSearch)`
+  color:${Palette.Gray500};
+  font-size: 16px;
+  margin-left:25px
+  
+`
+
 const MenuMargin = styled.div`
   margin-right: 4px;
 `;
@@ -60,16 +73,18 @@ function Header() {
     <Nav>
       <NavHeader>
         <NavLeft>
-          <img src={'../../../assets/logo/Texter.svg'}></img>
+          <img src={'../../../assets/logo/logo.svg'}></img>
         </NavLeft>
         <NavCenter>
-          <MenuLink to="#">피드</MenuLink>
+          <MenuLink to="#">위스키</MenuLink>
           <MenuMargin></MenuMargin>
-          <MenuLink to="#">카테고리</MenuLink>
+          <MenuLink to="#">위스키 바</MenuLink>
           <MenuMargin></MenuMargin>
-          <MenuLink to="#">큐레이터</MenuLink>
+          <MenuLink to="#">커뮤니티</MenuLink>
           <MenuMargin></MenuMargin>
           <MenuLink to="#">서비스 소개</MenuLink>
+          <SearchIcon></SearchIcon>
+          <SearchInput></SearchInput>
         </NavCenter>
         <NavRight>
           <Link to="/signup">

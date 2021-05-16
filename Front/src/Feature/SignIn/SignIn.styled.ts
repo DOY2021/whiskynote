@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../lib/css/Mixin';
-import Typography from '../../lib/css/Typography';
+import { absoluteCenter, responsiveSize } from '../../css/Mixin';
+import Typography from '../../css/Typography';
 
 const SignInWrapper = styled.div`
   ${absoluteCenter}
@@ -11,6 +11,7 @@ const SignInWrapper = styled.div`
 const SignInTemplate = styled.div`
   ${absoluteCenter}
   flex-direction: column;
+  justify-content: space-around;
   ${responsiveSize('720px', '620px', '30%', '50%')}
 `;
 
@@ -30,15 +31,28 @@ const SignInForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  ${responsiveSize('432px', '205px', '10%', '10%')}
+  ${responsiveSize('432px', '300px', '10%', '10%')}
   margUp: 40px 0;
 `;
 
 const SignInBtnContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  ${responsiveSize('432px', '50px', '10%', '10%')}
+  ${responsiveSize('432px', '150px', '10%', '10%')}
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
+
+const SocialLoginWrapper = styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-bottom:20px;
+`
+const Line = styled.div`
+  background-color: #F1F3F5;
+  width: 432px;
+  height: 1px;
+  margin-bottom:20px;
+`
 
 export default {
   SignInWrapper,
@@ -46,5 +60,7 @@ export default {
   SignInHeader,
   SignInHeaderH1,
   SignInForm,
-  SignInBtnContainer
+  SignInBtnContainer,
+  SocialLoginWrapper,
+  Line
 };

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios from 'axios';
-import { RegisterDataProp } from '../Feature/SignUp/SignUp';
+import { RegisterDataProp } from '../Feature/SignUp/StageOne/SignUp';
 
 type LoginParam = {
   email: string;
@@ -22,6 +22,10 @@ type NewPassword = {
 const postLogin = async (loginParam: LoginParam) => {
   try {
     const response = await axios.post('/api/login/', loginParam);
+
+    const { accessToken } = response.data;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
     return {
       type: 'success',
       data: response.data,
