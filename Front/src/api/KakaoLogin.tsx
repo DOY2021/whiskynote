@@ -9,7 +9,7 @@ declare global {
   }
 }
 const KakaoLoginBtn = styled.div` {
-  margin-left: 62px;
+  margin-left: 52px;
   padding: 0 0 0 20px;
   height: 40px;
   line-height: 40px;
@@ -17,7 +17,7 @@ const KakaoLoginBtn = styled.div` {
   font-size: 12px;
   color: #111;
   display: inline-block;
-  width: 231.2px;
+  width: 200px;
   border-radius: 5px;
   font-weight: 700;
   text-align: center;

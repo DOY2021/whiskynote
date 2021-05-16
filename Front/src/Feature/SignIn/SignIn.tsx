@@ -95,9 +95,11 @@ function SignIn() {
               </Button>
             </Link>
             <Link to="/">
-              <Button size="small" variant="grayscale" type="text">
-                이메일/비밀번호 찾기
-              </Button>
+              <S.ButtonWrapper>
+                <Button size="small" variant="grayscale" type="text">
+                  이메일/비밀번호 찾기
+                </Button>
+              </S.ButtonWrapper>
             </Link>
           </S.SignInBtnContainer>
         </S.SignInForm>
