@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     #swagger
     'rest_framework_swagger',
     'drf_yasg',
+    #friendship
+    'rest_friendship',
     #Apps
     'api.apps.ApiConfig',
 ]
@@ -91,9 +93,13 @@ TEMPLATES = [
 ]
 
 REST_AUTH_SERIALIZERS = {
-    'PASSWORD_RESET_SERIALIZER': 
+    'PASSWORD_RESET_SERIALIZER':
         'api.serializers.PasswordResetSerializer',
-}
+
+    #CustomTokenSerializer
+    'TOKEN_SERIALIZER': 'api.serializers.CustomTokenSerializer' 
+
+        }
 
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 

@@ -21,25 +21,27 @@ def user_path(instance, filename):
 '''
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete= models.CASCADE)
-	nickname = models.CharField(max_length = 64)
+	nickname = models.CharField(max_length = 64, unique=True)
 	bio = models.CharField(max_length = 240, blank = True)
-	profile_photo = models.ImageField(null = True, blank=True)
+	profile_photo = models.FileField(upload_to = "media/", null = True, blank = True)
 	created_at = models.DateTimeField(auto_now_add = True, editable=False)
 	updated_at = models.DateTimeField(auto_now = True,)
 
 	def __str__(self):
 		return self.user.username
-'''
-class ProfileStatus(models.Model):
-	user_profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
-	status_content = models.CharField(max_length = 240)
-	created_at = models.DateTimeField(auto_now_add = True)
-	updated_at = models.DateTimeField(auto_now = True)
 
-	class Meta :
-		verbose_name_plural = "statuses"
+class Whisky(models.Model):
+	name = models.CharField(max_length = 100)
+	brand = models.CharField(max_length = 100, null = True)
+	whisky_detail = models.TextField(null=True, blank = True)
+	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
+	whisky_rating = models.IntegerField()
+	created_at = models.DateTimeField(auto_now_add = True)
+
+	class Meta:
+		verbose_name = 'whisky'
+		verbose_name_plural = 'whiskies'
+		ordering  = ['name',]
 
 	def __str__(self):
-		return str(self.user_profile)
-'''
-
+		return self.name

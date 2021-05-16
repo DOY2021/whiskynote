@@ -5,14 +5,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView
+from api.views import confirm_email, CustomLoginView, ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView, WhiskyListAPIView, WhiskyDetailAPIView
 
 from rest_framework import permissions
 
 #CustomUrls
 from rest_auth.views import (
-    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
     )
+from api.views import PasswordResetConfirmView
 
 urlpatterns = [
     #rest-auth
@@ -31,6 +32,15 @@ urlpatterns = [
     #email verification
     re_path(r'^account-confirm-email/$', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', confirm_email, name='account_confirm_email'),
+
+    #profile
+    path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
+    path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
+    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+
+    #whisky
+    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
+    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
     ]
 
     #Media setting
