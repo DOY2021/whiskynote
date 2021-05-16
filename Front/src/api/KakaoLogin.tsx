@@ -9,10 +9,10 @@ declare global {
   }
 }
 const KakaoLoginBtn = styled.div` {
-  margin-top: 10px;
+  margin-left: 62px;
   padding: 0 0 0 20px;
-  height: 56px;
-  line-height: 60px;
+  height: 40px;
+  line-height: 40px;
   background-color: #fee500;
   font-size: 12px;
   color: #111;
@@ -51,7 +51,7 @@ function KakaoLogin(){
   return(
     <div>
     <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
-      카카오 로그인
+      카카오톡으로 로그인
     </KakaoLoginBtn>
     </div>
   );

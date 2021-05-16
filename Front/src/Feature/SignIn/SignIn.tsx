@@ -29,9 +29,8 @@ function SignIn() {
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    console.log(email, password);
     const response = await authAPI.postLogin({ email, password });
-    console.log(response);
+    console.log(response.data.key);
 
     if (response.type === 'success') {
       //TODO: redirect to landing page
@@ -48,6 +47,11 @@ function SignIn() {
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
         </S.SignInHeader>
+        <S.SocialLoginWrapper>
+          <NaverLogin />
+          <KakaoLogin></KakaoLogin>
+          </S.SocialLoginWrapper>
+        <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
             inputLabel=""
@@ -56,7 +60,7 @@ function SignIn() {
             value={email}
             name="email"
             onChange={handleEmailInput}
-            placeholder="imtexter@gmail.com"
+            placeholder="이메일"
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
@@ -68,12 +72,10 @@ function SignIn() {
             value={password}
             name="password"
             onChange={handlePasswordInput}
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="비밀번호"
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
-          <NaverLogin />
-          <KakaoLogin></KakaoLogin>
           
           <S.SignInBtnContainer>
             <Link to="/signup">
@@ -84,7 +86,7 @@ function SignIn() {
             {/* TODO: add link for forgot ID/PW */}
             <Link to="/">
               <Button size="small" variant="grayscale" type="text">
-                아이디/비밀번호 찾기
+                이메일/비밀번호 찾기
               </Button>
             </Link>
             <Button

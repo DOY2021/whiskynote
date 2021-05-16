@@ -40,6 +40,18 @@ const SignInBtnContainer = styled.div`
   ${responsiveSize('432px', '50px', '10%', '10%')}
 `;
 
+const SocialLoginWrapper = styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-bottom:20px;
+`
+const Line = styled.div`
+  background-color: #F1F3F5;
+  width: 432px;
+  height: 1px;
+  margin-bottom:20px;
+`
+
 export default {
   SignInWrapper,
   SignInTemplate,
@@ -47,4 +59,6 @@ export default {
   SignInHeaderH1,
   SignInForm,
   SignInBtnContainer,
+  SocialLoginWrapper,
+  Line
 };
