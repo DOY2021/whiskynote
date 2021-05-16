@@ -22,6 +22,10 @@ type NewPassword = {
 const postLogin = async (loginParam: LoginParam) => {
   try {
     const response = await axios.post('/api/login/', loginParam);
+
+    const { accessToken } = response.data;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
     return {
       type: 'success',
       data: response.data,
