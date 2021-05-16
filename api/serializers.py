@@ -190,24 +190,30 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
 
         def create(self, validated_data):
             profile = Profile.objects.create(user = user)
-
             return profile
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Profile
         fields = ("profile_photo", )
 
 
 class WhiskySerializer(serializers.ModelSerializer):
+    whisky_rating = serializers.SerializerMethodField()
     class Meta:
         model = Whisky
         fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+'''
+    def get_average_rating(self, obj):
+        average = obj.review_rating.all().aggregate(Avg('review_rating')).get('review_rating__avg')
+        if average == None:
+            return 0
+        return average
+'''
 
 class ReactionSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    whisky = serializers.PrimaryKeyRelatedField(read_only=True)
+    #whisky = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Reaction
-        fields = "__all__"
+        fields = ("user", "whisky", "review_title", "review_body", "review_rating",)

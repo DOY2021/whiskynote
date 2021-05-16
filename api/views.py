@@ -194,7 +194,6 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         #File Upload
         file_obj = serializer.validated_data['profile_photo']
-        #
         serializer.save(user_id = self.request.user.pk)
 
 
@@ -202,7 +201,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
 class ProfileViewSet(generics.ListAPIView):   #/profile/all : simple profile list view
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
