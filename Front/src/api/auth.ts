@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios from 'axios';
-import { RegisterDataProp } from '../Feature/SignUp/SignUp';
+import { RegisterDataProp } from '../Feature/SignUp/StageOne/SignUp';
 
 type LoginParam = {
   email: string;

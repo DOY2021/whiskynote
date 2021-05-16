@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../css/Mixin';
-import Typography from '../../css/Typography';
-import Button from '../../shared/Button/Button';
+import { absoluteCenter, responsiveSize } from '../../../css/Mixin';
+import Typography from '../../../css/Typography';
+import Button from '../../../shared/Button/Button';
 import { FaCheckSquare } from 'react-icons/fa';
-import Palette from '../../css/Palette';
+import Palette from '../../../css/Palette';
 
 const SignFormWidth = '432px';
 
@@ -48,28 +48,6 @@ const SignUpBtnContainer = styled.div`
   ${responsiveSize(SignFormWidth, '50px', '10%', '10%')}
 `;
 
-const SignUpPolicyContainer = styled.div`
-  display: flex;
-  ${responsiveSize(SignFormWidth, '50px', '10%', '10%')}
-`;
-
-type SignUpPolicyIconProp = {
-  isChecked: boolean;
-};
-
-const SignUpPolicyIcon = styled(FaCheckSquare)<SignUpPolicyIconProp>`
-  color: white;
-  border: 2px solid ${Palette.Gray400};
-  margin-right: 10px;
-  ${({ isChecked }) => {
-    if (isChecked)
-      return css`
-        color: ${Palette.YB300};
-        border: none;
-      `;
-  }}
-`;
-
 export default {
   SignUpWrapper,
   SignUpTemplate,
@@ -78,6 +56,4 @@ export default {
   SignUpHeaderH2,
   SignUpForm,
   SignUpBtnContainer,
-  SignUpPolicyContainer,
-  SignUpPolicyIcon,
 };
