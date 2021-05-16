@@ -209,7 +209,7 @@ class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (FormParser, MultiPartParser)
 
     def put(self, request, *args, **kwargs):
-        file_obj = request.validated_data['profile_photo']
+        file_obj = request.data['profile_photo']
         return self.update(request, *args, **kwargs)
 
 class WhiskyListAPIView(generics.ListAPIView):
