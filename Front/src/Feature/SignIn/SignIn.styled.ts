@@ -45,15 +45,24 @@ const SignInBtnContainer = styled.div`
 const SocialLoginWrapper = styled.div`
   display:flex;
   flex-direction:row;
-  margin-bottom:20px;
+  width:432px;
 `
 const Line = styled.div`
   background-color: #F1F3F5;
   width: 432px;
   height: 1px;
-  margin-bottom:20px;
 `
+const ButtonWrapper = styled.div`
+display:flex;
+flex-direction:row;
+  float:right`
+const CheckBox = styled.input`
+  margin-top:8px`
 
+const CheckBoxText = styled.div`
+  font-size: 13px;
+  margin-top:8px;
+  margin-left:5px`
 export default {
   SignInWrapper,
   SignInTemplate,
@@ -62,5 +71,8 @@ export default {
   SignInForm,
   SignInBtnContainer,
   SocialLoginWrapper,
-  Line
+  Line,
+  ButtonWrapper,
+  CheckBoxText,
+  CheckBox
 };

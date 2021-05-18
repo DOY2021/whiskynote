@@ -2,8 +2,9 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Palette from '../../css/Palette';
+import { useCookies } from 'react-cookie';
 
 const Nav = styled.div`
   background-color: white;
@@ -56,24 +57,28 @@ const MenuLink = styled(Link)`
 
 const SearchInput = styled.input`
   background-color: white;
-`
+`;
 
 const SearchIcon = styled(FaSearch)`
-  color:${Palette.Gray500};
+  color: ${Palette.Gray500};
   font-size: 16px;
-  margin-left:25px
-  
-`
+  margin-left: 25px;
+`;
 
 const MenuMargin = styled.div`
   margin-right: 4px;
 `;
+
+
 function Header() {
+  const [cookie] = useCookies(['user_id']);
   return (
     <Nav>
       <NavHeader>
         <NavLeft>
-          <img src={'../../../assets/logo/logo.svg'}></img>
+          <Link to="/">
+            <img src={'../../../assets/logo/logo.svg'}></img>
+          </Link>
         </NavLeft>
         <NavCenter>
           <MenuLink to="#">위스키</MenuLink>
@@ -87,7 +92,21 @@ function Header() {
           <SearchInput></SearchInput>
         </NavCenter>
         <NavRight>
-          <Link to="/signup">
+          {!cookie.user_id && (
+            <>
+              <Link to="/signup">
+                <Button variant="primary" size="large" type="text">
+                  회원가입
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button variant="primary" size="large">
+                  로그인
+                </Button>
+              </Link>
+            </>
+          )}
+          {/* <Link to="/signup">
             <Button variant="primary" size="large" type="text">
               회원가입
             </Button>
@@ -96,7 +115,7 @@ function Header() {
             <Button variant="primary" size="large">
               로그인
             </Button>
-          </Link>
+          </Link> */}
         </NavRight>
       </NavHeader>
     </Nav>

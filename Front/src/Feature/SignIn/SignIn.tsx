@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { authAPI } from '../../api/auth';
 import Button from '../../shared/Button/Button';
 import S from './SignIn.styled';
 import SignInput from '../../shared/Input/SignInput/SignInput';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
+import KakaoMap from '../Map/KakaoMap';
+import { useCookies } from 'react-cookie';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
+  const history = useHistory();
+
   const [password, setPassword] = useState<string>('');
+  const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -21,6 +26,8 @@ function SignIn() {
     const { name, value } = event.target;
     setPassword(value);
   };
+
+  const [checked, setChecked] = useState<boolean>(true);
 
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +40,14 @@ function SignIn() {
     console.log(response.data.key);
 
     if (response.type === 'success') {
-      //TODO: redirect to landing page
+      //redirect to landing page
+      history.push('/');
+      if(checked){
+        setCookie('user_id', response.data.user_id, {maxAge:1209600}); //2weeks
+      }else {
+        removeCookie('user_id');
+      }
+
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');
@@ -41,8 +55,12 @@ function SignIn() {
     setLoading(false);
   };
 
+  
   return (
     <S.SignInWrapper>
+
+      {/* <KakaoMap></KakaoMap> */}
+
       <S.SignInTemplate>
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
@@ -76,7 +94,7 @@ function SignIn() {
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
-          
+
           <S.SignInBtnContainer>
             <Button
               size="login"
@@ -86,15 +104,20 @@ function SignIn() {
               로그인
             </Button>
             <Link to="/signup/type-choice">
-              <Button size="login" variant="primary">
+              <Button size="login" variant="primary" type="outline">
                 회원가입
               </Button>
             </Link>
-            <Link to="/">
-              <Button size="small" variant="grayscale" type="text">
-                이메일/비밀번호 찾기
-              </Button>
-            </Link>
+
+              <S.ButtonWrapper>
+              <S.CheckBox type="checkbox" onChange={(e) => {
+                setChecked(e.target.checked)}} checked={checked}/>
+              <S.CheckBoxText onClick={() => setChecked(!checked)}>로그인 상태 유지</S.CheckBoxText>
+                <Button size="small" variant="grayscale" type="text">
+                  이메일/비밀번호 찾기
+                </Button>
+              </S.ButtonWrapper>
+          
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>
