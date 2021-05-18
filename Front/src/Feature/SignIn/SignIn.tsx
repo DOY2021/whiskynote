@@ -40,7 +40,7 @@ function SignIn() {
     console.log(response.data.key);
 
     if (response.type === 'success') {
-      //TODO: redirect to landing page
+      //redirect to landing page
       history.push('/');
       if(checked){
         setCookie('user_id', response.data.user_id, {maxAge:1209600}); //2weeks
@@ -103,7 +103,7 @@ function SignIn() {
               로그인
             </Button>
             <Link to="/signup/type-choice">
-              <Button size="login" variant="primary">
+              <Button size="login" variant="primary" type="outline">
                 회원가입
               </Button>
             </Link>
