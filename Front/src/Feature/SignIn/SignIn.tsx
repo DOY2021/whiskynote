@@ -55,6 +55,7 @@ function SignIn() {
     setLoading(false);
   };
 
+  
   return (
     <S.SignInWrapper>
 
@@ -107,7 +108,7 @@ function SignIn() {
                 회원가입
               </Button>
             </Link>
-            <Link to="/">
+
               <S.ButtonWrapper>
               <S.CheckBox type="checkbox" onChange={(e) => {
                 setChecked(e.target.checked)}} checked={checked}/>
@@ -116,7 +117,7 @@ function SignIn() {
                   이메일/비밀번호 찾기
                 </Button>
               </S.ButtonWrapper>
-            </Link>
+          
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>
