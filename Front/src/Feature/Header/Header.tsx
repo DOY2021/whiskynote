@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Palette from '../../css/Palette';
 
 const Nav = styled.div`
@@ -68,12 +68,15 @@ const SearchIcon = styled(FaSearch)`
 const MenuMargin = styled.div`
   margin-right: 4px;
 `;
+
 function Header() {
   return (
     <Nav>
       <NavHeader>
         <NavLeft>
-          <img src={'../../../assets/logo/logo.svg'}></img>
+          <Link to="/">
+            <img src={'../../../assets/logo/logo.svg'} ></img>
+          </Link>
         </NavLeft>
         <NavCenter>
           <MenuLink to="#">위스키</MenuLink>
