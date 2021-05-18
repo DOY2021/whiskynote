@@ -53,7 +53,16 @@ const Line = styled.div`
   height: 1px;
 `
 const ButtonWrapper = styled.div`
+display:flex;
+flex-direction:row;
   float:right`
+const CheckBox = styled.input`
+  margin-top:8px`
+
+const CheckBoxText = styled.div`
+  font-size: 13px;
+  margin-top:8px;
+  margin-left:5px`
 export default {
   SignInWrapper,
   SignInTemplate,
@@ -63,5 +72,7 @@ export default {
   SignInBtnContainer,
   SocialLoginWrapper,
   Line,
-  ButtonWrapper
+  ButtonWrapper,
+  CheckBoxText,
+  CheckBox
 };
