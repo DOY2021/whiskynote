@@ -4,7 +4,7 @@ import { authAPI } from '../../api/auth';
 import Button from '../../shared/Button/Button';
 import S from './SignIn.styled';
 import SignInput from '../../shared/Input/SignInput/SignInput';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
@@ -13,6 +13,7 @@ import { useCookies } from 'react-cookie';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
+  const history = useHistory();
 
   const [password, setPassword] = useState<string>('');
   const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
@@ -40,11 +41,13 @@ function SignIn() {
 
     if (response.type === 'success') {
       //TODO: redirect to landing page
+      history.push('/');
       if(checked){
         setCookie('user_id', response.data.user_id, {maxAge:1209600}); //2weeks
       }else {
         removeCookie('user_id');
       }
+
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');

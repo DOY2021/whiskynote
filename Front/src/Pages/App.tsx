@@ -8,6 +8,7 @@ import MailVf from '../Feature/SignUp/MailVerification/MailVf';
 
 import S from './App.styled';
 import SignUpPage from './SignUpPage';
+import Landing from '../Feature/Landing/Landing';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Switch>
           <Route path="/signup" component={SignUpPage} />
           <Route path="/login" exact component={SignIn} />
-          <Route path="/" exact component={SignIn} />
+          <Route path="/" exact component={Landing} />
         </Switch>
       </S.AppMainWrapper>
     </>
