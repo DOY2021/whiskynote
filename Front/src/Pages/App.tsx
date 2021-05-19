@@ -9,6 +9,7 @@ import MailVf from '../Feature/SignUp/MailVerification/MailVf';
 import S from './App.styled';
 import SignUpPage from './SignUpPage';
 import Landing from '../Feature/Landing/Landing';
+import MyPage from '../Feature/MyPage/MyPage';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <S.AppMainWrapper>
         <Switch>
           <Route path="/signup" component={SignUpPage} />
-          <Route path="/login" exact component={SignIn} />
+          <Route path="/signin" exact component={SignIn} />
+          <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
         </Switch>
       </S.AppMainWrapper>

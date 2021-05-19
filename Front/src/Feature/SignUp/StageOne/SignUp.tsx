@@ -52,7 +52,8 @@ function SignUpOne() {
       resetNickname();
       resetPassword();
       resetEmail();
-      history.push('/signup/landing');
+      console.log('!');
+      // history.push('/signup/landing');
     } else {
       const errKey = Object.keys(registerData.data);
       // eslint-disable-next-line prefer-const
@@ -85,6 +86,20 @@ function SignUpOne() {
         <CSRFToken />
 
         <SignInput
+          signType="signup"
+          hasError={errMsg.password !== null}
+          isValidated={false}
+          value={nickname}
+          onChange={handleNicknameInput}
+          name="name"
+          inputLabel="이름"
+          placeholder="이름을 입력해주세요."
+          errorMsg={errMsg.nickname}
+
+          // ref={register({ required: true })}
+        />
+
+        <SignInput
           hasError={errMsg.email !== null}
           isValidated={false}
           signType="signup"
@@ -113,15 +128,15 @@ function SignUpOne() {
         />
 
         <S.SignUpBtnContainer>
-          <Link to="signup/email/2">
-            <Button
-              size="fit"
-              variant="primary"
-              disabled={loading || !email || !password || !nickname}
-            >
-              다음
-            </Button>
-          </Link>
+          {/* <Link to="signup/email/2"> */}
+          <Button
+            size="fit"
+            variant="primary"
+            disabled={loading || !email || !password}
+          >
+            다음
+          </Button>
+          {/* </Link> */}
         </S.SignUpBtnContainer>
       </S.SignUpForm>
     </SignTemplate>

@@ -42,12 +42,11 @@ function SignIn() {
     if (response.type === 'success') {
       //redirect to landing page
       history.push('/');
-      if(checked){
-        setCookie('user_id', response.data.user_id, {maxAge:1209600}); //2weeks
-      }else {
+      if (checked) {
+        setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
+      } else {
         removeCookie('user_id');
       }
-
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');
@@ -55,10 +54,8 @@ function SignIn() {
     setLoading(false);
   };
 
-  
   return (
     <S.SignInWrapper>
-
       {/* <KakaoMap></KakaoMap> */}
 
       <S.SignInTemplate>
@@ -68,7 +65,7 @@ function SignIn() {
         <S.SocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-          </S.SocialLoginWrapper>
+        </S.SocialLoginWrapper>
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
@@ -109,15 +106,21 @@ function SignIn() {
               </Button>
             </Link>
 
-              <S.ButtonWrapper>
-              <S.CheckBox type="checkbox" onChange={(e) => {
-                setChecked(e.target.checked)}} checked={checked}/>
-              <S.CheckBoxText onClick={() => setChecked(!checked)}>로그인 상태 유지</S.CheckBoxText>
-                <Button size="small" variant="grayscale" type="text">
-                  이메일/비밀번호 찾기
-                </Button>
-              </S.ButtonWrapper>
-          
+            <S.ButtonWrapper>
+              <S.CheckBox
+                type="checkbox"
+                onChange={e => {
+                  setChecked(e.target.checked);
+                }}
+                checked={checked}
+              />
+              <S.CheckBoxText onClick={() => setChecked(!checked)}>
+                로그인 상태 유지
+              </S.CheckBoxText>
+              <Button size="small" variant="grayscale" type="text">
+                이메일/비밀번호 찾기
+              </Button>
+            </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>

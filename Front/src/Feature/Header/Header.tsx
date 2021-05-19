@@ -69,7 +69,6 @@ const MenuMargin = styled.div`
   margin-right: 4px;
 `;
 
-
 function Header() {
   const [cookie] = useCookies(['user_id']);
   return (
