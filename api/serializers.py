@@ -1,3 +1,7 @@
+#?
+from __future__ import unicode_literals, print_function
+
+#
 from django.contrib.auth import get_user_model, authenticate
 from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
@@ -23,6 +27,9 @@ rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
 UserDetailsSerializer = import_callable(
     rest_auth_serializers.get('USER_DETAILS_SERIALIZER', DefaultUserDetailsSerializer)
 )
+
+#FriendRequestSerializer
+from api.models import FriendRequest
 
 
 # Get the UserModel
@@ -204,3 +211,9 @@ class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FriendRequest
+        fields = ("id", "from_user", "to_user", "message", "created_at", "rejected_at")

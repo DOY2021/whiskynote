@@ -11,21 +11,16 @@ class ProfileInline(admin.StackedInline):
 
 class FriendInline(admin.StackedInline):
     model = Friend
-    fk_name = "friends"
+    fk_name = "friend"
     con_delete = False
 
-class FriendRequestFromInline(admin.StackedInline):
+class FriendRequestInline(admin.StackedInline):
     model = FriendRequest
-    fk_name = "from_user"
-    con_delete = False
-
-class FriendRequestToInline(admin.StackedInline):
-    model = FriendRequest
-    fk_name = "to_user"
+    fk_name = "friend_request"
     con_delete = False
 
 class CustomUserAdmin(UserAdmin):
-	inlines = (ProfileInline, FriendInline, FriendRequestFromInline, FriendRequestToInline)
+	inlines = (ProfileInline, FollowInline, FollowingInline)
 
 
 admin.site.unregister(User)

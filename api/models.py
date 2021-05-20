@@ -45,3 +45,14 @@ class Whisky(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Friend(models.Model):
+    friends = models.ForeignKey(User, on_delete = models.CASCADE, null = True)
+
+class FriendRequest(models.Model):
+    id = models.IntegerField(primary_key = True)
+    from_user = models.ForeignKey(User, on_delete = models.CASCADE, null = True, related_name = "friendrequest_from_user")
+    to_user = models.ForeignKey(User, on_delete = models.CASCADE, null = True, related_name = "friendrequest_to_user")
+    message = models.TextField(null = True, blank = True)
+    created_at = models.DateTimeField(auto_now_add = True, editable = False)
+    rejected_at = models.DateTimeField(auto_now_add = True, editable = False)

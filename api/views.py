@@ -57,6 +57,14 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
+#Friendship
+from django.apps import apps
+from rest_framework.decorators import action
+from api.models import Friend, FriendRequest
+from api.serializers import FriendRequestSerializer
+
+config = apps.get_app_config('rest_friendship')
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -219,3 +227,15 @@ class WhiskyListAPIView(generics.ListAPIView):
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+
+
+#Friendship
+class FriendViewSet(viewsets.ViewSet):
+    permission_classes = config.permission_classes
+    serializer_class = config.user_serializer
+
+    def list(self, request):
+        friends = Friend.objects.friends(request.user)
+        serializer = self.serializer_class(friends, many = True)
+        return Response(serializer.data)
+

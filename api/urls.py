@@ -1,3 +1,7 @@
+#?
+from __future__ import unicode_literals
+
+#
 from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include, re_path
@@ -9,11 +13,15 @@ from api.views import confirm_email, CustomLoginView, ProfileCreateAPIView, Prof
 
 from rest_framework import permissions
 
-#CustomUrls
+#CustomUrls-RestAuth_related
 from rest_auth.views import (
     LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
     )
 from api.views import PasswordResetConfirmView
+
+#Friendship
+from api.views import FriendViewSet #,FriendRequestViewSet
+from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     #rest-auth
@@ -41,9 +49,9 @@ urlpatterns = [
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+
     ]
 
     #Media setting
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-
