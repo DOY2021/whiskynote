@@ -6,9 +6,6 @@ import { GlobalStyle } from './css/GlobalStyled';
 import axios from 'axios';
 import { UserContextProvider } from './hook/useUserContext';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-axios.defaults.withCredentials = true;
-
 render(
   <BrowserRouter>
     <GlobalStyle />
