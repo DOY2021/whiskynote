@@ -55,6 +55,9 @@ function SignIn() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    return () => setLoading(false);
+  },[])
   
   return (
     <S.SignInWrapper>
