@@ -46,6 +46,14 @@ resize: none;
 }
 `;
 
+const SignUpForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  ${responsiveSize(SignFormWidth, '350px', '10%', '10%')}
+`;
+
 const SignUpPolicyContainer = styled.div`
   display: flex;
   ${responsiveSize(SignFormWidth, '50px', '10%', '10%')}
@@ -76,4 +84,5 @@ export default {
   SignUpProfileCamera,
   SignUpBio,
   SignUpProfileDefault,
+  SignUpForm,
 };

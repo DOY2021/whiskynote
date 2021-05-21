@@ -37,16 +37,17 @@ function SignIn() {
     event.preventDefault();
     setLoading(true);
     const response = await authAPI.postLogin({ email, password });
-    console.log(response.data.key);
 
     if (response.type === 'success') {
       //redirect to landing page
-      history.push('/');
+
       if (checked) {
+        console.log(response);
         setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
       } else {
         removeCookie('user_id');
       }
+      history.push('/');
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');

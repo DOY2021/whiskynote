@@ -53,7 +53,7 @@ function SignUpOne() {
       resetPassword();
       resetEmail();
       console.log('!');
-      // history.push('/signup/landing');
+      history.push('/signup/register_profile');
     } else {
       const errKey = Object.keys(registerData.data);
       // eslint-disable-next-line prefer-const

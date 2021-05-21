@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios from 'axios';
-import { RegisterDataProp } from '../Feature/SignUp/StageOne/SignUp';
+import { RegisterDataProp } from '../Feature/SignUp/EmailSignUp/SignUp';
 import { client } from './client';
 
 type LoginParam = {
@@ -26,7 +26,7 @@ const postLogin = async (loginParam: LoginParam) => {
 
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -43,7 +43,7 @@ const postRegister = async (
     const response = await client.post('/api/register/', registerParam);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -58,7 +58,7 @@ const postLogout = async () => {
     const response = await client.post('/api/logout/');
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -73,7 +73,7 @@ const postPasswordChange = async (newPassWord: NewPassword) => {
     const response = await client.post('/api/password/change/', newPassWord);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -88,7 +88,7 @@ const postPasswordReset = async (email: string) => {
     const response = await client.post('/api/password/reset/', email);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {

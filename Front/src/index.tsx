@@ -5,13 +5,16 @@ import App from './Pages/App';
 import { GlobalStyle } from './css/GlobalStyled';
 import axios from 'axios';
 import { UserContextProvider } from './hook/useUserContext';
+import { CookiesProvider } from 'react-cookie';
 
 render(
   <BrowserRouter>
-    <GlobalStyle />
-    <UserContextProvider>
-      <App />
-    </UserContextProvider>
+    <CookiesProvider>
+      <GlobalStyle />
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
+    </CookiesProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );

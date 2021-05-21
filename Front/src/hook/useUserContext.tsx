@@ -2,8 +2,8 @@ import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
 export type User = {
   nickname: string;
-  bio: string;
-  profile_photo: string;
+  bio?: string;
+  profile_photo?: string;
   user_id: string;
   isLoggedIn: boolean;
 };
