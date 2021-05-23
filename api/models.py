@@ -8,6 +8,7 @@ from .utils import import_callable
 
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
 '''
@@ -35,10 +36,10 @@ class Whisky(models.Model):
 	brand = models.CharField(max_length = 100, null = True)
 	whisky_detail = models.TextField(null=True, blank = True)
 	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-	whisky_rating = models.IntegerField()
-	reaction_count = models.IntegerField(null = True, blank = True)
+	whisky_rating = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(10)], default = 0)
+	rating_count = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
 	created_at = models.DateTimeField(auto_now_add = True)
-
+	updated_at = models.DateTimeField(auto_now = True)
 	class Meta:
 		verbose_name = 'whisky'
 		verbose_name_plural = 'whiskies'
@@ -48,15 +49,15 @@ class Whisky(models.Model):
 		return self.name
 
 class Reaction(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    review_title = models.CharField(max_length=255)
-    review_body = models.TextField()
-    review_rating = models.IntegerField(null=True, blank=True)
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+	review_title = models.CharField(max_length=255)
+	review_body = models.TextField()
+	review_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(10)])
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now_add=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	modified_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ["-created_at"]
-        default_related_name = "reaction"
+	class Meta:
+		ordering = ["-created_at"]
+		default_related_name = "reaction"

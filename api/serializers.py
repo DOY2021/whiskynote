@@ -17,6 +17,7 @@ from api.models import Profile, Whisky, Reaction
 from rest_auth.models import TokenModel
 from rest_auth.utils import import_callable
 from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -199,10 +200,10 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 
 
 class WhiskySerializer(serializers.ModelSerializer):
-    whisky_rating = serializers.SerializerMethodField()
+    #whisky_rating = serializers.SerializerMethodField()
     class Meta:
         model = Whisky
-        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at", "updated_at")
 '''
     def get_average_rating(self, obj):
         average = obj.review_rating.all().aggregate(Avg('review_rating')).get('review_rating__avg')

@@ -4,7 +4,7 @@ from api.models import Profile, Whisky, Reaction
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-	list_display = ("user","nickname", "bio", "profile_photo")
+	list_display = ("id", "user","nickname", "bio", "profile_photo")
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):

@@ -39,16 +39,16 @@ urlpatterns = [
     #profile
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
-    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+    path("profile/<int:profile_pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
     
     #whisky
-    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
-    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/all/", WhiskyListAPIView.as_view(), name = 'whisky'),
+    path("whisky/<int:whisky_pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
     
     #reaction
     path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
     path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
-    path("reaction/<int:pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
+    path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
     ]
 
     #Media setting
