@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'rest_friendship',
     #Apps
     'api.apps.ApiConfig',
+    'api_friendship.apps.ApiFriendshipConfig',
 ]
 
 SITE_ID = 1 

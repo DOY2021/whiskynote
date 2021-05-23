@@ -22,6 +22,8 @@ from api.views import PasswordResetConfirmView
 #Friendship
 from api.views import FriendViewSet, FriendRequestViewSet #,FriendRequestViewSet
 from rest_framework.routers import DefaultRouter
+from api_friendship.urls import router
+
 
 urlpatterns = [
     #rest-auth
@@ -50,14 +52,16 @@ urlpatterns = [
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
 
+    #Friendship
+    path('friendship/', include(router.urls))
     ]
 
 
 #Friendship 
-router = DefaultRouter()
-router.register(r'friends', FriendViewSet, basename = 'friends')
-router.register(r'friendrequests', FriendRequestViewSet, basename = 'friendrequests')
-urlpatterns = router.urls
+#router = DefaultRouter()
+#router.register(r'friends', FriendViewSet, basename = 'friends')
+#router.register(r'friendrequests', FriendRequestViewSet, basename = 'friendrequests')
+#urlpatterns = router.urls
 
 
     #Media setting

@@ -145,7 +145,7 @@ class CustomConfirmEmailView(APIView):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
         # A React Router Route will handle the failure scenario 
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('')
 
     def get_object(self, queryset=None):
         key = self.kwargs["key"]
@@ -265,7 +265,7 @@ class FriendViewSet(viewsets.ViewSet):
                 FriendRequestSerializer(friend_obj).data,
                 status.HTTP_201_CREATED
                 )
-    
+
     def destroy(self, request, pk=None):
         user_friend = get_object_or_404(get_user_model(), pk=pk)
 
