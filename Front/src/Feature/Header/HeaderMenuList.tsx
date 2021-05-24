@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { FaCog, FaRegBell, FaRegUser, FaSignOutAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { authAPI } from '../../api/auth';
 import Palette from '../../css/Palette';
+import { useCookies } from 'react-cookie';
 
 
 const MenuNav = styled.nav`
@@ -60,10 +62,25 @@ const userIconStyle = {
 const IconStyle = { fontSize: '20px', color: `${Palette.YB400}` };
 
 function HeaderMenuList() {
+  const history = useHistory();
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
 
+  const [cookies, setCookie,removeCookie] = useCookies(['user_id']);
   const onDropdownClick = () => setIsActive(!isActive);
+
+  const onLogOut = async() => {
+    const response = await authAPI.postLogout();
+    if(response.type === 'success'){
+      removeCookie('user_id');
+      history.push('/');
+     
+    }
+    else {
+      console.log('Logout failed');
+    }
+
+  }
 
   return (
     <PositionMenuList>
@@ -91,7 +108,7 @@ function HeaderMenuList() {
               <MenuFont>설정</MenuFont>
             </MenuItem>
           </Link>
-          <MenuItem>
+          <MenuItem onClick={onLogOut}>
             <FaSignOutAlt style={IconStyle}></FaSignOutAlt>
             <MenuFont>로그아웃</MenuFont>
           </MenuItem>
