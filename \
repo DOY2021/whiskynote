@@ -1,6 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky
-from friendship.models import Block, Friend, FriendshipRequest 
+from api.models import Profile, Whisky, Friend, FriendRequest
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -12,28 +11,16 @@ class ProfileInline(admin.StackedInline):
 
 class FriendInline(admin.StackedInline):
     model = Friend
-    fk_name = "to_user"
-    #from_user fix
+    fk_name = "friend"
     con_delete = False
 
-class FriendRequestFromInline(admin.StackedInline):
-    model = FriendshipRequest
-    fk_name = "from_user"
-    con_delete = False
-
-class FriendRequestToInline(admin.StackedInline):
-    model = FriendshipRequest
-    fk_name = "to_user"
-    con_delete = False
-
-class BlockInline(admin.StackedInline):
-    model = Block
-    fk_name = "blocked"
-    #blocker fix
+class FriendRequestInline(admin.StackedInline):
+    model = FriendRequest
+    fk_name = "friend_request"
     con_delete = False
 
 class CustomUserAdmin(UserAdmin):
-	inlines = (ProfileInline, FriendInline, FriendRequestFromInline, FriendRequestToInline, BlockInline)
+	inlines = (ProfileInline, FollowInline, FollowingInline)
 
 
 admin.site.unregister(User)
