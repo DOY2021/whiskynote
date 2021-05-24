@@ -3,6 +3,7 @@ djangorestframework
 django-rest-auth
 django-rest-swagger
 django-rest-friendship
+django-friendship
 dj-rest-auth
 django-allauth
 django-crispy-forms
