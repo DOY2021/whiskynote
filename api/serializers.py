@@ -193,11 +193,10 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("user", "nickname", "bio", "profile_photo")
+        fields = ("user", "id", "nickname", "bio", "profile_photo")
 
         def create(self, validated_data):
             profile = Profile.objects.create(user = user)
-
             return profile
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):

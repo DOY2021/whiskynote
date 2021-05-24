@@ -202,7 +202,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
         #File Upload
         file_obj = serializer.validated_data['profile_photo']
         #
-        serializer.save(user_id = self.request.user.pk)
+        serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
 
 #ProfileListView

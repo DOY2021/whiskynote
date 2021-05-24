@@ -5,5 +5,5 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'friends', FriendViewSet, basename='friends')
-router.register(r'friendrequeste', FriendRequestViewSet, basename='friendrequests')
+router.register(r'friendrequest', FriendRequestViewSet, basename='friendrequests')
 urlpatterns = router.urls
