@@ -29,7 +29,7 @@ UserDetailsSerializer = import_callable(
 )
 
 #FriendRequestSerializer
-from api.models import FriendRequest
+from friendship.models import FriendshipRequest
 
 
 # Get the UserModel
@@ -214,5 +214,5 @@ class WhiskySerializer(serializers.ModelSerializer):
 
 class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FriendRequest
+        model = FriendshipRequest
         fields = ("id", "from_user", "to_user", "message", "created_at", "rejected_at")
