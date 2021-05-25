@@ -20,6 +20,7 @@ export interface ButtonProp {
   variant?: ButtonVariant;
   children?: any;
   className?: any;
+  onClick?: (event: React.MouseEventHandler<HTMLButtonElement>) => any;
 }
 
 const sizes = {

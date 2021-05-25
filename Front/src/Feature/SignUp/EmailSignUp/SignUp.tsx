@@ -52,8 +52,7 @@ function SignUpOne() {
       resetNickname();
       resetPassword();
       resetEmail();
-      console.log('!');
-      history.push('/signup/register_profile');
+      history.push('/signup/email-verification');
     } else {
       const errKey = Object.keys(registerData.data);
       // eslint-disable-next-line prefer-const

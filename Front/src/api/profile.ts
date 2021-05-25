@@ -15,8 +15,8 @@ type ProfileParam = {
 
 const getAllProfile = async () => {
   try {
-    const response = await client.get('/api/profile/all');
-    return response;
+    const response = await client.get('/api/profile/all/');
+    return response.data;
   } catch (e) {
     console.log(e);
   }
@@ -24,8 +24,12 @@ const getAllProfile = async () => {
 
 const createProfile = async (profileData: ProfileCreate) => {
   try {
-    const response = await client.post('/api/profile/create', profileData);
-    return response;
+    const response = await client.post('/api/profile/create/', profileData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   } catch (e) {
     console.log(e);
   }
@@ -33,32 +37,33 @@ const createProfile = async (profileData: ProfileCreate) => {
 
 const getProfile = async (id: number) => {
   try {
-    const response = await client.get(`/api/profile/${id}`);
+    const response = await client.get(`/api/profile/${id}/`);
     return response;
   } catch (e) {
     console.log(e);
+    throw e;
   }
 };
 const deleteProfile = async (id: number) => {
   try {
-    const response = await client.delete(`/api/profile/${id}`);
-    return response;
+    const response = await client.delete(`/api/profile/${id}/`);
+    return response.data;
   } catch (e) {
     console.log(e);
   }
 };
 const putProfile = async (id: number, profileData: ProfileParam) => {
   try {
-    const response = await client.put(`/api/profile/${id}`, profileData);
-    return response;
+    const response = await client.put(`/api/profile/${id}/`, profileData);
+    return response.data;
   } catch (e) {
     console.log(e);
   }
 };
 const patchProfile = async (id: number, profileData: ProfileParam) => {
   try {
-    const response = await client.patch(`/api/profile/${id}`, profileData);
-    return response;
+    const response = await client.patch(`/api/profile/${id}/`, profileData);
+    return response.data;
   } catch (e) {
     console.log(e);
   }

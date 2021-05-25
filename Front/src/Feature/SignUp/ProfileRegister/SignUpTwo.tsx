@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { profileAPI } from '../../../api/profile';
 import useInput from '../../../hook/useInput';
+import { useUserDispatch, useUserState } from '../../../hook/useUserContext';
 import Button from '../../../shared/Button/Button';
 import SignInput from '../../../shared/Input/SignInput/SignInput';
 import SignTemplate from '../../../shared/SignTemplate/SignTemplate';
@@ -45,13 +46,17 @@ function SignUpTwo() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleRegisterSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
-    setLoading(true);
+  const user_id = useUserState();
 
-    const registerData: RegisterDataProp = await profileAPI.createProfile({
+  const dispatch = useUserDispatch();
+
+  const handleRegisterSubmit = async (
+    event: React.MouseEventHandler<HTMLButtonElement>,
+  ) => {
+    setLoading(true);
+    console.log('?');
+
+    const registerData: any = await profileAPI.createProfile({
       nickname,
       bio,
       profile_photo: imageFile ? imageFile : undefined,
@@ -59,11 +64,20 @@ function SignUpTwo() {
 
     // resetSignErr();
     if (registerData.type === 'success') {
-      // resetNickname();
-      // resetPassword();
-      // resetEmail();
-      // console.log('!');
-      history.push('/signup/register_profile');
+      if (!user_id?.user_id) return;
+      if (!dispatch) return;
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          user_id: user_id.user_id,
+          isLoggedIn: true,
+          nickname,
+          bio,
+          profile_photo: imageURL ? imageURL : null,
+        },
+      });
+
+      history.push('/');
     } else {
       const errKey = Object.keys(registerData.data);
       // eslint-disable-next-line prefer-const
@@ -82,7 +96,7 @@ function SignUpTwo() {
 
   return (
     <SignTemplate title="회원가입">
-      <S.SignUpForm onClick={handleRegisterSubmit}>
+      <S.SignUpForm>
         <S.SignUpProfileContainer onClick={handleOpenImageRef}>
           {imageFile ? (
             <S.SignUpProfileImage src={imageURL} />
@@ -127,6 +141,7 @@ function SignUpTwo() {
           size="login"
           variant="primary"
           disabled={!bio || !nickname || !policyCheck}
+          onClick={handleRegisterSubmit}
         >
           다음
         </Button>

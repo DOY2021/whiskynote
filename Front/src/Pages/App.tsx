@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
@@ -10,8 +10,38 @@ import S from './App.styled';
 import SignUpPage from './SignUpPage';
 import Landing from '../Feature/Landing/Landing';
 import MyPage from '../Feature/MyPage/MyPage';
+import { useCookies } from 'react-cookie';
+import { profileAPI } from '../api/profile';
+import { useUserDispatch } from '../hook/useUserContext';
 
 function App() {
+  const [cookies] = useCookies(['user_id']);
+
+  const dispatch = useUserDispatch();
+
+  const fetchProfile = useCallback(async () => {
+    if (!dispatch) return;
+    if (!cookies) return;
+    const profile = await profileAPI.getProfile(cookies['user_id']);
+    console.log(profile);
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        user_id: profile['id'],
+        isLoggedIn: true,
+        nickname: profile['nickname'],
+        bio: profile['bio'] ? profile['bio'] : null,
+        profile_photo: profile['profile_photo']
+          ? profile['profile_photo']
+          : null,
+      },
+    });
+  }, [cookies, dispatch]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
+
   return (
     <>
       <Header />

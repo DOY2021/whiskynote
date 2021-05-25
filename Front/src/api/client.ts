@@ -9,6 +9,8 @@ export const client = axios.create({
   headers: {
     'Access-Control-Allow-Origin': true,
   },
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken',
 });
 //(value: AxiosResponse<any>) => AxiosResponse<any>
 //accessToken이 있으면 헤더에 등록해줍니다.

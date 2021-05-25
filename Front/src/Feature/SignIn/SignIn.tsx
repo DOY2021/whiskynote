@@ -10,6 +10,9 @@ import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
 import KakaoMap from '../Map/KakaoMap';
 import { useCookies } from 'react-cookie';
+import { profileAPI } from '../../api/profile';
+import CSRFToken from '../../shared/CSRFToken';
+import { useUserDispatch, useUserState } from '../../hook/useUserContext';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -33,6 +36,8 @@ function SignIn() {
 
   const { errMsg, setLoginErr } = useSignInErr();
 
+  const dispatch = useUserDispatch();
+
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -41,13 +46,43 @@ function SignIn() {
     if (response.type === 'success') {
       //redirect to landing page
 
+      try {
+        if (!dispatch) return;
+        const profile = await profileAPI.getProfile(response.data.user_id);
+        console.log(profile);
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: response.data.nickname ? response.data.nickname : null,
+            bio: response.data.bio ? response.data.bio : null,
+            profile_photo: response.data.profile_photo
+              ? response.data.profile_photo
+              : null,
+          },
+        });
+        history.push('/');
+      } catch {
+        if (!dispatch) return;
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: null,
+            bio: null,
+            profile_photo: null,
+          },
+        });
+        history.push('signup/register_profile');
+      }
+
       if (checked) {
-        console.log(response);
         setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
       } else {
         removeCookie('user_id');
       }
-      history.push('/');
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');
@@ -58,7 +93,7 @@ function SignIn() {
   return (
     <S.SignInWrapper>
       {/* <KakaoMap></KakaoMap> */}
-
+      <CSRFToken />
       <S.SignInTemplate>
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>

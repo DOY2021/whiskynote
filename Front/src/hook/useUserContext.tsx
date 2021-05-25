@@ -1,10 +1,10 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
 export type User = {
-  nickname: string;
-  bio?: string;
-  profile_photo?: string;
-  user_id: string;
+  user_id: number | null;
+  nickname: string | null;
+  bio: string | null;
+  profile_photo: string | null;
   isLoggedIn: boolean;
 };
 
@@ -44,10 +44,10 @@ export function UserContextProvider({
   children: React.ReactNode;
 }) {
   const [user, dispatch] = useReducer(userReducer, {
-    nickname: '',
-    bio: '',
-    profile_photo: '',
-    user_id: '',
+    nickname: null,
+    bio: null,
+    profile_photo: null,
+    user_id: null,
     isLoggedIn: false,
   });
 
