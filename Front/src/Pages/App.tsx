@@ -26,6 +26,12 @@ function App() {
     if (!cookies) return;
     try {
       const profile = await profileAPI.getProfile(cookies['user_id']);
+      //로컬환경인 경우 프록시 설정에 따라 주소가 변하는 이슈가 있어서 수정해주는 코드를 썼습니다.
+      if (profile['profile_photo'].match('localhost'))
+        profile['profile_photo'] = profile['profile_photo'].replace(
+          '3000',
+          '8000',
+        );
       console.log(profile);
       dispatch({
         type: 'LOGIN',

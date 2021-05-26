@@ -9,7 +9,7 @@ type ProfileCreate = {
 type ProfileParam = {
   nickname: string;
   bio?: string;
-  profile_photo?: URL;
+  profile_photo?: string;
   id: number;
 };
 
@@ -31,7 +31,7 @@ const createProfile = async (profileData: FormData) => {
     });
     return response.data;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 

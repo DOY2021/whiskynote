@@ -4,10 +4,11 @@ import S from './MyPage.styled';
 
 function MyPage() {
   const user = useUserState();
+  console.log(user?.profile_photo);
   return (
     <S.MyPageWrapper>
       <S.ProfileWrapper>
-        {user?.profile_photo && <S.ProfileImg />}
+        {user?.profile_photo && <S.ProfileImg src={user.profile_photo} />}
         <S.ProfileContentWrapper>
           <S.ProfileContentTop>
             <S.ProfileContentTopName>Hi</S.ProfileContentTopName>
