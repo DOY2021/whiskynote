@@ -51,46 +51,49 @@ function SignUpTwo() {
   const dispatch = useUserDispatch();
 
   const handleRegisterSubmit = async (
-    event: React.MouseEventHandler<HTMLButtonElement>,
+    event: React.FormEvent<HTMLButtonElement>,
   ) => {
+    event.preventDefault();
     setLoading(true);
     console.log('?');
 
-    const registerData: any = await profileAPI.createProfile({
-      nickname,
-      bio,
-      profile_photo: imageFile ? imageFile : undefined,
-    });
+    const fd = new FormData();
+
+    fd.append('nickname', nickname);
+    fd.append('bio', bio);
+    if (imageFile) fd.append('profile_photo', imageFile);
+
+    const registerData: any = await profileAPI.createProfile(fd);
 
     // resetSignErr();
-    if (registerData.type === 'success') {
-      if (!user_id?.user_id) return;
-      if (!dispatch) return;
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          user_id: user_id.user_id,
-          isLoggedIn: true,
-          nickname,
-          bio,
-          profile_photo: imageURL ? imageURL : null,
-        },
-      });
+    // if (registerData.type === 'success') {
+    //   if (!user_id?.user_id) return;
+    //   if (!dispatch) return;
+    //   dispatch({
+    //     type: 'LOGIN',
+    //     payload: {
+    //       user_id: user_id.user_id,
+    //       isLoggedIn: true,
+    //       nickname,
+    //       bio,
+    //       profile_photo: imageURL ? imageURL : null,
+    //     },
+    //   });
 
-      history.push('/');
-    } else {
-      const errKey = Object.keys(registerData.data);
-      // eslint-disable-next-line prefer-const
-      for (let key of errKey) {
-        if (key === 'email') {
-          setEmailErr(registerData.data[key]);
-        } else if (key === 'username') {
-          setNicknameErr(registerData.data[key]);
-        } else {
-          setPasswordErr(registerData.data[key]);
-        }
-      }
-    }
+    //   history.push('/');
+    // } else {
+    //   const errKey = Object.keys(registerData.data);
+    //   // eslint-disable-next-line prefer-const
+    //   for (let key of errKey) {
+    //     if (key === 'email') {
+    //       setEmailErr(registerData.data[key]);
+    //     } else if (key === 'username') {
+    //       setNicknameErr(registerData.data[key]);
+    //     } else {
+    //       setPasswordErr(registerData.data[key]);
+    //     }
+    //   }
+    // }
     setLoading(false);
   };
 

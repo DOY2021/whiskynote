@@ -4,7 +4,7 @@ export type User = {
   user_id: number | null;
   nickname: string | null;
   bio: string | null;
-  profile_photo: string | null;
+  profile_photo: URL | null;
   isLoggedIn: boolean;
 };
 
@@ -12,7 +12,7 @@ const UserStateContext = createContext<User | undefined>(undefined);
 
 type Action =
   | { type: 'LOGIN'; payload: User }
-  | { type: 'IMAGE_CHANGE'; payload: string }
+  | { type: 'IMAGE_CHANGE'; payload: URL }
   | { type: 'BIO_CHANGE'; payload: string };
 
 type UserDispatch = Dispatch<Action>;

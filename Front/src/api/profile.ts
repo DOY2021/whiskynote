@@ -9,7 +9,7 @@ type ProfileCreate = {
 type ProfileParam = {
   nickname: string;
   bio?: string;
-  profile_photo?: File;
+  profile_photo?: URL;
   id: number;
 };
 
@@ -22,7 +22,7 @@ const getAllProfile = async () => {
   }
 };
 
-const createProfile = async (profileData: ProfileCreate) => {
+const createProfile = async (profileData: FormData) => {
   try {
     const response = await client.post('/api/profile/create/', profileData, {
       headers: {
@@ -37,7 +37,8 @@ const createProfile = async (profileData: ProfileCreate) => {
 
 const getProfile = async (id: number) => {
   try {
-    const response = await client.get(`/api/profile/${id}/`);
+    const response = await client.get(`/api/profile/${id}/`, {});
+    console.log(response);
     return response;
   } catch (e) {
     console.log(e);

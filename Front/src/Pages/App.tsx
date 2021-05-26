@@ -12,30 +12,36 @@ import Landing from '../Feature/Landing/Landing';
 import MyPage from '../Feature/MyPage/MyPage';
 import { useCookies } from 'react-cookie';
 import { profileAPI } from '../api/profile';
-import { useUserDispatch } from '../hook/useUserContext';
+import { useUserDispatch, useUserState } from '../hook/useUserContext';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
 
   const dispatch = useUserDispatch();
 
+  const user = useUserState();
+
   const fetchProfile = useCallback(async () => {
     if (!dispatch) return;
     if (!cookies) return;
-    const profile = await profileAPI.getProfile(cookies['user_id']);
-    console.log(profile);
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user_id: profile['id'],
-        isLoggedIn: true,
-        nickname: profile['nickname'],
-        bio: profile['bio'] ? profile['bio'] : null,
-        profile_photo: profile['profile_photo']
-          ? profile['profile_photo']
-          : null,
-      },
-    });
+    try {
+      const profile = await profileAPI.getProfile(cookies['user_id']);
+      console.log(profile);
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          user_id: profile['id'],
+          isLoggedIn: true,
+          nickname: profile['nickname'],
+          bio: profile['bio'] ? profile['bio'] : null,
+          profile_photo: profile['profile_photo']
+            ? profile['profile_photo']
+            : null,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }, [cookies, dispatch]);
 
   useEffect(() => {
