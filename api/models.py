@@ -23,7 +23,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete= models.CASCADE)
 	nickname = models.CharField(max_length = 64, unique=True)
 	bio = models.CharField(max_length = 240, blank = True)
-	profile_photo = models.FileField(upload_to = "media/", null = True, blank = True)
+	profile_photo = models.FileField(null = True, blank = True)
 	created_at = models.DateTimeField(auto_now_add = True, editable=False)
 	updated_at = models.DateTimeField(auto_now = True,)
 
