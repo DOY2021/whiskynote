@@ -56,14 +56,6 @@ urlpatterns = [
     path('friendship/', include(router.urls))
     ]
 
-
-#Friendship 
-#router = DefaultRouter()
-#router.register(r'friends', FriendViewSet, basename = 'friends')
-#router.register(r'friendrequests', FriendRequestViewSet, basename = 'friendrequests')
-#urlpatterns = router.urls
-
-
     #Media setting
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+#if settings.DEBUG:
+#    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
