@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import axios from 'axios';
-import { RegisterDataProp } from '../Feature/SignUp/StageOne/SignUp';
+import { RegisterDataProp } from '../Feature/SignUp/EmailSignUp/SignUp';
+import { client } from './client';
 
 type LoginParam = {
   email: string;
@@ -21,14 +22,11 @@ type NewPassword = {
 
 const postLogin = async (loginParam: LoginParam) => {
   try {
-    const response = await axios.post('/api/login/', loginParam);
-
-    const { accessToken } = response.data;
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    const response = await client.post('/api/login/', loginParam);
 
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -42,10 +40,10 @@ const postRegister = async (
   registerParam: RegisterParam,
 ): Promise<RegisterDataProp> => {
   try {
-    const response = await axios.post('/api/register/', registerParam);
+    const response = await client.post('/api/register/', registerParam);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -57,10 +55,10 @@ const postRegister = async (
 
 const postLogout = async () => {
   try {
-    const response = await axios.post('/api/logout/');
+    const response = await client.post('/api/logout/');
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -72,10 +70,10 @@ const postLogout = async () => {
 
 const postPasswordChange = async (newPassWord: NewPassword) => {
   try {
-    const response = await axios.post('/api/password/change/', newPassWord);
+    const response = await client.post('/api/password/change/', newPassWord);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {
@@ -87,10 +85,10 @@ const postPasswordChange = async (newPassWord: NewPassword) => {
 
 const postPasswordReset = async (email: string) => {
   try {
-    const response = await axios.post('/api/password/reset/', email);
+    const response = await client.post('/api/password/reset/', email);
     return {
       type: 'success',
-      data: response.data,
+      data: response,
     };
   } catch (e) {
     return {

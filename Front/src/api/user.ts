@@ -11,7 +11,7 @@ type UserDetails = {
 const getUserDetails = async () => {
   try {
     const response = await axios.get('/api/user/');
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
@@ -20,7 +20,7 @@ const getUserDetails = async () => {
 const putUserDetails = async (userDetails: UserDetails) => {
   try {
     const response = await axios.put('/api/user/', userDetails);
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }
@@ -29,7 +29,7 @@ const putUserDetails = async (userDetails: UserDetails) => {
 const patchUserDetails = async (userDetails: UserDetails) => {
   try {
     const response = await axios.patch('/api/user/', userDetails);
-    return response.data;
+    return response;
   } catch (e) {
     console.log(e);
   }

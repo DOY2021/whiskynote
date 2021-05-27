@@ -10,6 +10,9 @@ import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
 import KakaoMap from '../Map/KakaoMap';
 import { useCookies } from 'react-cookie';
+import { profileAPI } from '../../api/profile';
+import CSRFToken from '../../shared/CSRFToken';
+import { useUserDispatch, useUserState } from '../../hook/useUserContext';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -33,21 +36,53 @@ function SignIn() {
 
   const { errMsg, setLoginErr } = useSignInErr();
 
+  const dispatch = useUserDispatch();
+
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     const response = await authAPI.postLogin({ email, password });
-    console.log(response.data.key);
 
     if (response.type === 'success') {
       //redirect to landing page
-      history.push('/');
-      if(checked){
-        setCookie('user_id', response.data.user_id, {maxAge:1209600}); //2weeks
-      }else {
-        removeCookie('user_id');
+
+      try {
+        if (!dispatch) return;
+        const profile = await profileAPI.getProfile(response.data.user_id);
+        console.log(profile);
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: response.data.nickname ? response.data.nickname : null,
+            bio: response.data.bio ? response.data.bio : null,
+            profile_photo: response.data.profile_photo
+              ? response.data.profile_photo
+              : null,
+          },
+        });
+        history.push('/');
+      } catch {
+        if (!dispatch) return;
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: null,
+            bio: null,
+            profile_photo: null,
+          },
+        });
+        history.push('signup/register_profile');
       }
 
+      if (checked) {
+        setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
+      } else {
+        removeCookie('user_id');
+      }
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');
@@ -55,12 +90,10 @@ function SignIn() {
     setLoading(false);
   };
 
-  
   return (
     <S.SignInWrapper>
-
       {/* <KakaoMap></KakaoMap> */}
-
+      <CSRFToken />
       <S.SignInTemplate>
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
@@ -68,7 +101,7 @@ function SignIn() {
         <S.SocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-          </S.SocialLoginWrapper>
+        </S.SocialLoginWrapper>
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
@@ -109,15 +142,21 @@ function SignIn() {
               </Button>
             </Link>
 
-              <S.ButtonWrapper>
-              <S.CheckBox type="checkbox" onChange={(e) => {
-                setChecked(e.target.checked)}} checked={checked}/>
-              <S.CheckBoxText onClick={() => setChecked(!checked)}>로그인 상태 유지</S.CheckBoxText>
-                <Button size="small" variant="grayscale" type="text">
-                  이메일/비밀번호 찾기
-                </Button>
-              </S.ButtonWrapper>
-          
+            <S.ButtonWrapper>
+              <S.CheckBox
+                type="checkbox"
+                onChange={e => {
+                  setChecked(e.target.checked);
+                }}
+                checked={checked}
+              />
+              <S.CheckBoxText onClick={() => setChecked(!checked)}>
+                로그인 상태 유지
+              </S.CheckBoxText>
+              <Button size="small" variant="grayscale" type="text">
+                이메일/비밀번호 찾기
+              </Button>
+            </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>

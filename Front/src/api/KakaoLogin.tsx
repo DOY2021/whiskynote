@@ -48,9 +48,9 @@ function KakaoLogin() {
 
   return (
     <div>
-    <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
-      카카오톡으로 로그인
-    </KakaoLoginBtn>
+      <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
+        카카오톡으로 로그인
+      </KakaoLoginBtn>
     </div>
   );
 }
