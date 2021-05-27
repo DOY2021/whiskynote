@@ -53,7 +53,7 @@ function HeaderMenuList(props) {
 
   return (
     <S.PositionMenuList>
-      {user?.profile_photo ? <S.ProfileImg src={user.profile_photo}>
+      {user?.profile_photo ? <S.ProfileImg src={user.profile_photo} onClick={onDropdownClick}>
       </S.ProfileImg> :
       <S.UserIcon>
         <FaRegUser size={25} style={userIconStyle} onClick={onDropdownClick} />

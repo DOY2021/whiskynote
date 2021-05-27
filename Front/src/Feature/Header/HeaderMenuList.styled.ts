@@ -66,8 +66,8 @@ const PositionMenuList = styled.div`
 `;
 
 const UserIcon = styled.div`
-  width: 48px;
-  height: 48px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-top: 10px;
   float: right;
@@ -75,8 +75,8 @@ const UserIcon = styled.div`
 `;
 
 const ProfileImg = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: right;
   cursor: pointer;
