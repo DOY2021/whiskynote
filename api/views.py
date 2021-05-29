@@ -59,6 +59,7 @@ sensitive_post_parameters_m = method_decorator(
 
 #Friendship
 from django.apps import apps
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from friendship.models import Friend, FriendshipRequest
 from api.serializers import FriendRequestSerializer
@@ -282,5 +283,23 @@ class FriendViewSet(viewsets.ViewSet):
                 )
 
 class FriendRequestViewSet(viewsets.ViewSet):
-    def func(self, request):
-            return success
+    
+    permission_classes = config.permission_classes
+
+    @action(methods=['POST'], detail=True)
+    def accept(self, request, pk=None):
+        friendship_request = get_object_or_404(FriendshipRequest, pk=pk, to_user=request.user)
+        friendship_request.accept()
+        return Response(
+                FriendRequestSerializer(friendship_request).data,
+                status.HTTP_201_CREATED
+                )
+
+    @action(methods=['POST'], detail=True)
+    def reject(self, request, pk=None):
+        friendship_request = get_object_or_404(FriendshipRequest, pk=pk, to_user=request.user)
+        friendship_request.reject()
+        return Response(
+                FriendRequestSerialzer(friendship_request).data,
+                status.HTTP_201_CREATED
+                )

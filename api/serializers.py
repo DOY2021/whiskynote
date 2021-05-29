@@ -212,6 +212,13 @@ class WhiskySerializer(serializers.ModelSerializer):
         fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
 
 
+#Friendship
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('pk', 'username', 'email')
+
 class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendshipRequest
