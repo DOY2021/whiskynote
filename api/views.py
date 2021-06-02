@@ -57,13 +57,8 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
-#Friendship
-from django.apps import apps
-from rest_framework.decorators import action
-from friendship.models import Friend, FriendshipRequest
-from api.serializers import FriendRequestSerializer
-
-config = apps.get_app_config('rest_friendship')
+#Follow-Unfollow
+from api.serializers import UserSerializer, FollowerSerializer, BlockSerializer
 
 
 #Custom Login
@@ -211,7 +206,7 @@ class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list
     queryset = Profile.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     parser_classes = (FormParser, MultiPartParser)
@@ -227,60 +222,76 @@ class WhiskyListAPIView(generics.ListAPIView):
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+    serializer_class = FollowerSerializer
 
 
-#Friendship
-class FriendViewSet(viewsets.ViewSet):
-    permission_classes = config.permission_classes
-    serializer_class = config.user_serializer
+#Follow-Unfollow
 
-    def list(self, request):
-        friends = Friend.objects.friends(request.user)
-        serializer = self.serializer_class(friends, many = True)
-        return Response(serializer.data)
+class FollowUnfollowView(APIView):
+    
+    permission_classes = [IsAuthenticated]
 
-    @action(detail=False)
-    def requests(self, request):
-        friend_requests = Friend.objects.unrejected_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
+    def current_profile(self):
+        try:
+            return Profile.objects.get(user = self.request.user)
+        except Profile.DoesNotExist:
+            raise Http404
+    
+    def other_profile(self, pk):
+        try:
+            return Profile.objects.get(id = pk)
+        except Profile.DoesNotExist:
+            raise Http404
 
-    @action(detail=False)
-    def sent_requests(self, request):
-        friend_requests = Friend.objects.sent_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
+    def post(self, request, format = None):
 
-    @action(detail=False)
-    def rejected_requests(self, request):
-        friend_requests = Friend.objects.rejected_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
+        pk = request.data.get('id')
+        req_type = request.data.get('type')
 
-    def create(self, request):
-        friend_obj = Friend.objects.add_friend(
-                request.user,
-                get_object_or_404(get_user_model(), pk=request.data['user_id']),
-                message = request.data.get('message', '')
-                )
+        current_profile = self.current_profile()
+        other_profile = self.other_profile(pk)
 
-        return Response(
-                FriendRequestSerializer(friend_obj).data,
-                status.HTTP_201_CREATED
-                )
+        if req_type == 'follow':
+            if other_profile.blocked_user.filter(id = current_profile.id).exists():
+                return Response({"Following Fail"}, status = status.HTTP_400_BAD_REQUEST)
+            
+            elif current_profile == other_profile:
+                return Response({"Cannot Follow Yourself"}, status = status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, pk=None):
-        user_friend = get_object_or_404(get_user_model(), pk=pk)
+            else:
+                current_profile.following.add(other_profile)
+                other_profile.followers.add(current_profile)
+                return Response({"Following Success"}, status = status.HTTP_200_OK)
 
-        if Friend.objects.remove_friend(request.user, user_friend):
-            message = 'deleted'
-            status_code = status.HTTP_204_NO_CONTENT
-        else:
-            message = 'not_deleted'
-            status_code = status.HTTP_304_NOT_MODIFIED
+        #elif req_type = 'accept':
+        #elif req_type = 'decline':
 
-        return Response(
-                {"message": message},
-                status = status_code
-                )
+        elif req_type == 'unfollow':
+            current_profile.following.remove(other_profile)
+            other_profile.followers.remove(current_profile)
+            return Response({"Remove Success"}, status = status.HTTP_200_OK)
 
-class FriendRequestViewSet(viewsets.ViewSet):
-    def func(self, request):
-            return success
+        #Fetch followers, following detail and blocked user
+        
+        def patch(self, request, format = None):
+
+            req_type = request.data.get('type')
+
+            if req_type == "follow_detail":
+                serializer = FollowerSerializer(self.current_profile())
+                return Response({"data" : serializer.data}, status = status.HTTP_200_OK)
+
+        #Block and Unblock User
+        def put(self, request, format = None):
+            pk = request.data.get('id')
+            req_type = request.data.get('type')
+
+            if req_type == 'block':
+                self.current_profile().blocked_user.add(self.other_profile(pk))
+                return Response({"Blocked"}, status = status.HTTP_200_OK)
+
+            elif req_type == 'unblock':
+                self.current_profile().blocked_user.remove(self.other_profile(pk))
+                return Response({"Unblocked"}, status = status.HTTP_200_OK)
+
+

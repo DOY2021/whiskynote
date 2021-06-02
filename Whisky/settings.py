@@ -56,12 +56,8 @@ INSTALLED_APPS = [
     #swagger
     'rest_framework_swagger',
     'drf_yasg',
-    #friendship
-    'friendship',
-    'rest_friendship',
     #Apps
     'api.apps.ApiConfig',
-    'api_friendship.apps.ApiFriendshipConfig',
 ]
 
 SITE_ID = 1 

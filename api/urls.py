@@ -19,11 +19,8 @@ from rest_auth.views import (
     )
 from api.views import PasswordResetConfirmView
 
-#Friendship
-from api.views import FriendViewSet, FriendRequestViewSet #,FriendRequestViewSet
-from rest_framework.routers import DefaultRouter
-from api_friendship.urls import router
-
+#Follow-Unfollow
+from api.views import FollowUnfollowView
 
 urlpatterns = [
     #rest-auth
@@ -47,13 +44,15 @@ urlpatterns = [
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
-
+    #Follow-Unfollow
+    #path("profile/<int:pk>/follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
+    
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
 
-    #Friendship
-    path('friendship/', include(router.urls))
+    #Follow-Unfollow
+    path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
     ]
 
     #Media setting
