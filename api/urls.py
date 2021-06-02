@@ -9,7 +9,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView, ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView, WhiskyListAPIView, WhiskyDetailAPIView
+from api.views import confirm_email, CustomLoginView,\
+    ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
+    WhiskyListAPIView, WhiskyDetailAPIView,\
+    reaction_list_create, reaction_update_delete
+    #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
 
@@ -44,15 +48,23 @@ urlpatterns = [
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+    
     #Follow-Unfollow
     #path("profile/<int:pk>/follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
+    
+    #Follow-Unfollow
+    path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
     
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-
-    #Follow-Unfollow
-    path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
+  
+    #reaction
+    #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
+    #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
+    #path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
+    path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
+    path('reaction/<int:reaction_pk>/', reaction_update_delete),
     ]
 
     #Media setting

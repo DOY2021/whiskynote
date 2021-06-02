@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky
+from api.models import Profile, Whisky, Reaction
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -35,17 +35,18 @@ class ProfileInline(admin.StackedInline):
 class CustomUserAdmin(UserAdmin):
 	inline = (ProfileInline)
 
-
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
-
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-	list_display = ("user","nickname", "bio", "profile_photo")
+	list_display = ("id", "user","nickname", "bio", "profile_photo")
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("id", "name", "whisky_detail", "whisky_region", "whisky_rating")
-	search_fiels = ["name", "whisky_region"]
+	list_display = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_ratings", "rating_counts")
+	search_fields = ["name", "brand", "whisky_region"]
 
+@admin.register(Reaction)
+class ReactionAdmin(admin.ModelAdmin):
+	list_display = ("id","whisky", "user", "review_title","review_body", "review_rating")
