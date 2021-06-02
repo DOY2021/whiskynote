@@ -278,7 +278,6 @@ def reaction_update_delete(request, reaction_pk):
 #Follow-Unfollow
 
 class FollowUnfollowView(APIView):
-    
     permission_classes = [IsAuthenticated]
 
     def current_profile(self):
@@ -286,7 +285,7 @@ class FollowUnfollowView(APIView):
             return Profile.objects.get(user = self.request.user)
         except Profile.DoesNotExist:
             raise Http404
-    
+
     def other_profile(self, pk):
         try:
             return Profile.objects.get(id = pk)
@@ -331,7 +330,7 @@ class FollowUnfollowView(APIView):
                 serializer = FollowerSerializer(self.current_profile())
                 return Response({"data" : serializer.data}, status = status.HTTP_200_OK)
 
-        #Block and Unblock User
+        #Block and Unblock /ser
         def put(self, request, format = None):
             pk = request.data.get('id')
             req_type = request.data.get('type')
@@ -343,3 +342,4 @@ class FollowUnfollowView(APIView):
             elif req_type == 'unblock':
                 self.current_profile().blocked_user.remove(self.other_profile(pk))
                 return Response({"Unblocked"}, status = status.HTTP_200_OK)
+
