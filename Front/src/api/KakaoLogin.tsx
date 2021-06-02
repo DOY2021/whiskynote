@@ -9,7 +9,7 @@ declare global {
   }
 }
 const KakaoLoginBtn = styled.div` {
-  margin-left: 62px;
+  margin-left: 52px;
   padding: 0 0 0 20px;
   height: 40px;
   line-height: 40px;
@@ -17,7 +17,7 @@ const KakaoLoginBtn = styled.div` {
   font-size: 12px;
   color: #111;
   display: inline-block;
-  width: 231.2px;
+  width: 200px;
   border-radius: 5px;
   font-weight: 700;
   text-align: center;
@@ -48,9 +48,9 @@ function KakaoLogin() {
 
   return (
     <div>
-    <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
-      카카오톡으로 로그인
-    </KakaoLoginBtn>
+      <KakaoLoginBtn onClick={kakaoLoginClickHandler}>
+        카카오톡으로 로그인
+      </KakaoLoginBtn>
     </div>
   );
 }

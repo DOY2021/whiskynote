@@ -1,105 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Palette from '../../css/Palette';
-
-const Nav = styled.div`
-  background-color: white;
-`;
-const NavHeader = styled.div`
-  align-items: center;
-  justify-items: center;
-  display: flex;
-  width: 100%;
-`;
-const NavLeft = styled.div`
-  width: 20%;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-`;
-const NavCenter = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  cursor: pointer;
-  align-items: center;
-  text-align: center;
-`;
-
-const NavRight = styled.div`
-  width: 20%;
-  text-align: center;
-`;
-
-const MenuLink = styled(Link)`
-  font-size: 16px;
-  color: #495057;
-  font-family: 'Noto Sans KR', sans-serif;
-
-  width: 100px;
-  height: 60px;
-  display: inline-flex;
-  justify-content: center;
-  cursor: pointer;
-  align-items: center;
-  text-align: center;
-
-  &:hover {
-    color: ${Palette.YB600};
-  }
-  &:active {
-    color: ${Palette.YB500};
-  }
-`;
-
-const SearchInput = styled.input`
-  background-color: white;
-`
+import { useCookies } from 'react-cookie';
+import S from './Header.styled';
+import HeaderMenuList from './HeaderMenuList';
 
 const SearchIcon = styled(FaSearch)`
-  color:${Palette.Gray500};
+  color: ${Palette.Gray500};
   font-size: 16px;
-  margin-left:25px
-  
-`
-
-const MenuMargin = styled.div`
-  margin-right: 4px;
+  margin-left: 25px;
 `;
+
 function Header() {
+  const [cookie] = useCookies(['user_id']);
+
   return (
-    <Nav>
-      <NavHeader>
-        <NavLeft>
-          <img src={'../../../assets/logo/logo.svg'}></img>
-        </NavLeft>
-        <NavCenter>
-          <MenuLink to="#">위스키</MenuLink>
-          <MenuMargin></MenuMargin>
-          <MenuLink to="#">위스키 바</MenuLink>
-          <MenuMargin></MenuMargin>
-          <MenuLink to="#">커뮤니티</MenuLink>
-          <MenuMargin></MenuMargin>
-          <MenuLink to="#">서비스 소개</MenuLink>
+    <S.Nav>
+      <S.NavHeader>
+        <S.NavLeft>
+          <Link to="/">
+            <img src={'../../../assets/logo/logo.svg'}></img>
+          </Link>
+        </S.NavLeft>
+        <S.NavCenter>
+          <S.MenuLink to="#">위스키</S.MenuLink>
+          <S.MenuMargin></S.MenuMargin>
+          <S.MenuLink to="#">위스키 바</S.MenuLink>
+          <S.MenuMargin></S.MenuMargin>
+          <S.MenuLink to="#">커뮤니티</S.MenuLink>
+          <S.MenuMargin></S.MenuMargin>
+          <S.MenuLink to="#">서비스 소개</S.MenuLink>
           <SearchIcon></SearchIcon>
-          <SearchInput></SearchInput>
-        </NavCenter>
-        <NavRight>
-          <Link to="/signup">
-            <Button variant="primary" size="large" type="text">
-              회원가입
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button variant="primary" size="large">
-              로그인
-            </Button>
-          </Link>
-        </NavRight>
-      </NavHeader>
-    </Nav>
+          <S.SearchInput></S.SearchInput>
+        </S.NavCenter>
+        <S.NavRight>
+          {!cookie.user_id && (
+            <>
+              <Link to="/signup">
+                <Button variant="primary" size="large" type="text">
+                  회원가입
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button variant="primary" size="large">
+                  로그인
+                </Button>
+              </Link>
+            </>
+          )}
+          {cookie.user_id && (
+            <HeaderMenuList></HeaderMenuList>
+          )}
+        </S.NavRight>
+      </S.NavHeader>
+    </S.Nav>
   );
 }
 

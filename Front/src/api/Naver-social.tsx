@@ -15,17 +15,17 @@ export default function NaverLogin() {
 
   function CDM() {
     Naver();
-    // GetProfile();
+    GetProfile();
   }
   function Naver() {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: `_7_cSSycFzLB4MC8INUt`,
-      callbackUrl: 'http://localhost:3000',
-      isPopup: true,
+      callbackUrl: 'http://localhost:3000/signin/',
+      isPopup: false,
       loginButton: {
         color: 'green',
         type: 3,
-        height: 50,
+        height: 40,
       },
     });
     naverLogin.init();
@@ -35,21 +35,21 @@ export default function NaverLogin() {
 
 function GetProfile() {
   window.location.href.includes('access_token') && GetUser();
-
   function GetUser() {
     const location = window.location.href.split('=')[1];
     const loca = location.split('&')[0];
     const header = {
-      Authorization: loca,
+      Authorization: `Bearer ${loca}`,
     };
 
-    fetch('https://10.58.2.227:8000/user/naver_auth', {
+    fetch('https://openapi.naver.com/v1/nid/me', {
       method: 'get',
       headers: header,
     })
       .then(res => res.json())
       .then(res => {
         localStorage.setItem('wtw-token', res.token);
+        console.log(res);
       });
   }
 }

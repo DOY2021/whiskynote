@@ -16,7 +16,7 @@ function TypeChoice() {
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
         </div>
-        <Link to="/signup/email">
+        <Link to="/signup/email/1">
           <Button size="login" variant="primary">
             이메일로 회원가입
           </Button>
