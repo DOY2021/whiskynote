@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { authAPI } from '../../api/auth';
 import Button from '../../shared/Button/Button';
 import S from './SignIn.styled';
 import SignInput from '../../shared/Input/SignInput/SignInput';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
+import KakaoMap from '../Map/KakaoMap';
+import { useCookies } from 'react-cookie';
+import { profileAPI } from '../../api/profile';
+import CSRFToken from '../../shared/CSRFToken';
+import { useUserDispatch, useUserState } from '../../hook/useUserContext';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
+  const history = useHistory();
+
   const [password, setPassword] = useState<string>('');
+  const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -22,18 +30,59 @@ function SignIn() {
     setPassword(value);
   };
 
+  const [checked, setChecked] = useState<boolean>(true);
+
   const [loading, setLoading] = useState(false);
 
   const { errMsg, setLoginErr } = useSignInErr();
+
+  const dispatch = useUserDispatch();
 
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     const response = await authAPI.postLogin({ email, password });
-    console.log(response.data.key);
 
     if (response.type === 'success') {
-      //TODO: redirect to landing page
+      //redirect to landing page
+
+      try {
+        if (!dispatch) return;
+        const profile = await profileAPI.getProfile(response.data.user_id);
+        console.log(profile);
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: response.data.nickname ? response.data.nickname : null,
+            bio: response.data.bio ? response.data.bio : null,
+            profile_photo: response.data.profile_photo
+              ? response.data.profile_photo
+              : null,
+          },
+        });
+        history.push('/');
+      } catch {
+        if (!dispatch) return;
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user_id: response.data.user_id,
+            isLoggedIn: true,
+            nickname: null,
+            bio: null,
+            profile_photo: null,
+          },
+        });
+        history.push('signup/register_profile');
+      }
+
+      if (checked) {
+        setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
+      } else {
+        removeCookie('user_id');
+      }
     } else {
       //No Key for errors
       setLoginErr('Unable to log in with provided credentials.');
@@ -43,6 +92,8 @@ function SignIn() {
 
   return (
     <S.SignInWrapper>
+      {/* <KakaoMap></KakaoMap> */}
+      <CSRFToken />
       <S.SignInTemplate>
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
@@ -50,7 +101,7 @@ function SignIn() {
         <S.SocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-          </S.SocialLoginWrapper>
+        </S.SocialLoginWrapper>
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
@@ -76,7 +127,7 @@ function SignIn() {
             signType="signin"
             errorMsg={errMsg.non_field_errors}
           />
-          
+
           <S.SignInBtnContainer>
             <Button
               size="login"
@@ -86,15 +137,26 @@ function SignIn() {
               로그인
             </Button>
             <Link to="/signup/type-choice">
-              <Button size="login" variant="primary">
+              <Button size="login" variant="primary" type="outline">
                 회원가입
               </Button>
             </Link>
-            <Link to="/">
+
+            <S.ButtonWrapper>
+              <S.CheckBox
+                type="checkbox"
+                onChange={e => {
+                  setChecked(e.target.checked);
+                }}
+                checked={checked}
+              />
+              <S.CheckBoxText onClick={() => setChecked(!checked)}>
+                로그인 상태 유지
+              </S.CheckBoxText>
               <Button size="small" variant="grayscale" type="text">
                 이메일/비밀번호 찾기
               </Button>
-            </Link>
+            </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>
       </S.SignInTemplate>

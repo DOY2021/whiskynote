@@ -56,8 +56,6 @@ INSTALLED_APPS = [
     #swagger
     'rest_framework_swagger',
     'drf_yasg',
-    #friendship
-    'rest_friendship',
     #Apps
     'api.apps.ApiConfig',
 ]
@@ -162,6 +160,7 @@ STATICFILES_DIRS = (
         )
 
 #Media uploads
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

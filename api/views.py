@@ -59,6 +59,9 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
+#Follow-Unfollow
+from api.serializers import UserSerializer, FollowerSerializer, BlockSerializer
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -139,7 +142,7 @@ class CustomConfirmEmailView(APIView):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
         # A React Router Route will handle the failure scenario 
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('')
 
     def get_object(self, queryset=None):
         key = self.kwargs["key"]
@@ -194,8 +197,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         #File Upload
         file_obj = serializer.validated_data['profile_photo']
-        serializer.save(user_id = self.request.user.pk)
-
+        serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
 #ProfileListView
 class ProfileViewSet(generics.ListAPIView):   #/profile/all : simple profile list view
@@ -203,7 +205,7 @@ class ProfileViewSet(generics.ListAPIView):   #/profile/all : simple profile lis
     queryset = Profile.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
 
-class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     parser_classes = (FormParser, MultiPartParser)
@@ -220,26 +222,6 @@ class WhiskyListAPIView(generics.ListAPIView):
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
-
-'''
-class ReactionCreateView(generics.ListCreateAPIView):
-    queryset = Reaction.objects.all()
-    serializer_class = ReactionSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def perform_create(self, serializer):
-        whisky_id = self.request.data["whisky"]
-        serializer.save(user=self.request.user, whisky = Whisky.objects.get(pk=whisky_id))
-
-class ReactionListAPIView(generics.ListAPIView):
-    queryset = Reaction.objects.all()
-    serializer_class = ReactionSerializer
-
-class ReactionDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Reaction.objects.all()
-    serializer_class = ReactionSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
-'''
 
 #Reaction
 @api_view(['GET','POST'])
@@ -292,3 +274,72 @@ def reaction_update_delete(request, reaction_pk):
 
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data)
+
+#Follow-Unfollow
+
+class FollowUnfollowView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+
+    def current_profile(self):
+        try:
+            return Profile.objects.get(user = self.request.user)
+        except Profile.DoesNotExist:
+            raise Http404
+    
+    def other_profile(self, pk):
+        try:
+            return Profile.objects.get(id = pk)
+        except Profile.DoesNotExist:
+            raise Http404
+
+    def post(self, request, format = None):
+
+        pk = request.data.get('id')
+        req_type = request.data.get('type')
+
+        current_profile = self.current_profile()
+        other_profile = self.other_profile(pk)
+
+        if req_type == 'follow':
+            if other_profile.blocked_user.filter(id = current_profile.id).exists():
+                return Response({"Following Fail"}, status = status.HTTP_400_BAD_REQUEST)
+            
+            elif current_profile == other_profile:
+                return Response({"Cannot Follow Yourself"}, status = status.HTTP_400_BAD_REQUEST)
+
+            else:
+                current_profile.following.add(other_profile)
+                other_profile.followers.add(current_profile)
+                return Response({"Following Success"}, status = status.HTTP_200_OK)
+
+        #elif req_type = 'accept':
+        #elif req_type = 'decline':
+
+        elif req_type == 'unfollow':
+            current_profile.following.remove(other_profile)
+            other_profile.followers.remove(current_profile)
+            return Response({"Remove Success"}, status = status.HTTP_200_OK)
+
+        #Fetch followers, following detail and blocked user
+        
+        def patch(self, request, format = None):
+
+            req_type = request.data.get('type')
+
+            if req_type == "follow_detail":
+                serializer = FollowerSerializer(self.current_profile())
+                return Response({"data" : serializer.data}, status = status.HTTP_200_OK)
+
+        #Block and Unblock User
+        def put(self, request, format = None):
+            pk = request.data.get('id')
+            req_type = request.data.get('type')
+
+            if req_type == 'block':
+                self.current_profile().blocked_user.add(self.other_profile(pk))
+                return Response({"Blocked"}, status = status.HTTP_200_OK)
+
+            elif req_type == 'unblock':
+                self.current_profile().blocked_user.remove(self.other_profile(pk))
+                return Response({"Unblocked"}, status = status.HTTP_200_OK)

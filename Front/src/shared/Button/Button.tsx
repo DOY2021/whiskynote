@@ -17,9 +17,11 @@ export interface ButtonProp {
   size?: ButtonSize;
   disabled?: boolean;
   type?: any; // outline, text;
+  btnType?: any; //button, submit
   variant?: ButtonVariant;
   children?: any;
   className?: any;
+  onClick?: (event: React.FormEvent<HTMLButtonElement>) => void;
 }
 
 const sizes = {
@@ -219,6 +221,7 @@ const Btn = styled.button<ButtonProp>`
 function Button({
   size = 'medium',
   type,
+  btnType,
   variant = 'primary',
   disabled = false,
   children,

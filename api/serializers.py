@@ -1,3 +1,7 @@
+#?
+from __future__ import unicode_literals, print_function
+
+#
 from django.contrib.auth import get_user_model, authenticate
 from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
@@ -179,7 +183,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("id", "user", "nickname", "bio", "profile_photo", )
+        fields = ("id", "user", "nickname", "bio", "profile_photo", "followers", "following")
+        read_only_fields = ("followers", "following")
 
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
@@ -187,7 +192,7 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("user", "nickname", "bio", "profile_photo")
+        fields = ("user", "id", "nickname", "bio", "profile_photo")
 
         def create(self, validated_data):
             profile = Profile.objects.create(user = user)
@@ -221,3 +226,29 @@ class ReactionListSerializer(serializers.ModelSerializer):
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
         read_only_fields = ('user',)
 
+
+#Follow-Unfollow
+
+class UserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source = 'user.username')
+    class Meta:
+        model = Profile
+        fields = ("id", "username", "profile_photo")
+        read_only_fields = ("id", "username", "profile_photo")
+
+class FollowerSerializer(serializers.ModelSerializer):
+    followers = UserSerializer(many = True, read_only = True)
+    following = UserSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = Profile
+        fields = ("followers", "following")
+        read_only_fields = ("followers", "following")
+
+class BlockSerializer(serializers.ModelSerializer):
+    blocked_user = UserSerializer(many = True, read_only = True)
+
+    class Meta:
+        model = Profile
+        field = ("blocked_user")
+        read_only_field = ("blocked_user")

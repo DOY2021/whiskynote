@@ -11,23 +11,22 @@ from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
-'''
-def user_path(instance, filename):
-	from random import choice
-	import string
-	arr = [choice(string.ascii_letters) for _ in range(8)]
-	pid = ''.join(arr)
-	extension = filename.split('.')[-1]
-	return '%s/%s.%s' %(instance.owner.username, pid, extension)
-'''
+
+
 class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete= models.CASCADE)
+  user = models.OneToOneField(User, on_delete= models.CASCADE)
 	nickname = models.CharField(max_length = 64, unique=True)
 	bio = models.CharField(max_length = 240, blank = True)
-	profile_photo = models.FileField(default = 'media/default_image.png' ,null = True, blank = True)
+	profile_photo = models.FileField(null = True, blank = True)
 	created_at = models.DateTimeField(auto_now_add = True, editable=False)
 	updated_at = models.DateTimeField(auto_now = True,)
-
+  
+  #Follow-Unfollow
+  followers = models.ManyToManyField('self', blank = True, related_name = 'user_followers', symmetrical = False)
+  following = models.ManyToManyField('self', blank = True, related_name = 'user_following', symmetrical = False)
+  pending_request = models.ManyToManyField('self', blank = True, related_name = 'PendingRequest', symmetrical = False)
+  blocked_user = models.ManyToManyField('self', blank = True, related_name = 'user_blocked', symmetrical = False)
+    
 	def __str__(self):
 		return self.user.username
 

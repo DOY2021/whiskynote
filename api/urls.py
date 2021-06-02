@@ -1,3 +1,7 @@
+#?
+from __future__ import unicode_literals
+
+#
 from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include, re_path
@@ -13,11 +17,14 @@ from api.views import confirm_email, CustomLoginView,\
 
 from rest_framework import permissions
 
-#CustomUrls
+#CustomUrls-RestAuth_related
 from rest_auth.views import (
     LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
     )
 from api.views import PasswordResetConfirmView
+
+#Follow-Unfollow
+from api.views import FollowUnfollowView
 
 urlpatterns = [
     #rest-auth
@@ -42,10 +49,16 @@ urlpatterns = [
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
     
-    #whisky
-    path("whisky/all/", WhiskyListAPIView.as_view(), name = 'whisky'),
-    path("whisky/<int:pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    #Follow-Unfollow
+    #path("profile/<int:pk>/follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
     
+    #Follow-Unfollow
+    path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
+    
+    #whisky
+    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
+    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+  
     #reaction
     #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
     #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
@@ -55,6 +68,5 @@ urlpatterns = [
     ]
 
     #Media setting
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-
+#if settings.DEBUG:
+#    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
