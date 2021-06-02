@@ -200,21 +200,24 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 
 
 class WhiskySerializer(serializers.ModelSerializer):
-    #whisky_rating = serializers.SerializerMethodField()
     class Meta:
         model = Whisky
-        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at", "updated_at")
-'''
-    def get_average_rating(self, obj):
-        average = obj.review_rating.all().aggregate(Avg('review_rating')).get('review_rating__avg')
-        if average == None:
-            return 0
-        return average
-'''
+        fields = '__all__'
+        read_only_fields = ('whisky_ratings','rating_counts')
 
-class ReactionSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    #whisky = serializers.PrimaryKeyRelatedField(read_only=True)
+class ReactionListSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+
+    def get_whisky_name(self, obj):
+        return obj.whisky.name
+
+    userName = serializers.SerializerMethodField()
+
+    def get_userName(self, obj):
+        return obj.user.username
+
     class Meta:
         model = Reaction
-        fields = ("user", "whisky", "review_title", "review_body", "review_rating",)
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        read_only_fields = ('user',)
+

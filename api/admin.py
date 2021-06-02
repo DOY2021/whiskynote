@@ -8,8 +8,8 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("id", "name", "whisky_detail", "whisky_region", "whisky_rating")
-	search_fields = ["name", "whisky_region"]
+	list_display = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_ratings", "rating_counts")
+	search_fields = ["name", "brand", "whisky_region"]
 
 @admin.register(Reaction)
 class ReactionAdmin(admin.ModelAdmin):

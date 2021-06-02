@@ -8,7 +8,8 @@ from rest_auth.registration.views import VerifyEmailView
 from api.views import confirm_email, CustomLoginView,\
     ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
     WhiskyListAPIView, WhiskyDetailAPIView,\
-    ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
+    reaction_list_create, reaction_update_delete
+    #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
 
@@ -39,16 +40,18 @@ urlpatterns = [
     #profile
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
-    path("profile/<int:profile_pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
     
     #whisky
     path("whisky/all/", WhiskyListAPIView.as_view(), name = 'whisky'),
-    path("whisky/<int:whisky_pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/<int:pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
     
     #reaction
-    path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
-    path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
-    path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
+    #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
+    #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
+    #path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
+    path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
+    path('reaction/<int:reaction_pk>/', reaction_update_delete),
     ]
 
     #Media setting

@@ -36,14 +36,10 @@ class Whisky(models.Model):
 	brand = models.CharField(max_length = 100, null = True)
 	whisky_detail = models.TextField(null=True, blank = True)
 	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-	whisky_rating = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(10)], default = 0)
-	rating_count = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+	whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
+	rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
-	class Meta:
-		verbose_name = 'whisky'
-		verbose_name_plural = 'whiskies'
-		ordering  = ['name',]
 
 	def __str__(self):
 		return self.name
@@ -53,11 +49,10 @@ class Reaction(models.Model):
 	whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
 	review_title = models.CharField(max_length=255)
 	review_body = models.TextField()
-	review_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(10)])
+	review_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(5)])
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
 
 	class Meta:
 		ordering = ["-created_at"]
-		default_related_name = "reaction"

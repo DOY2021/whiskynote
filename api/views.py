@@ -2,7 +2,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
 #Test API
@@ -10,7 +10,7 @@ from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import FormParser, MultiPartParser, FileUploadParser
 
 #Custom Login
@@ -42,7 +42,7 @@ from allauth.account import app_settings, signals
 
 #API
 from api.models import Profile, Whisky, Reaction
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, ReactionSerializer
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, ReactionListSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -221,6 +221,7 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
+'''
 class ReactionCreateView(generics.ListCreateAPIView):
     queryset = Reaction.objects.all()
     serializer_class = ReactionSerializer
@@ -238,3 +239,56 @@ class ReactionDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reaction.objects.all()
     serializer_class = ReactionSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+'''
+
+#Reaction
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def reaction_list_create(request, whisky_pk):
+    if request.method == 'GET':
+        reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
+        serializer = ReactionListSerializer(reactions, many = True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ReactionListSerializer(data = request.data)
+        if serializer.is_valid(raise_exception = True):
+            whisky = get_object_or_404(Whisky, pk = whisky_pk)
+            
+            cur_counts = whisky.rating_counts
+            cur_rating = whisky.whisky_ratings * cur_counts
+            print(cur_counts)
+
+            new_total_rating = cur_rating + request.data.get('review_rating')
+            cur_counts = cur_counts+1
+            new_rating = round(new_total_rating/cur_counts, 2)
+            whisky.rating_counts = cur_counts
+            whisky.whisky_ratings = new_rating
+            whisky.save()
+
+            serializer.save(user = request.user, whisky = whisky)
+
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def reaction_update_delete(request, reaction_pk):
+    reaction = get_object_or_404(Reaction, pk = reaction_pk)
+    if not reaction.user == request.user:
+        return Response({'message':'No permission'})
+
+    if request.method == 'PUT':
+        serializer = ReactionListSerializer(reaction, data = request.data)
+        if serializer.is_valid(raise_exception = True):
+            reaction = get_object_or_404(Reaction, pk = reaction_pk)
+            whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
+            cur_rating = whisky.whisky_ratings * whisky.rating_counts
+            cur_counts = whisky.rating_counts
+            cur_rating = cur_rating - reaction.review_rating
+            cur_rating = cur_rating + request.data.get('review_rating')
+            new_rating = round(cur_rating/cur_counts, 2)
+            whisky.whisky_ratings = new_rating
+            whisky.save()
+
+            serializer.save(user = request.user, whisky = whisky)
+            return Response(serializer.data)
