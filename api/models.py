@@ -27,6 +27,12 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, editable=False)
     updated_at = models.DateTimeField(auto_now = True,)
 
+    #Follow-Unfollow
+    followers = models.ManyToManyField('self', blank = True, related_name = 'user_followers', symmetrical = False)
+    following = models.ManyToManyField('self', blank = True, related_name = 'user_following', symmetrical = False)
+    pending_request = models.ManyToManyField('self', blank = True, related_name = 'PendingRequest', symmetrical = False)
+    blocked_user = models.ManyToManyField('self', blank = True, related_name = 'user_blocked', symmetrical = False)
+
     def __str__(self):
         return self.user.username
 
