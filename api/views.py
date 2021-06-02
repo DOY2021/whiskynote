@@ -57,15 +57,6 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
-#Friendship
-from django.apps import apps
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
-from friendship.models import Friend, FriendshipRequest
-from api.serializers import FriendRequestSerializer
-
-config = apps.get_app_config('rest_friendship')
-
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -230,76 +221,3 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = WhiskySerializer
 
 
-#Friendship
-class FriendViewSet(viewsets.ViewSet):
-    permission_classes = config.permission_classes
-    serializer_class = config.user_serializer
-
-    def list(self, request):
-        friends = Friend.objects.friends(request.user)
-        serializer = self.serializer_class(friends, many = True)
-        return Response(serializer.data)
-
-    @action(detail=False)
-    def requests(self, request):
-        friend_requests = Friend.objects.unrejected_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
-
-    @action(detail=False)
-    def sent_requests(self, request):
-        friend_requests = Friend.objects.sent_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
-
-    @action(detail=False)
-    def rejected_requests(self, request):
-        friend_requests = Friend.objects.rejected_requests(user=request.user)
-        return Response(FriendRequestSerializer(friend_requests, many = True).data)
-
-    def create(self, request):
-        friend_obj = Friend.objects.add_friend(
-                request.user,
-                get_object_or_404(get_user_model(), pk=request.data['user_id']),
-                message = request.data.get('message', '')
-                )
-
-        return Response(
-                FriendRequestSerializer(friend_obj).data,
-                status.HTTP_201_CREATED
-                )
-
-    def destroy(self, request, pk=None):
-        user_friend = get_object_or_404(get_user_model(), pk=pk)
-
-        if Friend.objects.remove_friend(request.user, user_friend):
-            message = 'deleted'
-            status_code = status.HTTP_204_NO_CONTENT
-        else:
-            message = 'not_deleted'
-            status_code = status.HTTP_304_NOT_MODIFIED
-
-        return Response(
-                {"message": message},
-                status = status_code
-                )
-
-class FriendRequestViewSet(viewsets.ViewSet):
-    
-    permission_classes = config.permission_classes
-
-    @action(methods=['POST'], detail=True)
-    def accept(self, request, pk=None):
-        friendship_request = get_object_or_404(FriendshipRequest, pk=pk, to_user=request.user)
-        friendship_request.accept()
-        return Response(
-                FriendRequestSerializer(friendship_request).data,
-                status.HTTP_201_CREATED
-                )
-
-    @action(methods=['POST'], detail=True)
-    def reject(self, request, pk=None):
-        friendship_request = get_object_or_404(FriendshipRequest, pk=pk, to_user=request.user)
-        friendship_request.reject()
-        return Response(
-                FriendRequestSerialzer(friendship_request).data,
-                status.HTTP_201_CREATED
-                )

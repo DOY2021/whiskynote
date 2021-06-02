@@ -28,9 +28,6 @@ UserDetailsSerializer = import_callable(
     rest_auth_serializers.get('USER_DETAILS_SERIALIZER', DefaultUserDetailsSerializer)
 )
 
-#FriendRequestSerializer
-from friendship.models import FriendshipRequest
-
 
 # Get the UserModel
 UserModel = get_user_model()
@@ -212,14 +209,3 @@ class WhiskySerializer(serializers.ModelSerializer):
         fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
 
 
-#Friendship
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = ('pk', 'username', 'email')
-
-class FriendRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FriendshipRequest
-        fields = ("id", "from_user", "to_user", "message", "created_at", "rejected_at")

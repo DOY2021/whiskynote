@@ -20,15 +20,15 @@ def user_path(instance, filename):
 	return '%s/%s.%s' %(instance.owner.username, pid, extension)
 '''
 class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete= models.CASCADE)
-	nickname = models.CharField(max_length = 64, unique=True)
-	bio = models.CharField(max_length = 240, blank = True)
-	profile_photo = models.FileField(null = True, blank = True)
-	created_at = models.DateTimeField(auto_now_add = True, editable=False)
-	updated_at = models.DateTimeField(auto_now = True,)
+    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    nickname = models.CharField(max_length = 64, unique=True)
+    bio = models.CharField(max_length = 240, blank = True)
+    profile_photo = models.FileField(null = True, blank = True)
+    created_at = models.DateTimeField(auto_now_add = True, editable=False)
+    updated_at = models.DateTimeField(auto_now = True,)
 
-	def __str__(self):
-		return self.user.username
+    def __str__(self):
+        return self.user.username
 
 class Whisky(models.Model):
 	name = models.CharField(max_length = 100)
