@@ -15,12 +15,13 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky
+from api.models import Profile, Whisky, Reaction
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
 from rest_auth.utils import import_callable
 from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -198,7 +199,6 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
             return profile
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Profile
         fields = ("profile_photo", )
@@ -207,7 +207,24 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
-        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+        fields = '__all__'
+        read_only_fields = ('whisky_ratings','rating_counts')
+
+class ReactionListSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+
+    def get_whisky_name(self, obj):
+        return obj.whisky.name
+
+    userName = serializers.SerializerMethodField()
+
+    def get_userName(self, obj):
+        return obj.user.username
+
+    class Meta:
+        model = Reaction
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        read_only_fields = ('user',)
 
 
 #Follow-Unfollow
