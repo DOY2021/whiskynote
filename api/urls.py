@@ -24,7 +24,7 @@ from rest_auth.views import (
 from api.views import PasswordResetConfirmView
 
 #Follow-Unfollow
-from api.views import FollowUnfollowView
+from api.views import FollowView, FollowUnfollowView
 
 urlpatterns = [
     #rest-auth
@@ -48,17 +48,17 @@ urlpatterns = [
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
-    
-    #Follow-Unfollow
-    #path("profile/<int:pk>/follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
-    
+
+    #Follow
+    path("follow/", FollowView.as_view(), name = "follow"),
+
     #Follow-Unfollow
     path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
-    
+
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-  
+
     #reaction
     #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
     #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),

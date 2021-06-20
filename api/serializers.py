@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction
+from api.models import Profile, Whisky, Reaction, Follow
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -226,8 +226,14 @@ class ReactionListSerializer(serializers.ModelSerializer):
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
         read_only_fields = ('user',)
 
+#Follow(New)
 
-#Follow-Unfollow
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = ("following", "follower")
+
+#Follow-Unfollow(Old)
 
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source = 'user.username')
