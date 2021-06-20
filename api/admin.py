@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction
+from api.models import Profile, Whisky, Reaction, Follow
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -8,6 +8,16 @@ from django.contrib.auth.models import User
 class ProfileInline(admin.StackedInline):
 	model = Profile
 	con_delete = False
+
+class FollowInline(admin.StackedInline):
+    model = Follow
+    fk_name = "following"
+    con_delete = False
+
+class FollowerInline(admin.StackedInline):
+    model = Follow
+    fk_name = "follower"
+    con_delete = False
 
 #class FriendInline(admin.StackedInline):
 #    model = Friend
@@ -33,7 +43,7 @@ class ProfileInline(admin.StackedInline):
 #
 
 class CustomUserAdmin(UserAdmin):
-	inline = (ProfileInline)
+	inlines = (ProfileInline, FollowInline, FollowerInline)
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

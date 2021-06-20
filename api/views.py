@@ -60,8 +60,7 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 #Follow-Unfollow
-from api.serializers import UserSerializer, FollowerSerializer, BlockSerializer
-
+from api.serializers import UserSerializer, FollowerSerializer, BlockSerializer, FollowSerializer
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -235,7 +234,7 @@ def reaction_list_create(request, whisky_pk):
         serializer = ReactionListSerializer(data = request.data)
         if serializer.is_valid(raise_exception = True):
             whisky = get_object_or_404(Whisky, pk = whisky_pk)
-            
+
             cur_counts = whisky.rating_counts
             cur_rating = whisky.whisky_ratings * cur_counts
             print(cur_counts)
@@ -275,7 +274,35 @@ def reaction_update_delete(request, reaction_pk):
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data)
 
-#Follow-Unfollow
+#Follow (new - in progress)
+
+class FollowView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = FollowSerializer
+
+    def post(self, request, *args, **kwargs):
+        print(self.request.user.id)
+        print(request.data['follower'])
+        if request.data['follower'] == self.request.user.id:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(
+                    {"detail": ("Successfully Followed")}
+                    )
+        else:
+            return Response(
+                    {"detail": ("Bad Request")}
+                    )
+
+#        serializer = self.get_serializer(data=request.data)
+#        serializer.is_valid(raise_exception=True)
+#        serializer.save()
+#        return Response(
+#            {"detail": ("Successfully Followed")}
+#        )
+
+#Follow-Unfollow (old)
 
 class FollowUnfollowView(APIView):
     permission_classes = [IsAuthenticated]
@@ -303,7 +330,7 @@ class FollowUnfollowView(APIView):
         if req_type == 'follow':
             if other_profile.blocked_user.filter(id = current_profile.id).exists():
                 return Response({"Following Fail"}, status = status.HTTP_400_BAD_REQUEST)
-            
+ 
             elif current_profile == other_profile:
                 return Response({"Cannot Follow Yourself"}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -321,7 +348,7 @@ class FollowUnfollowView(APIView):
             return Response({"Remove Success"}, status = status.HTTP_200_OK)
 
         #Fetch followers, following detail and blocked user
-        
+
         def patch(self, request, format = None):
 
             req_type = request.data.get('type')
