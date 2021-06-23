@@ -41,7 +41,7 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction
+from api.models import Profile, Whisky, Reaction, Follow
 from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, ReactionListSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
@@ -281,26 +281,47 @@ class FollowView(GenericAPIView):
     serializer_class = FollowSerializer
 
     def post(self, request, *args, **kwargs):
-        print(self.request.user.id)
-        print(request.data['follower'])
-        if request.data['follower'] == self.request.user.id:
+        #Exc) 중복 팔로우 불가
+        if Follow.objects.filter(follower = request.data['follower'], following = request.data['following']):
+            return Response(
+                    {"detail": ("Already Following User")}
+                    )
+        #Exc) 자기자신을 follow 할 수 없음
+        elif request.data['follower'] == request.data['following']: 
+            return Response(
+                    {"detail": ("Can't follow yourself")}
+                    )
+        else:
             serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(
                     {"detail": ("Successfully Followed")}
                     )
-        else:
-            return Response(
-                    {"detail": ("Bad Request")}
-                    )
 
+#    def post(self, request, *args, **kwargs):
+#        print(self.request.user.id)
+#        print(request.data['follower'])
+#        if request.data['follower'] == self.request.user.id:
+#            print("Yes")
+#            serializer = self.get_serializer(data=request.data)
+#            serializer.is_valid(raise_exception=True)
+#            serializer.save()
+#            return Response(
+#                    {"detail": ("Successfully Followed")}
+#                    )
+#        else:
+#            return Response(
+#                    {"detail": ("Bad Request")}
+#                    )
+#
+#Plain Code
+#    def post(self, request, *args, **kwargs):
 #        serializer = self.get_serializer(data=request.data)
 #        serializer.is_valid(raise_exception=True)
 #        serializer.save()
 #        return Response(
-#            {"detail": ("Successfully Followed")}
-#        )
+#                {"detail": ("Succesfully Followed")}
+#                )
 
 #Follow-Unfollow (old)
 
@@ -330,7 +351,7 @@ class FollowUnfollowView(APIView):
         if req_type == 'follow':
             if other_profile.blocked_user.filter(id = current_profile.id).exists():
                 return Response({"Following Fail"}, status = status.HTTP_400_BAD_REQUEST)
- 
+
             elif current_profile == other_profile:
                 return Response({"Cannot Follow Yourself"}, status = status.HTTP_400_BAD_REQUEST)
 
