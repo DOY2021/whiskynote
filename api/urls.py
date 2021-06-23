@@ -23,8 +23,8 @@ from rest_auth.views import (
     )
 from api.views import PasswordResetConfirmView
 
-#Follow-Unfollow
-from api.views import FollowView, FollowUnfollowView
+#Follow
+from api.views import FollowView
 
 urlpatterns = [
     #rest-auth
@@ -51,9 +51,6 @@ urlpatterns = [
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
-
-    #Follow-Unfollow
-    path("follow-unfollow/", FollowUnfollowView.as_view(), name = 'follow-unfollow'),
 
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),

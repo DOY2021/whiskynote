@@ -233,28 +233,3 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ("following", "follower")
 
-#Follow-Unfollow(Old)
-
-class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source = 'user.username')
-    class Meta:
-        model = Profile
-        fields = ("id", "username", "profile_photo")
-        read_only_fields = ("id", "username", "profile_photo")
-
-class FollowerSerializer(serializers.ModelSerializer):
-    followers = UserSerializer(many = True, read_only = True)
-    following = UserSerializer(many = True, read_only = True)
-
-    class Meta:
-        model = Profile
-        fields = ("followers", "following")
-        read_only_fields = ("followers", "following")
-
-class BlockSerializer(serializers.ModelSerializer):
-    blocked_user = UserSerializer(many = True, read_only = True)
-
-    class Meta:
-        model = Profile
-        field = ("blocked_user")
-        read_only_field = ("blocked_user")
