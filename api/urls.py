@@ -51,7 +51,7 @@ urlpatterns = [
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
-    path("follow/1", FollowerDetailView.as_view(), name = 'follow_detail'),
+    path("follow/<int:pk>", FollowerDetailView.as_view(), name = 'follow_detail'),
 
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),

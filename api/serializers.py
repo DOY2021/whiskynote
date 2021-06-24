@@ -231,3 +231,6 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ("following", "follower")
 
+#FollowerViewSerializer 따로 만들어야하나?
+
+
