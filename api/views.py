@@ -295,6 +295,7 @@ class FollowView(GenericAPIView):
                         )
             else:
                 serializer = self.get_serializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
                 serializer.save()
                 return Response(
                         {"detail": ("Successfully Followed")}
@@ -312,4 +313,10 @@ class FollowView(GenericAPIView):
 #        return Response(
 #                {"detail": ("Succesfully Followed")}
 #                )
+
+
+#Work in Progress
+class FollowerDetailView(generics.ListAPIView):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
 

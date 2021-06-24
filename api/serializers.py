@@ -183,9 +183,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("id", "user", "nickname", "bio", "profile_photo", "followers", "following")
-        read_only_fields = ("followers", "following")
-
+        fields = ("id", "user", "nickname", "bio", "profile_photo")
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -232,4 +230,7 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ("following", "follower")
+
+#FollowerViewSerializer 따로 만들어야하나?
+
 
