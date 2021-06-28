@@ -25,17 +25,17 @@ class Profile(models.Model):
         return self.user.username
 
 class Whisky(models.Model):
-	name = models.CharField(max_length = 100)
-	brand = models.CharField(max_length = 100, null = True)
-	whisky_detail = models.TextField(null=True, blank = True)
-	whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-	whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
-	rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-	created_at = models.DateTimeField(auto_now_add = True)
-	updated_at = models.DateTimeField(auto_now = True)
+    name = models.CharField(max_length = 100)
+    brand = models.CharField(max_length = 100, null = True)
+    whisky_detail = models.TextField(null=True, blank = True)
+    whisky_region = models.CharField(max_length = 100, null = True, blank = True)
+    whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
+    rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
 class Reaction(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -55,3 +55,4 @@ class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
     #Functions
     created = models.DateTimeField(auto_now_add = True)
+

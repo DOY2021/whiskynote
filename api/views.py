@@ -60,7 +60,15 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 #Follow-Unfollow
-from api.serializers import FollowSerializer
+from api.serializers import FollowSerializer, FollowerListSerializer
+
+#Get UserModel
+from django.contrib.auth.models import User
+UserModel = get_user_model()
+
+#SearchAPI
+from rest_framework import filters
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -316,7 +324,15 @@ class FollowView(GenericAPIView):
 
 
 #Work in Progress
-class FollowerDetailView(generics.ListAPIView):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
+class FollowerListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = FollowerListSerializer
 
+
+#SearchAPI - WorkInProgress
+
+class WhiskySearchAPIView(generics.ListAPIView):
+    search_fields = ['name', 'brand']
+    filter_backends = (filters.SearchFilter,)
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskySerializer
