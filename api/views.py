@@ -60,7 +60,8 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 #Follow-Unfollow
-from api.serializers import FollowSerializer
+from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -316,7 +317,17 @@ class FollowView(GenericAPIView):
 
 
 #Work in Progress
+class FollowingDetailView(generics.ListAPIView):
+    serializer_class = FollowingSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(follower_id = pk)
+
 class FollowerDetailView(generics.ListAPIView):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
+    serializer_class = FollowerSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(following_id = pk)
 
