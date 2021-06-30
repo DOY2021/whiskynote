@@ -60,7 +60,7 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 #Follow-Unfollow
-from api.serializers import FollowSerializer, FollowerListSerializer
+from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
 
 #Get UserModel
 from django.contrib.auth.models import User
@@ -68,6 +68,7 @@ UserModel = get_user_model()
 
 #SearchAPI
 from rest_framework import filters
+
 
 
 #Custom Login
@@ -328,7 +329,16 @@ class FollowView(GenericAPIView):
 
 
 #Work in Progress
-class FollowerListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = FollowerListSerializer
+class FollowingDetailView(generics.ListAPIView):
+    serializer_class = FollowingSerializer
 
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(follower_id = pk)
+
+class FollowerDetailView(generics.ListAPIView):
+    serializer_class = FollowerSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(following_id = pk)
