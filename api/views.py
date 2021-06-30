@@ -225,6 +225,9 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+    #Search Function Added
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'brand']
 
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
@@ -328,11 +331,3 @@ class FollowerListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = FollowerListSerializer
 
-
-#SearchAPI - WorkInProgress
-
-class WhiskySearchAPIView(generics.ListAPIView):
-    search_fields = ['name', 'brand']
-    filter_backends = (filters.SearchFilter,)
-    queryset = Whisky.objects.all()
-    serializer_class = WhiskySerializer

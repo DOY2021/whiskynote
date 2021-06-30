@@ -241,5 +241,3 @@ class FollowerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("user", "followers", "following")
-
-#SearchAPI: utilizing WhiskySerializer
