@@ -225,9 +225,10 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
-    #Search Function Added
-    filter_backends = [filters.SearchFilter]
+    #Search Function Added - API extraction possible (with queryset, serializer_class)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'brand']
+    ordering_fields = ['rating_counts', 'updated_at']
 
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()

@@ -56,3 +56,4 @@ class Follow(models.Model):
     #Functions
     created = models.DateTimeField(auto_now_add = True)
 
+
