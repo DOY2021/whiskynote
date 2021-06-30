@@ -260,14 +260,19 @@ class ReactionListCreateView(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def reaction_update_delete(request, reaction_pk):
     reaction = get_object_or_404(Reaction, pk = reaction_pk)
     if not reaction.user == request.user:
         return Response({'message':'No permission'})
 
-    if request.method == 'PUT':
+    if request.method == 'GET':
+        reactions = Reaction.objects.all().filter(pk = reaction_pk)
+        serializer = ReactionListSerializer(reactions, many = True)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
         serializer = ReactionListSerializer(reaction, data = request.data)
         if serializer.is_valid(raise_exception = True):
             reaction = get_object_or_404(Reaction, pk = reaction_pk)
@@ -283,6 +288,7 @@ def reaction_update_delete(request, reaction_pk):
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
 '''
 class ReactionUpdateDeleteView(APIView):
     permission_classes = [IsAuthenticated]
