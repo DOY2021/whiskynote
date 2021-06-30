@@ -30,8 +30,10 @@ UserDetailsSerializer = import_callable(
 )
 
 
-# Get the UserModel
+# Get UserModel
+from django.contrib.auth.models import User
 UserModel = get_user_model()
+
 
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_blank=True)
@@ -233,4 +235,9 @@ class FollowSerializer(serializers.ModelSerializer):
 
 #FollowerViewSerializer 따로 만들어야하나?
 
+class FollowerListSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
 
+    class Meta:
+        model = User
+        fields = ("user", "followers", "following")

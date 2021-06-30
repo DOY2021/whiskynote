@@ -60,7 +60,15 @@ sensitive_post_parameters_m = method_decorator(
 )
 
 #Follow-Unfollow
-from api.serializers import FollowSerializer
+from api.serializers import FollowSerializer, FollowerListSerializer
+
+#Get UserModel
+from django.contrib.auth.models import User
+UserModel = get_user_model()
+
+#SearchAPI
+from rest_framework import filters
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -217,6 +225,10 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+    #Search Function Added - API extraction possible (with queryset, serializer_class)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'brand']
+    ordering_fields = ['rating_counts', 'updated_at']
 
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
@@ -316,7 +328,7 @@ class FollowView(GenericAPIView):
 
 
 #Work in Progress
-class FollowerDetailView(generics.ListAPIView):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
+class FollowerListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = FollowerListSerializer
 
