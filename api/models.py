@@ -1,14 +1,12 @@
 from django.conf import settings
-
 from django.db import models
-
 from rest_framework.authtoken.models import Token as DefaultTokenModel
-
 from .utils import import_callable
-
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
+
+#rest_auth
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
 

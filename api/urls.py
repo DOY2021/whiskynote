@@ -11,7 +11,7 @@ from django.conf import settings
 from rest_auth.registration.views import VerifyEmailView
 from api.views import confirm_email, CustomLoginView,\
     ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
-    WhiskyListAPIView, WhiskyDetailAPIView,\
+    WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView,\
     reaction_list_create, reaction_update_delete
     #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
@@ -55,10 +55,10 @@ urlpatterns = [
     path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
     path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
 
-
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/new", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
 
     #reaction
     #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
