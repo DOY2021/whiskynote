@@ -209,6 +209,7 @@ class WhiskySerializer(serializers.ModelSerializer):
         read_only_fields = ('whisky_ratings','rating_counts')
 
 class ReactionListSerializer(serializers.ModelSerializer):
+    '''
     whisky_name = serializers.SerializerMethodField()
 
     def get_whisky_name(self, obj):
@@ -218,10 +219,11 @@ class ReactionListSerializer(serializers.ModelSerializer):
 
     def get_userName(self, obj):
         return obj.user.username
+    '''
 
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        fields = ('id','user','whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 #Follow(New)
