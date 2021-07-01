@@ -42,7 +42,7 @@ from allauth.account import app_settings, signals
 
 #API
 from api.models import Profile, Whisky, Reaction, Follow
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, ReactionListSerializer
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, ReactionListSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -235,6 +235,13 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
+#Whisky Create (Open-type DB function)
+#Admin authorization function should be added
+class WhiskyCreateAPIView(generics.CreateAPIView):
+    model = Whisky
+    serializer_class = WhiskyCreateSerializer
+
+
 #Reaction
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
@@ -342,3 +349,5 @@ class FollowerDetailView(generics.ListAPIView):
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
+
+

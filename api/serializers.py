@@ -203,12 +203,19 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
-
+#General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
 class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         fields = '__all__'
         read_only_fields = ('whisky_ratings','rating_counts')
+
+#Whisky Create Serializer (Open-type DB function)
+class WhiskyCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Whisky
+        #Update fields according to DB categories
+        fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
 
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
