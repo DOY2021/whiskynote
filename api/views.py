@@ -52,13 +52,6 @@ from api.serializers import PasswordResetConfirmSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-
-sensitive_post_parameters_m = method_decorator(
-    sensitive_post_parameters(
-        'password', 'old_password', 'new_password1', 'new_password2'
-    )
-)
-
 #Follow-Unfollow
 from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
 
@@ -70,10 +63,15 @@ UserModel = get_user_model()
 from rest_framework import filters
 
 
+sensitive_post_parameters_m = method_decorator(
+    sensitive_post_parameters(
+        'password', 'old_password', 'new_password1', 'new_password2'
+    )
+)
+
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
-
     permission_classes = (AllowAny,)
     serializer_class = CustomLoginSerializer
     token_model = TokenModel
@@ -143,7 +141,6 @@ class CustomLoginView(GenericAPIView):
 
 #Email Confirmation
 class CustomConfirmEmailView(APIView):
-
     permission_classes = [AllowAny]
 
     def get(self, *args, **kwargs):
@@ -196,7 +193,8 @@ class PasswordResetConfirmView(GenericAPIView):
             {"detail": ("Password has been reset with the new password.")}
         )
 
-#ProfileCreateView
+
+#Profile
 class ProfileCreateAPIView(generics.CreateAPIView):
     model = Profile
     serializer_class = ProfileCreateSerializer
@@ -207,8 +205,8 @@ class ProfileCreateAPIView(generics.CreateAPIView):
         file_obj = serializer.validated_data['profile_photo']
         serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
-#ProfileListView
-class ProfileViewSet(generics.ListAPIView):   #/profile/all : simple profile list view
+class ProfileViewSet(generics.ListAPIView):
+    #url: profile/all
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = (IsOwnerOrReadOnly,)
@@ -223,6 +221,7 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
         return self.update(request, *args, **kwargs)
 
 
+#Whisky DB
 class WhiskyListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
@@ -294,8 +293,8 @@ def reaction_update_delete(request, reaction_pk):
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data)
 
-#Follow (New) 
 
+#Follow (New) 
 class FollowView(GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = FollowSerializer
@@ -325,7 +324,7 @@ class FollowView(GenericAPIView):
                     {"detail": ("Bad Request")}
                     )
 
-#Plain Code
+#Follow - Plain Code
 #    def post(self, request, *args, **kwargs):
 #        serializer = self.get_serializer(data=request.data)
 #        serializer.is_valid(raise_exception=True)
@@ -334,8 +333,6 @@ class FollowView(GenericAPIView):
 #                {"detail": ("Succesfully Followed")}
 #                )
 
-
-#Work in Progress
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
 

@@ -179,6 +179,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         return self.set_password_form.save()
 
 
+#Profile
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
@@ -203,6 +204,8 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+
+#WhiskyDB
 #General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
 class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
@@ -233,8 +236,8 @@ class ReactionListSerializer(serializers.ModelSerializer):
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
         read_only_fields = ('user',)
 
-#Follow(New)
 
+#Follow(New)
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
