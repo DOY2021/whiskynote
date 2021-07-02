@@ -254,9 +254,7 @@ class ReactionListCreateView(APIView):
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
-
             serializer.save(user = request.user, whisky = whisky)
-
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
