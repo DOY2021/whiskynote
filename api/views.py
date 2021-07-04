@@ -42,7 +42,7 @@ from allauth.account import app_settings, signals
 
 #API
 from api.models import Profile, Whisky, Reaction, Follow
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, ReactionListSerializer
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -62,6 +62,8 @@ UserModel = get_user_model()
 #SearchAPI
 from rest_framework import filters
 
+#Whisky Confirm
+from rest_framework.permissions import IsAdminUser
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -223,7 +225,7 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
 
 #Whisky DB
 class WhiskyListAPIView(generics.ListAPIView):
-    queryset = Whisky.objects.all()
+    queryset = Whisky.objects.filter(confirmed = True)
     serializer_class = WhiskySerializer
     #Search Function Added - API extraction possible (with queryset, serializer_class)
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
@@ -239,6 +241,25 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class WhiskyCreateAPIView(generics.CreateAPIView):
     model = Whisky
     serializer_class = WhiskyCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+#            serializer.save(user = request.user, whisky = whisky)
+#            return Response(serializer.data, status = status.HTTP_201_CREATED)
+#serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
+
+#Whisky Confirm
+
+class WhiskyConfirmListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskySerializer
+    permission_class = (IsAdminUser)
+
+class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskySerializer
+    permission_class = (IsAdminUser)
 
 
 #Reaction
