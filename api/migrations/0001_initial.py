@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Whisky',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('brand', models.CharField(max_length=100, null=True)),
                 ('whisky_detail', models.TextField(blank=True, null=True)),
@@ -48,12 +48,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nickname', models.CharField(max_length=64, unique=True)),
                 ('bio', models.CharField(blank=True, max_length=240)),
                 ('profile_photo', models.FileField(blank=True, null=True, upload_to='')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
+                ('blocked_user', models.ManyToManyField(blank=True, related_name='user_blocked', to='api.Profile')),
+                ('followers', models.ManyToManyField(blank=True, related_name='user_followers', to='api.Profile')),
+                ('following', models.ManyToManyField(blank=True, related_name='user_following', to='api.Profile')),
+                ('pending_request', models.ManyToManyField(blank=True, related_name='PendingRequest', to='api.Profile')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
