@@ -223,31 +223,21 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
-class ReactionListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self, whisky_pk):
-        try:
-            return Reaction.objects.all().filter(whisky_id = whisky_pk)
-        except Reaction.DoesNotExist:
-            raise Http404
-
-    def get(self, request, whisky_pk, format = None):
-        reactions = self.get_object(whisky_pk)
+#Reaction
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def reaction_list_create(request, whisky_pk):
+    if request.method == 'GET':
+        reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
         serializer = ReactionListSerializer(reactions, many = True)
         return Response(serializer.data)
-
-
-    def post(self, request, whisky_pk, format = None):
-        reactions = self.get_object(whisky_pk)
-        serializer = ReactionListSerializer(reactions, data = request.data)
+        
+    elif request.method == 'POST':
+        serializer = ReactionListSerializer(data = request.data)
         if serializer.is_valid(raise_exception = True):
             whisky = get_object_or_404(Whisky, pk = whisky_pk)
-
             cur_counts = whisky.rating_counts
             cur_rating = whisky.whisky_ratings * cur_counts
-            print(cur_counts)
-
             new_total_rating = cur_rating + request.data.get('review_rating')
             cur_counts = cur_counts+1
             new_rating = round(new_total_rating/cur_counts, 2)
@@ -257,6 +247,7 @@ class ReactionListCreateView(APIView):
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -287,36 +278,21 @@ def reaction_update_delete(request, reaction_pk):
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-'''
-class ReactionUpdateDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    elif request.method == 'DELETE':
+        reaction = get_object_or_404(Reaction, pk = reaction_pk)
+        whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
+        cur_rating = whisky.whisky_ratings * whisky.rating_counts
+        cur_counts = whisky.rating_counts
+        cur_rating = cur_rating - reaction.review_rating
+        new_rating = round(cur_rating/cur_counts, 2)
+        cur_counts -= 1
+        whisky.rating_counts = cur_counts
+        whisky.whisky_ratings = new_rating
+        whisky.save()
+        reaction.delete()
+        return Response({'message':'Review: %d Deleted' %reaction_pk})
 
-    def get_object(self, whisky_pk):
-        try:
-            return Reaction.objects.all().filter(whisky_id = whisky_pk)
-        except Reaction.DoesNotExist:
-            raise Http404
 
-    def put(self, request, reaction_pk, format = None):
-        serializer = ReactionListSerializer(reactions, data = request.data)
-        if serializer.is_valid(raise_exception = True):
-            reaction = get_object_or_404(Reaction, pk = reaction_pk)
-            if not reaction.user == request.user:
-                return Response({'message':'No permission'})
-
-            whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
-            cur_rating = whisky.whisky_ratings * whisky.rating_counts
-            cur_counts = whisky.rating_counts
-            cur_rating = cur_rating - reaction.review_rating
-            cur_rating = cur_rating + request.data.get('review_rating')
-            new_rating = round(cur_rating/cur_counts, 2)
-            whisky.whisky_ratings = new_rating
-            whisky.save()
-
-            serializer.save(user = request.user, whisky = whisky)
-            return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-'''
 #Follow (New) 
 
 class FollowView(GenericAPIView):
