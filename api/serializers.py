@@ -220,6 +220,12 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
         #Update fields according to DB categories
         fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
 
+#Whisky Confirm
+class WhiskyConfirmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Whisky
+        fields = '__all__'
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
 
