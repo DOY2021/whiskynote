@@ -12,10 +12,15 @@ TokenModel = import_callable(
 
 
 class Profile(models.Model):
+    #required at profile creation
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     nickname = models.CharField(max_length = 64, unique=True)
     bio = models.CharField(max_length = 240, blank = True)
     profile_photo = models.FileField(null = True, blank = True)
+    #credit point & tier
+    credit = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+    tier = models.CharField(max_length = 64, null = True)
+    #auto_add fields
     created_at = models.DateTimeField(auto_now_add = True, editable=False)
     updated_at = models.DateTimeField(auto_now = True)
 
