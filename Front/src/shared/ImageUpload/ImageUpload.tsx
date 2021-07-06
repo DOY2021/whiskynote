@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
 
-const convertNestedObjectToArray = (nestedObj) => {
+const convertNestedObjectToArray = nestedObj => {
   Object.keys(nestedObj).map(key => nestedObj[key]);
 };
 
@@ -79,18 +81,14 @@ const ImageUpload = ({
           return (
             <S.PreviewContainer key={fileName}>
               <div>
+              <S.DeleteBtn onClick={() => removeFile(fileName)}>
+              <FaTimes size={15}/>
+              </S.DeleteBtn>
                 {isImageFile && (
-                  <S.ImagePreview
-                    src={URL.createObjectURL(file)}
-                    alt={`file preview ${index}`}
-                  ></S.ImagePreview>
+        
+                  <ImagePreview file={file} index={index}></ImagePreview>
                 )}
-
-                {/* {!isImageFile && (
-                  <div>
-                    <div onClick={() => removeFile(fileName)}>x</div>
-                  </div>
-                )} */}
+             
               </div>
             </S.PreviewContainer>
           );

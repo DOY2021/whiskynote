@@ -46,17 +46,24 @@ const CameraIcon = styled.img`
   margin-left: 23px;
 `;
 
+const ImageDeleteIcon = styled.img`
+  width:40px;
+  height:40px;
+`
+
+const DeleteContainer = styled.div`
+width:100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0.5;
+  z-index:1;
+`
+
 const PreviewContainer = styled.section`
   border-radius: 2px;
   width: 200px;
   height: 200px;
-
-  // &:hover {
-  //     background-color: #000000;
-  //     opacity: 0.5;
-  //     z-index:1;
-  //     position:absolute;
-  // }
+  position:relative;
 
 `;
 
@@ -65,22 +72,27 @@ const PreviewWrapper = styled.div`
   display:flex;
   margin-left:12px;
 `
-
-const ImagePreview = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 2px;
-`;
-
+const DeleteBtn = styled.button`
+  outline:none;
+  cursor:pointer;
+  z-index:1;
+  position: absolute;
+  background-color: transparent;
+  color: #ffffff;
+  right:0px;
+  top:2px
+`
 export default {
   ImageUploadWrapper,
   UploadWrapper,
-  ImagePreview,
   CameraIcon,
   IconsWrapper,
   FormField,
   ImageText,
   UploadFileBtn,
   PreviewContainer,
-  PreviewWrapper
+  PreviewWrapper,
+  DeleteContainer,
+  DeleteBtn,
+  ImageDeleteIcon
 };
