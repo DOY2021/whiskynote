@@ -63,3 +63,19 @@ class Follow(models.Model):
     created = models.DateTimeField(auto_now_add = True)
 
 
+### Whisky DB Creation / Edit Request Status Saving Model to be added ###
+
+
+#Profile - Collection & Whisky
+class Collection(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    created_at = models.DateField(auto_now_add = True)
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    created_at = models.DateField(auto_now_add = True)
+
+
+
