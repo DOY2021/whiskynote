@@ -399,6 +399,13 @@ class CollectionAPIView(generics.ListAPIView):
         pk = self.kwargs['pk']
         return Collection.objects.filter(user = pk)
 
+class CollectionCreateAPIView(generics.CreateAPIView):
+    serializer_class = CollectionSerializer
+    serializer = CollectionSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user_id = self.request.user.id)
+
 class WishlistAPIView(generics.ListAPIView):
     serializer_class = WishlistSerializer
 
@@ -406,3 +413,9 @@ class WishlistAPIView(generics.ListAPIView):
         pk = self.kwargs['pk']
         return Wishlist.objects.filter(user = pk)
 
+class WishlistCreateAPIView(generics.CreateAPIView):
+    serializer_class = WishlistSerializer
+    serializer = WishlistSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user_id = self.request.user.id)
