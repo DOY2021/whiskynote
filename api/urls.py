@@ -57,11 +57,9 @@ urlpatterns = [
     path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
     path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
 
-    #Collection
-
-    #Wishlist
-    path("<int:pk>/wishlist", WishlistAPIView.as_view(), name = "wishlist"),
+    #Collection & Wishlist
     path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
+    path("<int:pk>/wishlist", WishlistAPIView.as_view(), name = "wishlist"),
 
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
