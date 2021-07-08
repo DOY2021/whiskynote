@@ -20,5 +20,6 @@ Project Whiskey (May 2021 ~)
   먼저, 변경했던 model 내용을 원상태로 돌려놓고(comment out)
   
   명령어1> python manage.py makemigrations
+  
   명령어2> python manage.py migrate --fake
  
