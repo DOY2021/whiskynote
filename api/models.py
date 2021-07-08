@@ -70,12 +70,12 @@ class Follow(models.Model):
 class Collection(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    created_at = models.DateField(auto_now_add = True)
+    created_at = models.DateTimeField(auto_now_add = True)
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    created_at = models.DateField(auto_now_add = True)
+    created_at = models.DateTimeField(auto_now_add = True)
 
 
 
