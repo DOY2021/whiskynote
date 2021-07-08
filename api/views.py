@@ -404,7 +404,24 @@ class CollectionCreateAPIView(generics.CreateAPIView):
     serializer = CollectionSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(user_id = self.request.user.id)
+        if Collection.objects.filter(user=self.request.user.id, whisky=self.request.data['whisky']).exists():
+            return Response(
+                    {"detail": ("Already Existing in your Collection")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                    )
+        else:
+            # +1 credit point
+            profile = self.request.user.profile
+            credit = self.request.user.profile.credit
+            credit += 1
+            profile.credit = credit
+            profile.save()
+            # end function
+            serializer.save(user_id = self.request.user.id)
+            return Response(
+                    {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
+                    status=status.HTTP_200_OK,
+                    )
 
 class WishlistAPIView(generics.ListAPIView):
     serializer_class = WishlistSerializer
@@ -418,4 +435,24 @@ class WishlistCreateAPIView(generics.CreateAPIView):
     serializer = WishlistSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(user_id = self.request.user.id)
+        if Wishlist.objects.filter(user=self.request.user.id, whisky=self.request.data['whisky']).exists():
+            return Response(
+                    {"detail": ("Already Existing in your Wishlist")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                    )
+        else:
+            # +1 credit point
+            profile = self.request.user.profile
+            credit = self.request.user.profile.credit
+            credit += 1
+            profile.credit = credit
+            profile.save()
+            # end function
+            serializer.save(user_id = self.request.user.id)
+            return Response(
+                    {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
+                    status=status.HTTP_200_OK,
+                    )
+
+
+
