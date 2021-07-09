@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaRegTimesCircle } from 'react-icons/fa';
 import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
@@ -81,14 +81,14 @@ const ImageUpload = ({
           return (
             <S.PreviewContainer key={fileName}>
               <div>
-              <S.DeleteBtn onClick={() => removeFile(fileName)}>
-              <FaTimes size={15}/>
-              </S.DeleteBtn>
+                <S.DeleteBtn onClick={() => removeFile(fileName)}>
+
+                  <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
+                  {/* </S.DeleteBtnCircle> */}
+                </S.DeleteBtn>
                 {isImageFile && (
-        
                   <ImagePreview file={file} index={index}></ImagePreview>
                 )}
-             
               </div>
             </S.PreviewContainer>
           );

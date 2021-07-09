@@ -47,41 +47,47 @@ const CameraIcon = styled.img`
 `;
 
 const ImageDeleteIcon = styled.img`
-  width:40px;
-  height:40px;
-`
+  width: 40px;
+  height: 40px;
+  z-index: 100;
+`;
 
 const DeleteContainer = styled.div`
-width:100%;
+  width: 100%;
   height: 100%;
   background-color: #000000;
   opacity: 0.5;
-  z-index:1;
-`
+  z-index: 1;
+`;
 
 const PreviewContainer = styled.section`
   border-radius: 2px;
   width: 200px;
   height: 200px;
-  position:relative;
-
+  position: relative;
+  margin-right:12px
 `;
 
 const PreviewWrapper = styled.div`
-  flex-direction:row;
-  display:flex;
-  margin-left:12px;
-`
+  flex-direction: row;
+  display: flex;
+  margin-left: 12px;
+`;
 const DeleteBtn = styled.button`
-  outline:none;
-  cursor:pointer;
-  z-index:1;
+  outline: none;
+  cursor: pointer;
+  z-index: 1;
   position: absolute;
   background-color: transparent;
   color: #ffffff;
-  right:0px;
-  top:2px
-`
+  right: 0px;
+  top: 5px;
+`;
+
+const DeleteBtnIcon = styled.img`
+  width:22px;
+  height:22px;
+`;
 export default {
   ImageUploadWrapper,
   UploadWrapper,
@@ -94,5 +100,6 @@ export default {
   PreviewWrapper,
   DeleteContainer,
   DeleteBtn,
-  ImageDeleteIcon
+  ImageDeleteIcon,
+  DeleteBtnIcon,
 };
