@@ -5,7 +5,7 @@ from .utils import import_callable
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from model_utils import Choices
 #rest_auth
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
@@ -27,7 +27,7 @@ class Whisky(models.Model):
     brand = models.CharField(max_length = 100, null = True)
     whisky_detail = models.TextField(null=True, blank = True)
     whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-    whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
+    whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -43,8 +43,25 @@ class Reaction(models.Model):
 	whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
 	review_title = models.CharField(max_length=255)
 	review_body = models.TextField()
-	review_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(5)])
-
+	nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
+    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
+    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
+    #tag
+    #Sweetness,Fruity, Floral, Body, Smoky, Tobacco, Medicinal, Winey, Spicey, Malty, Nutty, Honey
+    TAG = Choices(
+        (Sweet, "Sweetness"),
+        (Fruit, "Fruity"),
+        (Floral, "Floral"),
+        (Body, "Body"),
+        (Smoky, "Smoky"),
+        (Tobacco, "Tobacco"),
+        (Medicinal, "Medicinal"),
+        (Wine, "Spicey"),
+        (Malt, "Malty"),
+        (Nut, "Nutty"),
+        (Honey, "Honey")
+    )
+    nose_tag = models.CharField(max_length = 9, choices = TAG, many = True, default = TAG.Sweet)
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
 

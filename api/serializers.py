@@ -239,7 +239,7 @@ class ReactionListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 
