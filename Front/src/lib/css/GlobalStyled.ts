@@ -30,5 +30,7 @@ export const GlobalStyle = createGlobalStyle`
         
         border: none;
         box-sizing: border-box;
+
+        padding: 0;
     }
 `;
