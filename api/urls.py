@@ -12,7 +12,8 @@ from rest_auth.registration.views import VerifyEmailView
 from api.views import confirm_email, CustomLoginView,\
     ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
     WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
-    reaction_list_create, reaction_update_delete
+    reaction_list_create
+    #reaction_update_delete
     #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
@@ -66,7 +67,7 @@ urlpatterns = [
     #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
     #path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
     path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
-    path('reaction/<int:reaction_pk>/', reaction_update_delete),
+    #path('reaction/<int:reaction_pk>/', reaction_update_delete),
     ]
 
     #Media setting

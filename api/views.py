@@ -278,7 +278,11 @@ def reaction_list_create(request, whisky_pk):
             whisky = get_object_or_404(Whisky, pk = whisky_pk)
             cur_counts = whisky.rating_counts
             cur_rating = whisky.whisky_ratings * cur_counts
-            new_total_rating = cur_rating + request.data.get('review_rating')
+            new_nose_rating = request.data.get('nose_rating')
+            new_taste_rating = request.data.get('taste_rating')
+            new_finish_rating = request.data.get('finish_rating')
+            new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
+            new_total_rating = cur_rating + new_average_rating
             cur_counts = cur_counts+1
             new_rating = round(new_total_rating/cur_counts, 2)
             whisky.rating_counts = cur_counts
@@ -288,7 +292,7 @@ def reaction_list_create(request, whisky_pk):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-
+'''
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def reaction_update_delete(request, reaction_pk):
@@ -331,8 +335,7 @@ def reaction_update_delete(request, reaction_pk):
         whisky.save()
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
-
-
+'''
 
 #Follow (New) 
 class FollowView(GenericAPIView):

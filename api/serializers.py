@@ -226,8 +226,21 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
         model = Whisky
         fields = '__all__'
 
+#Reaction + Tag
+class ChoicesField(serializers.Field):
+    def __init__(self, choices, **kwargs):
+        self._choices = choices
+        super(ChoicesField, self).__init__(**kwargs)
+
+    def to_representation(self, obj):
+        return self._choices[obj]
+
+    def to_internal_value(self, data):
+        return getattr(self._choices, data)
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
+
 
     def get_whisky_name(self, obj):
         return obj.whisky.name
@@ -236,6 +249,8 @@ class ReactionListSerializer(serializers.ModelSerializer):
 
     def get_userName(self, obj):
         return obj.user.username
+
+    nose_tag = ChoicesField(choices = Reaction.TAG)
 
     class Meta:
         model = Reaction

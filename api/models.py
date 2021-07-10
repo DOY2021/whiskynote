@@ -39,34 +39,35 @@ class Whisky(models.Model):
         return self.name
 
 class Reaction(models.Model):
-	user = models.ForeignKey(User, on_delete = models.CASCADE)
-	whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-	review_title = models.CharField(max_length=255)
-	review_body = models.TextField()
-	nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
-    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
-    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)])
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    review_title = models.CharField(max_length=255)
+    review_body = models.TextField()
+    nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     #tag
     #Sweetness,Fruity, Floral, Body, Smoky, Tobacco, Medicinal, Winey, Spicey, Malty, Nutty, Honey
     TAG = Choices(
-        (Sweet, "Sweetness"),
-        (Fruit, "Fruity"),
-        (Floral, "Floral"),
-        (Body, "Body"),
-        (Smoky, "Smoky"),
-        (Tobacco, "Tobacco"),
-        (Medicinal, "Medicinal"),
-        (Wine, "Spicey"),
-        (Malt, "Malty"),
-        (Nut, "Nutty"),
-        (Honey, "Honey")
+        ('Sweetness', 'Sweetness'),
+        ('Fruity', 'Fruity'),
+        ('Floral', 'Floral'),
+        ('Body', 'Body'),
+        ('Smoky', 'Smoky'),
+        ('Tobacco', 'Tobacco'),
+        ('Medicinal', 'Medicinal'),
+        ('Winey', 'Winey'),
+        ('Spicey', 'Spicey'),
+        ('Malty', 'Malty'),
+        ('Nutty', 'Nutty'),
+        ('Honey', 'Honey')
     )
-    nose_tag = models.CharField(max_length = 9, choices = TAG, many = True, default = TAG.Sweet)
-	created_at = models.DateTimeField(auto_now_add=True)
-	modified_at = models.DateTimeField(auto_now=True)
+    nose_tag = models.CharField(max_length = 9, choices = TAG, default = TAG.Sweetness)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
-	class Meta:
-		ordering = ["-created_at"]
+    class Meta:
+        ordering = ["-created_at"]
 
 class Follow(models.Model):
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")

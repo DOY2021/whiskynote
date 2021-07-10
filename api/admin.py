@@ -59,4 +59,4 @@ class WhiskyAdmin(admin.ModelAdmin):
 
 @admin.register(Reaction)
 class ReactionAdmin(admin.ModelAdmin):
-	list_display = ("id","whisky", "user", "review_title","review_body", "review_rating")
+	list_display = ("id","whisky", "user", "review_title","review_body", "nose_rating", "taste_rating", "finish_rating", "nose_tag")
