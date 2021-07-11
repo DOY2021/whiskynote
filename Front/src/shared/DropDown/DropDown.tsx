@@ -6,7 +6,7 @@ interface DropDownProp {
 }
 
 function DropDown({
-  children,
+  children
 }:DropDownProp) {
   const [isOpen, setOpen] = useState(false);
 
