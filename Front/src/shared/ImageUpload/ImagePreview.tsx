@@ -2,7 +2,7 @@ import S from './ImagePreview.styled';
 import React, { useState } from 'react';
 
 function ImagePreview(props) {
-  const [isHover, setIsHover] = useState<Boolean>();
+  const [isHover, setIsHover] = useState<boolean>();
   const handleMouseHover = () => {
     setIsHover(!isHover);
   };
