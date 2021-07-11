@@ -31,14 +31,14 @@ const ImageUpload = ({
     const { files: newFiles } = e.target;
 
     if (newFiles.length) {
-      let updatedFiles = addNewFiles(newFiles);
+      const updatedFiles = addNewFiles(newFiles);
       setFiles(updatedFiles);
       callUpdateFilesCb(updatedFiles);
     }
   };
 
   const addNewFiles = newFiles => {
-    for (let file of newFiles) {
+    for (const file of newFiles) {
       console.log(file);
       if (file.size < maxFileSize) {
         if (!otherProps.multiple) {
@@ -76,8 +76,8 @@ const ImageUpload = ({
       </S.UploadWrapper>
       <S.PreviewWrapper>
         {Object.keys(files).map((fileName, index) => {
-          let file = files[fileName];
-          let isImageFile = file.type.split('/')[0] === 'image';
+          const file = files[fileName];
+          const isImageFile = file.type.split('/')[0] === 'image';
           return (
             <S.PreviewContainer key={fileName}>
               <div>
