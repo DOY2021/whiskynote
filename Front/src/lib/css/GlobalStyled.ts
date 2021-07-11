@@ -15,7 +15,7 @@ export const GlobalStyle = createGlobalStyle`
         min-height: 100vh;
     }
     html {
-        height: 100%:
+        height: 100%;
     }
     div{
         box-sizing: border-box;
@@ -30,5 +30,7 @@ export const GlobalStyle = createGlobalStyle`
         
         border: none;
         box-sizing: border-box;
+
+        padding: 0;
     }
 `;
