@@ -10,7 +10,8 @@ const ReviewInputWrapper = styled.div`
     background-color: #E7E5DE;
     border-radius: 2px;
 
-    padding: 6px 8px;
+    padding: 6px 0px;
+    padding-left: 8px;
 `;
 
 interface ReviewTitleWrapper {
@@ -50,7 +51,7 @@ const ReviewContentWrapper = styled.div<ReviewContentWrapperProp>`
     height: inherit;
 
     ${({hasSubtitle}) => !hasSubtitle && css`
-    flex: 1;
+    flex:1;
     `}
 
 `;
