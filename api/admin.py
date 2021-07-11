@@ -1,9 +1,10 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow
+from api.models import Profile, Whisky, Reaction, Follow, Tag
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+
 
 class ProfileInline(admin.StackedInline):
 	model = Profile
@@ -57,6 +58,12 @@ class WhiskyAdmin(admin.ModelAdmin):
 	list_display = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_ratings", "rating_counts")
 	search_fields = ["name", "brand", "whisky_region"]
 
-@admin.register(Reaction)
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+	list_display = ("id", "kor_tag", "eng_tag")
+
 class ReactionAdmin(admin.ModelAdmin):
-	list_display = ("id","whisky", "user", "review_title","review_body", "nose_rating", "taste_rating", "finish_rating", "nose_tag")
+	model = Reaction
+	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
+
+admin.site.register(Reaction, ReactionAdmin)

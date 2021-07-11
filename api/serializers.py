@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow
+from api.models import Profile, Whisky, Reaction, Follow, Tag
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -227,34 +227,45 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 #Reaction + Tag
-class ChoicesField(serializers.Field):
-    def __init__(self, choices, **kwargs):
-        self._choices = choices
-        super(ChoicesField, self).__init__(**kwargs)
-
-    def to_representation(self, obj):
-        return self._choices[obj]
-
-    def to_internal_value(self, data):
-        return getattr(self._choices, data)
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
 
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
-
-
     def get_whisky_name(self, obj):
         return obj.whisky.name
 
     userName = serializers.SerializerMethodField()
-
     def get_userName(self, obj):
         return obj.user.username
+    '''
+    nose_tag = serializers.SerializerMethodField()
+    def get_nose_tag(self, obj):
+        all_nose_tags = ''
+        for n_tag in obj.nose_tag:
+            all_nose_tags+= n_tag
+        return all_nose_tags
 
-    nose_tag = ChoicesField(choices = Reaction.TAG)
+    taste_tag = serializers.SerializerMethodField()
+    def get_taste_tag(self, obj):
+        all_taste_tags = ''
+        for t_tag in obj.taste_tag:
+            all_taste_tags+= t_tag
+        return all_taste_tags
+
+    finish_tag = serializers.SerializerMethodField()
+    def get_finish_tag(self, obj):
+        all_fin_tags = ''
+        for f_tag in obj.finish_tag:
+            all_fin_tags+= f_tag
+        return all_fin_tags
+    '''
 
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'created_at','modified_at')
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 

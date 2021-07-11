@@ -38,31 +38,43 @@ class Whisky(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    kor_tag = models.CharField(max_length = 9)
+    eng_tag = models.CharField(max_length = 15)
+
+    def __str__(self):
+        return self.kor_tag
+
 class Reaction(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
+    #rating
     nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     #tag
-    #Sweetness,Fruity, Floral, Body, Smoky, Tobacco, Medicinal, Winey, Spicey, Malty, Nutty, Honey
+    '''
     TAG = Choices(
-        ('Sweetness', 'Sweetness'),
-        ('Fruity', 'Fruity'),
-        ('Floral', 'Floral'),
-        ('Body', 'Body'),
-        ('Smoky', 'Smoky'),
-        ('Tobacco', 'Tobacco'),
-        ('Medicinal', 'Medicinal'),
-        ('Winey', 'Winey'),
-        ('Spicey', 'Spicey'),
-        ('Malty', 'Malty'),
-        ('Nutty', 'Nutty'),
-        ('Honey', 'Honey')
+        ("Nothing", "Nothing"),
+        ("Cereal", "곡물"),
+        ("Woody", "나무"),
+        ("Floral", "꽃"),
+        ("Fruity", "과일"),
+        ("Winey", "와인"),
+        ("Sulphur", "유황"),
+        ("Peaty", "피트"),
+        ("Feinty", "후류")
     )
-    nose_tag = models.CharField(max_length = 9, choices = TAG, default = TAG.Sweetness)
+    nose_tag = models.CharField(max_length = 20, choices = TAG, default = TAG.Nothing)
+    taste_tag = models.CharField(max_length = 20, choices = TAG, default = TAG.Nothing)
+    finish_tag = models.CharField(max_length = 20, choices = TAG, default = TAG.Nothing)
+    '''
+    nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
+    taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
+    finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
+
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 

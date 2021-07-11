@@ -288,11 +288,13 @@ def reaction_list_create(request, whisky_pk):
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
+
+            #request.data.get('nose_tag')
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-'''
+
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def reaction_update_delete(request, reaction_pk):
@@ -304,7 +306,7 @@ def reaction_update_delete(request, reaction_pk):
         reactions = Reaction.objects.all().filter(pk = reaction_pk)
         serializer = ReactionListSerializer(reactions, many = True)
         return Response(serializer.data)
-
+'''
     elif request.method == 'PUT':
         serializer = ReactionListSerializer(reaction, data = request.data)
         if serializer.is_valid(raise_exception = True):
