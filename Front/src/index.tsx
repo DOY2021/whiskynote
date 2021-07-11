@@ -10,8 +10,8 @@ import { CookiesProvider } from 'react-cookie';
 render(
   <BrowserRouter>
     <CookiesProvider>
-      <GlobalStyle />
       <UserContextProvider>
+        <GlobalStyle />
         <App />
       </UserContextProvider>
     </CookiesProvider>

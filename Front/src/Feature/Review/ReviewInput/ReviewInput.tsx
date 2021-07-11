@@ -24,12 +24,16 @@ function ReviewInput({
         <Styled.ReviewInputTitle>{title}</Styled.ReviewInputTitle>
         {subtitle &&  <Styled.ReviewInputSubTitle>{subtitle}</Styled.ReviewInputSubTitle>}
       </Styled.ReviewTitleWrapper>
-      <Styled.ReviewContentWrapper>
+      <Styled.ReviewContentWrapper hasSubtitle={subtitle ? true : false}>
         {type === ReviewType.text 
           ? <Styled.ReviewContentText placeholder='카테고리를 입력하세요'/>
-          : <DropDown>
-            {new Array(10).fill(0).map((_,idx) => idx)}  
-          </DropDown>}
+          : 
+          <Styled.ReviewContentDropDownWrapper>
+            <DropDown>
+              {new Array(10).fill(0).map((_,idx) => idx)}  
+            </DropDown>
+          </Styled.ReviewContentDropDownWrapper>
+        }
       </Styled.ReviewContentWrapper>
     </Styled.ReviewInputWrapper>
   )
