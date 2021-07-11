@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { responsiveSize } from '../../css/Mixin';
-import Typography from '../../css/Typography';
+import { responsiveSize } from '../../lib/css/Mixin';
+import Typography from '../../lib/css/Typography';
 
 const MyPageWidth = 720;
 
