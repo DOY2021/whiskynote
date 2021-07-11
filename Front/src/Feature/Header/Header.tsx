@@ -3,10 +3,12 @@ import styled, { css } from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
 import { Link, useHistory } from 'react-router-dom';
-import Palette from '../../css/Palette';
+
 import { useCookies } from 'react-cookie';
 import S from './Header.styled';
 import HeaderMenuList from './HeaderMenuList';
+import Palette from '../../lib/css/Pallete';
+
 
 const SearchIcon = styled(FaSearch)`
   color: ${Palette.Gray500};

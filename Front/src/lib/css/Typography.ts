@@ -1,7 +1,5 @@
 import { css, FlattenSimpleInterpolation } from "styled-components";
 
-
-
 const display6 = css`
   font-size: 72px;
   line-height: 108px;

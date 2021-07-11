@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../css/Mixin';
-import Typography from '../../css/Typography';
+import { absoluteCenter, responsiveSize } from '../../lib/css/Mixin';
+
+import Typography from '../../lib/css/Typography';
+
 
 type SignTemplateProp = {
   children: React.ReactNode;

@@ -1,5 +1,6 @@
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
-import Palette from '../../../css/Palette';
+import Palette from '../../../lib/css/Pallete';
+
 
 type StyledBaseInputProp = {
   width: any;
@@ -17,7 +18,7 @@ export const StyledBaseInput = styled.input<StyledBaseInputProp>`
   ${({ fontStyle }) => fontStyle}
 
   &:hover, :focus{
-      border: 1px solid ${Palette.YB400}
+      border: 1px solid ${Palette.YB600}
   }
   &::placeholder {
     ${({ placeholderStyle }) => placeholderStyle}
