@@ -15,12 +15,13 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky
+from api.models import Profile, Whisky, Reaction, Follow
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
 from rest_auth.utils import import_callable
 from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -29,8 +30,10 @@ UserDetailsSerializer = import_callable(
 )
 
 
-# Get the UserModel
+# Get UserModel
+from django.contrib.auth.models import User
 UserModel = get_user_model()
+
 
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_blank=True)
@@ -176,15 +179,14 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         return self.set_password_form.save()
 
 
+#Profile
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
 
     class Meta:
         model = Profile
-        fields = ("id", "user", "nickname", "bio", "profile_photo", "followers", "following")
-        read_only_fields = ("followers", "following")
-
+        fields = ("id", "user", "nickname", "bio", "profile_photo")
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -198,40 +200,62 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
             return profile
 
 class ProfilePhotoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Profile
         fields = ("profile_photo", )
 
 
+#WhiskyDB
+#General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
 class WhiskySerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
-        fields = ("id", "name", "brand", "whisky_detail", "whisky_region", "whisky_rating", "created_at",)
+        fields = '__all__'
+        read_only_fields = ('whisky_ratings','rating_counts')
 
-
-#Follow-Unfollow
-
-class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source = 'user.username')
+#Whisky Create Serializer (Open-type DB function)
+class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = ("id", "username", "profile_photo")
-        read_only_fields = ("id", "username", "profile_photo")
+        model = Whisky
+        #Update fields according to DB categories
+        fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
+
+#Whisky Confirm
+class WhiskyConfirmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Whisky
+        fields = '__all__'
+
+class ReactionListSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+
+    def get_whisky_name(self, obj):
+        return obj.whisky.name
+
+    userName = serializers.SerializerMethodField()
+
+    def get_userName(self, obj):
+        return obj.user.username
+
+    class Meta:
+        model = Reaction
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+
+#Follow(New)
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = ("following", "follower")
 
 class FollowerSerializer(serializers.ModelSerializer):
-    followers = UserSerializer(many = True, read_only = True)
-    following = UserSerializer(many = True, read_only = True)
-
     class Meta:
-        model = Profile
-        fields = ("followers", "following")
-        read_only_fields = ("followers", "following")
+        model = Follow
+        fields = ("follower", )
 
-class BlockSerializer(serializers.ModelSerializer):
-    blocked_user = UserSerializer(many = True, read_only = True)
-
+class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        field = ("blocked_user")
-        read_only_field = ("blocked_user")
+        model = Follow
+        fields = ("following", )
+

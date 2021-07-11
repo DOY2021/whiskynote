@@ -2,7 +2,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
 #Test API
@@ -10,7 +10,7 @@ from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import FormParser, MultiPartParser, FileUploadParser
 
 #Custom Login
@@ -41,8 +41,10 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer
+from api.models import Profile, Whisky, Reaction, Follow
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer
+#Custom Permission
+from api.permissions import IsOwnerOrReadOnly
 
 #Password Reset
 from api.serializers import PasswordResetConfirmSerializer
@@ -50,6 +52,18 @@ from api.serializers import PasswordResetConfirmSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+#Follow-Unfollow
+from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
+
+#Get UserModel
+from django.contrib.auth.models import User
+UserModel = get_user_model()
+
+#SearchAPI
+from rest_framework import filters
+
+#Whisky Confirm
+from rest_framework.permissions import IsAdminUser
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -57,13 +71,9 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
-#Follow-Unfollow
-from api.serializers import UserSerializer, FollowerSerializer, BlockSerializer
-
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
-
     permission_classes = (AllowAny,)
     serializer_class = CustomLoginSerializer
     token_model = TokenModel
@@ -133,7 +143,6 @@ class CustomLoginView(GenericAPIView):
 
 #Email Confirmation
 class CustomConfirmEmailView(APIView):
-
     permission_classes = [AllowAny]
 
     def get(self, *args, **kwargs):
@@ -167,7 +176,6 @@ class PasswordResetConfirmView(GenericAPIView):
     """
     Password reset e-mail link is confirmed, therefore
     this resets the user's password.
-
     Accepts the following POST parameters: token, uid,
         new_password1, new_password2
     Returns the success/fail message.
@@ -187,7 +195,8 @@ class PasswordResetConfirmView(GenericAPIView):
             {"detail": ("Password has been reset with the new password.")}
         )
 
-#ProfileCreateView
+
+#Profile
 class ProfileCreateAPIView(generics.CreateAPIView):
     model = Profile
     serializer_class = ProfileCreateSerializer
@@ -196,15 +205,13 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         #File Upload
         file_obj = serializer.validated_data['profile_photo']
-        #
         serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
-
-#ProfileListView
-class ProfileViewSet(generics.ListAPIView):   #/myprofile/ : simple profile list view
+class ProfileViewSet(generics.ListAPIView):
+    #url: profile/all
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
@@ -215,83 +222,150 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
         file_obj = request.data['profile_photo']
         return self.update(request, *args, **kwargs)
 
+
+#Whisky DB
 class WhiskyListAPIView(generics.ListAPIView):
-    queryset = Whisky.objects.all()
+    queryset = Whisky.objects.filter(confirmed = True)
     serializer_class = WhiskySerializer
+    #Search Function Added - API extraction possible (with queryset, serializer_class)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'brand']
+    ordering_fields = ['rating_counts', 'updated_at']
 
 class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
+
+#Whisky Create (Open-type DB function)
+#Admin authorization function should be added
+class WhiskyCreateAPIView(generics.CreateAPIView):
+    model = Whisky
+    serializer_class = WhiskyCreateSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+#            serializer.save(user = request.user, whisky = whisky)
+#            return Response(serializer.data, status = status.HTTP_201_CREATED)
+#serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
+
+#Whisky Confirm
+
+class WhiskyConfirmListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskySerializer
+    permission_class = (IsAdminUser)
+
+class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskySerializer
+    permission_class = (IsAdminUser)
+
+
+#Reaction
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def reaction_list_create(request, whisky_pk):
+    if request.method == 'GET':
+        reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
+        serializer = ReactionListSerializer(reactions, many = True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ReactionListSerializer(data = request.data)
+        if serializer.is_valid(raise_exception = True):
+            whisky = get_object_or_404(Whisky, pk = whisky_pk)
+
+            cur_counts = whisky.rating_counts
+            cur_rating = whisky.whisky_ratings * cur_counts
+            print(cur_counts)
+
+            new_total_rating = cur_rating + request.data.get('review_rating')
+            cur_counts = cur_counts+1
+            new_rating = round(new_total_rating/cur_counts, 2)
+            whisky.rating_counts = cur_counts
+            whisky.whisky_ratings = new_rating
+            whisky.save()
+
+            serializer.save(user = request.user, whisky = whisky)
+
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def reaction_update_delete(request, reaction_pk):
+    reaction = get_object_or_404(Reaction, pk = reaction_pk)
+    if not reaction.user == request.user:
+        return Response({'message':'No permission'})
+
+    if request.method == 'PUT':
+        serializer = ReactionListSerializer(reaction, data = request.data)
+        if serializer.is_valid(raise_exception = True):
+            reaction = get_object_or_404(Reaction, pk = reaction_pk)
+            whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
+            cur_rating = whisky.whisky_ratings * whisky.rating_counts
+            cur_counts = whisky.rating_counts
+            cur_rating = cur_rating - reaction.review_rating
+            cur_rating = cur_rating + request.data.get('review_rating')
+            new_rating = round(cur_rating/cur_counts, 2)
+            whisky.whisky_ratings = new_rating
+            whisky.save()
+
+            serializer.save(user = request.user, whisky = whisky)
+            return Response(serializer.data)
+
+
+#Follow (New) 
+class FollowView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = FollowSerializer
+
+    def post(self, request, *args, **kwargs):
+        #Exc) 타인 계정 request 불가
+        if int(self.request.user.id) == int(request.data['follower']):
+            #Exc) 중복 팔로우 불가
+            if Follow.objects.filter(follower = request.data['follower'], following = request.data['following']):
+                return Response(
+                        {"detail": ("Already Following User")}
+                        )
+            #Exc) 자기자신을 follow 할 수 없음
+            elif request.data['follower'] == request.data['following']: 
+                return Response(
+                        {"detail": ("Can't follow yourself")}
+                        )
+            else:
+                serializer = self.get_serializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(
+                        {"detail": ("Successfully Followed")}
+                        )
+        else:
+            return Response(
+                    {"detail": ("Bad Request")}
+                    )
+
+#Follow - Plain Code
+#    def post(self, request, *args, **kwargs):
+#        serializer = self.get_serializer(data=request.data)
+#        serializer.is_valid(raise_exception=True)
+#        serializer.save()
+#        return Response(
+#                {"detail": ("Succesfully Followed")}
+#                )
+
+class FollowingDetailView(generics.ListAPIView):
+    serializer_class = FollowingSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(follower_id = pk)
+
+class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
 
-
-#Follow-Unfollow
-
-class FollowUnfollowView(APIView):
-    
-    permission_classes = [IsAuthenticated]
-
-    def current_profile(self):
-        try:
-            return Profile.objects.get(user = self.request.user)
-        except Profile.DoesNotExist:
-            raise Http404
-    
-    def other_profile(self, pk):
-        try:
-            return Profile.objects.get(id = pk)
-        except Profile.DoesNotExist:
-            raise Http404
-
-    def post(self, request, format = None):
-
-        pk = request.data.get('id')
-        req_type = request.data.get('type')
-
-        current_profile = self.current_profile()
-        other_profile = self.other_profile(pk)
-
-        if req_type == 'follow':
-            if other_profile.blocked_user.filter(id = current_profile.id).exists():
-                return Response({"Following Fail"}, status = status.HTTP_400_BAD_REQUEST)
-            
-            elif current_profile == other_profile:
-                return Response({"Cannot Follow Yourself"}, status = status.HTTP_400_BAD_REQUEST)
-
-            else:
-                current_profile.following.add(other_profile)
-                other_profile.followers.add(current_profile)
-                return Response({"Following Success"}, status = status.HTTP_200_OK)
-
-        #elif req_type = 'accept':
-        #elif req_type = 'decline':
-
-        elif req_type == 'unfollow':
-            current_profile.following.remove(other_profile)
-            other_profile.followers.remove(current_profile)
-            return Response({"Remove Success"}, status = status.HTTP_200_OK)
-
-        #Fetch followers, following detail and blocked user
-        
-        def patch(self, request, format = None):
-
-            req_type = request.data.get('type')
-
-            if req_type == "follow_detail":
-                serializer = FollowerSerializer(self.current_profile())
-                return Response({"data" : serializer.data}, status = status.HTTP_200_OK)
-
-        #Block and Unblock User
-        def put(self, request, format = None):
-            pk = request.data.get('id')
-            req_type = request.data.get('type')
-
-            if req_type == 'block':
-                self.current_profile().blocked_user.add(self.other_profile(pk))
-                return Response({"Blocked"}, status = status.HTTP_200_OK)
-
-            elif req_type == 'unblock':
-                self.current_profile().blocked_user.remove(self.other_profile(pk))
-                return Response({"Unblocked"}, status = status.HTTP_200_OK)
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Follow.objects.filter(following_id = pk)
 
 

@@ -26,28 +26,27 @@ function Header() {
           </Link>
         </S.NavLeft>
         <S.NavCenter>
-          <S.MenuLink to="#">위스키</S.MenuLink>
+          <S.MenuLink to="#">위스키 찾기</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
           <S.MenuLink to="#">위스키 바</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
           <S.MenuLink to="#">커뮤니티</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">서비스 소개</S.MenuLink>
-          <SearchIcon></SearchIcon>
-          <S.SearchInput></S.SearchInput>
+          {/* <SearchIcon></SearchIcon>
+          <S.SearchInput></S.SearchInput> */}
         </S.NavCenter>
         <S.NavRight>
           {!cookie.user_id && (
-            <>
-              <Link to="/signup">
-                <Button variant="primary" size="large" type="text">
-                  회원가입
-                </Button>
-              </Link>
+            <> 
               <Link to="/login">
-                <Button variant="primary" size="large">
+                <S.MenuBtn>
                   로그인
-                </Button>
+                </S.MenuBtn>
+              </Link>
+              <Link to="/signup">
+                <S.SignUpBtn>
+                  회원가입
+                </S.SignUpBtn>
               </Link>
             </>
           )}
