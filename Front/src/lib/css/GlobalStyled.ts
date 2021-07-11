@@ -7,12 +7,17 @@ export const GlobalStyle = createGlobalStyle`
     body {
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
         font-family: 'Noto Sans KR','Roboto', sans-serif;
+
         margin:0;
         padding: 0;
-        min-height: 100%;
+        
     }
     #root {
         min-height: 100vh;
+
+        width: 100vw;
+
+        
     }
     html {
         height: 100%;
