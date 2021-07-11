@@ -13,6 +13,7 @@ import MyPage from '../Feature/MyPage/MyPage';
 import { useCookies } from 'react-cookie';
 import { profileAPI } from '../api/profile';
 import { useUserDispatch, useUserState } from '../hook/useUserContext';
+import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -63,6 +64,7 @@ function App() {
           <Route path="/login" exact component={SignIn} />
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
+          <Route path="/registerWhisky" exact component={RegisterWhisky} />
         </Switch>
       </S.AppMainWrapper>
     </S.AppWrapper>

@@ -7,7 +7,8 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Work+Sans:wght@400;500;700&display=swap');
-        font-family: 'Noto Sans KR','Work Sans', sans-serif;
+        font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+
         margin:0;
         padding: 0;
         min-height: 100%;
@@ -16,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
         min-height: 100vh;
     }
     html {
-        height: 100%:
+        height: 100%;
     }
     div{
         box-sizing: border-box;
