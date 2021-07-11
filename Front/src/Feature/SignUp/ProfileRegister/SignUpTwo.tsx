@@ -6,7 +6,7 @@ import { useUserDispatch, useUserState } from '../../../hook/useUserContext';
 import Button from '../../../shared/Button/Button';
 import SignInput from '../../../shared/Input/SignInput/SignInput';
 import SignTemplate from '../../../shared/SignTemplate/SignTemplate';
-import { RegisterDataProp } from '../EmailSignUp/SignUp';
+
 import useSignUpErr from '../useSignUpErr';
 import S from './SignUpTwo.styled';
 

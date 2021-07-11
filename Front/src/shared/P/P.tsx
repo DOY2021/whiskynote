@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { TypoGraphyCategory, TypoGraphyTheme } from '../../css/TempTypo';
+
 import Palette from '../../lib/css/Pallete';
+import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
 type StyleParenProp = Pick<ParenProp, 'color' | 'size' | 'isInline'>;

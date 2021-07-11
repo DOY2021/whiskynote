@@ -1,6 +1,7 @@
-import React, { Ref } from 'react';
+import React from 'react';
 import { FlattenSimpleInterpolation } from 'styled-components';
-import Typography from '../../../css/Typography';
+import Typography from '../../../lib/css/Typography';
+
 import { StyledBaseInput } from './BaseInput.styled';
 
 export interface BaseInputProp {

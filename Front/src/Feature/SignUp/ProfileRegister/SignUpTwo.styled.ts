@@ -1,8 +1,10 @@
 import { FaCheckSquare, FaUserCircle } from 'react-icons/fa';
 import { BiCamera } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
-import { responsiveSize } from '../../../css/Mixin';
-import Palette from '../../../css/Palette';
+import { responsiveSize } from '../../../lib/css/Mixin';
+import Palette from '../../../lib/css/Pallete';
+
+
 
 const SignFormWidth = '432px';
 
@@ -42,7 +44,7 @@ border: 1px solid ${Palette.Gray400};
 border-radius: 5px;
 resize: none;
 &:hover, :focus{
-    border 1px solid ${Palette.YB400}
+    border: 1px solid ${Palette.YB600}
 }
 `;
 
@@ -70,7 +72,7 @@ const SignUpPolicyIcon = styled(FaCheckSquare)<SignUpPolicyIconProp>`
   ${({ isChecked }) => {
     if (isChecked)
       return css`
-        color: ${Palette.YB300};
+        color: ${Palette.YB600};
         border: none;
       `;
   }}

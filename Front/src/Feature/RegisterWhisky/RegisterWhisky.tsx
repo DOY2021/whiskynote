@@ -1,5 +1,6 @@
 import React from 'react'
-import { TypoGraphyCategory } from '../../css/TempTypo'
+import { TypoGraphyCategory } from '../../lib/css/TempTypo'
+
 
 import P from '../../shared/P/P'
 import S from './RegisterWhisky.styled'
