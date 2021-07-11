@@ -28,6 +28,10 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
+    button {
+        font-family: inherit;
+    }
+
     a {
         text-decoration: none;
         color: inherit;
