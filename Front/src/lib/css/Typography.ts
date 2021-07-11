@@ -1,4 +1,6 @@
-import { css } from "styled-components";
+import { css, FlattenSimpleInterpolation } from "styled-components";
+
+
 
 const display6 = css`
   font-size: 72px;
@@ -113,6 +115,49 @@ const body = css`
   line-height: 18px;
   font-weight: 400;
 `;
+
+export enum TypoGraphyCategory {
+  display6 = 'display6',
+  display5 = 'display5',
+  display4 = 'display4',
+  display3 = 'display3',
+  display2 = 'display2',
+  display1 = 'display1',
+  body6 = 'body6',
+  body5 = 'body5',
+  body4 = 'body4',
+  body3 = 'body3',
+  body2 = 'body2',
+  body1 = 'body1',
+  body = 'body',
+  subhead4 = 'subhead4',
+  subhead3 = 'subhead3',
+  subhead2 = 'subhead2',
+  subhead1 = 'subhead1',
+  headline = 'headline'
+}
+
+export const TypoGraphyTheme : { [typo in TypoGraphyCategory] : FlattenSimpleInterpolation} = {
+  [TypoGraphyCategory.body1] : body1,
+  [TypoGraphyCategory.body2] : body2,
+  [TypoGraphyCategory.body3] : body3,
+  [TypoGraphyCategory.body4] : body4,
+  [TypoGraphyCategory.body5] : body5,
+  [TypoGraphyCategory.body6] : body6,
+  [TypoGraphyCategory.body] : body,
+  [TypoGraphyCategory.display1] : display1,
+  [TypoGraphyCategory.display2] : display2,
+  [TypoGraphyCategory.display3] : display3,
+  [TypoGraphyCategory.display4] : display4,
+  [TypoGraphyCategory.display5] : display5,
+  [TypoGraphyCategory.display6] : display6,
+  [TypoGraphyCategory.subhead1] : subhead1,
+  [TypoGraphyCategory.subhead2] : subhead2,
+  [TypoGraphyCategory.subhead3] : subhead3,
+  [TypoGraphyCategory.subhead4] : subhead4,
+  [TypoGraphyCategory.headline] : headline,
+}
+
 
 export default {
   body,

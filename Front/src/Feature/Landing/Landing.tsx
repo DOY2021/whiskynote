@@ -1,10 +1,12 @@
 
 import React from 'react';
+import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 
 function Landing(){
 
   return(<div>
-    <div> this is landing page</div>
+    <ReviewInput title='category'  type={ReviewType.dropdown}/>
+    this is landing page
   </div>)
 }
 
