@@ -55,7 +55,7 @@ function App() {
   }, [fetchProfile]);
 
   return (
-    <S.AppWrapper>
+    <>
       <Header />
       <S.AppMainWrapper>
         <Switch>
@@ -65,7 +65,7 @@ function App() {
           <Route path="/" exact component={Landing} />
         </Switch>
       </S.AppMainWrapper>
-    </S.AppWrapper>
+    </>
   );
 }
 

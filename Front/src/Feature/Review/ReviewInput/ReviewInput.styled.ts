@@ -10,8 +10,7 @@ const ReviewInputWrapper = styled.div`
     background-color: #E7E5DE;
     border-radius: 2px;
 
-    padding: 6px 0px;
-    padding-left: 8px;
+    padding: 6px 8px;
 `;
 
 interface ReviewTitleWrapper {
@@ -41,19 +40,9 @@ const ReviewInputSubTitle = styled.div`
     ${TypoGraphyTheme.body}
 `;
 
-interface ReviewContentWrapperProp {
-  hasSubtitle: boolean
-}
-
-const ReviewContentWrapper = styled.div<ReviewContentWrapperProp>`
-
+const ReviewContentWrapper = styled.div`
     width: 70%;
     height: inherit;
-
-    ${({hasSubtitle}) => !hasSubtitle && css`
-    flex:1;
-    `}
-
 `;
 
 const ReviewContentText = styled.input`
@@ -67,13 +56,6 @@ const ReviewContentText = styled.input`
     background-color: inherit;
 `;
 
-const ReviewContentDropDownWrapper = styled.div`
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-`;
-
 export default {
   ReviewInputWrapper,
   ReviewInputTitle,
@@ -81,5 +63,4 @@ export default {
   ReviewTitleWrapper,
   ReviewContentWrapper,
   ReviewContentText,
-  ReviewContentDropDownWrapper
 }

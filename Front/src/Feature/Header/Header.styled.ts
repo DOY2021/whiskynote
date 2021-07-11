@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Palette from '../../css/Palette';
 
 const Nav = styled.div`
-  background-color: inherit;
+  background-color: white;
 `;
 const NavHeader = styled.div`
   align-items: center;
