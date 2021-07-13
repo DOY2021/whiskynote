@@ -42,8 +42,8 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction, Follow
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer
+from api.models import Profile, Whisky, Reaction, Follow, Tag
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -338,6 +338,11 @@ def reaction_update_delete(request, reaction_pk):
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
 '''
+
+#Tag
+class TagListView(generics.ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 #Follow (New) 
 class FollowView(GenericAPIView):

@@ -262,7 +262,6 @@ class ReactionListSerializer(serializers.ModelSerializer):
             all_fin_tags+= f_tag
         return all_fin_tags
     '''
-
     class Meta:
         model = Reaction
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
