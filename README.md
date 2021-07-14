@@ -22,4 +22,10 @@ Project Whiskey (May 2021 ~)
   명령어1> python manage.py makemigrations
   
   명령어2> python manage.py migrate --fake
- 
+
+* django.db.migrations.exceptions.NodeNotFoundError : 
+  
+  문제가 있는 app 내의 migration folder안에 __init__.py 제외하고 모든 .py들을 삭제
+  
+  >> python manage.py makemigrations
+  >> python manage.py migrate                진행
