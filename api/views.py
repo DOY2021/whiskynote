@@ -332,11 +332,16 @@ def reaction_update_delete(request, reaction_pk):
     elif request.method == 'DELETE':
         reaction = get_object_or_404(Reaction, pk = reaction_pk)
         whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
-        cur_rating = whisky.whisky_ratings * whisky.rating_counts
+        cur_rating = whisky.whisky_ratings * whisky.rating_counts *3
         cur_counts = whisky.rating_counts
-        cur_rating = cur_rating - reaction.review_rating
-        new_rating = round(cur_rating/cur_counts, 2)
-        cur_counts -= 1
+        cur_rating = cur_rating - (reaction.nose_rating + reaction.taste_rating + reaction.finish_rating)
+        if cur_counts == 1:     #Division by Zero Exception
+            cur_counts = 0
+            new_rating = 0
+        else:
+            cur_counts -= 1
+            new_rating = round((cur_rating/(cur_counts*3)), 2)
+
         whisky.rating_counts = cur_counts
         whisky.whisky_ratings = new_rating
         whisky.save()
