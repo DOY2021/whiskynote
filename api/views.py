@@ -289,7 +289,8 @@ def reaction_list_create(request, whisky_pk):
             whisky.whisky_ratings = new_rating
             whisky.save()
 
-            #request.data.get('nose_tag')
+            #nose_tag = request.data.get('nose_tag')
+            #serializer.nose_tag = nose_tag
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -306,17 +307,21 @@ def reaction_update_delete(request, reaction_pk):
         reactions = Reaction.objects.all().filter(pk = reaction_pk)
         serializer = ReactionListSerializer(reactions, many = True)
         return Response(serializer.data)
-'''
+
     elif request.method == 'PUT':
         serializer = ReactionListSerializer(reaction, data = request.data)
         if serializer.is_valid(raise_exception = True):
             reaction = get_object_or_404(Reaction, pk = reaction_pk)
             whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
-            cur_rating = whisky.whisky_ratings * whisky.rating_counts
+            cur_rating = whisky.whisky_ratings * whisky.rating_counts * 3
             cur_counts = whisky.rating_counts
-            cur_rating = cur_rating - reaction.review_rating
-            cur_rating = cur_rating + request.data.get('review_rating')
-            new_rating = round(cur_rating/cur_counts, 2)
+            new_nose_rating= request.data.get('nose_rating')
+            new_taste_rating= request.data.get('taste_rating')
+            new_finish_rating= request.data.get('finish_rating')
+            new_total_rating = new_nose_rating + new_taste_rating + new_finish_rating
+            cur_rating = cur_rating - (reaction.nose_rating + reaction.taste_rating + reaction.finish_rating)
+            cur_rating = cur_rating + new_total_rating
+            new_rating = round((cur_rating/(cur_counts*3)), 2)
             whisky.whisky_ratings = new_rating
             whisky.save()
 
@@ -337,7 +342,6 @@ def reaction_update_delete(request, reaction_pk):
         whisky.save()
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
-'''
 
 #Tag
 class TagListView(generics.ListAPIView):
@@ -396,5 +400,4 @@ class FollowerDetailView(generics.ListAPIView):
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
-
 

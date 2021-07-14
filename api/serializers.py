@@ -230,7 +230,7 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = 'kor_tag'
 
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
@@ -241,26 +241,26 @@ class ReactionListSerializer(serializers.ModelSerializer):
     def get_userName(self, obj):
         return obj.user.username
     '''
-    nose_tag = serializers.SerializerMethodField()
-    def get_nose_tag(self, obj):
-        all_nose_tags = ''
-        for n_tag in obj.nose_tag:
-            all_nose_tags+= n_tag
-        return all_nose_tags
+    nose_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    taste_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    finish_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    nose_tag = TagSerializer(many = True)
 
-    taste_tag = serializers.SerializerMethodField()
-    def get_taste_tag(self, obj):
-        all_taste_tags = ''
-        for t_tag in obj.taste_tag:
-            all_taste_tags+= t_tag
-        return all_taste_tags
+    taste_tag = TagSerializer(many = True)
 
-    finish_tag = serializers.SerializerMethodField()
-    def get_finish_tag(self, obj):
-        all_fin_tags = ''
-        for f_tag in obj.finish_tag:
-            all_fin_tags+= f_tag
-        return all_fin_tags
+    finish_tag = TagSerializer(many = True)
     '''
     class Meta:
         model = Reaction

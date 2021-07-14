@@ -82,11 +82,8 @@ class Reaction(models.Model):
         ordering = ["-created_at"]
 
 
-
 class Follow(models.Model):
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
     follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
     #Functions
     created = models.DateTimeField(auto_now_add = True)
-
-
