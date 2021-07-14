@@ -42,8 +42,8 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction, Follow
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer
+from api.models import Profile, Whisky, Reaction, Follow, Tag
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -276,17 +276,29 @@ def reaction_list_create(request, whisky_pk):
         return Response(serializer.data)
         
     elif request.method == 'POST':
+        reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
+        check = reactions.filter(user = request.user).count()
+        if check >= 1:
+            return Response({'message':'Your review to that whisky already exists'})
+
         serializer = ReactionListSerializer(data = request.data)
         if serializer.is_valid(raise_exception = True):
             whisky = get_object_or_404(Whisky, pk = whisky_pk)
             cur_counts = whisky.rating_counts
             cur_rating = whisky.whisky_ratings * cur_counts
-            new_total_rating = cur_rating + request.data.get('review_rating')
+            new_nose_rating = request.data.get('nose_rating')
+            new_taste_rating = request.data.get('taste_rating')
+            new_finish_rating = request.data.get('finish_rating')
+            new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
+            new_total_rating = cur_rating + new_average_rating
             cur_counts = cur_counts+1
             new_rating = round(new_total_rating/cur_counts, 2)
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
+
+            #nose_tag = request.data.get('nose_tag')
+            #serializer.nose_tag = nose_tag
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -309,11 +321,15 @@ def reaction_update_delete(request, reaction_pk):
         if serializer.is_valid(raise_exception = True):
             reaction = get_object_or_404(Reaction, pk = reaction_pk)
             whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
-            cur_rating = whisky.whisky_ratings * whisky.rating_counts
+            cur_rating = whisky.whisky_ratings * whisky.rating_counts * 3
             cur_counts = whisky.rating_counts
-            cur_rating = cur_rating - reaction.review_rating
-            cur_rating = cur_rating + request.data.get('review_rating')
-            new_rating = round(cur_rating/cur_counts, 2)
+            new_nose_rating= request.data.get('nose_rating')
+            new_taste_rating= request.data.get('taste_rating')
+            new_finish_rating= request.data.get('finish_rating')
+            new_total_rating = new_nose_rating + new_taste_rating + new_finish_rating
+            cur_rating = cur_rating - (reaction.nose_rating + reaction.taste_rating + reaction.finish_rating)
+            cur_rating = cur_rating + new_total_rating
+            new_rating = round((cur_rating/(cur_counts*3)), 2)
             whisky.whisky_ratings = new_rating
             whisky.save()
 
@@ -324,18 +340,26 @@ def reaction_update_delete(request, reaction_pk):
     elif request.method == 'DELETE':
         reaction = get_object_or_404(Reaction, pk = reaction_pk)
         whisky = get_object_or_404(Whisky, pk = reaction.whisky.pk)
-        cur_rating = whisky.whisky_ratings * whisky.rating_counts
+        cur_rating = whisky.whisky_ratings * whisky.rating_counts *3
         cur_counts = whisky.rating_counts
-        cur_rating = cur_rating - reaction.review_rating
-        new_rating = round(cur_rating/cur_counts, 2)
-        cur_counts -= 1
+        cur_rating = cur_rating - (reaction.nose_rating + reaction.taste_rating + reaction.finish_rating)
+        if cur_counts == 1:     #Division by Zero Exception
+            cur_counts = 0
+            new_rating = 0
+        else:
+            cur_counts -= 1
+            new_rating = round((cur_rating/(cur_counts*3)), 2)
+
         whisky.rating_counts = cur_counts
         whisky.whisky_ratings = new_rating
         whisky.save()
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
 
-
+#Tag
+class TagListView(generics.ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 #Follow (New) 
 class FollowView(GenericAPIView):
@@ -453,6 +477,3 @@ class WishlistCreateAPIView(generics.CreateAPIView):
                     {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
                     status=status.HTTP_200_OK,
                     )
-
-
-

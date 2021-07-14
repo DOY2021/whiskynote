@@ -5,7 +5,7 @@ from .utils import import_callable
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from model_utils import Choices
 #rest_auth
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
@@ -32,7 +32,7 @@ class Whisky(models.Model):
     brand = models.CharField(max_length = 100, null = True)
     whisky_detail = models.TextField(null=True, blank = True)
     whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-    whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
+    whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -43,25 +43,39 @@ class Whisky(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    kor_tag = models.CharField(max_length = 20)
+    eng_tag = models.CharField(max_length = 30)
+
+    def __str__(self):
+        return self.kor_tag
+
 class Reaction(models.Model):
-	user = models.ForeignKey(User, on_delete = models.CASCADE)
-	whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-	review_title = models.CharField(max_length=255)
-	review_body = models.TextField()
-	review_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(5)])
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    review_title = models.CharField(max_length=255)
+    review_body = models.TextField()
+    #rating
+    nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    #tag
+    nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
+    taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
+    finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
 
-	created_at = models.DateTimeField(auto_now_add=True)
-	modified_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
-	class Meta:
-		ordering = ["-created_at"]
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Follow(models.Model):
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
     follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
     #Functions
     created = models.DateTimeField(auto_now_add = True)
-
 
 ### Whisky DB Creation / Edit Request Status Saving Model to be added ###
 
@@ -76,6 +90,4 @@ class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
-
-
 

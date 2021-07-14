@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow
+from api.models import Profile, Whisky, Reaction, Follow, Tag
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -228,20 +228,45 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
         model = Whisky
         fields = '__all__'
 
+#Reaction + Tag
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = 'kor_tag'
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
-
     def get_whisky_name(self, obj):
         return obj.whisky.name
 
     userName = serializers.SerializerMethodField()
-
     def get_userName(self, obj):
         return obj.user.username
+    '''
+    nose_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    taste_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    finish_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    nose_tag = TagSerializer(many = True)
 
+    taste_tag = TagSerializer(many = True)
+
+    finish_tag = TagSerializer(many = True)
+    '''
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 
