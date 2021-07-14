@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow, Tag
+from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 
 
 class ProfileInline(admin.StackedInline):
-	model = Profile
-	con_delete = False
+  model = Profile
+  con_delete = False
 
 class FollowInline(admin.StackedInline):
     model = Follow
@@ -20,29 +20,6 @@ class FollowerInline(admin.StackedInline):
     fk_name = "follower"
     con_delete = False
 
-#class FriendInline(admin.StackedInline):
-#    model = Friend
-#    fk_name = "to_user"
-#    #from_user fix
-#    con_delete = False
-#
-#class FriendRequestFromInline(admin.StackedInline):
-#    model = FriendshipRequest
-#    fk_name = "from_user"
-#    con_delete = False
-#
-#class FriendRequestToInline(admin.StackedInline):
-#    model = FriendshipRequest
-#    fk_name = "to_user"
-#    con_delete = False
-#
-#class BlockInline(admin.StackedInline):
-#    model = Block
-#    fk_name = "blocked"
-#    #blocker fix
-#    con_delete = False
-#
-
 class CustomUserAdmin(UserAdmin):
 	inlines = (ProfileInline, FollowInline, FollowerInline)
 
@@ -51,7 +28,7 @@ admin.site.register(User, CustomUserAdmin)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-	list_display = ("id", "user","nickname", "bio", "profile_photo")
+    list_display = ("id", "user","nickname", "bio", "profile_photo")
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
@@ -67,3 +44,11 @@ class ReactionAdmin(admin.ModelAdmin):
 	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
 
 admin.site.register(Reaction, ReactionAdmin)
+
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ("user", "whisky", "created_at")
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ("user", "whisky", "created_at")

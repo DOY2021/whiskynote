@@ -27,6 +27,9 @@ from api.views import PasswordResetConfirmView
 #Follow
 from api.views import FollowView, FollowerDetailView, FollowingDetailView
 
+#Collection & Wishlist
+from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView, CollectionCreateAPIView
+
 urlpatterns = [
     #rest-auth
     path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
@@ -54,6 +57,12 @@ urlpatterns = [
     path("follow/", FollowView.as_view(), name = "follow"),
     path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
     path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
+
+    #Collection & Wishlist
+    path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
+    path("collection/create/", CollectionCreateAPIView.as_view(), name = "collection_create"),
+    path("<int:pk>/wishlist", WishlistAPIView.as_view(), name = "wishlist"),
+    path("wishlist/create/", WishlistCreateAPIView.as_view(), name = "wishlist_new"),
 
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),

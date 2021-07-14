@@ -72,6 +72,9 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
+#Profile - Collection & Wishlist
+from api.models import Wishlist, Collection
+from api.serializers import WishlistSerializer, CollectionSerializer
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -411,3 +414,66 @@ class FollowerDetailView(generics.ListAPIView):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
 
+#Profile - Collection & Wishlist
+
+class CollectionAPIView(generics.ListAPIView):
+    serializer_class = CollectionSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Collection.objects.filter(user = pk)
+
+class CollectionCreateAPIView(generics.CreateAPIView):
+    serializer_class = CollectionSerializer
+    serializer = CollectionSerializer
+
+    def perform_create(self, serializer):
+        if Collection.objects.filter(user=self.request.user.id, whisky=self.request.data['whisky']).exists():
+            return Response(
+                    {"detail": ("Already Existing in your Collection")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                    )
+        else:
+            # +1 credit point
+            profile = self.request.user.profile
+            credit = self.request.user.profile.credit
+            credit += 1
+            profile.credit = credit
+            profile.save()
+            # end function
+            serializer.save(user_id = self.request.user.id)
+            return Response(
+                    {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
+                    status=status.HTTP_200_OK,
+                    )
+
+class WishlistAPIView(generics.ListAPIView):
+    serializer_class = WishlistSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Wishlist.objects.filter(user = pk)
+
+class WishlistCreateAPIView(generics.CreateAPIView):
+    serializer_class = WishlistSerializer
+    serializer = WishlistSerializer
+
+    def perform_create(self, serializer):
+        if Wishlist.objects.filter(user=self.request.user.id, whisky=self.request.data['whisky']).exists():
+            return Response(
+                    {"detail": ("Already Existing in your Wishlist")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                    )
+        else:
+            # +1 credit point
+            profile = self.request.user.profile
+            credit = self.request.user.profile.credit
+            credit += 1
+            profile.credit = credit
+            profile.save()
+            # end function
+            serializer.save(user_id = self.request.user.id)
+            return Response(
+                    {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
+                    status=status.HTTP_200_OK,
+                    )

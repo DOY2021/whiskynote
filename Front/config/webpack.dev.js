@@ -7,7 +7,7 @@ const config = {
   devtool: 'inline-source-map',
   devServer: {
     port: 3000,
-    publicPath: 'http://locallhost:3000/dist/',
+    publicPath: 'http://locallhost:3000/',
     hot: true,
     historyApiFallback: true,
     proxy: {
