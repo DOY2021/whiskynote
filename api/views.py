@@ -273,6 +273,11 @@ def reaction_list_create(request, whisky_pk):
         return Response(serializer.data)
         
     elif request.method == 'POST':
+        reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
+        check = reactions.filter(user = request.user).count()
+        if check >= 1:
+            return Response({'message':'Your review to that whisky already exists'})
+
         serializer = ReactionListSerializer(data = request.data)
         if serializer.is_valid(raise_exception = True):
             whisky = get_object_or_404(Whisky, pk = whisky_pk)
