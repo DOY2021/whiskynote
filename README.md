@@ -27,5 +27,8 @@ Project Whiskey (May 2021 ~)
   
   문제가 있는 app 내의 migration folder안에 __init__.py 제외하고 모든 .py들을 삭제
   
-  >> python manage.py makemigrations
-  >> python manage.py migrate                진행
+  > python manage.py makemigrations
+  
+  > python manage.py migrate                진행
+  
+  >> https://stackoverflow.com/questions/37937343/django-db-migrations-exceptions-nodenotfounderror
