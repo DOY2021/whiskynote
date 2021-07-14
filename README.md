@@ -31,7 +31,7 @@ Project Whiskey (May 2021 ~)
   
 * django.db.migrations.exceptions.NodeNotFoundError : 
   
-  문제가 있는 app 내의 migration folder안에 __init__.py 제외하고 모든 .py들을 삭제
+  문제가 있는 app 내의 migration folder안에 "__init__.py" 제외하고 모든 .py들을 삭제
   
   명령어> python manage.py makemigrations
   
