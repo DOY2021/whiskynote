@@ -233,7 +233,7 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = 'kor_tag'
+        fields = ('kor_tag',)
 
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
