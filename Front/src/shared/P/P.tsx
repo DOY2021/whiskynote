@@ -1,7 +1,13 @@
 import React from 'react';
+<<<<<<< HEAD
 import styled from 'styled-components';
+=======
+import styled, { css } from 'styled-components';
+
+>>>>>>> ef87aab07afe2baff5e73bac3ec6cbe4773adf57
 import Palette from '../../lib/css/Pallete';
-import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/Typography';
+import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
+
 
 type StyleParenProp = Pick<ParenProp, 'color' | 'size'>;
 
@@ -14,7 +20,12 @@ export type ParenProp = {
 
 function P({
   color = Palette.Black,
+<<<<<<< HEAD
   size = TypoGraphyCategory.body3,
+=======
+  size = TypoGraphyCategory.body,
+  isInline=false,
+>>>>>>> ef87aab07afe2baff5e73bac3ec6cbe4773adf57
   children,
   id,
 }: ParenProp) {

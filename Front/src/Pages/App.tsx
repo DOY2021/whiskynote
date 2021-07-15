@@ -3,9 +3,6 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
 import SignIn from '../Feature/SignIn/SignIn';
-import SignUp from '../Feature/SignUp/EmailSignUp/SignUp';
-import MailVf from '../Feature/SignUp/MailVerification/MailVf';
-
 import S from './App.styled';
 import SignUpPage from './SignUpPage';
 import Landing from '../Feature/Landing/Landing';
@@ -13,6 +10,7 @@ import MyPage from '../Feature/MyPage/MyPage';
 import { useCookies } from 'react-cookie';
 import { profileAPI } from '../api/profile';
 import { useUserDispatch, useUserState } from '../hook/useUserContext';
+import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -63,6 +61,7 @@ function App() {
           <Route path="/login" exact component={SignIn} />
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
+          <Route path="/registerWhisky" exact component={RegisterWhisky} />
         </Switch>
       </S.AppMainWrapper>
     </>

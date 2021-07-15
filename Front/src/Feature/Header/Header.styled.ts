@@ -1,9 +1,29 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Palette from '../../css/Palette';
 
 const Nav = styled.div`
   background-color: white;
+`;
+
+const MenuBtn = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  color: #272624;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+`;
+const SignUpBtn = styled.div`
+  background-color: transparent;
+  cursor: pointer;
+  color: #201F1E;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid #272624;
+  padding: 7px;
 `;
 const NavHeader = styled.div`
   align-items: center;
@@ -31,8 +51,6 @@ const NavRight = styled.div`
 `;
 
 const MenuLink = styled(Link)`
-  font-size: 16px;
-  color: #495057;
   font-family: 'Noto Sans KR', sans-serif;
 
   width: 100px;
@@ -43,12 +61,9 @@ const MenuLink = styled(Link)`
   align-items: center;
   text-align: center;
 
-  &:hover {
-    color: ${Palette.YB600};
-  }
-  &:active {
-    color: ${Palette.YB500};
-  }
+  cursor: pointer;
+  color: #272624;
+  font-size: 16px;
 `;
 
 const SearchInput = styled.input`
@@ -67,5 +82,7 @@ export default {
   NavRight,
   MenuLink,
   SearchInput,
-  MenuMargin
-}
+  MenuMargin,
+  MenuBtn,
+  SignUpBtn,
+};

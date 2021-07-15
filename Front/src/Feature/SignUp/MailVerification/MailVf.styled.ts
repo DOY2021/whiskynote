@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../../css/Mixin';
-import Typography from '../../../css/Typography';
+import { absoluteCenter, responsiveSize } from '../../../lib/css/Mixin';
+import Typography from '../../../lib/css/Typography';
+
+
 
 const MailVfWrapper = styled.div`
   ${absoluteCenter}
