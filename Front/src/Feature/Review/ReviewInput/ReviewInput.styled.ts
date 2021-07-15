@@ -41,8 +41,10 @@ const ReviewInputSubTitle = styled.div`
 `;
 
 const ReviewContentWrapper = styled.div`
-    width: 70%;
+    flex: 1;
     height: inherit;
+
+    position: relative;
 `;
 
 const ReviewContentText = styled.input`
