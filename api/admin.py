@@ -1,13 +1,14 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow, Collection, Wishlist
+from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
+
 class ProfileInline(admin.StackedInline):
-	model = Profile
-	con_delete = False
+  model = Profile
+  con_delete = False
 
 class FollowInline(admin.StackedInline):
     model = Follow
@@ -34,9 +35,15 @@ class WhiskyAdmin(admin.ModelAdmin):
 	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage", "bottled", "age", "whisky_detail")
 	search_fields = ["name", "distillery", "age"]
 
-@admin.register(Reaction)
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+	list_display = ("id", "kor_tag", "eng_tag")
+
 class ReactionAdmin(admin.ModelAdmin):
-	list_display = ("id","whisky", "user", "review_title","review_body", "review_rating")
+	model = Reaction
+	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
+
+admin.site.register(Reaction, ReactionAdmin)
 
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
@@ -45,4 +52,3 @@ class CollectionAdmin(admin.ModelAdmin):
 @admin.register(Wishlist)
 class WishlistAdmin(admin.ModelAdmin):
     list_display = ("user", "whisky", "created_at")
-

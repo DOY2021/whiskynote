@@ -12,3 +12,4 @@ pillow
 six
 requests
 django-rest-friendship
+django-model-utils
