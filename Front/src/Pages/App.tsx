@@ -3,7 +3,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
 import SignIn from '../Feature/SignIn/SignIn';
-import S from './App.styled';
+
 import SignUpPage from './SignUpPage';
 import Landing from '../Feature/Landing/Landing';
 import MyPage from '../Feature/MyPage/MyPage';
@@ -55,7 +55,7 @@ function App() {
   return (
     <>
       <Header />
-      <S.AppMainWrapper>
+      <>
         <Switch>
           <Route path="/signup" component={SignUpPage} />
           <Route path="/login" exact component={SignIn} />
@@ -63,7 +63,7 @@ function App() {
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
         </Switch>
-      </S.AppMainWrapper>
+      </>
     </>
   );
 }
