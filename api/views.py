@@ -240,30 +240,27 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
+
 #Whisky Create (Open-type DB function)
 #Admin authorization function should be added
 class WhiskyCreateAPIView(generics.CreateAPIView):
-    model = Whisky
-    serializer_class = WhiskyCreateSerializer
+        model = Whisky
+        serializer_class = WhiskyCreateSerializer
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        def post(self, request, *args, **kwargs):
+            return self.create(request, *args, **kwargs)
 
-#            serializer.save(user = request.user, whisky = whisky)
-#            return Response(serializer.data, status = status.HTTP_201_CREATED)
-#serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
 #Whisky Confirm
-
 class WhiskyConfirmListAPIView(generics.ListAPIView):
-    queryset = Whisky.objects.filter(confirmed = False)
-    serializer_class = WhiskySerializer
-    permission_class = (IsAdminUser)
+        queryset = Whisky.objects.filter(confirmed = False)
+        serializer_class = WhiskySerializer
+        permission_class = (IsAdminUser)
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Whisky.objects.filter(confirmed = False)
-    serializer_class = WhiskySerializer
-    permission_class = (IsAdminUser)
+        queryset = Whisky.objects.filter(confirmed = False)
+        serializer_class = WhiskySerializer
+        permission_class = (IsAdminUser)
 
 
 #Reaction
@@ -274,7 +271,7 @@ def reaction_list_create(request, whisky_pk):
         reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
         serializer = ReactionListSerializer(reactions, many = True)
         return Response(serializer.data)
-        
+
     elif request.method == 'POST':
         reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
         check = reactions.filter(user = request.user).count()
@@ -391,35 +388,29 @@ class FollowView(GenericAPIView):
                     {"detail": ("Bad Request")}
                     )
 
-#Follow - Plain Code
-#    def post(self, request, *args, **kwargs):
-#        serializer = self.get_serializer(data=request.data)
-#        serializer.is_valid(raise_exception=True)
-#        serializer.save()
-#        return Response(
-#                {"detail": ("Succesfully Followed")}
-#                )
-
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
+    queryset = Follow.objects.all()
 
-    def get_queryset(self):
-        pk = self.kwargs['pk']
+    def get_object(self):
+        pk = self.kwargs["pk"]
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
+    queryset = Follow.objects.all()
 
-    def get_queryset(self):
+    def get_object(self):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
 
-#Profile - Collection & Wishlist
 
+#Profile - Collection & Wishlist
 class CollectionAPIView(generics.ListAPIView):
     serializer_class = CollectionSerializer
+    queryset = Collection.objects.all()
 
-    def get_queryset(self):
+    def get_object(self):
         pk = self.kwargs['pk']
         return Collection.objects.filter(user = pk)
 
@@ -449,8 +440,9 @@ class CollectionCreateAPIView(generics.CreateAPIView):
 
 class WishlistAPIView(generics.ListAPIView):
     serializer_class = WishlistSerializer
+    queryset = Wishlist.objects.all()
 
-    def get_queryset(self):
+    def get_object(self, queryset = None):
         pk = self.kwargs['pk']
         return Wishlist.objects.filter(user = pk)
 
@@ -476,4 +468,4 @@ class WishlistCreateAPIView(generics.CreateAPIView):
             return Response(
                     {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
                     status=status.HTTP_200_OK,
-                    )
+            )
