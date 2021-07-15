@@ -220,7 +220,8 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
+        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'whisky_detail')
+        #fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
@@ -262,7 +263,6 @@ class FollowingSerializer(serializers.ModelSerializer):
         fields = ("following", )
 
 #Profile - Collection & Wishlist
-
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection

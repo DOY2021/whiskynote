@@ -34,17 +34,15 @@ class Whisky(models.Model):
     distillery = models.CharField(max_length = 100, null = True, blank = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
-    vintage = models.IntegerField(null = True)
+    vintage = models.IntegerField()
     bottled = models.DateTimeField(null = True, blank = True)
     age = models.IntegerField(null = True, blank = True)
     whisky_detail = models.TextField(null = True, blank = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
     casknumber = models.IntegerField(default = 0, blank = True)
-    alcohol = models.IntegerField(null = True)
-    #ratings
+    alcohol = models.IntegerField(default = 0, blank = True)
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(5)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-    #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
