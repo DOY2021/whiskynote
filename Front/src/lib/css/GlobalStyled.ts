@@ -9,10 +9,11 @@ export const GlobalStyle = createGlobalStyle`
 
         font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
 
-
+        background-color: #EDECE6;
         margin:0;
         padding: 0;
         min-height: 100%;
+        width: 100vw;
     }
     #root {
         min-height: 100vh;
