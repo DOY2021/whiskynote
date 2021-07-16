@@ -59,6 +59,7 @@ class Whisky(models.Model):
     def __str__(self):
         return self.name
 
+#Reaction & Tag
 class Tag(models.Model):
     kor_tag = models.CharField(max_length = 20)
     eng_tag = models.CharField(max_length = 30)
@@ -86,7 +87,14 @@ class Reaction(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-
+#Comment
+class ReactionComment(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    review = models.ForeignKey(Reaction, on_delete = models.CASCADE)
+    comment_body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    modified_at = models.DateTimeField(auto_now = True)
+        
 class Follow(models.Model):
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
     follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
