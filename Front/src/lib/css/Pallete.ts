@@ -1,6 +1,7 @@
 enum Palette {
   White = "#ffffff",
   Black = "#000000",
+  Header = '#201F1E',
   //Gray
   Gray000 = "#f8f9fa",
   Gray100 = "#f1f3f5",
@@ -69,7 +70,7 @@ enum Palette {
   CautionNormal = "#fab005",
   CautionDarken = "#f59f00",
   CautionDarkest = "#e67700",
-  YB600 = "YB600",
+  YB600 = "#CE7428",
   YB500 = "YB500"
 }
 

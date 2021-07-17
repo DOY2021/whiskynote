@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { FaRegTimesCircle } from 'react-icons/fa';
 import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
@@ -9,7 +8,6 @@ const convertNestedObjectToArray = nestedObj => {
 };
 
 const ImageUpload = ({
-  label,
   updateFilesCb,
   maxFileSize = MAX_FILE_SIZE,
   ...otherProps

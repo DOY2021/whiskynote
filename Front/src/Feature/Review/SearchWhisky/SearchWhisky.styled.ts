@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
 import { TypoGraphyTheme } from '../../../lib/css/Typography';
 
+
 const SearchWrapper = styled.div`
   display: flex;
 
@@ -21,7 +22,7 @@ const SearchIcon = styled(FiSearch)`
   margin-right: 10px;
 `;
 
-const SearchText = styled.input`
+const SearchInput = styled.input`
   width: 100%;
   height: 100%;
 
@@ -41,5 +42,5 @@ const SearchText = styled.input`
 export default {
   SearchWrapper,
   SearchIcon,
-  SearchText,
+  SearchInput,
 };
