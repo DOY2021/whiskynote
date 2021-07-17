@@ -15,7 +15,6 @@ function ImagePreview(props) {
         onMouseEnter={handleMouseHover}
         onMouseLeave={handleMouseHover}
       ></S.ImagePreview>
-      {isHover && <div></div>}
     </S.ImagePreviewWrapper>
   );
 }

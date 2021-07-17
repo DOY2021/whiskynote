@@ -8,6 +8,7 @@ const convertNestedObjectToArray = nestedObj => {
 };
 
 const ImageUpload = ({
+  maxFileNum,
   updateFilesCb,
   maxFileSize = MAX_FILE_SIZE,
   ...otherProps
@@ -28,7 +29,7 @@ const ImageUpload = ({
   const handleNewFileUpload = e => {
     const { files: newFiles } = e.target;
 
-    if (newFiles.length) {
+    if (newFiles.length < maxFileNum) {
       const updatedFiles = addNewFiles(newFiles);
       setFiles(updatedFiles);
       callUpdateFilesCb(updatedFiles);
@@ -56,22 +57,23 @@ const ImageUpload = ({
 
   return (
     <S.ImageUploadWrapper>
-      <S.UploadWrapper>
-        <S.UploadFileBtn onClick={handleUploadBtnClick}>
-          <S.IconsWrapper>
-            <S.CameraIcon src="../../../assets/CustomIcons/camera.svg"></S.CameraIcon>
-            <S.ImageText>이미지 등록</S.ImageText>
-            <S.FormField
-              type="file"
-              ref={fileInputField}
-              onChange={handleNewFileUpload}
-              title=""
-              value=""
-              {...otherProps}
-            ></S.FormField>
-          </S.IconsWrapper>
-        </S.UploadFileBtn>
-      </S.UploadWrapper>
+      {Object.keys(files).length < maxFileNum && (
+        <S.UploadWrapper>
+          <S.UploadFileBtn onClick={handleUploadBtnClick}>
+            <S.IconsWrapper>
+              <S.CameraIcon src="../../../assets/CustomIcons/camera.svg"></S.CameraIcon>
+              <S.ImageText>이미지 등록</S.ImageText>
+              <S.FormField
+                type="file"
+                ref={fileInputField}
+                onChange={handleNewFileUpload}
+                {...otherProps}
+              ></S.FormField>
+            </S.IconsWrapper>
+          </S.UploadFileBtn>
+        </S.UploadWrapper>
+      )}
+
       <S.PreviewWrapper>
         {Object.keys(files).map((fileName, index) => {
           const file = files[fileName];
@@ -80,7 +82,6 @@ const ImageUpload = ({
             <S.PreviewContainer key={fileName}>
               <div>
                 <S.DeleteBtn onClick={() => removeFile(fileName)}>
-
                   <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
                   {/* </S.DeleteBtnCircle> */}
                 </S.DeleteBtn>
