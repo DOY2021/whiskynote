@@ -42,8 +42,8 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction, Follow, Tag
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
+from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer, ReactionCommentSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -357,6 +357,25 @@ def reaction_update_delete(request, reaction_pk):
 class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+#ReactionComment
+class ReactionCommentListAPIView(generics.ListAPIView):
+    serializer_class = ReactionCommentSerializer
+    queryset = ReactionComment.objects.all()
+
+    def get_object(self, queryset = None):
+        pk = self.kwargs['reaction_pk']
+        return ReactionComment.objects.filter(review = pk)
+
+class ReactionCommentCreateAPIView(generics.CreateAPIView):
+    serializer_class = ReactionCommentSerializer
+    serializer = ReactionCommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user.id, review = self.kwargs['reaction_pk'])
+        return Response(
+            {'message':'Comment posted'})
+
 
 #Follow (New) 
 class FollowView(GenericAPIView):
