@@ -74,7 +74,7 @@ sensitive_post_parameters_m = method_decorator(
 
 #Profile - Collection & Wishlist
 from api.models import Wishlist, Collection
-from api.serializers import WishlistSerializer, CollectionSerializer
+from api.serializers import WishlistSerializer, WishlistViewSerializer, CollectionSerializer, CollectionViewSerializer
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -407,7 +407,7 @@ class FollowerDetailView(generics.ListAPIView):
 
 #Profile - Collection & Wishlist
 class CollectionAPIView(generics.ListAPIView):
-    serializer_class = CollectionSerializer
+    serializer_class = CollectionViewSerializer
     queryset = Collection.objects.all()
 
     def get_object(self):
@@ -439,10 +439,10 @@ class CollectionCreateAPIView(generics.CreateAPIView):
                     )
 
 class WishlistAPIView(generics.ListAPIView):
-    serializer_class = WishlistSerializer
+    serializer_class = WishlistViewSerializer
     queryset = Wishlist.objects.all()
 
-    def get_object(self, queryset = None):
+    def get_object(self):
         pk = self.kwargs['pk']
         return Wishlist.objects.filter(user = pk)
 
