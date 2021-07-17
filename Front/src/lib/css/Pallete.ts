@@ -1,7 +1,17 @@
 enum Palette {
   White = "#ffffff",
   Black = "#000000",
-  Header = '#201F1E',
+  //WhiskyYellow
+  Orange000 = "#FFF8E8",
+  Orange100 = "#FEF2D4",
+  Orange200 = "#FCE1AA",
+  Orange300 = "#FACB80",
+  Orange400 = "#F6B560",
+  Orange500 = "#F29423",
+  Orange600 = "#CE7428",
+  Orange700 = "#AD581E",
+  Orange800 = "#8B3F15",
+  Orange900 = "#732E0E",
   //Gray
   Gray000 = "#f8f9fa",
   Gray100 = "#f1f3f5",

@@ -1,4 +1,5 @@
 import React from 'react'
+import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
 import Typography from '../../lib/css/Typography'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
@@ -14,14 +15,17 @@ function RegisterWhisky() {
       <P size = {TypoGraphyCategory.title}>새로운 위스키 등록</P>
       <S.RegisterWhiskyRegisterForm>
         <S.RegisterTitleWrapper>
-          <P size = {TypoGraphyCategory.body}>위스키명을 입력해주세요</P>
+          
+          <P  size = {TypoGraphyCategory.body} isInline={true}>위스키명을 입력해주세요</P>
+          <P size={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
+          
           <ReviewInput title='국문' subtitle='글렌모렌지 시그넷' type={ReviewType.text}/>
           <ReviewInput title='영문' subtitle='Glenmorangie Signet' type={ReviewType.text}/>
         </S.RegisterTitleWrapper>
         <S.RegisterPhotoWrapper>
-          <P size = {TypoGraphyCategory.body}>위스키 대표 사진을 등록해주세요.</P>
-          <P size = {TypoGraphyCategory.body2}>상품 이미지 사이즈 이렇게 해주세요.</P>
-          <P size = {TypoGraphyCategory.body2}>위스키 대표 사진을 등록해주세요.</P>
+          <P color={Palette.Orange600} size = {TypoGraphyCategory.body}>위스키 대표 사진을 등록해주세요.</P>
+          <P color={Palette.Orange600} size = {TypoGraphyCategory.body2}>상품 이미지 사이즈 이렇게 해주세요.</P>
+          <P color={Palette.Orange600} size = {TypoGraphyCategory.body2}>위스키 대표 사진을 등록해주세요.</P>
           <ImageUpload label='Whisky'/>
         </S.RegisterPhotoWrapper>
         <S.RegisterDescriptWrapper>
