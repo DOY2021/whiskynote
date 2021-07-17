@@ -1,7 +1,7 @@
 # Whisky
 Project Whiskey (May 2021 ~)
 
-# Error Fix
+# Run Server!
 
 **Backend - Migration 에러**
 
