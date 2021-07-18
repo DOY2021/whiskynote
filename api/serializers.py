@@ -297,9 +297,19 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = ("whisky", "created_at")
 
+class CollectionViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ("whisky", "created_at")
+        depth = 1
+
 class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ("whisky", "created_at")
 
-
+class WishlistViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ("whisky", "created_at")
+        depth = 1

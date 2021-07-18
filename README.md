@@ -1,7 +1,7 @@
 # Whisky
 Project Whiskey (May 2021 ~)
 
-# Error Fix
+# Run Server!
 
 **Backend - Migration 에러**
 
@@ -38,3 +38,9 @@ Project Whiskey (May 2021 ~)
   명령어> python manage.py migrate                진행
   
   > https://stackoverflow.com/questions/37937343/django-db-migrations-exceptions-nodenotfounderror
+  
+  __migration들을 모두 삭제하는 이 방법은 그 동안의 migration들을 날리고 새로운 migration을 추가하는 방법이기 때문에 db table 상에서는 적용이 안되는 에러: Programming error: relation does not exist 가 생길 수 있다..__
+  
+  > **2021.07.16 git에 migration 파일을 올리지 않는 방법으로 migration 관련 에러(relation does not exist) 원천 차단함**
+  
+
