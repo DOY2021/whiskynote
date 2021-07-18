@@ -220,7 +220,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage','bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
