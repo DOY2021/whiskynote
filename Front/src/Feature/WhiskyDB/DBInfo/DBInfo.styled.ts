@@ -11,6 +11,7 @@ const DBInfoDetailWrapper = styled.div`
     width: 100%;
 `;
 
+
 export default {
   DBInfoWrapper,
   DBInfoDetailWrapper

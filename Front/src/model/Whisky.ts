@@ -1,6 +1,6 @@
 export interface WhiskyBaseProp {
   koreanName : string;
-  englishNmae : string;
+  englishName : string;
   category: string;
   distillery: string;
   bottler: string;
@@ -13,6 +13,8 @@ export interface WhiskyBaseProp {
   strength: string;
   description: string;
 }
+
+export type WhiskyDescriptionProp = Omit<WhiskyBaseProp, 'englishName' | 'koreanName'>
 
 export interface WhiskyDetailProp extends WhiskyBaseProp{
   rating: number;

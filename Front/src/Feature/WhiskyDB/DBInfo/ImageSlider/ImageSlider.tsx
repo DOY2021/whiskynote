@@ -4,29 +4,30 @@ import { useState } from 'react'
 import S from './ImageSlider.styled'
 
 function ImageSlider() {
-  const imgIdx = useRef<number>(0);
-
-  const handleIdx = useCallback((idx:number) => {
-    imgIdx.current = idx;
-  },[imgIdx])
+  const [imgIdx,setIdx] = useState(0);
 
   const renderDot = (_,idx) => {
-    const handleDotClick = () => handleIdx(idx);
+    const handleDotClick = () => {
+      setIdx(idx)
+    };
 
     const selectedDot = imgIdx === idx ? true : false;
+    console.log(selectedDot)
 
-    return <S.ImageSliderDot onClick={handleDotClick} isSelected = {selectedDot}/>
+    return <S.ImageSliderDot onClick={handleDotClick} isSelected = {selectedDot} key={idx}/>
   }
 
   return (
-    <S.ImageSliderWrapper position={imgIdx}>
-      <S.ImageSliderItem/>
-      <S.ImageSliderItem/>
-      <S.ImageSliderItem/>
+    <S.ImageSliderBox>
+      <S.ImageSliderWrapper position={imgIdx}>
+        <S.ImageSliderItem src='https://source.unsplash.com/random'/>
+        <S.ImageSliderItem src='https://source.unsplash.com/daily'/>
+        <S.ImageSliderItem src= 'https://source.unsplash.com/random'/>
+      </S.ImageSliderWrapper>
       <S.ImageSliderDotWrapper>
         {new Array(3).fill(0).map(renderDot)}
       </S.ImageSliderDotWrapper>
-    </S.ImageSliderWrapper>
+    </S.ImageSliderBox>
   )
 }
 
