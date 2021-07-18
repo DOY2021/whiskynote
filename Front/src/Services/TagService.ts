@@ -13,4 +13,10 @@ class TagService{
       .filter(tag => tag[1] === category)
       .map(tag => tag[0]);
   }
+
+  getTagCategory(item: string) {
+    return this.tagList[item];
+  }
 }
+
+export default new TagService();
