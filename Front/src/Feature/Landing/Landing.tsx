@@ -5,9 +5,7 @@ import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 
 function Landing(){
   return(<div>this is landing page 
-    {/* <ReviewInput title='category'  subtitle='test' type={ReviewType.dropdown}/>
-    */}
-    <NewWhiskyReview></NewWhiskyReview>
+    {/* <NewWhiskyReview></NewWhiskyReview> */}
   </div>)
 }
 

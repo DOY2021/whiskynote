@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Typography from '../../../lib/css/Typography';
 
 const Input = styled.textarea`
   display: flex;
@@ -25,8 +26,30 @@ const Input = styled.textarea`
     outline: none;
   }
 `;
+
+const TextCount = styled.p`
+  color: #5f5e5b;
+  ${Typography.body1};
+  float: right;
+`;
+
 function TextField(props) {
-  return <Input placeholder="위스키에 대해 설명해주세요"></Input>
+  const [text, setTextState] = useState('');
+
+  const handleTextAreaInput = e => {
+    setTextState(e.target.value);
+  };
+  return (
+    <>
+      <Input
+        maxLength={2000}
+        value={text}
+        placeholder="위스키에 대해 설명해주세요"
+        onChange={handleTextAreaInput}
+      ></Input>
+      <TextCount>{text.length}/2000</TextCount>
+    </>
+  );
 }
 
 export default TextField;
