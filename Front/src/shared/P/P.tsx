@@ -5,25 +5,23 @@ import Palette from '../../lib/css/Pallete';
 import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
-type StyleParenProp = Pick<ParenProp, 'color' | 'size' | 'isInline'>;
+type StyleParenProp = Pick<ParenProp, 'color' | 'size'>;
 
 export type ParenProp = {
   color?: Palette;
   size?: TypoGraphyCategory;
   children: React.ReactNode;
-  isInline?: boolean;
   id?: string;
 };
 
 function P({
   color = Palette.Black,
   size = TypoGraphyCategory.body,
-  isInline=false,
   children,
   id,
 }: ParenProp) {
   return (
-    <Paren color={color} size={size} id={id} isInline={isInline}>
+    <Paren color={color} size={size} id={id}>
       {children}
     </Paren>
   );
@@ -32,9 +30,6 @@ function P({
 const Paren = styled.p<StyleParenProp>`
   ${({ size }) => size && TypoGraphyTheme[size]}
   ${({ color }) => color && Palette[color]}
-  ${({isInline})=> isInline && css`
-    display: inline-block;
-  `}
 `;
 
 export default P;

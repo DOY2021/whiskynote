@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Nav = styled.div`
-  background-color: inherit;
+  background-color: white;
 `;
 
 const MenuBtn = styled.button`
