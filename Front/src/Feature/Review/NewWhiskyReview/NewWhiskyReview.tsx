@@ -24,7 +24,7 @@ function NewWhiskyReview() {
               inputText={'어떤 위스키를 마셨나요?'}
               isMandatory={true}
             ></HeadLine>
-            <SearchWhisky searchText={''}></SearchWhisky>
+            <SearchWhisky></SearchWhisky>
           </S.ElementWrapper>
 
           <S.ElementWrapper>
