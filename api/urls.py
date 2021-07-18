@@ -14,7 +14,6 @@ from api.views import confirm_email, CustomLoginView,\
     WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
     reaction_list_create, reaction_update_delete,\
     TagListView
-    #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
 
@@ -29,6 +28,9 @@ from api.views import FollowView, FollowerDetailView, FollowingDetailView
 
 #Collection & Wishlist
 from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView, CollectionCreateAPIView
+
+#Reaction Comment
+from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 
 urlpatterns = [
     #rest-auth
@@ -67,7 +69,7 @@ urlpatterns = [
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-    path("whisky/new", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    path("whisky/new/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
@@ -76,7 +78,11 @@ urlpatterns = [
     path('reaction/<int:reaction_pk>/', reaction_update_delete),
 
     #tag (list only)
-    path('tag/all/', TagListView.as_view(), name = 'tag')
+    path('tag/all/', TagListView.as_view(), name = 'tag'),
+
+    #reaction comment
+    path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
+    path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
     ]
 
     #Media setting

@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow, Tag
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -220,8 +220,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'whisky_detail')
-        #fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
+        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
@@ -270,12 +269,17 @@ class ReactionListSerializer(serializers.ModelSerializer):
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
+#ReactionComment
+class ReactionCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionComment
+        fields = ('created_at', 'modified_at')
 
 #Follow(New)
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ("following", "follower")
+        fields = "__all__"
 
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:

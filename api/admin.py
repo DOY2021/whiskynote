@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist
+from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -42,9 +42,12 @@ class TagAdmin(admin.ModelAdmin):
 class ReactionAdmin(admin.ModelAdmin):
 	model = Reaction
 	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
-
 admin.site.register(Reaction, ReactionAdmin)
 
+@admin.register(ReactionComment)
+class ReactionCommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "review", "comment_body", "created_at", "modified_at")
+    
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("user", "whisky", "created_at")

@@ -30,17 +30,17 @@ class Profile(models.Model):
 class Whisky(models.Model):
     name = models.CharField(max_length = 100, null = True)
     #Updated - some instances may vary to choice field or ManyToMany relation field
-    category = models.CharField(max_length = 100, null = True, blank = True)
-    distillery = models.CharField(max_length = 100, null = True, blank = True)
+    category = models.CharField(max_length = 100, null = True)
+    distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
-    vintage = models.IntegerField(null = True)
-    bottled = models.DateTimeField(null = True, blank = True)
-    age = models.IntegerField(null = True, blank = True)
-    whisky_detail = models.TextField(null = True, blank = True)
+    vintage = models.IntegerField(null = True, blank = True)
+    bottled = models.IntegerField(null = True, blank = True)
+    age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
     casknumber = models.IntegerField(default = 0, blank = True)
     alcohol = models.IntegerField(null = True)
+    whisky_detail = models.TextField(null = True, blank = True)
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
@@ -59,6 +59,7 @@ class Whisky(models.Model):
     def __str__(self):
         return self.name
 
+#Reaction & Tag
 class Tag(models.Model):
     kor_tag = models.CharField(max_length = 20)
     eng_tag = models.CharField(max_length = 30)
@@ -86,7 +87,14 @@ class Reaction(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-
+#Comment
+class ReactionComment(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    review = models.ForeignKey(Reaction, on_delete = models.CASCADE)
+    comment_body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    modified_at = models.DateTimeField(auto_now = True)
+        
 class Follow(models.Model):
     following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
     follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
