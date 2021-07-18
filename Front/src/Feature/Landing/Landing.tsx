@@ -8,5 +8,4 @@ function Landing(){
     {/* <NewWhiskyReview></NewWhiskyReview> */}
   </div>)
 }
-
 export default Landing;

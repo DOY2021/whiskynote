@@ -1,11 +1,6 @@
 import React from 'react';
-import Palette from '../../../lib/css/Pallete';
-import P from '../../../shared/P/P';
-import ReviewInput, { ReviewType } from '../ReviewInput/ReviewInput';
 import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
-import Typography from '../../../lib/css/Typography';
-import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
 import HeadLine from './HeadLine';
 import ImageUpload from '../../../shared/ImageUpload/ImageUpload';
 import TextField from './TextField';
@@ -13,7 +8,6 @@ function NewWhiskyReview() {
   const updateFiles = () => {};
 
   const handleSubmitReview = () => {};
-
   return (
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
@@ -68,7 +62,6 @@ function NewWhiskyReview() {
             <S.RegisterWhiskyBtn>위스키 등록하기</S.RegisterWhiskyBtn>
           </S.ButtonsWrapper>
         </form>
-        {/* <ReviewInput title='a' subtitle='위스키명으로 검색하기'  type={ReviewType.text}/> */}
       </S.NewWhiskyReviewInnerWrapper>
     </S.NewWhiskyReviewWrapper>
   );
