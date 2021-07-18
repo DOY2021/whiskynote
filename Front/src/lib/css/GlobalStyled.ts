@@ -12,14 +12,10 @@ export const GlobalStyle = createGlobalStyle`
 
         margin:0;
         padding: 0;
-        
+        min-height: 100%;
     }
     #root {
         min-height: 100vh;
-
-        width: 100vw;
-
-        
     }
     html {
         height: 100%;

@@ -11,8 +11,8 @@ import { GlobalStyle } from './lib/css/GlobalStyled';
 render(
   <BrowserRouter>
     <CookiesProvider>
+      <GlobalStyle />
       <UserContextProvider>
-        <GlobalStyle />
         <App />
       </UserContextProvider>
     </CookiesProvider>

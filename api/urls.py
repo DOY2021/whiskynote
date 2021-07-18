@@ -12,7 +12,8 @@ from rest_auth.registration.views import VerifyEmailView
 from api.views import confirm_email, CustomLoginView,\
     ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
     WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
-    reaction_list_create, reaction_update_delete
+    reaction_list_create, reaction_update_delete,\
+    TagListView
     #ReactionCreateView, ReactionListAPIView, ReactionDetailUpdateView
 
 from rest_framework import permissions
@@ -25,6 +26,9 @@ from api.views import PasswordResetConfirmView
 
 #Follow
 from api.views import FollowView, FollowerDetailView, FollowingDetailView
+
+#Collection & Wishlist
+from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView, CollectionCreateAPIView
 
 urlpatterns = [
     #rest-auth
@@ -54,6 +58,12 @@ urlpatterns = [
     path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
     path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
 
+    #Collection & Wishlist
+    path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
+    path("collection/create/", CollectionCreateAPIView.as_view(), name = "collection_create"),
+    path("<int:pk>/wishlist", WishlistAPIView.as_view(), name = "wishlist"),
+    path("wishlist/create/", WishlistCreateAPIView.as_view(), name = "wishlist_new"),
+
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
@@ -62,11 +72,11 @@ urlpatterns = [
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
     #reaction
-    #path("reaction/all/",ReactionListAPIView.as_view(), name = 'reaction_all'),
-    #path("reaction/create/", ReactionCreateView.as_view(), name = 'reaction_create'),
-    #path("reaction/<int:reaction_pk>/", ReactionDetailUpdateView.as_view(), name = 'reaction_detail'),
     path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     path('reaction/<int:reaction_pk>/', reaction_update_delete),
+
+    #tag (list only)
+    path('tag/all/', TagListView.as_view(), name = 'tag')
     ]
 
     #Media setting

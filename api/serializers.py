@@ -15,12 +15,15 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow
+from api.models import Profile, Whisky, Reaction, Follow, Tag
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
 from rest_auth.utils import import_callable
 from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+
+#Profile - Collection & Whisky
+from api.models import Collection, Wishlist
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -28,7 +31,6 @@ rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
 UserDetailsSerializer = import_callable(
     rest_auth_serializers.get('USER_DETAILS_SERIALIZER', DefaultUserDetailsSerializer)
 )
-
 
 # Get UserModel
 from django.contrib.auth.models import User
@@ -218,7 +220,8 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
+        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'whisky_detail')
+        #fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
@@ -226,20 +229,45 @@ class WhiskyConfirmSerializer(serializers.ModelSerializer):
         model = Whisky
         fields = '__all__'
 
+#Reaction + Tag
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('kor_tag',)
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
-
     def get_whisky_name(self, obj):
         return obj.whisky.name
 
     userName = serializers.SerializerMethodField()
-
     def get_userName(self, obj):
         return obj.user.username
+    '''
+    nose_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    taste_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    finish_tag = serializers.SlugRelatedField(
+        many = True,
+        read_only = True,
+        slug_field = 'kor_tag'
+    )
+    nose_tag = TagSerializer(many = True)
 
+    taste_tag = TagSerializer(many = True)
+
+    finish_tag = TagSerializer(many = True)
+    '''
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'review_rating', 'created_at','modified_at')
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 
@@ -259,3 +287,25 @@ class FollowingSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ("following", )
 
+#Profile - Collection & Wishlist
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ("whisky", "created_at")
+
+class CollectionViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ("whisky", "created_at")
+        depth = 1
+
+class WishlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ("whisky", "created_at")
+
+class WishlistViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ("whisky", "created_at")
+        depth = 1
