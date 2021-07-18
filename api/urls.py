@@ -69,7 +69,7 @@ urlpatterns = [
     #whisky
     path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-    path("whisky/new", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    path("whisky/new/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
