@@ -10,7 +10,6 @@ from model_utils import Choices
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
 
-
 class Profile(models.Model):
     #required at profile creation
     user = models.OneToOneField(User, on_delete= models.CASCADE)

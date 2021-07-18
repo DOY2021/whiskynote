@@ -32,7 +32,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage", "bottled", "age", "whisky_detail")
+	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage","bottled", "age", "cask", "casknumber", "alcohol", "whisky_detail")
 	search_fields = ["name", "distillery", "age"]
 
 @admin.register(Tag)
