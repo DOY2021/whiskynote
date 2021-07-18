@@ -80,7 +80,7 @@ const DeleteBtn = styled.button`
   position: absolute;
   background-color: transparent;
   color: #ffffff;
-  right: 0px;
+  right: 5px;
   top: 5px;
 `;
 
