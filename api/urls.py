@@ -9,19 +9,28 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView,\
-    ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
-    WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
-    reaction_list_create, reaction_update_delete,\
-    TagListView
 
 from rest_framework import permissions
 
-#CustomUrls-RestAuth_related
-from rest_auth.views import (
-    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
-    )
+#Login
+from api.views import confirm_email, CustomLoginView
+#Customized RestAuth
+from rest_auth.views import LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView
+#Customized Login
 from api.views import PasswordResetConfirmView
+
+#Profile
+from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
+
+#Whisky DB
+from api.views import WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView
+#import WhiskyCreateViewSet
+
+#Reaction
+from api.views import reaction_list_create, reaction_update_delete
+
+#Tag
+from api.views import TagListView
 
 #Follow
 from api.views import FollowView, FollowerDetailView, FollowingDetailView
@@ -67,9 +76,11 @@ urlpatterns = [
     path("wishlist/create/", WishlistCreateAPIView.as_view(), name = "wishlist_new"),
 
     #whisky
-    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
+    #path("whisky/", WhiskyDetailAPIView.as_view(), name = 'whisky'),
     path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-    path("whisky/new/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    path("whisky/create/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    #path("whisky/create/", WhiskyCreateViewSet.as_view({'post':'create'}), name = 'whisky_create'),
+    #new method using ViewSet (TBD)
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 

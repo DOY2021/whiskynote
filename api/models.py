@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token as DefaultTokenModel
 from .utils import import_callable
 from django.contrib.auth.models import User
 from datetime import datetime
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, validate_image_file_extension
 from model_utils import Choices
 #rest_auth
 TokenModel = import_callable(
@@ -28,6 +28,8 @@ class Profile(models.Model):
 
 class Whisky(models.Model):
     name = models.CharField(max_length = 100, null = True)
+    #Updated - whisky contributor saved in each instance
+    contributor = models.CharField(max_length = 100, null = True)
     #Updated - some instances may vary to choice field or ManyToMany relation field
     category = models.CharField(max_length = 100, null = True)
     distillery = models.CharField(max_length = 100, null = True)
@@ -57,6 +59,10 @@ class Whisky(models.Model):
 
     def __str__(self):
         return self.name
+
+class WhiskyImage(models.Model):
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, null = True, related_name = 'whisky_image', related_query_name = 'whisky_image')
+    image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
 
 #Reaction & Tag
 class Tag(models.Model):
