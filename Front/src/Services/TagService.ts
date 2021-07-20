@@ -1,4 +1,5 @@
 import { TagCategory } from "../constants/TagCategory";
+import Palette from "../lib/css/Pallete";
 import { TagProp } from "../model/Tag";
 
 
@@ -16,6 +17,10 @@ class TagService{
 
   getTagCategory(item: string) {
     return this.tagList[item];
+  }
+
+  getTagColor(category: TagProp){
+    return Palette[category];
   }
 }
 

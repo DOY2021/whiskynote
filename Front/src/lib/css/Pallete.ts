@@ -81,7 +81,12 @@ enum Palette {
   CautionDarken = "#f59f00",
   CautionDarkest = "#e67700",
   YB600 = "#CE7428",
-  YB500 = "YB500"
+  YB500 = "YB500",
+
+  곡물 = "#A39A70",
+  나무 = "#7A973E",
+  꽃 = "#CC739E",
+
 }
 
 export default Palette;

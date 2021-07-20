@@ -5,7 +5,7 @@ import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 
 function Landing(){
   return(<div>this is landing page 
-    {/* <NewWhiskyReview></NewWhiskyReview> */}
+    <NewWhiskyReview></NewWhiskyReview>
   </div>)
 }
 export default Landing;
