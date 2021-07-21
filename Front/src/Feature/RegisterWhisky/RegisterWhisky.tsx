@@ -2,7 +2,6 @@ import React from 'react'
 import { useState } from 'react'
 import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
-import Typography from '../../lib/css/Typography'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
 
