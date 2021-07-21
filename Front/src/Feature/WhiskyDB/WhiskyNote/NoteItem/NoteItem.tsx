@@ -33,7 +33,7 @@ function NoteItem(list: NoteItemProp) {
       <S.NoteItemContentWrapper>
         <S.NoteItemContentIcon src={chocolate}/>
         <S.NoteItemContentText>
-
+            
         </S.NoteItemContentText>
       </S.NoteItemContentWrapper>
     </S.NoteItemWrapper>
