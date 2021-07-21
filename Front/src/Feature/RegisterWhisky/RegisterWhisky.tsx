@@ -7,6 +7,8 @@ import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
 
 import P from '../../shared/P/P'
+import HeadLine from '../Review/NewWhiskyReview/HeadLine'
+import TextField from '../Review/NewWhiskyReview/TextField'
 import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput'
 import S from './RegisterWhisky.styled'
 
@@ -54,6 +56,18 @@ function RegisterWhisky() {
           <ReviewInput title='캐스크넘버' subtitle='Cask Number' type={ReviewType.text} onChange={setCaskNum} value={caskNum}/>
           <ReviewInput title='도수' subtitle='Alcohol Strength' type={ReviewType.text} onChange={setStrength} value={strength}/>
         </S.RegisterDescriptWrapper>
+        <S.MarginWrapper>
+          <HeadLine
+            inputText={'위스키에 대해 설명해주세요.'}
+            isMandatory={true}
+          ></HeadLine>
+        </S.MarginWrapper>
+        <TextField></TextField>
+
+        <S.ButtonsWrapper>
+          <S.TempSaveBtn>임시 저장</S.TempSaveBtn>
+          <S.RegisterWhiskyBtn>위스키 등록하기</S.RegisterWhiskyBtn>
+        </S.ButtonsWrapper>
       </S.RegisterWhiskyRegisterForm>
     </S.RegisterWhiskyWrapper>
   )

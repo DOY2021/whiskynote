@@ -17,7 +17,7 @@ function DropDown({
   }
 
   return (
-    <Styled.DropDownWrapper onClick={handleOpen}>
+    <Styled.DropDownWrapper onClick={handleOpen} isOpen = {isOpen}>
       {isOpen && React.Children.map(children, (child) => {
         return (
           <Styled.DropDownItem onClick={onClick}>

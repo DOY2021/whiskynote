@@ -16,7 +16,7 @@ export type ParenProp = {
 };
 
 function P({
-  color = Palette.Black,
+  color,
   size = TypoGraphyCategory.body,
   isInline = false,
   children,
@@ -31,6 +31,9 @@ function P({
 
 const Paren = styled.p<StyleParenProp>`
   ${({ size }) => size && TypoGraphyTheme[size]}
+
+  color: inherit;
+
   ${({ color }) => color && css`
     color: ${color};
   `}
