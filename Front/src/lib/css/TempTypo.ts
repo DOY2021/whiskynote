@@ -24,12 +24,19 @@ const body2 = css`
     line-height: 22.4px;
 `
 
+const body3 = css`
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22.4px;
+`
+
 
 export enum TypoGraphyCategory {
   title = 'title',
   subtitle = 'subtitle',
   body = 'body',
   body2= 'body2',
+  body3= 'body3',
 }
   
 export const TypoGraphyTheme : { [typo in TypoGraphyCategory] : FlattenSimpleInterpolation} = {
@@ -37,6 +44,7 @@ export const TypoGraphyTheme : { [typo in TypoGraphyCategory] : FlattenSimpleInt
   [TypoGraphyCategory.subtitle] : subtitle,
   [TypoGraphyCategory.body] : body,
   [TypoGraphyCategory.body2] : body2,
+  [TypoGraphyCategory.body3] : body3,
   
 }
 
