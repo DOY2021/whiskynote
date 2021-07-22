@@ -8,5 +8,5 @@
     "module": "commonjs",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src"]
+  "include": ["./src", "./types/custom.d.ts"]
 }

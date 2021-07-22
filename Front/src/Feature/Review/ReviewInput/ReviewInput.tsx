@@ -11,13 +11,25 @@ interface ReviewInputProp {
   title: string;
   subtitle?: string;
   type?: ReviewType;
+  onChange?: (v:any) => void,
+  onClick?: (v:any) => void,
+  value?: string;
 }
 
 function ReviewInput({
   title,
   subtitle= '',
-  type = ReviewType.text
+  type = ReviewType.text,
+  onChange,
+  onClick,
+  value
 }:ReviewInputProp) {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement> ) => {
+    if(e.target === undefined) return;
+    if(!onChange) return;
+    onChange(e.target.value)
+  }
+
   return (
     <Styled.ReviewInputWrapper>
       <Styled.ReviewTitleWrapper hasSubtitle={subtitle ? true : false}>
@@ -26,8 +38,9 @@ function ReviewInput({
       </Styled.ReviewTitleWrapper>
       <Styled.ReviewContentWrapper>
         {type === ReviewType.text 
-          ? <Styled.ReviewContentText placeholder='카테고리를 입력하세요'/>
-          : <DropDown>
+          ? <Styled.ReviewContentText placeholder='카테고리를 입력하세요' onChange={handleInput} value={value}/>
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          : <DropDown onClick={onClick || (() =>{})}> 
             {new Array(10).fill(0).map((_,idx) => idx)}  
           </DropDown>}
       </Styled.ReviewContentWrapper>
