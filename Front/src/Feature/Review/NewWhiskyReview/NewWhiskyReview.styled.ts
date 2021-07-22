@@ -31,6 +31,7 @@ const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top:155px;
+  margin-bottom: 179px;
 `;
 const TempSaveBtn = styled.button`
   width: 192px;
