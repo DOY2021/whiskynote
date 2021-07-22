@@ -23,7 +23,7 @@ from api.views import PasswordResetConfirmView
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
 
 #Whisky DB
-from api.views import WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView
+from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView
 #import WhiskyCreateViewSet
 
 #Reaction
@@ -76,8 +76,8 @@ urlpatterns = [
     path("wishlist/create/", WishlistCreateAPIView.as_view(), name = "wishlist_new"),
 
     #whisky
-    #path("whisky/", WhiskyDetailAPIView.as_view(), name = 'whisky'),
-    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/main/", WhiskyMainListAPIView.as_view(), name = 'whisky_main'),
+    path("whisky/<int:pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
     path("whisky/create/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
     #path("whisky/create/", WhiskyCreateViewSet.as_view({'post':'create'}), name = 'whisky_create'),
     #new method using ViewSet (TBD)
