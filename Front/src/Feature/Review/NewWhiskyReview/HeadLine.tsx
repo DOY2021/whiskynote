@@ -8,9 +8,10 @@ import Typography
  display:flex;
  flex-direction:row;
  margin-bottom: 12px;
+ margin-top:12px;
  `
  const HeadLineText = styled.p`
- color: ${Palette.Header};
+ color: #2F2E2D;
  ${Typography.headline};
  display:flex;
  `

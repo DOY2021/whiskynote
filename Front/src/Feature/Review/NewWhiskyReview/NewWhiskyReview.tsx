@@ -6,7 +6,34 @@ import ImageUpload from '../../../shared/ImageUpload/ImageUpload';
 import TextField from './TextField';
 import ProgressBar from '../Slider/Slider';
 import { useState } from 'react';
+import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
+import Palette from '../../../lib/css/Pallete';
+
+const handleColors = text => {
+  switch (text) {
+    case '곡물':
+      return Palette.곡물;
+    case '나무':
+      return Palette.나무;
+    case '꽃':
+      return Palette.꽃;
+    case '과일':
+      return Palette.과일;
+    case '와인':
+      return Palette.와인;
+    case '유황':
+      return Palette.유황;
+    case '피트':
+      return Palette.피트;
+    case '후류':
+      return Palette.후류;
+    default:
+      return  '#e7e5de';
+  }
+};
 function NewWhiskyReview() {
+  const [currentClicked, setCurrentClicked] = useState('');
+ 
   const [scores, setScores] = useState({
     nose:0,
     taste:0,
@@ -24,6 +51,20 @@ function NewWhiskyReview() {
     e.target.style.backgroundSize = (e.target.value - 0) * 100 / 100 + '% 100%';
   };
 
+  const handleTagSelection = (e) => {
+    
+    e.preventDefault();
+    e.target.style.backgroundColor = handleColors(e.target.value);
+    e.target.style.color = '#edece6';
+    setCurrentClicked(e.target.value)
+   
+     
+  }
+
+  const handleLowerTagSelection = (e) => {
+    e.preventDefault();
+
+  }
   return (
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
@@ -50,31 +91,26 @@ function NewWhiskyReview() {
               multiple
             ></ImageUpload>
           </S.ElementWrapper>
-
-          <S.MarginWrapper>
+          
             <HeadLine
               inputText={'위스키는 만족스러우셨나요?'}
               isMandatory={false}
             ></HeadLine>
-          </S.MarginWrapper>
-
           <ProgressBar name="nose" label="Nose" score={scores.nose} handleChange={handleScoreChange}></ProgressBar>
           <ProgressBar name="taste" label="Taste" score={scores.taste} handleChange={handleScoreChange}></ProgressBar>
           <ProgressBar name="finish" label="Finish" score={scores.finish} handleChange={handleScoreChange}></ProgressBar>
-
-          <S.MarginWrapper>
+         
             <HeadLine
-              inputText={'위스키 노트를 작성해주세요.'}
+              inputText={'어떤 맛과 향을 느끼셨나요?'}
               isMandatory={false}
             ></HeadLine>
-          </S.MarginWrapper>
+            <WhiskyNote label="Nose" handleTagSelection={handleTagSelection} handleLowerTagSelection={handleLowerTagSelection} currentClicked={currentClicked}></WhiskyNote>
 
-          <S.MarginWrapper>
             <HeadLine
               inputText={'위스키에 대해 설명해주세요.'}
               isMandatory={false}
             ></HeadLine>
-          </S.MarginWrapper>
+         
           <TextField></TextField>
 
           <S.ButtonsWrapper>
