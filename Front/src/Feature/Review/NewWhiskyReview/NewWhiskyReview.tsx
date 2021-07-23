@@ -8,6 +8,7 @@ import ProgressBar from '../Slider/Slider';
 import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
+import HashTag from '../WhiskyNote/HashTag/HashTag';
 
 const handleColors = text => {
   switch (text) {
@@ -28,43 +29,54 @@ const handleColors = text => {
     case '후류':
       return Palette.후류;
     default:
-      return  '#e7e5de';
+      return '#e7e5de';
   }
 };
 function NewWhiskyReview() {
   const [currentClicked, setCurrentClicked] = useState('');
- 
+  const [selectedTags, setSelectedTags] = useState({
+    nose: [],
+    taste: [],
+    finish: []
+  })
+
   const [scores, setScores] = useState({
-    nose:0,
-    taste:0,
-    finish:0
+    nose: 0,
+    taste: 0,
+    finish: 0,
   });
   const updateFiles = () => {};
 
   const handleSubmitReview = () => {};
 
-
-  const handleScoreChange = (e) => {
-    setScores(prevValues  => {
-     return {...prevValues, [e.target.name]: e.target.value}
-    })
-    e.target.style.backgroundSize = (e.target.value - 0) * 100 / 100 + '% 100%';
+  const handleScoreChange = e => {
+    setScores(prevValues => {
+      return { ...prevValues, [e.target.name]: e.target.value };
+    });
+    e.target.style.backgroundSize =
+      ((e.target.value - 0) * 100) / 100 + '% 100%';
+    console.log(scores);
   };
 
-  const handleTagSelection = (e) => {
+  const changeColors = e => {
+    if (!e.target.style.backgroundColor) {
+      e.target.style.backgroundColor = handleColors(e.target.value);
+      e.target.style.color = '#edece6';
+    } 
+    setCurrentClicked(e.target.value);
+  }
+
+  const handleTagSelection = e => {
+    e.preventDefault();
     
-    e.preventDefault();
-    e.target.style.backgroundColor = handleColors(e.target.value);
-    e.target.style.color = '#edece6';
-    setCurrentClicked(e.target.value)
-   
-     
-  }
+    changeColors(e);
+    console.log(e)
+  };
 
-  const handleLowerTagSelection = (e) => {
-    e.preventDefault();
 
-  }
+  const handleLowerTagSelection = e => {
+    e.preventDefault();
+  };
   return (
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
@@ -91,26 +103,59 @@ function NewWhiskyReview() {
               multiple
             ></ImageUpload>
           </S.ElementWrapper>
-          
-            <HeadLine
-              inputText={'위스키는 만족스러우셨나요?'}
-              isMandatory={false}
-            ></HeadLine>
-          <ProgressBar name="nose" label="Nose" score={scores.nose} handleChange={handleScoreChange}></ProgressBar>
-          <ProgressBar name="taste" label="Taste" score={scores.taste} handleChange={handleScoreChange}></ProgressBar>
-          <ProgressBar name="finish" label="Finish" score={scores.finish} handleChange={handleScoreChange}></ProgressBar>
-         
-            <HeadLine
-              inputText={'어떤 맛과 향을 느끼셨나요?'}
-              isMandatory={false}
-            ></HeadLine>
-            <WhiskyNote label="Nose" handleTagSelection={handleTagSelection} handleLowerTagSelection={handleLowerTagSelection} currentClicked={currentClicked}></WhiskyNote>
 
-            <HeadLine
-              inputText={'위스키에 대해 설명해주세요.'}
-              isMandatory={false}
-            ></HeadLine>
-         
+          <HeadLine
+            inputText={'위스키는 만족스러우셨나요?'}
+            isMandatory={false}
+          ></HeadLine>
+          <ProgressBar
+            name="nose"
+            label="Nose"
+            score={scores.nose}
+            handleChange={handleScoreChange}
+          ></ProgressBar>
+          <ProgressBar
+            name="taste"
+            label="Taste"
+            score={scores.taste}
+            handleChange={handleScoreChange}
+          ></ProgressBar>
+          <ProgressBar
+            name="finish"
+            label="Finish"
+            score={scores.finish}
+            handleChange={handleScoreChange}
+          ></ProgressBar>
+
+          <HeadLine
+            inputText={'어떤 맛과 향을 느끼셨나요?'}
+            isMandatory={false}
+          ></HeadLine>
+          <HashTag name="바닐라"></HashTag>
+          <WhiskyNote
+            label="Nose"
+            handleTagSelection={handleTagSelection}
+            handleLowerTagSelection={handleLowerTagSelection}
+            currentClicked={currentClicked}
+          ></WhiskyNote>
+          <WhiskyNote
+            label="Taste"
+            handleTagSelection={handleTagSelection}
+            handleLowerTagSelection={handleLowerTagSelection}
+            currentClicked={currentClicked}
+          ></WhiskyNote>
+          <WhiskyNote
+            label="Finish"
+            handleTagSelection={handleTagSelection}
+            handleLowerTagSelection={handleLowerTagSelection}
+            currentClicked={currentClicked}
+          ></WhiskyNote>
+
+          <HeadLine
+            inputText={'위스키에 대해 설명해주세요.'}
+            isMandatory={false}
+          ></HeadLine>
+
           <TextField></TextField>
 
           <S.ButtonsWrapper>

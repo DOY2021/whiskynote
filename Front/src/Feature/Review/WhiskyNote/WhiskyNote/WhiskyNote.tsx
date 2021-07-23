@@ -8,15 +8,15 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, hand
     <>
     <S.SliderLabel>{props.label}</S.SliderLabel>
     <S.ButtonWrapper>
-      <WhiskyNoteBtn text='곡물' onClick={props.handleTagSelection}></WhiskyNoteBtn>
-      <WhiskyNoteBtn text='나무' onClick={props.handleTagSelection}></WhiskyNoteBtn>
-      <WhiskyNoteBtn text='꽃' onClick={props.handleTagSelection}></WhiskyNoteBtn>
-      <WhiskyNoteBtn text='과일' onClick={props.handleTagSelection}></WhiskyNoteBtn>
+      <WhiskyNoteBtn text='곡물' onClick={props.handleTagSelection} ></WhiskyNoteBtn>
+      <WhiskyNoteBtn text='나무' onClick={props.handleTagSelection} ></WhiskyNoteBtn>
+      <WhiskyNoteBtn text='꽃' onClick={props.handleTagSelection} ></WhiskyNoteBtn>
+      <WhiskyNoteBtn text='과일' onClick={props.handleTagSelection} ></WhiskyNoteBtn>
       <WhiskyNoteBtn text='와인' onClick={props.handleTagSelection}></WhiskyNoteBtn>
       <WhiskyNoteBtn text='유황' onClick={props.handleTagSelection}></WhiskyNoteBtn>
     </S.ButtonWrapper>
 
- {  props.currentClicked == '곡물' &&
+ {  props.currentClicked == '곡물' && 
     <S.ButtonWrapper>
       <WhiskyNoteBtn text="홉" low={true} onClick={props.handleLowerTagSelection} ></WhiskyNoteBtn>
       <WhiskyNoteBtn text="맥아" low={true} onClick={props.handleLowerTagSelection} ></WhiskyNoteBtn>
@@ -94,9 +94,6 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, hand
       <WhiskyNoteBtn text="담배" low={true} onClick={props.handleLowerTagSelection} ></WhiskyNoteBtn>
     </S.ButtonWrapper>
 }
-
-    
-    
     </>
   )
 }

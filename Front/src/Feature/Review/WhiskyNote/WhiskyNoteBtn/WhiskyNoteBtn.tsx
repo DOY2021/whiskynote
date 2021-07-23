@@ -6,7 +6,8 @@ import Palette from '../../../../lib/css/Pallete';
 export interface TagButtonProp {
   text: string,
   low?: boolean,
-  onClick: (e) => void
+  onClick: (e) => void,
+  color?:string
 }
 
 
@@ -16,7 +17,7 @@ const LowerLevelBtn = styled.button<TagButtonProp>`
   color: #2f2e2d;
   align-items: center;
   border-radius: 4px;
-  margin-left: 10px;
+   margin-right: 10px;
   cursor:pointer;
   width: 144px;
   height: 49px;
@@ -25,8 +26,6 @@ const LowerLevelBtn = styled.button<TagButtonProp>`
     background-color: #d9d6c4;
   }
 `;
-
-
 
 const Btn = styled.button<TagButtonProp>`
 background-color: #e7e5de;
@@ -37,13 +36,13 @@ height: 49px;
 align-items: center;
 border-radius: 4px;
 border: transparent;
-margin-left: 10px;
+margin-right:  ${props => props.text == '유황' ? null: '10px'};
 cursor:pointer;
 `;
 
 
 function WhiskyNoteBtn({text, low, onClick}: TagButtonProp) {
- const [backgroundColor, selectBackgroundColor] = useState('');
+ 
 
   return (
     <>
