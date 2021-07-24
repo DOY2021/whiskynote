@@ -32,13 +32,18 @@ const handleColors = text => {
       return '#e7e5de';
   }
 };
+
+const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
+
 function NewWhiskyReview() {
-  const [currentClicked, setCurrentClicked] = useState('');
+  const [currentNoseClicked, setCurrentNoseClicked] = useState('');
+  const [currentTasteClicked, setCurrentTasteClicked] = useState('');
+  const [currentFinishClicked, setCurrentFinishClicked] = useState('');
   const [selectedTags, setSelectedTags] = useState({
     nose: [],
     taste: [],
-    finish: []
-  })
+    finish: [],
+  });
 
   const [scores, setScores] = useState({
     nose: 0,
@@ -62,21 +67,41 @@ function NewWhiskyReview() {
     if (!e.target.style.backgroundColor) {
       e.target.style.backgroundColor = handleColors(e.target.value);
       e.target.style.color = '#edece6';
-    } 
-    setCurrentClicked(e.target.value);
-  }
-
-  const handleTagSelection = e => {
-    e.preventDefault();
-    
-    changeColors(e);
-    console.log(e)
+    }
   };
-
 
   const handleLowerTagSelection = e => {
     e.preventDefault();
   };
+
+  const handleNoseSelection = e => {
+    e.preventDefault();
+    if (tagList.indexOf(e.target.value)) {
+      changeColors(e);
+      setCurrentNoseClicked(e.target.value);
+    } else {
+      //lower tag
+    }
+  };
+
+  const handleTasteSelection = e => {
+    e.preventDefault();
+    if (tagList.indexOf(e.target.value)) {
+      changeColors(e);
+      setCurrentTasteClicked(e.target.value);
+    } else {
+    }
+  };
+
+  const handleFinishSelection = e => {
+    e.preventDefault();
+    if (tagList.indexOf(e.target.value)) {
+      changeColors(e);
+      setCurrentFinishClicked(e.target.value);
+    } else {
+    }
+  };
+
   return (
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
@@ -134,21 +159,18 @@ function NewWhiskyReview() {
           <HashTag name="바닐라"></HashTag>
           <WhiskyNote
             label="Nose"
-            handleTagSelection={handleTagSelection}
-            handleLowerTagSelection={handleLowerTagSelection}
-            currentClicked={currentClicked}
+            handleTagSelection={handleNoseSelection}
+            currentClicked={currentNoseClicked}
           ></WhiskyNote>
           <WhiskyNote
             label="Taste"
-            handleTagSelection={handleTagSelection}
-            handleLowerTagSelection={handleLowerTagSelection}
-            currentClicked={currentClicked}
+            handleTagSelection={handleTasteSelection}  
+            currentClicked={currentTasteClicked}
           ></WhiskyNote>
           <WhiskyNote
             label="Finish"
-            handleTagSelection={handleTagSelection}
-            handleLowerTagSelection={handleLowerTagSelection}
-            currentClicked={currentClicked}
+            handleTagSelection={handleFinishSelection}
+            currentClicked={currentFinishClicked}
           ></WhiskyNote>
 
           <HeadLine
