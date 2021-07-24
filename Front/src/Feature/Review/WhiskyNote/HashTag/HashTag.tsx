@@ -9,6 +9,7 @@ const HashTagWrapper = styled.div`
   width: fit-content;
   display: flex;
   display-items: row;
+  margin-right:12px;
 `;
 const TagText = styled.div`
   font-size: 13px;
