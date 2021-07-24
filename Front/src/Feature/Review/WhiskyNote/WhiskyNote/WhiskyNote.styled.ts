@@ -6,6 +6,12 @@ const SliderLabel = styled.div`
   margin-bottom: 12px;
 `;
 
+//TODO: move  next row, responseive
+const HashTagList = styled.div`
+  display:flex;
+  flex-direction:row;
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   flex-items: row; 
@@ -14,4 +20,5 @@ const ButtonWrapper = styled.div`
 export default {
   SliderLabel,
   ButtonWrapper,
+  HashTagList
 };

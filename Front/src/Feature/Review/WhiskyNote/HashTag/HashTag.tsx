@@ -5,11 +5,12 @@ const HashTagWrapper = styled.div`
   background-color: #d0cec5;
   align-items: center;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 2px 6px;
   width: fit-content;
   display: flex;
   display-items: row;
   margin-right:12px;
+  margin-bottom: 16px;
 `;
 const TagText = styled.div`
   font-size: 13px;
@@ -22,9 +23,9 @@ const DeleteIcon = styled.button`
   background-color: transparent;
   margin-top: 2px;
 `;
-function HashTag(props: { name: string }) {
+function HashTag(props: { name: string, key:any }) {
   return (
-    <HashTagWrapper>
+    <HashTagWrapper >
       <TagText>{props.name}</TagText>
       <DeleteIcon>
         <img src="../../../../../assets/CustomIcons/removetag.svg"></img>

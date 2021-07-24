@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import HashTag from "../HashTag/HashTag";
 import WhiskyNoteBtn from "../WhiskyNoteBtn/WhiskyNoteBtn";
 import S from './WhiskyNote.styled';
-function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, currentClicked: string}) {
+function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, currentClicked: string, hashTagList: []}) {
 
 
   return (
     <>
     <S.SliderLabel>{props.label}</S.SliderLabel>
+    <S.HashTagList>
+      {props.hashTagList && props.hashTagList.map((tag,index) => (<HashTag key={index} name={tag}></HashTag>))}
+    </S.HashTagList>
     <S.ButtonWrapper>
       <WhiskyNoteBtn text='곡물' onClick={props.handleTagSelection} ></WhiskyNoteBtn>
       <WhiskyNoteBtn text='나무' onClick={props.handleTagSelection} ></WhiskyNoteBtn>

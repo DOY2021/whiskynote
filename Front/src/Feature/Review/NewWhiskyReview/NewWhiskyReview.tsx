@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
@@ -39,10 +39,10 @@ function NewWhiskyReview() {
   const [currentNoseClicked, setCurrentNoseClicked] = useState('');
   const [currentTasteClicked, setCurrentTasteClicked] = useState('');
   const [currentFinishClicked, setCurrentFinishClicked] = useState('');
-  const [selectedTags, setSelectedTags] = useState({
-    nose: [],
-    taste: [],
-    finish: [],
+  const [selectedTags, setSelectedTags] = useState<any>({
+    nose: '',
+    taste: '',
+    finish: '',
   });
 
   const [scores, setScores] = useState({
@@ -55,6 +55,7 @@ function NewWhiskyReview() {
   const handleSubmitReview = () => {};
 
   const handleScoreChange = e => {
+    //TODO: important
     setScores(prevValues => {
       return { ...prevValues, [e.target.name]: e.target.value };
     });
@@ -70,35 +71,42 @@ function NewWhiskyReview() {
     }
   };
 
-  const handleLowerTagSelection = e => {
-    e.preventDefault();
-  };
 
   const handleNoseSelection = e => {
     e.preventDefault();
-    if (tagList.indexOf(e.target.value)) {
+    if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
       setCurrentNoseClicked(e.target.value);
     } else {
       //lower tag
+     
+      if(selectedTags.nose.indexOf(e.target.value) < 0){
+        console.log([...selectedTags.nose, e.target.value])
+      setSelectedTags(prevValues =>  {
+        return {...prevValues, nose: [...selectedTags.nose, e.target.value]}
+      })
+      }
     }
   };
 
   const handleTasteSelection = e => {
     e.preventDefault();
-    if (tagList.indexOf(e.target.value)) {
+    if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
       setCurrentTasteClicked(e.target.value);
     } else {
+      
+
     }
   };
 
   const handleFinishSelection = e => {
     e.preventDefault();
-    if (tagList.indexOf(e.target.value)) {
+    if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
       setCurrentFinishClicked(e.target.value);
     } else {
+
     }
   };
 
@@ -156,13 +164,14 @@ function NewWhiskyReview() {
             inputText={'어떤 맛과 향을 느끼셨나요?'}
             isMandatory={false}
           ></HeadLine>
-          <HashTag name="바닐라"></HashTag>
+         
           <WhiskyNote
             label="Nose"
             handleTagSelection={handleNoseSelection}
             currentClicked={currentNoseClicked}
+            hashTagList={selectedTags.nose}
           ></WhiskyNote>
-          <WhiskyNote
+          {/* <WhiskyNote
             label="Taste"
             handleTagSelection={handleTasteSelection}  
             currentClicked={currentTasteClicked}
@@ -171,7 +180,7 @@ function NewWhiskyReview() {
             label="Finish"
             handleTagSelection={handleFinishSelection}
             currentClicked={currentFinishClicked}
-          ></WhiskyNote>
+          ></WhiskyNote> */}
 
           <HeadLine
             inputText={'위스키에 대해 설명해주세요.'}
