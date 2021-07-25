@@ -286,6 +286,7 @@ def reaction_list_create(request, whisky_pk):
             new_nose_rating = request.data.get('nose_rating')
             new_taste_rating = request.data.get('taste_rating')
             new_finish_rating = request.data.get('finish_rating')
+            ### Exception 추가. if rating : None -> exception, message: Needs ratings
             new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
             new_total_rating = cur_rating + new_average_rating
             cur_counts = cur_counts+1
@@ -293,9 +294,17 @@ def reaction_list_create(request, whisky_pk):
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
-
-            #nose_tag = request.data.get('nose_tag')
-            #serializer.nose_tag = nose_tag
+            # Saving Tag Fields in whisky DB
+            nose_tags= request.data.get('nose_tag')
+            taste_tags= request.data.get('taste_tag')
+            finish_tags= request.data.get('finish_tag')
+            for n_tag in nose_tags:
+                print(n_tag)
+            for t_tag in taste_tags:
+                print(t_tag)
+            for f_tag in finish_tags:
+                print(f_tag)
+            ### Credit Point 기능 추가.
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -330,6 +339,8 @@ def reaction_update_delete(request, reaction_pk):
             whisky.whisky_ratings = new_rating
             whisky.save()
 
+            # Edit Tag Fields in whisky DB
+            print(whisky.nose_tags[1])
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

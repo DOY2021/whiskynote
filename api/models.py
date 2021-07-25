@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 from model_utils import Choices
+from django.contrib.postgres.fields import ArrayField
 #rest_auth
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
@@ -38,11 +39,15 @@ class Whisky(models.Model):
     age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
     casknumber = models.IntegerField(default = 0, blank = True)
-    alcohol = models.IntegerField(null = True)
+    alcohol = models.FloatField(null = True)
     whisky_detail = models.TextField(null = True, blank = True)
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+    #tag_info
+    nose_tags = ArrayField(models.IntegerField(default = 0), size = 35, default = list)
+    taste_tags = ArrayField(models.IntegerField(default = 0), size = 35, default = list)
+    finish_tags = ArrayField(models.IntegerField(default = 0), size = 35, default = list)
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -85,6 +90,10 @@ class Reaction(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+class WhiskyTagRecord(models.Model):
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+
 
 #Comment
 class ReactionComment(models.Model):
