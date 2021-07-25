@@ -242,13 +242,21 @@ class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Whisky Create (Open-type DB function)
-#Admin authorization function should be added
 class WhiskyCreateAPIView(generics.CreateAPIView):
         model = Whisky
         serializer_class = WhiskyCreateSerializer
+        permission_classes = [permissions.IsAuthenticated]
 
         def post(self, request, *args, **kwargs):
             return self.create(request, *args, **kwargs)
+
+#Whisky Create - Using ViewSet (Open-type DB function)
+#class WhiskyCreateViewSet(viewsets.ModelViewSet):
+#    serializer_class = WhiskyCreateSerializer
+#    http_method_names = ['post']
+#    queryset = Whisky.objects.all()
+#    permission_classes = [permissions.IsAuthenticated]
+#    #PostOwnerPermission to be added (for PUT method)
 
 
 #Whisky Confirm

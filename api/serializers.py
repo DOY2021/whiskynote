@@ -25,6 +25,9 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 #Profile - Collection & Whisky
 from api.models import Collection, Wishlist
 
+#Images
+from api.models import WhiskyImage
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -208,19 +211,44 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 
 
 #WhiskyDB
-#General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
+class WhiskyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WhiskyImage
+        fields = ('id', 'image',)
+
+#General Whisky List Serializer (Linked to WhiskyDetailAPIView) 
 class WhiskySerializer(serializers.ModelSerializer):
+    whisky_image = WhiskyImageSerializer(many = True, required = False)
+
     class Meta:
         model = Whisky
         fields = '__all__'
-        read_only_fields = ('whisky_ratings','rating_counts')
+        read_only_fields = ('whisky_image', 'whisky_ratings','rating_counts')
+
 
 #Whisky Create Serializer (Open-type DB function)
 class WhiskyCreateSerializer(serializers.ModelSerializer):
+    whisky_image = WhiskyImageSerializer(many = True, required = False)
+
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage','bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+        fields = ('name', 'whisky_image', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage','bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+
+    def create(self, validated_data):
+        current_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'whisky_image' in validated_data:
+            whisky_image = validated_data.pop('whisky_image')
+            whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
+            for img in whisky_image:
+                WhiskyImage.objects.create(**img, whisky = whisky_instance)
+            return whisky_instance
+
+        if 'whisky_image' not in validated_data:
+            whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
+            return whisky_instance
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
