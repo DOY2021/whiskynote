@@ -4,18 +4,16 @@ import Typography from '../../../lib/css/Typography';
 
 const Input = styled.textarea`
   display: flex;
-
   width: 100%;
   max-width: 1200px;
   height: 300px;
-
   background-color: #e7e5de;
   border-radius: 2px;
-
   padding: 6px 0px;
   padding-left: 8px;
   border: transparent;
   margin-top:16px;
+  padding: 10px;
 
   ::placeholder,
   ::-webkit-input-placeholder {

@@ -35,6 +35,7 @@ const handleColors = text => {
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
 function NewWhiskyReview() {
+  //TODO: manage this Clicked state with useReducer
   const [currentNoseClicked, setCurrentNoseClicked] = useState('');
   const [currentTasteClicked, setCurrentTasteClicked] = useState('');
   const [currentFinishClicked, setCurrentFinishClicked] = useState('');
@@ -120,14 +121,14 @@ function NewWhiskyReview() {
 
   const handleTasteDeletion = (name:any) => {
     setSelectedTags(prevValues => {
-      return {...prevValues, nose: selectedTags.nose.filter(tag => tag !== name)}
+      return {...prevValues, taste: selectedTags.taste.filter(tag => tag !== name)}
     })
   }
 
 
   const handleFinishDeletion = (name:any) => {
     setSelectedTags(prevValues => {
-      return {...prevValues, nose: selectedTags.nose.filter(tag => tag !== name)}
+      return {...prevValues, finish: selectedTags.finish.filter(tag => tag !== name)}
     })
   }
 
@@ -136,7 +137,6 @@ function NewWhiskyReview() {
       <S.NewWhiskyReviewInnerWrapper>
         <form onSubmit={handleSubmitReview}>
           <S.Title>리뷰 작성</S.Title>
-
           <S.ElementWrapper>
             <HeadLine
               inputText={'사진을 등록해주세요.'}
