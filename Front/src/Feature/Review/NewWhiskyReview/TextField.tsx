@@ -15,6 +15,7 @@ const Input = styled.textarea`
   padding: 6px 0px;
   padding-left: 8px;
   border: transparent;
+  margin-top:16px;
 
   ::placeholder,
   ::-webkit-input-placeholder {

@@ -16,18 +16,21 @@ const TagText = styled.div`
   font-size: 13px;
   color: #2f2e2d;
 `;
-const DeleteIcon = styled.button`
+const DeleteIcon = styled.div`
   outline: none;
   margin-left: 3px;
   cursor: pointer;
   background-color: transparent;
   margin-top: 2px;
 `;
-function HashTag(props: { name: string, key:any }) {
+function HashTag(props: { name: string, key:any, handleTagDelete:(k:any) => void}) {
+  const handleDeletion = () => {
+    props.handleTagDelete(props.name)
+  }
   return (
     <HashTagWrapper >
       <TagText>{props.name}</TagText>
-      <DeleteIcon>
+      <DeleteIcon onClick={handleDeletion}>
         <img src="../../../../../assets/CustomIcons/removetag.svg"></img>
       </DeleteIcon>
     </HashTagWrapper>
