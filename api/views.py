@@ -66,6 +66,9 @@ from rest_framework import filters
 #Whisky Confirm
 from rest_framework.permissions import IsAdminUser
 
+#Pagination
+from api.pagination import PageSize5Pagination
+
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
         'password', 'old_password', 'new_password1', 'new_password2'
@@ -225,6 +228,17 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         file_obj = request.data['profile_photo']
         return self.update(request, *args, **kwargs)
+
+#Whisky Mainpage
+class WhiskyMainListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.filter(confirmed = True)
+    #Add order_by
+    serializer_class = WhiskySerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'brand']
+    ordering_fields = ['rating_counts', 'updated_at']
+    #Pagination
+    pagination_class = PageSize5Pagination
 
 
 #Whisky DB

@@ -216,7 +216,8 @@ class WhiskyImageSerializer(serializers.ModelSerializer):
         model = WhiskyImage
         fields = ('id', 'image',)
 
-#General Whisky List Serializer (Linked to WhiskyDetailAPIView) 
+
+#General Whisky(list, pk) (Linked to WhiskyMainAPIView, WhiskyDetailAPIView) 
 class WhiskySerializer(serializers.ModelSerializer):
     whisky_image = WhiskyImageSerializer(many = True, required = False)
 
