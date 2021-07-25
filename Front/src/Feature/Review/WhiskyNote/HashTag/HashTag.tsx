@@ -28,7 +28,7 @@ function HashTag(props: { name: string, key:any, handleTagDelete:(k:any) => void
     props.handleTagDelete(props.name)
   }
   return (
-    <HashTagWrapper >
+    <HashTagWrapper>
       <TagText>{props.name}</TagText>
       <DeleteIcon onClick={handleDeletion}>
         <img src="../../../../../assets/CustomIcons/removetag.svg"></img>

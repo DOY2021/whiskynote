@@ -69,7 +69,6 @@ function NewWhiskyReview() {
     }
   };
 
-
   const handleNoseSelection = e => {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
