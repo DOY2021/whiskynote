@@ -112,7 +112,7 @@ function SignUpTwo() {
           onChange={handleNicknameInput}
           signType="signup"
           name="name"
-          inputLabel="이름"
+          
           placeholder="이름을 입력해주세요."
           maxLength={10}
           errorMsg={errMsg.nickname}
@@ -132,7 +132,7 @@ function SignUpTwo() {
         </S.SignUpPolicyContainer>
         <Button
           size="login"
-          variant="primary"
+          variant="black"
           disabled={!bio || !nickname || !policyCheck}
           btnType="button"
         >

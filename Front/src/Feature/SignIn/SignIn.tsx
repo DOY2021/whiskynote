@@ -8,11 +8,10 @@ import { Link, useHistory } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
-import KakaoMap from '../Map/KakaoMap';
 import { useCookies } from 'react-cookie';
 import { profileAPI } from '../../api/profile';
 import CSRFToken from '../../shared/CSRFToken';
-import { useUserDispatch, useUserState } from '../../hook/useUserContext';
+import { useUserDispatch } from '../../hook/useUserContext';
 import Palette from '../../lib/css/Pallete';
 
 function SignIn() {
@@ -23,11 +22,11 @@ function SignIn() {
   const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     setEmail(value);
   };
   const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const {  value } = event.target;
     setPassword(value);
   };
 
@@ -106,7 +105,6 @@ function SignIn() {
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
-            inputLabel=""
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
             value={email}
@@ -117,7 +115,7 @@ function SignIn() {
             errorMsg={errMsg.non_field_errors}
           />
           <SignInput
-            inputLabel=""
+            
             type="password"
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
