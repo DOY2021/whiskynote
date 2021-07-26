@@ -10,7 +10,7 @@ declare global {
   }
 }
 const KakaoLoginBtn = styled.div` 
-  width: 320px;
+  width: 432px;
   height: 70px;
   line-height: 40px;
   background-color: #fee500;
@@ -19,6 +19,8 @@ const KakaoLoginBtn = styled.div`
   display: inline-block;
   
   ${absoluteCenter}
+
+  margin-top: 15px;
 
   border-radius: 5px;
   text-align: center;

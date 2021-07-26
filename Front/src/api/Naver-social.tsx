@@ -61,13 +61,13 @@ const NaverLoginWrapper = styled.div`
   justify-content: center;
 
   #naverIdLogin_loginButton {
-    width: 320px;
-    height: 80px;
+    width: 432px;
+    height: 70px;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: fill;
     }
   }
 `;

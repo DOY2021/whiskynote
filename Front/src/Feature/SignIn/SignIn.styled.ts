@@ -44,7 +44,8 @@ const SignInBtnContainer = styled.div`
 
 const SocialLoginWrapper = styled.div`
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
+  align-items: center;
   width:432px;
 `
 const Line = styled.div`
