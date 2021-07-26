@@ -10,6 +10,12 @@ class ProfileInline(admin.StackedInline):
   model = Profile
   con_delete = False
 
+class CustomUserAdmin(UserAdmin):
+	inlines = (ProfileInline,)
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+
 class FollowInline(admin.StackedInline):
     model = Follow
     fk_name = "following"
@@ -20,15 +26,11 @@ class FollowerInline(admin.StackedInline):
     fk_name = "follower"
     con_delete = False
 
-class CustomUserAdmin(UserAdmin):
-	inlines = (ProfileInline, FollowInline, FollowerInline)
-
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
-
-@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ("id", "user","nickname", "bio", "profile_photo")
+    inlines = [FollowInline, FollowerInline]
+
+admin.site.register(Profile, ProfileAdmin)
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):

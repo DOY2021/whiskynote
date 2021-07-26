@@ -99,15 +99,13 @@ class ReactionComment(models.Model):
     comment_body = models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
     modified_at = models.DateTimeField(auto_now = True)
-        
+
+#Follow
 class Follow(models.Model):
-    following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
-    follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
+    follower = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "is_following")
+    following = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "is_follower")
     #Functions
     created = models.DateTimeField(auto_now_add = True)
-
-### Whisky DB Creation / Edit Request Status Saving Model to be added ###
-
 
 #Profile - Collection & Whisky
 class Collection(models.Model):

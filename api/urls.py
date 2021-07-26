@@ -23,7 +23,7 @@ from api.views import PasswordResetConfirmView
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
 
 #Whisky DB
-from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView
+from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyUpdateAPIView,  WhiskyConfirmListAPIView, WhiskyConfirmAPIView
 #import WhiskyCreateViewSet
 
 #Reaction
@@ -62,12 +62,12 @@ urlpatterns = [
     #profile
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
-    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+    path("<int:pk>/profile/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
-    path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
-    path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
+    path("<int:pk>/following/", FollowingDetailView.as_view(), name = "followers"),
+    path("<int:pk>/follower/", FollowerDetailView.as_view(), name = "following"),
 
     #Collection & Wishlist
     path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
@@ -78,6 +78,7 @@ urlpatterns = [
     #whisky
     path("whisky/main/", WhiskyMainListAPIView.as_view(), name = 'whisky_main'),
     path("whisky/<int:pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/<int:pk>/update/", WhiskyUpdateAPIView.as_view(), name = 'whisky_update'),
     path("whisky/create/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
     #path("whisky/create/", WhiskyCreateViewSet.as_view({'post':'create'}), name = 'whisky_create'),
     #new method using ViewSet (TBD)
