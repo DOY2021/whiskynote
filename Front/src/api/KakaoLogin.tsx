@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { absoluteCenter } from '../lib/css/Mixin';
 
 const { Kakao } = window; //for TypeScript
 declare global {
@@ -8,18 +9,18 @@ declare global {
     Kakao: any;
   }
 }
-const KakaoLoginBtn = styled.div` {
-  margin-left: 52px;
-  padding: 0 0 0 20px;
-  height: 40px;
+const KakaoLoginBtn = styled.div` 
+  width: 320px;
+  height: 70px;
   line-height: 40px;
   background-color: #fee500;
-  font-size: 12px;
+  font-size: 20px;
   color: #111;
   display: inline-block;
-  width: 200px;
+  
+  ${absoluteCenter}
+
   border-radius: 5px;
-  font-weight: 700;
   text-align: center;
   cursor: pointer;
   background-image: url(//upload.wikimedia.org/wikipedia/commons/d/dd/Kakao_Corp._symbol_-_2012.svg);

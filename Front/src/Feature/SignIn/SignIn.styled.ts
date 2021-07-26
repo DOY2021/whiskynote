@@ -55,7 +55,8 @@ const Line = styled.div`
 const ButtonWrapper = styled.div`
 display:flex;
 flex-direction:row;
-  float:right`
+justify-content: space-between;
+  `
 const CheckBox = styled.input`
   margin-top:8px`
 

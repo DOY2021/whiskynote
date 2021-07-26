@@ -12,17 +12,17 @@ function TypeChoice() {
         <S.TypeChoiceHeader>
           <S.TypeChoiceHeaderH1>회원가입</S.TypeChoiceHeaderH1>
         </S.TypeChoiceHeader>
-        <div>
+        <S.TypeSocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-        </div>
+        </S.TypeSocialLoginWrapper>
         <Link to="/signup/email/1">
-          <Button size="login" variant="primary">
+          <Button size="login" variant="black">
             이메일로 회원가입
           </Button>
         </Link>
-        <Link to="/">
-          <Button size="small" variant="primary" type="text">
+        <Link to="/login">
+          <Button size="small" variant="grayscale" type="text">
             이미 계정이 있으신가요?
           </Button>
         </Link>

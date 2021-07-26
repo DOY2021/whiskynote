@@ -130,7 +130,7 @@ function SignUpOne() {
           {/* <Link to="signup/email/2"> */}
           <Button
             size="fit"
-            variant="primary"
+            variant="black"
             disabled={loading || !email || !password}
           >
             다음
