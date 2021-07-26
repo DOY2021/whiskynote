@@ -144,16 +144,20 @@ function SignIn() {
             </Link>
 
             <S.ButtonWrapper>
-              <S.CheckBox
-                type="checkbox"
-                onChange={e => {
-                  setChecked(e.target.checked);
-                }}
-                checked={checked}
-              />
-              <S.CheckBoxText onClick={() => setChecked(!checked)}>
+              <div style={{display:'flex'}}>
+                <S.CheckBox
+                  id='chk'
+                  type="checkbox"
+                  onChange={e => {
+                    setChecked(e.target.checked);
+                  }}
+                  checked={checked}
+                />
+                <S.CheckBoxLabel htmlFor='chk'></S.CheckBoxLabel>
+                <S.CheckBoxText onClick={() => setChecked(!checked)}>
                 로그인 상태 유지
-              </S.CheckBoxText>
+                </S.CheckBoxText>
+              </div>
               <Button size="small" variant="grayscale" type="text" color={Palette.Gray600}>
                 이메일/비밀번호 찾기
               </Button>
