@@ -8,6 +8,7 @@ import ProgressBar from '../Slider/Slider';
 import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
+import { ReactionApi } from '../../../api/reaction';
 
 const handleColors = text => {
   switch (text) {
@@ -34,8 +35,16 @@ const handleColors = text => {
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
+const changeColors = e => {
+  if (!e.target.style.backgroundColor) {
+    e.target.style.backgroundColor = handleColors(e.target.value);
+    e.target.style.color = '#edece6';
+  }
+};
+
+
 function NewWhiskyReview() {
-  //TODO: manage this Clicked state with useReducer
+  //TODO: refactoring
   const [currentNoseClicked, setCurrentNoseClicked] = useState('');
   const [currentTasteClicked, setCurrentTasteClicked] = useState('');
   const [currentFinishClicked, setCurrentFinishClicked] = useState('');
@@ -52,7 +61,17 @@ function NewWhiskyReview() {
   });
   const updateFiles = () => {};
 
-  const handleSubmitReview = () => {};
+  const handleSubmitReview = () => {
+    const review = {
+      review_body: '',
+      nose_rating: currentNoseClicked,
+      taste_rating: currentTasteClicked,
+      finish_rating: currentFinishClicked,
+    }
+    ReactionApi.createReview(0, review).then(() => {
+
+    })
+  };
 
   const handleScoreChange = e => {
     //TODO: important
@@ -61,13 +80,6 @@ function NewWhiskyReview() {
     });
     e.target.style.backgroundSize =
       ((e.target.value - 0) * 100) / 100 + '% 100%';
-  };
-
-  const changeColors = e => {
-    if (!e.target.style.backgroundColor) {
-      e.target.style.backgroundColor = handleColors(e.target.value);
-      e.target.style.color = '#edece6';
-    }
   };
 
   const handleNoseSelection = e => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import Typography from '../../../lib/css/Typography';
 
@@ -34,6 +34,7 @@ const TextCount = styled.p`
 
 function TextField(props) {
   const [text, setTextState] = useState('');
+ 
 
   const handleTextAreaInput = e => {
     setTextState(e.target.value);
@@ -44,7 +45,6 @@ function TextField(props) {
         maxLength={2000}
         value={text}
         placeholder="위스키에 대해 설명해주세요"
-        onChange={handleTextAreaInput}
       ></Input>
       <TextCount>{text.length}/2000</TextCount>
     </>
