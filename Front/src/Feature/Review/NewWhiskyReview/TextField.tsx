@@ -32,21 +32,17 @@ const TextCount = styled.p`
   float: right;
 `;
 
-function TextField(props) {
-  const [text, setTextState] = useState('');
+function TextField(props: {text:any, handleTextAreaInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void}) {
  
-
-  const handleTextAreaInput = e => {
-    setTextState(e.target.value);
-  };
   return (
     <>
       <Input
         maxLength={2000}
-        value={text}
+        value={props.text}
         placeholder="위스키에 대해 설명해주세요"
+        onChange={props.handleTextAreaInput}
       ></Input>
-      <TextCount>{text.length}/2000</TextCount>
+      <TextCount>{props.text.length}/2000</TextCount>
     </>
   );
 }

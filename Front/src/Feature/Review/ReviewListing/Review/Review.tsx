@@ -12,9 +12,7 @@ function Review() {
     <S.ReviewWrapper>
       <S.ReviewText>{DUMMY}</S.ReviewText>
       
-
-      
-
+    
       <WhiskyNoteReview></WhiskyNoteReview>
 
     </S.ReviewWrapper>

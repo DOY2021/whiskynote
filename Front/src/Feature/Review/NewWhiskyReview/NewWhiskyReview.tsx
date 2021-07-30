@@ -48,6 +48,7 @@ function NewWhiskyReview() {
   const [currentNoseClicked, setCurrentNoseClicked] = useState('');
   const [currentTasteClicked, setCurrentTasteClicked] = useState('');
   const [currentFinishClicked, setCurrentFinishClicked] = useState('');
+  const [text, setTextState] = useState('');
   const [selectedTags, setSelectedTags] = useState<any>({
     nose: '',
     taste: '',
@@ -59,9 +60,16 @@ function NewWhiskyReview() {
     taste: 0,
     finish: 0,
   });
-  const updateFiles = () => {};
 
-  const handleSubmitReview = () => {
+  const [newFiles, setNewFiles] = useState([])
+
+
+  const updateFiles = (files) => {
+    console.log(files);
+  };
+
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
     const review = {
       review_body: '',
       nose_rating: currentNoseClicked,
@@ -144,6 +152,9 @@ function NewWhiskyReview() {
     })
   }
 
+  const handleTextAreaInput = e => {
+    setTextState(e.target.value);
+  };
   return (
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
@@ -225,7 +236,7 @@ function NewWhiskyReview() {
             isMandatory={false}
           ></HeadLine>
           <S.ImageUploadGuideline>100자 이상 작성시 150포인트 지급</S.ImageUploadGuideline>
-          <TextField></TextField>
+          <TextField text={text} handleTextAreaInput={handleTextAreaInput}></TextField>
 
           <S.ButtonsWrapper>
             <S.TempSaveBtn>임시 저장</S.TempSaveBtn>

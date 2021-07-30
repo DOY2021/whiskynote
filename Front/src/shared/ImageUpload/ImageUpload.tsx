@@ -3,9 +3,8 @@ import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
 
-const convertNestedObjectToArray = nestedObj => {
+const convertNestedObjectToArray = (nestedObj) => 
   Object.keys(nestedObj).map(key => nestedObj[key]);
-};
 
 const ImageUpload = ({
   maxFileNum,
@@ -22,8 +21,10 @@ const ImageUpload = ({
   };
 
   const callUpdateFilesCb = files => {
+    console.log(files);
     const fileAsArray = convertNestedObjectToArray(files);
     updateFilesCb(fileAsArray);
+    console.log(fileAsArray);
   };
 
   const handleNewFileUpload = e => {
@@ -38,7 +39,7 @@ const ImageUpload = ({
 
   const addNewFiles = newFiles => {
     for (const file of newFiles) {
-      console.log(file);
+      // console.log(file);
       if (file.size < maxFileSize) {
         if (!otherProps.multiple) {
           return { file };
@@ -46,6 +47,7 @@ const ImageUpload = ({
         files[file.name] = file;
       }
     }
+   ;
     return { ...files };
   };
 
