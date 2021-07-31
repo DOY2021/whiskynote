@@ -20,7 +20,7 @@ const FormField = styled.input`
   position: absolute;
   opacity: 0;
 
-  &focus {
+  &:focus {
     outline: none;
   }
 `;

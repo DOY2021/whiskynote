@@ -10,14 +10,25 @@ function Review() {
     <>
     {/* <S.Title>리뷰</S.Title>
     <img src="../../../../../assets/CustomIcons/reviewGlass.svg"></img> */}
+    <S.Wrapper>
+      <S.IconWrapper>
+        <S.UserIcon src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.UserIcon>
+        <S.UserName>망원동술고래</S.UserName>
+      </S.IconWrapper>
     <S.ReviewWrapper>
+      <S.ScoreWrapper>
+      <S.ReviewScore>72.3</S.ReviewScore>
+      <S.ReviewScoreText>점/100</S.ReviewScoreText>
+      </S.ScoreWrapper>
+
       <ReviewImageViewer files={[]}></ReviewImageViewer>
       <S.ReviewText>{DUMMY}</S.ReviewText>
-      
     
       <WhiskyNoteReview></WhiskyNoteReview>
+      <S.Date>2020년 3월 19일</S.Date>
 
     </S.ReviewWrapper>
+    </S.Wrapper>
 
     </>
   )
