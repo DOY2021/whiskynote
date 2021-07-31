@@ -230,6 +230,13 @@ class ProfileCreateAPIView(generics.CreateAPIView):
         file_obj = serializer.validated_data['profile_photo']
         serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
+class NicknameDuplicateAPIView(APIView):
+    def get(self, request, nickname, format = None):
+        if Profile.objects.filter(nickname = nickname).exists():
+            return Response({'message': 'Already exists'})
+        else:
+            return Response({'message': 'Available nickname'})
+
 class ProfileViewSet(generics.ListAPIView):
     #url: profile/all
     serializer_class = ProfileSerializer
@@ -448,15 +455,17 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
+    queryset = Follow.objects.all()
 
-    def get_queryset(self):
+    def get_object(self):
         pk = self.kwargs["pk"]
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
+    queryset = Follow.objects.all()
 
-    def get_queryset(self):
+    def get_object(self):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
 

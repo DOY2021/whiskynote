@@ -24,6 +24,7 @@ from api.views import NaverLoginView
 
 #Profile
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
+from api.views import NicknameDuplicateAPIView
 
 #Whisky DB
 from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyUpdateAPIView,  WhiskyConfirmListAPIView, WhiskyConfirmAPIView
@@ -43,7 +44,6 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 
 #Reaction Comment
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
-
 
 urlpatterns = [
     #rest-auth
@@ -70,6 +70,9 @@ urlpatterns = [
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
     path("<int:pk>/profile/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+
+    #nickname-duplicate_check
+    path("nickname-duplicate/<nickname>/", NicknameDuplicateAPIView.as_view(), name = 'nickname-duplicate_check'),
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
