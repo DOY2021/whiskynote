@@ -7,8 +7,8 @@ import WhiskyNoteReview from '../Review/ReviewListing/Review/WhiskyNoteReview';
 
 function Landing(){
   return(<div>this is landing page 
-    <NewWhiskyReview></NewWhiskyReview>
-    {/* <Review></Review> */}
+    {/* <NewWhiskyReview></NewWhiskyReview> */}
+    <Review></Review>
   </div>)
 }
 export default Landing;

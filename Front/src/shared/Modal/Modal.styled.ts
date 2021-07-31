@@ -19,7 +19,6 @@ const Modal = styled.div`
   z-index:30;
   padding:40px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
-
 `
 
 export default {

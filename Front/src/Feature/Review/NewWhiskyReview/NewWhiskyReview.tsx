@@ -61,11 +61,12 @@ function NewWhiskyReview() {
     finish: 0,
   });
 
-  const [newFiles, setNewFiles] = useState([])
+  const [newFiles, setNewFiles] = useState([]);
 
 
   const updateFiles = (files) => {
     console.log(files);
+    
   };
 
   const handleSubmitReview = (e) => {

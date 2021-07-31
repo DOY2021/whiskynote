@@ -7,8 +7,8 @@ function Review() {
 
   return(
     <>
-    <S.Title>리뷰</S.Title>
-    <img src="../../../../../assets/CustomIcons/reviewGlass.svg"></img>
+    {/* <S.Title>리뷰</S.Title>
+    <img src="../../../../../assets/CustomIcons/reviewGlass.svg"></img> */}
     <S.ReviewWrapper>
       <S.ReviewText>{DUMMY}</S.ReviewText>
       
