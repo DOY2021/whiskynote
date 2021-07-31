@@ -88,7 +88,7 @@ const ImageUpload = ({
                   {/* </S.DeleteBtnCircle> */}
                 </S.DeleteBtn>
                 {isImageFile && (
-                  <ImagePreview file={file} index={index}></ImagePreview>
+                  <ImagePreview file={file} index={index} ></ImagePreview>
                 )}
               </div>
             </S.PreviewContainer>

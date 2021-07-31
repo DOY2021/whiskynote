@@ -5,7 +5,10 @@ function ReviewImageViewer(props: { files: any[] }) {
   const overlayText = `+${props.files.length - 3}`;
 
 
-  
+  const handleOpenModal = () => {
+
+  }
+
 
   return (
     <S.ImagePreviewWrapper>
@@ -14,13 +17,13 @@ function ReviewImageViewer(props: { files: any[] }) {
         const isImageFile = file.type.split('/')[0] === 'image';
         return (
           <>
-            {isImageFile && index < 3 && overlayDisplay && (
-              <S.ImagePreview
+            {isImageFile && index < 3 && !overlayDisplay && (
+              <S.ImagePreview onClick={handleOpenModal}
                 src={URL.createObjectURL(file)}
                 alt={`file preview ${index}`} 
               ></S.ImagePreview>
             )}
-            {isImageFile && index == 2 && !overlayDisplay && (
+            {isImageFile && index == 2 && overlayDisplay && (
               <>
                 <S.OverlayText>{overlayText}</S.OverlayText>
                 <S.ImagePreview
