@@ -14,13 +14,9 @@ function ImagePreview(props) {
 			setOpen(false);
   }
 
-  const handleOpenModal = () => {
-    console.log('open')
+  const handleModalOpen = () => {
     setOpen(true);
   }
-
-  
-  
 
   return (
     <>
@@ -30,7 +26,7 @@ function ImagePreview(props) {
         alt={`file preview ${props.index}`}
         onMouseEnter={handleMouseHover}
         onMouseLeave={handleMouseHover}
-        onClick={handleOpenModal}
+        onClick={handleModalOpen}
       ></S.ImagePreview>
     </S.ImagePreviewWrapper>
     {open && <ImagePreviewModal index={props.index} onClose={handleModalClose}>

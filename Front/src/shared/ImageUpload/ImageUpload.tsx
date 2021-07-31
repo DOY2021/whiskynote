@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
@@ -57,6 +58,7 @@ const ImageUpload = ({
     callUpdateFilesCb({ ...files });
   };
 
+
   return (
     <S.ImageUploadWrapper>
       {Object.keys(files).length < maxFileNum && (
@@ -81,20 +83,22 @@ const ImageUpload = ({
           const file = files[fileName];
           const isImageFile = file.type.split('/')[0] === 'image';
           return (
+            
             <S.PreviewContainer key={fileName}>
-              <div>
+              
                 <S.DeleteBtn onClick={() => removeFile(fileName)}>
                   <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
-                  {/* </S.DeleteBtnCircle> */}
                 </S.DeleteBtn>
                 {isImageFile && (
-                  <ImagePreview file={file} index={index} ></ImagePreview>
+                  <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
                 )}
-              </div>
+              
             </S.PreviewContainer>
+           
           );
         })}
       </S.PreviewWrapper>
+      
     </S.ImageUploadWrapper>
   );
 };

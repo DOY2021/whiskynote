@@ -9,25 +9,16 @@ function Backdrop(props: { onClose: () => void}) {
 }
 
 function ModalOverlay(props: {children:React.ReactNode}) {
-  const handleClickLeft = (index) => {
-    return index-1;
-  }
-  const handleClickRight = (index) => {
-    return index+1;
-  }
 
   return(
     <S.Modal>
-     <button onClick={handleClickLeft}>left</button>
       <div>{props.children}</div>
-     <button onClick={handleClickRight}>right</button>
     </S.Modal>
   )
 }
 
 function ImagePreviewModal(props: {children:React.ReactNode, onClose: () => void, index: number}) {
  
-  
   return(
     <>
     {
