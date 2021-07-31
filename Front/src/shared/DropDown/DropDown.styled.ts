@@ -13,7 +13,7 @@ const DropDownWrapper = styled.ul<DropDownWrapperProp>`
   visibility: none;
 
     position: absolute;
-    top: 0;
+    bottom: 0;
     z-index: 98;
   ${({isOpen}) => isOpen && css`
     visibility: visible;
