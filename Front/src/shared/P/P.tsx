@@ -5,32 +5,34 @@ import Palette from '../../lib/css/Pallete';
 import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
-type StyleParenProp = Pick<ParenProp, 'color' | 'size' | 'isInline'>;
+type StyleParenProp = Pick<ParenProp, 'color' | 'fontSize' | 'isInline' | 'pre'>;
 
-export type ParenProp = {
+export interface ParenProp extends React.HTMLProps<HTMLParagraphElement>{
   color?: Palette;
-  size?: TypoGraphyCategory;
+  fontSize?: TypoGraphyCategory;
   children: React.ReactNode;
   id?: string;
+  pre?: string;
   isInline?: boolean
-};
+}
 
 function P({
   color,
-  size = TypoGraphyCategory.body,
+  fontSize = TypoGraphyCategory.body,
   isInline = false,
   children,
+  pre,
   id,
 }: ParenProp) {
   return (
-    <Paren color={color} size={size} id={id} isInline={isInline}>
+    <Paren color={color} fontSize={fontSize} id={id} isInline={isInline} pre={pre}>
       {children}
     </Paren>
   );
 }
 
 const Paren = styled.p<StyleParenProp>`
-  ${({ size }) => size && TypoGraphyTheme[size]}
+  ${({ fontSize }) => fontSize && TypoGraphyTheme[fontSize]}
 
   color: inherit;
 
@@ -39,6 +41,10 @@ const Paren = styled.p<StyleParenProp>`
   `}
   ${({isInline}) => isInline && css`
     display: inline-block;
+  `}
+
+  ${({pre}) => pre && css`
+    white-space: ${pre};
   `}
 `;
 

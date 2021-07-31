@@ -12,6 +12,7 @@ import { profileAPI } from '../api/profile';
 import { useUserDispatch, useUserState } from '../hook/useUserContext';
 import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
 import DB from '../Feature/WhiskyDB/DB';
+import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -63,6 +64,7 @@ function App() {
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
+          <Route path="/firstRegister/:name" exact component={AfterRegister} />
           <Route path="/whiskyDB" exact component={DB} />
         </Switch>
       </>
