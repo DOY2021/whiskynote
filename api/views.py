@@ -41,9 +41,15 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
-#API
-from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+# Whisky DB
+from api.models import Whisky
+from api.serializers import (WhiskySerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer,
+WhiskyUpdateSerializer)
+
+# Reaction
+from api.models import Reaction, Tag, ReactionComment
+from api.serializers import ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -54,11 +60,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 #Follow-Unfollow
+from api.models import Follow
 from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
-
-#Get UserModel
-from django.contrib.auth.models import User
-UserModel = get_user_model()
 
 #SearchAPI
 from rest_framework import filters
@@ -69,15 +72,25 @@ from rest_framework.permissions import IsAdminUser
 #Pagination
 from api.pagination import PageSize5Pagination
 
+#Profile
+from api.models import Profile
+from api.serializers import ProfileSerializer, ProfileCreateSerializer
+
+#Profile - Collection & Wishlist
+from api.models import Wishlist, Collection
+from api.serializers import WishlistSerializer, WishlistViewSerializer, CollectionSerializer, CollectionViewSerializer
+
+#Get UserModel
+from django.contrib.auth.models import User
+UserModel = get_user_model()
+
+#Login-parameters
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
         'password', 'old_password', 'new_password1', 'new_password2'
     )
 )
 
-#Profile - Collection & Wishlist
-from api.models import Wishlist, Collection
-from api.serializers import WishlistSerializer, WishlistViewSerializer, CollectionSerializer, CollectionViewSerializer
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -250,12 +263,11 @@ class WhiskyListAPIView(generics.ListAPIView):
     search_fields = ['name', 'brand']
     ordering_fields = ['rating_counts', 'updated_at']
 
-class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class WhiskyDetailAPIView(generics.RetrieveAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
-
-#Whisky Create (Open-type DB function)
+#Whisky Create (Open-type DB function #1)
 class WhiskyCreateAPIView(generics.CreateAPIView):
         model = Whisky
         serializer_class = WhiskyCreateSerializer
@@ -264,25 +276,24 @@ class WhiskyCreateAPIView(generics.CreateAPIView):
         def post(self, request, *args, **kwargs):
             return self.create(request, *args, **kwargs)
 
-#Whisky Create - Using ViewSet (Open-type DB function)
-#class WhiskyCreateViewSet(viewsets.ModelViewSet):
-#    serializer_class = WhiskyCreateSerializer
-#    http_method_names = ['post']
-#    queryset = Whisky.objects.all()
-#    permission_classes = [permissions.IsAuthenticated]
-#    #PostOwnerPermission to be added (for PUT method)
+#Whisky Update (Open-type DB function #2)
+class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskyUpdateSerializer
 
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskySerializer
-        permission_class = (IsAdminUser)
+        serializer_class = WhiskyConfirmSerializer
+        permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskySerializer
-        permission_class = (IsAdminUser)
+        serializer_class = WhiskyConfirmSerializer
+        permission_classes = [IsAdminUser]
 
 
 #Reaction
@@ -413,14 +424,17 @@ class FollowView(GenericAPIView):
                         {"detail": ("Already Following User")}
                         )
             #Exc) 자기자신을 follow 할 수 없음
-            elif request.data['follower'] == request.data['following']: 
+            elif request.data['follower'] == request.data['following']:
                 return Response(
                         {"detail": ("Can't follow yourself")}
                         )
             else:
-                serializer = self.get_serializer(data=request.data)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
+                follower_new = Profile.objects.get(id = request.data['follower'])
+                following_new = Profile.objects.get(id = request.data['following'])
+                Follow.objects.create(follower = follower_new, following = following_new)
+                #serializer = self.get_serializer(data=request.data)
+                #serializer.is_valid(raise_exception=True)
+                #serializer.save()
                 return Response(
                         {"detail": ("Successfully Followed")}
                         )
@@ -431,17 +445,15 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
+    def get_queryset(self):
         pk = self.kwargs["pk"]
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
+    def get_queryset(self):
         pk = self.kwargs['pk']
         return Follow.objects.filter(following_id = pk)
 
