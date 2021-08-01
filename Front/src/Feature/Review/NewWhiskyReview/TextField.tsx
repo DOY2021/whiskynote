@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import Typography from '../../../lib/css/Typography';
 
 const Input = styled.textarea`
   display: flex;
-
   width: 100%;
   max-width: 1200px;
   height: 300px;
-
   background-color: #e7e5de;
   border-radius: 2px;
-
   padding: 6px 0px;
   padding-left: 8px;
   border: transparent;
+  margin-top:16px;
+  padding: 10px;
 
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -33,21 +32,17 @@ const TextCount = styled.p`
   float: right;
 `;
 
-function TextField(props) {
-  const [text, setTextState] = useState('');
-
-  const handleTextAreaInput = e => {
-    setTextState(e.target.value);
-  };
+function TextField(props: {text:any, handleTextAreaInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void}) {
+ 
   return (
     <>
       <Input
         maxLength={2000}
-        value={text}
+        value={props.text}
         placeholder="위스키에 대해 설명해주세요"
-        onChange={handleTextAreaInput}
+        onChange={props.handleTextAreaInput}
       ></Input>
-      <TextCount>{text.length}/2000</TextCount>
+      <TextCount>{props.text.length}/2000</TextCount>
     </>
   );
 }

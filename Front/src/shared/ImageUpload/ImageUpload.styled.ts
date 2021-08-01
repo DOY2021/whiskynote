@@ -20,7 +20,7 @@ const FormField = styled.input`
   position: absolute;
   opacity: 0;
 
-  &focus {
+  &:focus {
     outline: none;
   }
 `;
@@ -72,6 +72,7 @@ const PreviewWrapper = styled.div`
   flex-direction: row;
   display: flex;
   margin-left: 12px;
+  flex-wrap:wrap;
 `;
 const DeleteBtn = styled.button`
   outline: none;
