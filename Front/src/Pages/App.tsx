@@ -64,11 +64,8 @@ function App() {
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
-<<<<<<< HEAD
           <Route path='/explore' exact component={Explore}/>
-=======
           <Route path="/whiskyDB" exact component={DB} />
->>>>>>> b4528bb2ea0cc0eb86c7ed8f6c57368dea319ef7
         </Switch>
       </>
     </>
