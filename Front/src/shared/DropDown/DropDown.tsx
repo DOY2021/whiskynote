@@ -3,10 +3,12 @@ import Styled from './DropDown.styled'
 
 interface DropDownProp {
   children: React.ReactNode;
+  onClick: (v:any) => void;
 }
 
 function DropDown({
-  children
+  children,
+  onClick,
 }:DropDownProp) {
   const [isOpen, setOpen] = useState(false);
 
@@ -15,10 +17,10 @@ function DropDown({
   }
 
   return (
-    <Styled.DropDownWrapper onClick={handleOpen}>
+    <Styled.DropDownWrapper onClick={handleOpen} isOpen = {isOpen}>
       {isOpen && React.Children.map(children, (child) => {
         return (
-          <Styled.DropDownItem>
+          <Styled.DropDownItem onClick={onClick}>
             {child}
           </Styled.DropDownItem>
         )

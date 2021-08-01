@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
-import Palette from '../../../css/Palette';
-import Typography from '../../../css/Typography';
+import Palette from '../../../lib/css/Pallete';
+import Typography from '../../../lib/css/Typography';
+
+
 import BaseInput from '../BaseInput/BaseInput';
 
 type StyledSignInputProp = {
@@ -56,7 +58,7 @@ export const StyledSignErrorMsg = styled.div<StyledSignInputProp>`
 
 export const StyledSignLabel = styled.label<StyledSignInputProp>`
   ${Typography.subhead1}
-  color: ${Palette.Gray600}
+  color: ${Palette.Gray600};
   display: none;
   ${({ hasError }) => {
     if (hasError) {

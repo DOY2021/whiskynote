@@ -3,10 +3,12 @@ import styled, { css } from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import Button from '../../shared/Button/Button';
 import { Link, useHistory } from 'react-router-dom';
-import Palette from '../../css/Palette';
+
 import { useCookies } from 'react-cookie';
 import S from './Header.styled';
 import HeaderMenuList from './HeaderMenuList';
+import Palette from '../../lib/css/Pallete';
+
 
 const SearchIcon = styled(FaSearch)`
   color: ${Palette.Gray500};
@@ -26,28 +28,27 @@ function Header() {
           </Link>
         </S.NavLeft>
         <S.NavCenter>
-          <S.MenuLink to="#">위스키</S.MenuLink>
+          <S.MenuLink to="#">위스키 찾기</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
           <S.MenuLink to="#">위스키 바</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
           <S.MenuLink to="#">커뮤니티</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">서비스 소개</S.MenuLink>
-          <SearchIcon></SearchIcon>
-          <S.SearchInput></S.SearchInput>
+          {/* <SearchIcon></SearchIcon>
+          <S.SearchInput></S.SearchInput> */}
         </S.NavCenter>
         <S.NavRight>
           {!cookie.user_id && (
-            <>
-              <Link to="/signup">
-                <Button variant="primary" size="large" type="text">
-                  회원가입
-                </Button>
-              </Link>
+            <> 
               <Link to="/login">
-                <Button variant="primary" size="large">
+                <S.MenuBtn>
                   로그인
-                </Button>
+                </S.MenuBtn>
+              </Link>
+              <Link to="/signup">
+                <S.SignUpBtn>
+                  회원가입
+                </S.SignUpBtn>
               </Link>
             </>
           )}
