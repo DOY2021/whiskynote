@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 import { profileAPI } from '../api/profile';
 import { useUserDispatch, useUserState } from '../hook/useUserContext';
 import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
+import Explore from '../Feature/Explore/Explore';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -62,6 +63,7 @@ function App() {
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
+          <Route path='/explore' exact component={Explore}/>
         </Switch>
       </S.AppMainWrapper>
     </>
