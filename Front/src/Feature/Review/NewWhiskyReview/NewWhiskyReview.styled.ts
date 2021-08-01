@@ -24,13 +24,14 @@ const ElementWrapper = styled.div`
   margin-bottom: 30px;
 `;
 const ImageUploadGuideline = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   color: #73481e;
 `;
 const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top:155px;
+  margin-bottom: 179px;
 `;
 const TempSaveBtn = styled.button`
   width: 192px;
@@ -51,7 +52,6 @@ const RegisterWhiskyBtn = styled.button`
   background: #272624;
   color: #edece6;
 `;
-
 
 export default {
   ButtonsWrapper,

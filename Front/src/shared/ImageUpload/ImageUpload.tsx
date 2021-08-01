@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
+import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
 
-const convertNestedObjectToArray = nestedObj => {
+const convertNestedObjectToArray = (nestedObj) => 
   Object.keys(nestedObj).map(key => nestedObj[key]);
-};
 
 const ImageUpload = ({
   maxFileNum,
@@ -22,8 +22,10 @@ const ImageUpload = ({
   };
 
   const callUpdateFilesCb = files => {
+    console.log(files);
     const fileAsArray = convertNestedObjectToArray(files);
     updateFilesCb(fileAsArray);
+    console.log(fileAsArray);
   };
 
   const handleNewFileUpload = e => {
@@ -38,7 +40,7 @@ const ImageUpload = ({
 
   const addNewFiles = newFiles => {
     for (const file of newFiles) {
-      console.log(file);
+      // console.log(file);
       if (file.size < maxFileSize) {
         if (!otherProps.multiple) {
           return { file };
@@ -46,6 +48,7 @@ const ImageUpload = ({
         files[file.name] = file;
       }
     }
+   ;
     return { ...files };
   };
 
@@ -54,6 +57,7 @@ const ImageUpload = ({
     setFiles({ ...files });
     callUpdateFilesCb({ ...files });
   };
+
 
   return (
     <S.ImageUploadWrapper>
@@ -79,20 +83,22 @@ const ImageUpload = ({
           const file = files[fileName];
           const isImageFile = file.type.split('/')[0] === 'image';
           return (
+            
             <S.PreviewContainer key={fileName}>
-              <div>
+              
                 <S.DeleteBtn onClick={() => removeFile(fileName)}>
                   <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
-                  {/* </S.DeleteBtnCircle> */}
                 </S.DeleteBtn>
                 {isImageFile && (
-                  <ImagePreview file={file} index={index}></ImagePreview>
+                  <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
                 )}
-              </div>
+              
             </S.PreviewContainer>
+           
           );
         })}
       </S.PreviewWrapper>
+      
     </S.ImageUploadWrapper>
   );
 };

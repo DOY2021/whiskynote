@@ -11,6 +11,10 @@ const ReviewInputWrapper = styled.div`
     border-radius: 2px;
 
     padding: 6px 8px;
+
+    & + & {
+        margin-top: 10px;
+    }
 `;
 
 interface ReviewTitleWrapper {

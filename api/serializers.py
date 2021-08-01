@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow, Tag
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -24,6 +24,9 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 
 #Profile - Collection & Whisky
 from api.models import Collection, Wishlist
+
+#Images
+from api.models import WhiskyImage
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -184,11 +187,14 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 #Profile
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
-    #posts = serializers.PrimaryKeyRelatedField(many = True, read_only = True)
+    is_follower = serializers.StringRelatedField(read_only = True, many = True)
+    follower_count = serializers.IntegerField(source = "is_follower.count", read_only = True)
+    is_following = serializers.StringRelatedField(read_only = True, many = True)
+    following_count = serializers.IntegerField(source = "is_following.count", read_only = True)
 
     class Meta:
         model = Profile
-        fields = ("id", "user", "nickname", "bio", "profile_photo")
+        fields = ("id", "user", "nickname", "bio", "profile_photo", "is_follower", "follower_count", "is_following", "following_count")
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -208,20 +214,58 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
 
 
 #WhiskyDB
-#General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
+class WhiskyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WhiskyImage
+        fields = ('id', 'image',)
+
+
+#General Whisky(list, pk) (Linked to WhiskyMainAPIView, WhiskyDetailAPIView) 
 class WhiskySerializer(serializers.ModelSerializer):
+    whisky_image = WhiskyImageSerializer(many = True, required = False)
+
     class Meta:
         model = Whisky
         fields = '__all__'
-        read_only_fields = ('whisky_ratings','rating_counts')
+        read_only_fields = ('whisky_image', 'whisky_ratings','rating_counts', 'confirmed')
+
+
+#Whisky Confirm Serializer
+class WhiskyConfirmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Whisky
+        fields = '__all__'
+
+class WhiskyUpdateSerializer(serializers.ModelSerializer):
+    whisky_image = WhiskyImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Whisky
+        fields = ('whisky_image', 'name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
 
 #Whisky Create Serializer (Open-type DB function)
 class WhiskyCreateSerializer(serializers.ModelSerializer):
+    whisky_image = WhiskyImageSerializer(many = True, required = False)
+
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'whisky_detail')
-        #fields = ('name', 'brand', 'whisky_detail', 'whisky_region')
+        fields = ('name', 'whisky_image', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage','bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+
+    def create(self, validated_data):
+        current_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'whisky_image' in validated_data:
+            whisky_image = validated_data.pop('whisky_image')
+            whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
+            for img in whisky_image:
+                WhiskyImage.objects.create(**img, whisky = whisky_instance)
+            return whisky_instance
+
+        if 'whisky_image' not in validated_data:
+            whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
+            return whisky_instance
 
 #Whisky Confirm
 class WhiskyConfirmSerializer(serializers.ModelSerializer):
@@ -270,22 +314,31 @@ class ReactionListSerializer(serializers.ModelSerializer):
         fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
+#ReactionComment
+class ReactionCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionComment
+        fields = ('created_at', 'modified_at')
 
 #Follow(New)
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Follow
-        fields = ("following", "follower")
+        model = Follow 
+        fields = "__all__"
 
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Follow
-        fields = ("follower", )
+        model = Follow 
+        fields = ("follower",)
+        depth = 1
+        #add hyperlinked profile url
 
 class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ("following", )
+        fields = ("following",)
+        depth = 1
+        #add hyperlinked profile url
 
 #Profile - Collection & Wishlist
 class CollectionSerializer(serializers.ModelSerializer):
