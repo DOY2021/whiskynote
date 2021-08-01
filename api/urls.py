@@ -19,6 +19,9 @@ from rest_auth.views import LogoutView, UserDetailsView, PasswordChangeView, Pas
 #Customized Login
 from api.views import PasswordResetConfirmView
 
+#Social Login
+from api.views import NaverLoginView
+
 #Profile
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
 
@@ -41,6 +44,7 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 #Reaction Comment
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 
+
 urlpatterns = [
     #rest-auth
     path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
@@ -51,6 +55,9 @@ urlpatterns = [
 
     #customlogin
     path('login/', CustomLoginView.as_view(), name='rest_login'),
+
+    #social-login
+    path('login/naver/', NaverLoginView.as_view(), name = 'naver_login'),
 
     #registration
     path('register/', include('rest_auth.registration.urls')),

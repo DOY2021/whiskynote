@@ -84,13 +84,16 @@ from api.serializers import WishlistSerializer, WishlistViewSerializer, Collecti
 from django.contrib.auth.models import User
 UserModel = get_user_model()
 
+#SocialLogin
+from django.views import View
+from allauth.socialaccount.models import SocialAccount, SocialApp
+
 #Login-parameters
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
         'password', 'old_password', 'new_password1', 'new_password2'
     )
 )
-
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -522,3 +525,47 @@ class WishlistCreateAPIView(generics.CreateAPIView):
                     {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
                     status=status.HTTP_200_OK,
             )
+
+#Social Login - Naver
+
+class NaverLoginView(View):
+    def get(self, request):
+        access_token = request.headers["Authorization"]
+        headers = ({'Authorization' : f"Bearer {access_token}"})
+        #Authorization(프론트에서 받은 토큰)을 이용해서 회원정보를 확인하는 API 주소
+        url = "https://openapi.naver.com/v1/nid/me"
+        #API를 요청하여 회원 정보를 response에 저장
+        response = requests.request("POST", url, headers=headers)
+        #유저 정보를 json화하여 변수에 저장
+        user = response.json()
+
+        if SocialAccount.objects.filter(uid = user['id']).exists():
+            user_info = SocialAccount.objects.get(uid = user['id'])
+            #jwt token 발행
+            encoded_jwt = jwt.encode({'id':user_info.id}, wef_key, algorithm = 'HS256')
+            #jwt토큰, user_pk을 프론트엔드에 전달
+            return JsonResponse({
+                'access_token' : encoded_jwt.decode('UTF-8'),
+                'user_pk': user_info.id,
+                }, status = 200)
+
+        else:
+            new_user, created = User.objects.get_or_create(email = user['email'])
+            if created:
+                new_user.set_password(None)
+                new_user.name = user['name']
+                new_user.is_active = True
+                new_user.save()
+
+                new_user_info = SocialAccount(
+                        user_id = new_user.id,
+                        uid = user['id'],
+                        provider = SocialApp.objects.get(provider = 'naver')
+                        )
+                new_user_info.save()
+                encoded_jwt = jwt.encode({'id': new_user_info.id}, wef_key, algorithm = 'HS256')
+                none_member_type = 1
+                return JsonResponse({
+                    'access_token': encoded_jwt.decode('UTF-8'),
+                    'user_pk': user_info.id,
+                    }, status = 200)
