@@ -259,7 +259,7 @@ class WhiskyMainListAPIView(generics.ListAPIView):
     serializer_class = WhiskySerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'brand']
-    ordering_fields = ['rating_counts', 'updated_at']
+    ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
     #Pagination
     pagination_class = PageSize5Pagination
 
