@@ -12,10 +12,21 @@ const NewWhiskyReviewInnerWrapper = styled.div`
   width: 70%;
   overflow:scroll;
 `;
+
+const TitleWrapper = styled.div`
+  flex-direction:row;
+  display:flex;
+`
 const Title = styled.p`
   ${Typography.display4};
   color: #201F1E;
   margin-bottom:40px;
+`
+const FileNum = styled.p`
+  font-size: 16px;
+  color: #8A8779;
+  margin-top: 21px;
+  margin-left: 6px;
 `
 const MarginWrapper = styled.div`
   margin-bottom: 12px;
@@ -42,6 +53,7 @@ const TempSaveBtn = styled.button`
   color: #272624;
   background: #edece6;
   margin-right: 8px;
+  cursor:pointer;
 `;
 const RegisterWhiskyBtn = styled.button`
   width: 192px;
@@ -51,6 +63,7 @@ const RegisterWhiskyBtn = styled.button`
   border: 1px solid #272624;
   background: #272624;
   color: #edece6;
+  cursor:pointer;
 `;
 
 export default {
@@ -62,5 +75,7 @@ export default {
   MarginWrapper,
   TempSaveBtn,
   RegisterWhiskyBtn,
-  Title
+  Title,
+  FileNum,
+  TitleWrapper
 };

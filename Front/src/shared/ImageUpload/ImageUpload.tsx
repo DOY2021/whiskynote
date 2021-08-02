@@ -70,6 +70,7 @@ const ImageUpload = ({
               <S.FormField
                 type="file"
                 ref={fileInputField}
+                accept="image/png, image/gif, image/jpeg"
                 onChange={handleNewFileUpload}
                 {...otherProps}
               ></S.FormField>
@@ -83,9 +84,7 @@ const ImageUpload = ({
           const file = files[fileName];
           const isImageFile = file.type.split('/')[0] === 'image';
           return (
-            
             <S.PreviewContainer key={fileName}>
-              
                 <S.DeleteBtn onClick={() => removeFile(fileName)}>
                   <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
                 </S.DeleteBtn>

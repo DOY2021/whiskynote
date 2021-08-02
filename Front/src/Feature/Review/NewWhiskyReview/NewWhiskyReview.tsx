@@ -9,6 +9,8 @@ import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
+import { TagIndex } from '../../../constants/TagIndex';
+import NoteItemStyled from '../../WhiskyDB/WhiskyNote/NoteItem/NoteItem.styled';
 
 const handleColors = text => {
   switch (text) {
@@ -42,6 +44,27 @@ const changeColors = e => {
   }
 };
 
+const selectedTagsToIndex = (selectedTags) => {
+  let res = {
+    nose: Array<number>(),
+    taste:Array<number>(),
+    finish:Array<number>(),
+  }
+  selectedTags.nose.forEach(
+    (data) => 
+      res.nose.push(TagIndex[data])
+  )
+  selectedTags.taste.forEach(
+    (data) => 
+      res.taste.push(TagIndex[data])
+  )
+  selectedTags.finish.forEach(
+    (data) => 
+      res.finish.push(TagIndex[data])
+  )
+  return res;
+}
+
 
 function NewWhiskyReview() {
   //TODO: refactoring
@@ -61,12 +84,15 @@ function NewWhiskyReview() {
     finish: 0,
   });
 
-  const [newFiles, setNewFiles] = useState([]);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+
 
 
   const updateFiles = (files) => {
-    console.log(files);
-    
+    // console.log(files);
+    // console.log(files.length);
+    setNewFiles(prevFiles => [...prevFiles, files]);
+    console.log(newFiles);
   };
 
   const handleSubmitReview = (e) => {
@@ -77,13 +103,16 @@ function NewWhiskyReview() {
       taste_rating: currentTasteClicked,
       finish_rating: currentFinishClicked,
     }
-    ReactionApi.createReview(0, review).then(() => {
 
-    })
+   const tags = selectedTagsToIndex(selectedTags);
+
+    console.log(tags)
+    // ReactionApi.createReview(0, review).then(() => {
+
+    // })
   };
 
   const handleScoreChange = e => {
-    //TODO: important
     setScores(prevValues => {
       return { ...prevValues, [e.target.name]: e.target.value };
     });
@@ -103,6 +132,7 @@ function NewWhiskyReview() {
       })
       }
     }
+
   };
 
   const handleTasteSelection = e => {
@@ -162,10 +192,13 @@ function NewWhiskyReview() {
         <form onSubmit={handleSubmitReview}>
           <S.Title>리뷰 작성</S.Title>
           <S.ElementWrapper>
+            <S.TitleWrapper>
             <HeadLine
               inputText={'사진을 등록해주세요.'}
               isMandatory={false}
             ></HeadLine>
+            <S.FileNum>{newFiles.length}/5</S.FileNum>
+            </S.TitleWrapper>
 
             <S.MarginWrapper>
               <S.ImageUploadGuideline>
