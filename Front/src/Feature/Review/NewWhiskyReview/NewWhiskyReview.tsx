@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
@@ -65,12 +65,35 @@ const selectedTagsToIndex = (selectedTags) => {
   return res;
 }
 
+const currentClickedReducer = (state, action) => {
+  if(action.type == 'NOSE') {
+    return {currentNoseClicked: action.value}
+
+  }
+  if(action.type == 'TASTE') {
+    return {currentTasteClicked: action.value}
+
+  }
+  if(action.type == 'FINISH') {
+    return {currentFinishClicked: action.value}
+  }
+  return {
+    currentNoseClicked:'',
+    currentTasteClicked:'',
+    currentFinishClicked:''
+  }
+}
+
+const initialClickedState = {
+  currentNoseClicked:'',
+  currentTasteClicked:'',
+  currentFinishClicked:''
+
+}
 
 function NewWhiskyReview() {
   //TODO: refactoring
-  const [currentNoseClicked, setCurrentNoseClicked] = useState('');
-  const [currentTasteClicked, setCurrentTasteClicked] = useState('');
-  const [currentFinishClicked, setCurrentFinishClicked] = useState('');
+  const [clickedState, dispatch] = useReducer(currentClickedReducer, initialClickedState)
   const [text, setTextState] = useState('');
   const [selectedTags, setSelectedTags] = useState<any>({
     nose: '',
@@ -87,7 +110,6 @@ function NewWhiskyReview() {
   const [newFiles, setNewFiles] = useState<File[]>([]);
 
 
-
   const updateFiles = (files) => {
     // console.log(files);
     // console.log(files.length);
@@ -99,9 +121,9 @@ function NewWhiskyReview() {
     e.preventDefault();
     const review = {
       review_body: '',
-      nose_rating: currentNoseClicked,
-      taste_rating: currentTasteClicked,
-      finish_rating: currentFinishClicked,
+      nose_rating: clickedState.currentNoseClicked,
+      taste_rating: clickedState.currentTasteClicked,
+      finish_rating: clickedState.currentFinishClicked,
     }
 
    const tags = selectedTagsToIndex(selectedTags);
@@ -124,7 +146,7 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      setCurrentNoseClicked(e.target.value);
+      dispatch({type:'NOSE', value:e.target.value});
     } else {
       if(selectedTags.nose.indexOf(e.target.value) < 0){   
       setSelectedTags(prevValues =>  {
@@ -139,7 +161,7 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      setCurrentTasteClicked(e.target.value);
+      dispatch({type:'TASTE', value:e.target.value});
     } else {
       if(selectedTags.taste.indexOf(e.target.value) < 0){
       setSelectedTags(prevValues =>  {
@@ -153,7 +175,7 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      setCurrentFinishClicked(e.target.value);
+      dispatch({type:'FINISH', value:e.target.value});
     } else {
       if(selectedTags.finish.indexOf(e.target.value) < 0){
       setSelectedTags(prevValues =>  {
@@ -246,21 +268,21 @@ function NewWhiskyReview() {
           <WhiskyNote
             label="Nose"
             handleTagSelection={handleNoseSelection}
-            currentClicked={currentNoseClicked}
+            currentClicked={clickedState.currentNoseClicked}
             hashTagList={selectedTags.nose}
             handleTagDelete={handleNoseDeletion}
           ></WhiskyNote>
           <WhiskyNote
             label="Taste"
             handleTagSelection={handleTasteSelection}  
-            currentClicked={currentTasteClicked}
+            currentClicked={clickedState.currentTasteClicked}
             hashTagList={selectedTags.taste}
             handleTagDelete={handleTasteDeletion}
           ></WhiskyNote>
           <WhiskyNote
             label="Finish"
             handleTagSelection={handleFinishSelection}
-            currentClicked={currentFinishClicked}
+            currentClicked={clickedState.currentFinishClicked}
             hashTagList={selectedTags.finish}
             handleTagDelete={handleFinishDeletion}
           ></WhiskyNote>
