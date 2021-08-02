@@ -4,6 +4,8 @@ import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
 import { WhiskyDetailProp } from '../../../../model/Whisky'
 import P from '../../../../shared/P/P'
 import S from './Description.styled'
+import PenIcon from '../../../../../assets/CustomIcons/pen.svg'
+import BookMarkIcon from '../../../../../assets/CustomIcons/bookmark.svg'
 
 type DescriptionProp = Omit<WhiskyDetailProp, 'photo'>
 
@@ -32,6 +34,16 @@ function Description({
       <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>{englishName}</P>
       <P size={TypoGraphyCategory.subtitle} isInline={true}>*{rating}</P>
       <P size={TypoGraphyCategory.body} color={Palette.Gray600} isInline={true}>점 ({ratingCount})</P>
+
+      <S.DescriptionItemWrapper>
+        <img src={PenIcon}/>
+        <P>리뷰 쓰기</P>
+        <S.DescriptionItemWrapper>
+          <img src={BookMarkIcon}/>
+          <P>위시리스트</P>
+        </S.DescriptionItemWrapper>
+      </S.DescriptionItemWrapper>
+
 
       <S.DescriptionItemWrapper>
         <S.DescriptionItemTitle>
