@@ -65,24 +65,22 @@ function HeaderMenuList(props) {
         <S.MenuNav ref={dropdownRef} isActive={isActive}>
           <Link to="/my-page">
             <S.MenuItem>
-              <FaRegUser style={IconStyle}></FaRegUser>
-              <S.MenuFont>마이페이지</S.MenuFont>
+              <S.MenuFont>나의 리뷰</S.MenuFont>
             </S.MenuItem>
           </Link>
-          <Link to="/alerts">
+          <Link to="/collection">
+            
             <S.MenuItem>
-              <FaRegBell style={IconStyle}></FaRegBell>
-              <S.MenuFont>알림</S.MenuFont>
+              <S.MenuFont>위스키 콜렉션</S.MenuFont>
             </S.MenuItem>
           </Link>
-          <Link to="/settings">
+          <Link to="/wishlist">
             <S.MenuItem>
-              <FaCog style={IconStyle}></FaCog>
-              <S.MenuFont>설정</S.MenuFont>
+              <S.MenuFont>위시리스트</S.MenuFont>
             </S.MenuItem>
           </Link>
+          <S.Line></S.Line>
           <S.MenuItem onClick={onLogOut}>
-            <FaSignOutAlt style={IconStyle}></FaSignOutAlt>
             <S.MenuFont>로그아웃</S.MenuFont>
           </S.MenuItem>
         </S.MenuNav>

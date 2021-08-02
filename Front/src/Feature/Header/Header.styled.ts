@@ -46,7 +46,7 @@ const NavCenter = styled.div`
 `;
 
 const NavRight = styled.div`
-  width: 20%;
+  width: 60%;
   text-align: center;
 `;
 

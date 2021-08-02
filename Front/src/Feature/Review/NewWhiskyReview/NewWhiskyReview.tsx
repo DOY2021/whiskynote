@@ -10,7 +10,6 @@ import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
-import NoteItemStyled from '../../WhiskyDB/WhiskyNote/NoteItem/NoteItem.styled';
 
 const handleColors = text => {
   switch (text) {

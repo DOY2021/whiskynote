@@ -30,9 +30,6 @@ function Header() {
         <S.NavCenter>
           <S.MenuLink to="#">위스키 찾기</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">위스키 바</S.MenuLink>
-          <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">커뮤니티</S.MenuLink>
           <S.MenuMargin></S.MenuMargin>
           {/* <SearchIcon></SearchIcon>
           <S.SearchInput></S.SearchInput> */}
