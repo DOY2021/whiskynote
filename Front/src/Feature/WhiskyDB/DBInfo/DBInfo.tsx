@@ -4,6 +4,8 @@ import ImageSlider from './ImageSlider/ImageSlider'
 import S from './DBInfo.styled'
 
 function DBInfo() {
+  
+
   return (
     <S.DBInfoDetailWrapper>
       <ImageSlider/>
