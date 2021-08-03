@@ -7,7 +7,6 @@ type activeProp = {
   isActive: boolean;
 };
 
-
 const trans = keyframes`
   from {
     transForm: translateY(-10px);
