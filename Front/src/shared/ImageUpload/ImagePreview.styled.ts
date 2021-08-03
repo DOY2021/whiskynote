@@ -22,5 +22,5 @@ const Overlay = styled.div`
 export default {
   ImagePreviewWrapper,
   ImagePreview, 
-  Overlay
+  Overlay,
 }

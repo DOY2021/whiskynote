@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Palette from '../../css/Palette';
+import Palette from '../../lib/css/Pallete';
+
 
 export type ButtonSize =
   | 'xlarge'
@@ -125,7 +126,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (active) {
     switch (variant) {
       case 'primary':
-        return Palette.YB400;
+        return Palette.YB600;
       case 'secondary':
         return Palette.Violet400;
       case 'grayscale':
@@ -137,7 +138,7 @@ const handleColors = (variant, hover, active, disabled) => {
   if (disabled) {
     switch (variant) {
       case 'primary':
-        return Palette.YB200;
+        return Palette.YB600;
       case 'secondary':
         return Palette.Violet200;
       case 'grayscale':

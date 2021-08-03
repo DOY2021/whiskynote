@@ -1,6 +1,7 @@
 import styled, { css, keyframes }  from 'styled-components';
 import { Link } from 'react-router-dom';
-import Palette from '../../css/Palette';
+import Palette from '../../lib/css/Pallete';
+
 
 type activeProp = {
   isActive: boolean;

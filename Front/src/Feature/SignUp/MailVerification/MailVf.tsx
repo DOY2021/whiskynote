@@ -1,5 +1,6 @@
 import React from 'react';
-import Palette from '../../../css/Palette';
+import Palette from '../../../lib/css/Pallete';
+
 import S from './MailVf.styled';
 
 function MailVf() {

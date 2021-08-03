@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components';
-import { absoluteCenter, responsiveSize } from '../../../css/Mixin';
-import Typography from '../../../css/Typography';
-import Button from '../../../shared/Button/Button';
-import { FaCheckSquare } from 'react-icons/fa';
-import Palette from '../../../css/Palette';
+import { absoluteCenter, responsiveSize } from '../../../lib/css/Mixin';
+import Typography from '../../../lib/css/Typography';
+
 
 const SignFormWidth = '432px';
 
