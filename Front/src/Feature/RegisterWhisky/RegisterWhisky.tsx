@@ -15,6 +15,7 @@ function RegisterWhisky() {
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [category, setCategory] = useState('');
+  const [isCategoryOpen, setCategoryOpen] = useState(false);
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
   const [series, setSeries] = useState('');
@@ -61,7 +62,7 @@ function RegisterWhisky() {
             isMandatory={true}
           ></HeadLine>
         </S.MarginWrapper>
-        <TextField></TextField>
+        {/* <TextField></TextField> */}
 
         <S.ButtonsWrapper>
           <S.TempSaveBtn>임시 저장</S.TempSaveBtn>

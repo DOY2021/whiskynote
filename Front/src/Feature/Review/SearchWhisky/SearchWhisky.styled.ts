@@ -5,6 +5,8 @@ import { TypoGraphyTheme } from '../../../lib/css/Typography';
 
 const SearchWrapper = styled.div`
   display: flex;
+  
+  position: relative;
 
   width: 100%;
   max-width: 1200px;

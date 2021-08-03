@@ -1,10 +1,6 @@
 import styled, { css } from "styled-components";
 
-interface DropDownWrapperProp {
-  isOpen: boolean;
-}
-
-const DropDownWrapper = styled.ul<DropDownWrapperProp>`
+const DropDownWrapper = styled.ul`
     width: 100%;
     min-height: 40px;
     
@@ -13,12 +9,8 @@ const DropDownWrapper = styled.ul<DropDownWrapperProp>`
   visibility: none;
 
     position: absolute;
-    top: 0;
+    top:100%;
     z-index: 98;
-  ${({isOpen}) => isOpen && css`
-    visibility: visible;
-    border: 1px solid black;
-  `}
 
 `;
 
