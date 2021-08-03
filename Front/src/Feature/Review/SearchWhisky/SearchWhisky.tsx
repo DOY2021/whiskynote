@@ -28,7 +28,7 @@ function SearchWhisky(){
     setSearchQuery(e.target.value);
   }
 
-//TODO:add dropdown with 'results'
+  //TODO:add dropdown with 'results'
   return(
     <S.SearchWrapper>
       <S.SearchIcon></S.SearchIcon>

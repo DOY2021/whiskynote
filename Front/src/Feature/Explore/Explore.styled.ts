@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+const ExploreWrapper = styled.div`
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+`;
+
 const ExploreSideBarWrapper = styled.aside`
     flex: 1;
     max-width: 200px;
@@ -12,6 +19,7 @@ const ExploreMainWrapper = styled.main`
 `;
 
 export default {
+  ExploreWrapper,
   ExploreSideBarWrapper,
   ExploreMainWrapper
 }

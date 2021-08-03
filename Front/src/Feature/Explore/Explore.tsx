@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import SearchWhisky from '../Review/SearchWhisky/SearchWhisky';
 import S from './Explore.styled'
 import Category from './SideMenu/Category/Category'
 
@@ -12,14 +13,14 @@ function Explore() {
   }
 
   return (
-    <>
+    <S.ExploreWrapper>
       <S.ExploreSideBarWrapper>
         <Category handleClick={handleClick}/>
       </S.ExploreSideBarWrapper>
       <S.ExploreMainWrapper>
-      Hi
+        <SearchWhisky/>
       </S.ExploreMainWrapper>
-    </>
+    </S.ExploreWrapper>
   )
 }
 
