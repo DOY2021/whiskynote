@@ -3,6 +3,9 @@ import os
 import json
 from django.core.exceptions import ImproperlyConfigured
 
+#JWT Setting
+from datetime import timedelta
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,10 +34,7 @@ DEBUG = True
 # Host addresses
 ALLOWED_HOSTS = ['*']
 
-SECRET_KEY = 'django-insecure-5_^(+n7*k%ts*iv1r^l#_ys-8-o3$7zlhm-id)l+m_80z3yy5g'
-
-# Application definition
-
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +58,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     #Apps
     'api.apps.ApiConfig',
-]
+    #Social-login Providers
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver',
+    ]
 
 SITE_ID = 1 
 
@@ -99,11 +102,34 @@ REST_AUTH_SERIALIZERS = {
 
         }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+}
+
+#JWT settings
+
+REST_USE_JWT = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+## Insert into secret.json before release
 
 DATABASES = {
     'default': {

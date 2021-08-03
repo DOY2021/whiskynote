@@ -3,6 +3,28 @@ Project Whiskey (May 2021 ~)
 
 # Run Server!
 
+**Backend - DB Drop 하는법**
+
+<pre><code>
+
+  명령어 1> psql masterdb2
+ 
+  명령어 2> \l (db list 확인)
+  
+  (quit을 통해서 psql 빠져나가고, masterdb2가 아닌 다른 db로 접속. > psql [db명]
+  
+  명령어 3> DROP DATABASE masterdb2;
+  
+  명령어 4> CREATE DATABASE masterdb2;
+  
+  명령어 5> grant all privileges on all tables in schema public to doy;
+
+  (quit)
+  
+  명령어 6> python manage.py makemigrations > python manage.py migrate > python manage.py runserver
+
+</code></pre>
+
 **Backend - Migration 에러**
 
 * 서버 실행시 'no module' 에러 발생할 경우
@@ -10,14 +32,7 @@ Project Whiskey (May 2021 ~)
   명령어> pip install -r requirements.txt
 입력 후 재실행
 
-<br>
 
-* Remote 레포에서 pull 한 후  merge를 했으나 migration 충돌이 일어날 경우
-
-  명령어> python manage.py makemigrations --fake
-시도 후 다시 migrate
-
-<br>
 
 * django.db.utils.ProgrammingError: relation "api_<ModelName>" does not exist 에러
   

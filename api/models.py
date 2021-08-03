@@ -4,12 +4,11 @@ from rest_framework.authtoken.models import Token as DefaultTokenModel
 from .utils import import_callable
 from django.contrib.auth.models import User
 from datetime import datetime
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, validate_image_file_extension
 from model_utils import Choices
 #rest_auth
 TokenModel = import_callable(
     getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
-
 
 class Profile(models.Model):
     #required at profile creation
@@ -29,18 +28,20 @@ class Profile(models.Model):
 
 class Whisky(models.Model):
     name = models.CharField(max_length = 100, null = True)
+    #Updated - whisky contributor saved in each instance
+    contributor = models.CharField(max_length = 100, null = True)
     #Updated - some instances may vary to choice field or ManyToMany relation field
-    category = models.CharField(max_length = 100, null = True, blank = True)
-    distillery = models.CharField(max_length = 100, null = True, blank = True)
+    category = models.CharField(max_length = 100, null = True)
+    distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
-    vintage = models.IntegerField(null = True)
-    bottled = models.DateTimeField(null = True, blank = True)
-    age = models.IntegerField(null = True, blank = True)
-    whisky_detail = models.TextField(null = True, blank = True)
+    vintage = models.IntegerField(null = True, blank = True)
+    bottled = models.IntegerField(null = True, blank = True)
+    age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
     casknumber = models.IntegerField(default = 0, blank = True)
     alcohol = models.IntegerField(null = True)
+    whisky_detail = models.TextField(null = True, blank = True)
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
@@ -59,6 +60,11 @@ class Whisky(models.Model):
     def __str__(self):
         return self.name
 
+class WhiskyImage(models.Model):
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, null = True, related_name = 'whisky_image', related_query_name = 'whisky_image')
+    image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
+
+#Reaction & Tag
 class Tag(models.Model):
     kor_tag = models.CharField(max_length = 20)
     eng_tag = models.CharField(max_length = 30)
@@ -86,15 +92,20 @@ class Reaction(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+#Comment
+class ReactionComment(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    review = models.ForeignKey(Reaction, on_delete = models.CASCADE)
+    comment_body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    modified_at = models.DateTimeField(auto_now = True)
 
+#Follow
 class Follow(models.Model):
-    following = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "following")
-    follower = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "followers")
+    follower = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "is_following")
+    following = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = "is_follower")
     #Functions
     created = models.DateTimeField(auto_now_add = True)
-
-### Whisky DB Creation / Edit Request Status Saving Model to be added ###
-
 
 #Profile - Collection & Whisky
 class Collection(models.Model):
