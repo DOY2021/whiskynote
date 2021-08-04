@@ -18,8 +18,18 @@ const ExploreMainWrapper = styled.main`
   max-width: 1000px;
 `;
 
+const ExploreMainTitleWithOrdering = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100px;
+`;
+
 export default {
   ExploreWrapper,
   ExploreSideBarWrapper,
-  ExploreMainWrapper
+  ExploreMainWrapper,
+  ExploreMainTitleWithOrdering,
 }

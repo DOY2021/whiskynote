@@ -64,7 +64,7 @@ function App() {
           <Route path="/mypage" exact component={MyPage} />
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
-          <Route path='/explore' exact component={Explore}/>
+          <Route path='/explore/:order_by/:category' exact component={Explore}/>
           <Route path="/whiskyDB" exact component={DB} />
         </Switch>
       </>

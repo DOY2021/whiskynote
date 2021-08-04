@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
 import Palette from '../../lib/css/Pallete';
@@ -13,7 +13,7 @@ export type ParenProp = {
   children: React.ReactNode;
   id?: string;
   isInline?: boolean
-};
+} & React.HTMLAttributes<HTMLParagraphElement>
 
 function P({
   color,
@@ -21,9 +21,10 @@ function P({
   isInline = false,
   children,
   id,
+  ...props
 }: ParenProp) {
   return (
-    <Paren color={color} size={size} id={id} isInline={isInline}>
+    <Paren  color={color} size={size} id={id} isInline={isInline} {...props}>
       {children}
     </Paren>
   );
