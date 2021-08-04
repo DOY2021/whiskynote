@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment
+from api.models import Profile, WhiskyCategory, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -32,9 +32,14 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Profile, ProfileAdmin)
 
+class WhiskyCategoryAdmin(admin.ModelAdmin):
+    list_display = ("category_name", )
+
+admin.site.register(WhiskyCategory, WhiskyCategoryAdmin)
+
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage", "age", "cask", "casknumber", "alcohol", "whisky_detail")
+	list_display = ("name_eng", "name_kor",  "category", "distillery", "bottler", "bottle_type", "vintage", "age", "cask", "casknumber", "alcohol", "whisky_detail")
 	search_fields = ["name", "distillery", "age"]
 
 @admin.register(Tag)

@@ -258,7 +258,7 @@ class WhiskyMainListAPIView(generics.ListAPIView):
     #Add order_by
     serializer_class = WhiskySerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'brand']
+    search_fields = ['name_eng', 'name_kor', 'distillery']
     ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
     #Pagination
     pagination_class = PageSize5Pagination
@@ -270,7 +270,7 @@ class WhiskyListAPIView(generics.ListAPIView):
     serializer_class = WhiskySerializer
     #Search Function Added - API extraction possible (with queryset, serializer_class)
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'brand']
+    search_fields = ['name_eng', 'name_kor','distillery']
     ordering_fields = ['rating_counts', 'updated_at']
 
 class WhiskyDetailAPIView(generics.RetrieveAPIView):
