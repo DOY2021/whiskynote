@@ -13,6 +13,7 @@ import { useUserDispatch, useUserState } from '../hook/useUserContext';
 import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
 import Explore from '../Feature/Explore/Explore';
 import DB from '../Feature/WhiskyDB/DB';
+import SocialLogin from '../Feature/SignIn/SocialLogin';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -65,6 +66,7 @@ function App() {
           <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
           <Route path='/explore/:order_by/:category' exact component={Explore}/>
+          <Route path="/socialLogin" component={SocialLogin} />
           <Route path="/whiskyDB" exact component={DB} />
         </Switch>
       </>

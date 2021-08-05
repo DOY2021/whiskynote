@@ -20,7 +20,7 @@ export default function NaverLogin() {
   function Naver() {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: `_7_cSSycFzLB4MC8INUt`,
-      callbackUrl: 'http://localhost:3000/signin/',
+      callbackUrl: 'http://localhost:3000/socialLogin/',
       isPopup: false,
       loginButton: {
         color: 'green',
@@ -28,6 +28,7 @@ export default function NaverLogin() {
         height: 40,
       },
     });
+    setData(naverLogin)
     naverLogin.init();
   }
   return <div id="naverIdLogin" />;
@@ -41,6 +42,7 @@ function GetProfile() {
     const header = {
       Authorization: `Bearer ${loca}`,
     };
+    console.log(header);
 
     fetch('https://openapi.naver.com/v1/nid/me', {
       method: 'get',
