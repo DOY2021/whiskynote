@@ -563,19 +563,25 @@ class NaverLoginView(View):
                 }, status = 200)
 
         else:
-            new_user = User.objects.create_user(email = user['response']['email'], password = None, username = user['response']['name'], is_active = True)
-            new_user.save()
+            if User.objects.filter(username = user['response']['email']).exists():
+                return Reponse(
+                        {"detail": ("이미 가입된 이메일 계정입니다")},
+                        status = status.HTTP_400_BAD_REQUEST
+                        )
+            else:
+                new_user = User.objects.create_user(username = user['response']['email'], password = None, email = user['response']['email'], is_active = True)
+                new_user.save()
 
-            new_user_info = SocialAccount(
-                    user_id = new_user.id,
-                    uid = user['response']['id'],
-                    provider = SocialApp.objects.get(provider = 'naver')
-                    )
-            new_user_info.save()
+                new_user_info = SocialAccount(
+                        user_id = new_user.id,
+                        uid = user['response']['id'],
+                        provider = SocialApp.objects.get(provider = 'naver')
+                        )
+                new_user_info.save()
 
-            encoded_jwt = jwt.encode({'id': new_user_info.id}, SECRET_KEY, algorithm = 'HS256')
-            none_member_type = 1
-            return JsonResponse({
-                'access_token': encoded_jwt.decode('UTF-8'),
-                'user_pk': new_user_info.id,
-                }, status = 200)
+                encoded_jwt = jwt.encode({'id': new_user_info.id}, SECRET_KEY, algorithm = 'HS256')
+                none_member_type = 1
+                return JsonResponse({
+                    'access_token': encoded_jwt.decode('UTF-8'),
+                    'user_pk': new_user_info.id,
+                    }, status = 200)
