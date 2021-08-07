@@ -15,6 +15,7 @@ requests
 django-rest-friendship
 django-model-utils
 
+django-heroku
 django-cors-headers
 gunicorn 
 psycopg2-binary 
