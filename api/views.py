@@ -458,7 +458,7 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
-    
+
     def get_queryset(self):
         queryset = Follow.objects.all()
         pk = self.kwargs['profile_pk']
@@ -466,7 +466,7 @@ class FollowingDetailView(generics.ListAPIView):
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    
+
     def get_queryset(self):
         queryset = Follow.objects.all()
         pk = self.kwargs['profile_pk']
