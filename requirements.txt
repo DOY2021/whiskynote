@@ -14,3 +14,9 @@ six
 requests
 django-rest-friendship
 django-model-utils
+
+django-cors-headers
+gunicorn 
+psycopg2-binary 
+whitenoise 
+dj-database-url
