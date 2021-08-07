@@ -231,10 +231,19 @@ class WhiskySerializer(serializers.ModelSerializer):
 
 
 #Whisky Confirm Serializer
-class WhiskyConfirmSerializer(serializers.ModelSerializer):
+class WhiskyConfirmListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         fields = '__all__'
+
+class WhiskyConfirmSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.HyperlinkedIdentityField(view_name = 'whisky_confirm', format = 'json')
+    #Work in progress
+
+    class Meta:
+        model = Whisky
+        fields = ('url', 'id', 'whisky_image', 'name_eng', 'name_kor', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail', 'confirmed')
+
 
 class WhiskyUpdateSerializer(serializers.ModelSerializer):
     whisky_image = WhiskyImageSerializer(many = True, required = False)
