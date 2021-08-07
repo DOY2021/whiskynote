@@ -42,7 +42,7 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment, WhiskyNoseTag, WhiskyTasteTag, WhiskyFinTag
 from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer, ReactionCommentSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
@@ -286,7 +286,7 @@ def reaction_list_create(request, whisky_pk):
             new_nose_rating = request.data.get('nose_rating')
             new_taste_rating = request.data.get('taste_rating')
             new_finish_rating = request.data.get('finish_rating')
-            ### Exception 추가. if rating : None -> exception, message: Needs ratings
+            ### Exception?. if rating : None -> exception, message: Needs ratings
             new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
             new_total_rating = cur_rating + new_average_rating
             cur_counts = cur_counts+1
@@ -308,6 +308,8 @@ def reaction_list_create(request, whisky_pk):
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+        # created_time, modified_time
+        # image 추가
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -340,7 +342,7 @@ def reaction_update_delete(request, reaction_pk):
             whisky.save()
 
             # Edit Tag Fields in whisky DB
-            print(whisky.nose_tags[1])
+            
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

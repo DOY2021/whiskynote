@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment
+from api.models import Profile, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment, WhiskyNoseTag, WhiskyTasteTag, WhiskyFinTag
 
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
@@ -32,7 +32,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage","bottled", "age", "cask", "casknumber", "alcohol", "whisky_detail", "nose_tags", "taste_tags", "finish_tags")
+	list_display = ("name", "category", "distillery", "bottler", "bottle_type", "vintage","bottled", "age", "cask", "casknumber", "alcohol", "whisky_detail")
 	search_fields = ["name", "distillery", "age"]
 
 @admin.register(Tag)
@@ -43,6 +43,18 @@ class ReactionAdmin(admin.ModelAdmin):
 	model = Reaction
 	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
 admin.site.register(Reaction, ReactionAdmin)
+
+@admin.register(WhiskyNoseTag)
+class WhiskyNoseTagAdmin(admin.ModelAdmin):
+    list_display = ('whisky', 'nose_tag', 'count')
+
+@admin.register(WhiskyTasteTag)
+class WhiskyTasteTagAdmin(admin.ModelAdmin):
+    list_display = ('whisky', 'taste_tag', 'count')
+
+@admin.register(WhiskyFinTag)
+class WhiskyFinTagAdmin(admin.ModelAdmin):
+    list_display = ('whisky', 'fin_tag', 'count')
 
 @admin.register(ReactionComment)
 class ReactionCommentAdmin(admin.ModelAdmin):
