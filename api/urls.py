@@ -76,8 +76,8 @@ urlpatterns = [
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
-    path("<int:pk>/following/", FollowingDetailView.as_view(), name = "followers"),
-    path("<int:pk>/follower/", FollowerDetailView.as_view(), name = "following"),
+    path("<int:profile_pk>/following/", FollowingDetailView.as_view(), name = "followers"),
+    path("<int:profile_pk>/follower/", FollowerDetailView.as_view(), name = "following"),
 
     #Collection & Wishlist
     path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
