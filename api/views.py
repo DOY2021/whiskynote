@@ -2,6 +2,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
+from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
@@ -564,7 +565,7 @@ class NaverLoginView(View):
 
         else:
             if User.objects.filter(username = user['response']['email']).exists():
-                return Reponse(
+                return Response(
                         {"detail": ("이미 가입된 이메일 계정입니다")},
                         status = status.HTTP_400_BAD_REQUEST
                         )

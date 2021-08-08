@@ -1,6 +1,8 @@
 import React from 'react'
 import { useCallback } from 'react'
 import { useHistory, useParams } from 'react-router'
+import Palette from '../../../../lib/css/Pallete'
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
 import P from '../../../../shared/P/P'
 import { CATEGORY_SET } from '../../constants'
 import S from './Category.styled'
@@ -19,16 +21,17 @@ function Category() {
   }
 
   const renderItems = useCallback((item,idx) => {
+    const isSelected = item[0] === category
     return (
       <S.CategoryItemWrapper key={item[0]} onClick={() => handleClick(item[0])}>
-        <P>{item[1]}</P>
+        <P bold={isSelected} size={TypoGraphyCategory.body2} color={isSelected ? Palette.Black : Palette.Gray600}>{item[1]}</P>
       </S.CategoryItemWrapper>
     )
-  },[])
+  },[category])
 
   return (
     <>
-      <P>카테고리</P>
+      <P size={TypoGraphyCategory.subtitle}>카테고리</P>
       <S.CategoryWrapper>
         {CATEGORY_SET.map(renderItems)}
       </S.CategoryWrapper>

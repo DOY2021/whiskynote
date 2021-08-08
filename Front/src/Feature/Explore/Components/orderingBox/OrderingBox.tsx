@@ -1,7 +1,8 @@
 import React from 'react'
 import { useHistory, useParams } from 'react-router'
+import Palette from '../../../../lib/css/Pallete';
 import P from '../../../../shared/P/P'
-import { ExploreParamProp } from '../../constants';
+import { ExploreParamProp, OrderByProp, ORDER_BY_ENUM } from '../../constants';
 import S from './orderingBox.styled'
 
 function OrderingBox() {
@@ -15,10 +16,18 @@ function OrderingBox() {
     history.push(`/explore/recent/${category}`)   
   }
 
+  const getColor = (current_order: OrderByProp) => {
+    return order_by === current_order ? Palette.Black : Palette.Gray700
+  }
+
+  const isBold = (current_order : OrderByProp) => {
+    return order_by === current_order
+  }
+
   return (
     <S.orderingBoxWrapper>
-      <P onClick={handlePopularClick}>인기순</P>
-      <P onClick={handleRecentClick}>최신순</P>
+      <P onClick={handlePopularClick} color={getColor('popular')} bold={isBold('popular')} >인기순</P>
+      <P onClick={handleRecentClick} color={getColor('recent')} bold={isBold('recent')}>최신순</P>
     </S.orderingBoxWrapper>
   )
 }

@@ -21,12 +21,12 @@ function SocialLogin() {
       const header = {
         Authorization: `${loca}`,
       };
-      console.log(header);
+     
   
       const response = await client.get('/api/login/naver/', {
         headers: header,
       })
-
+      console.log(response);
       try {
         if (!dispatch) return;
         const profile = await profileAPI.getProfile(response.data.user_id);

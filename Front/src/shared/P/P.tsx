@@ -5,10 +5,11 @@ import Palette from '../../lib/css/Pallete';
 import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
-type StyleParenProp = Pick<ParenProp, 'color' | 'size' | 'isInline'>;
+type StyleParenProp = Pick<ParenProp, 'color' | 'size' | 'isInline' | 'bold'>;
 
 export type ParenProp = {
   color?: Palette;
+  bold?: boolean;
   size?: TypoGraphyCategory;
   children: React.ReactNode;
   id?: string;
@@ -21,10 +22,11 @@ function P({
   isInline = false,
   children,
   id,
+  bold,
   ...props
 }: ParenProp) {
   return (
-    <Paren  color={color} size={size} id={id} isInline={isInline} {...props}>
+    <Paren bold={bold}  color={color} size={size} id={id} isInline={isInline} {...props}>
       {children}
     </Paren>
   );
@@ -40,6 +42,10 @@ const Paren = styled.p<StyleParenProp>`
   `}
   ${({isInline}) => isInline && css`
     display: inline-block;
+  `}
+
+  ${({bold}) => bold && css`
+    font-weight: bold
   `}
 `;
 
