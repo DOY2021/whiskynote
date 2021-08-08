@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { Route, Router, Switch } from 'react-router-dom';
+import React, {  useCallback, useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
 import SignIn from '../Feature/SignIn/SignIn';
