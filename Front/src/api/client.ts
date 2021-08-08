@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const END_POINT = 'http://localhost:3000/';
+const END_POINT = 'https://whiskynote.herokuapp.com/';
 
 export const client = axios.create({
   baseURL: END_POINT,
