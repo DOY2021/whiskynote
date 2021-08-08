@@ -45,8 +45,7 @@ from allauth.account import app_settings, signals
 
 # Whisky DB
 from api.models import Whisky
-from api.serializers import (WhiskySerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer,
-WhiskyUpdateSerializer)
+from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyUpdateSerializer)
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
@@ -302,7 +301,7 @@ class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmSerializer
+        serializer_class = WhiskyConfirmListSerializer
         permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -460,20 +459,19 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs["pk"]
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs['pk']
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(following_id = pk)
-
 
 #Profile - Collection & Wishlist
 class CollectionAPIView(generics.ListAPIView):
@@ -560,7 +558,7 @@ class NaverLoginView(View):
             #jwt토큰, user_pk을 프론트엔드에 전달
             return JsonResponse({
                 'access_token' : encoded_jwt.decode('UTF-8'),
-                'user_pk': user_info.id,
+                'user_id': user_info.id,
                 }, status = 200)
 
         else:
@@ -584,5 +582,5 @@ class NaverLoginView(View):
                 none_member_type = 1
                 return JsonResponse({
                     'access_token': encoded_jwt.decode('UTF-8'),
-                    'user_pk': new_user_info.id,
+                    'user_id': new_user_info.id,
                     }, status = 200)
