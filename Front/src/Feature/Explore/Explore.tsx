@@ -1,6 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
-import { useLocation, useParams } from 'react-router';
 import { TypoGraphyCategory } from '../../lib/css/TempTypo';
 import Button from '../../shared/Button/Button';
 import P from '../../shared/P/P';
@@ -11,12 +9,11 @@ import { CATEGORY_ENUM, ExploreParamProp } from './constants';
 import S from './Explore.styled'
 import Category from './SideMenu/Category/Category'
 import InfoCard from './Components/InfoCard/InfoCard';
+import { useParams } from 'react-router';
 
 function Explore() {
 
-  const [test, setTest] = useState('false');
   const {order_by, category} = useParams<ExploreParamProp>();
-  const l = useLocation();
 
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true
