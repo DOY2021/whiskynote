@@ -5,7 +5,7 @@ import Palette from '../../lib/css/Pallete';
 import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
-type StyleParenProp = Pick<ParenProp, 'pre' | 'color' | 'size' | 'isInline' | 'bold'>;
+type StyleParenProp = Pick<ParenProp, 'pre' | 'color' | 'size' | 'isInline' | 'bold' | 'marginLeft' |'marginRight'>;
 
 export interface ParenProp extends React.HTMLAttributes<HTMLParagraphElement>{
   color?: Palette;
@@ -16,6 +16,8 @@ export interface ParenProp extends React.HTMLAttributes<HTMLParagraphElement>{
   id?: string;
   pre?: string;
   isInline?: boolean
+  marginRight?: number
+  marginLeft?: number
 }
 
 function P({
@@ -26,10 +28,12 @@ function P({
   pre,
   id,
   bold,
+  marginLeft,
+  marginRight,
   ...props
 }: ParenProp) {
   return (
-    <Paren bold={bold} pre={pre} color={color} size={fontSize} id={id} isInline={isInline} {...props}>
+    <Paren bold={bold} pre={pre} color={color} size={fontSize} id={id} isInline={isInline} marginLeft={marginLeft} marginRight={marginRight} {...props}>
       {children}
     </Paren>
   );
@@ -38,7 +42,11 @@ function P({
 const Paren = styled.p<StyleParenProp>`
   ${({ size }) => size && TypoGraphyTheme[size]}
 
-  color: inherit;
+  color: #5C5956;
+
+  margin-left: ${({marginLeft}) => `${marginLeft}px`};
+  margin-left: ${({marginLeft}) => `${marginLeft}px`};
+  margin-right: ${({marginRight}) => `${marginRight}px`};
 
   ${({ color }) => color && css`
     color: ${color};

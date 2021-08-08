@@ -6,6 +6,7 @@ import P from '../../../../shared/P/P'
 import S from './Description.styled'
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg'
 import BookMarkIcon from '../../../../../assets/CustomIcons/bookmark.svg'
+import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 
 type DescriptionProp = Omit<WhiskyDetailProp, 'photo'>
 
@@ -31,41 +32,106 @@ function Description({
   return (
     <S.DescriptionWrapper>
       <P size={TypoGraphyCategory.title}>{koreanName}</P>
+      <WhiteSpace height='10'/>
       <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>{englishName}</P>
+      <WhiteSpace height='15'/>
       <P size={TypoGraphyCategory.subtitle} isInline={true}>*{rating}</P>
       <P size={TypoGraphyCategory.body} color={Palette.Gray600} isInline={true}>점 ({ratingCount})</P>
+      <WhiteSpace height='15'/>
 
-      <S.DescriptionItemWrapper>
-        <img src={PenIcon}/>
-        <P>리뷰 쓰기</P>
-        <S.DescriptionItemWrapper>
+      <S.DescriptionLinkWrapper>
+        <div style={{display:'flex'}}>
+          <img src={PenIcon}/>
+          <P>리뷰 쓰기</P>
+        </div>
+        <div style={{display:'flex'}}>
           <img src={BookMarkIcon}/>
           <P>위시리스트</P>
-        </S.DescriptionItemWrapper>
-      </S.DescriptionItemWrapper>
+        </div>
+      </S.DescriptionLinkWrapper>
 
+      <WhiteSpace height='15'/>
 
       <S.DescriptionItemWrapper>
         <S.DescriptionItemTitle>
-          <P size={TypoGraphyCategory.body3}>카테고리</P>
-          <P size={TypoGraphyCategory.body3} color={Palette.Gray600}>Category</P>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>카테고리</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Category</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body3}>{category}</P>
+        <P size={TypoGraphyCategory.body2}>{category}</P>
       </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
         <S.DescriptionItemTitle>
-          <P size={TypoGraphyCategory.body3}>증류소</P>
-          <P size={TypoGraphyCategory.body3} color={Palette.Gray600}>Distillery</P>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>증류소</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Distillery</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body3}>{distillery}</P>
+        <P size={TypoGraphyCategory.body2}>{distillery}</P>
       </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
         <S.DescriptionItemTitle>
-          <P size={TypoGraphyCategory.body3}>병입 회사</P>
-          <P size={TypoGraphyCategory.body3} color={Palette.Gray600}>Bottler</P>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>병입 회사</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Bottler</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body3}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
       </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>바틀 타입</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Bottling Series</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>빈티지</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Vintage</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>병입 날짜</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Bottled</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>숙성 연수</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Stated Age/Age</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>캐스크타입</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Cask Type</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>캐스크넘버</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Cask Number</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
+      <S.DescriptionItemWrapper>
+        <S.DescriptionItemTitle>
+          <P size={TypoGraphyCategory.body2} marginRight={15} bold>도수</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Alcohol Strength</P>
+        </S.DescriptionItemTitle>
+        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+      </S.DescriptionItemWrapper>
+      <WhiteSpace height='10'/>
 
     </S.DescriptionWrapper>
   )
