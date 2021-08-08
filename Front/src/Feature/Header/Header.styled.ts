@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Nav = styled.div`
   background-color: #EDECE6;
-  width: 1200px;
+  min-width: 1200px;
+  width: 100vw;
   padding: 20px 50px;
   margin-bottom: 50px;
   border-bottom: 2px solid black;
@@ -34,7 +35,6 @@ const NavHeader = styled.div`
   justify-content: space-between;
   display: flex;
   width: 100%;
-  max-width: 1200px;
   margin:0 auto;
 `;
 
