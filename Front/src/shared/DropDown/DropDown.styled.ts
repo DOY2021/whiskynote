@@ -9,7 +9,7 @@ const DropDownWrapper = styled.ul`
   visibility: none;
 
     position: absolute;
-    top:100%;
+    bottom: 0;
     z-index: 98;
 
 `;

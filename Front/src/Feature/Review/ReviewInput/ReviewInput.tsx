@@ -15,6 +15,7 @@ interface ReviewInputProp {
   onChange?: (v:any) => void,
   onClick?: (v:any) => void,
   value?: string;
+  placeholder?: string;
 }
 
 function ReviewInput({
@@ -23,6 +24,7 @@ function ReviewInput({
   type = ReviewType.text,
   onChange,
   onClick,
+  placeholder,
   value
 }:ReviewInputProp) {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement> ) => {
@@ -46,7 +48,7 @@ function ReviewInput({
       </Styled.ReviewTitleWrapper>
       <Styled.ReviewContentWrapper onClick={handleOpen}>
         {type === ReviewType.text 
-          ? <Styled.ReviewContentText placeholder='카테고리를 입력하세요' onChange={handleInput} value={value}/>
+          ? <Styled.ReviewContentText placeholder={placeholder} onChange={handleInput} value={value}/>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           : isOpen && <DropDown onClick={onClick || (() =>{})}> 
             {new Array(10).fill(0).map((_,idx) => idx)}  

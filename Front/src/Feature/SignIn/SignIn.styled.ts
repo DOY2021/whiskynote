@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+import Color from '../../lib/css/Color';
 import { absoluteCenter, responsiveSize } from '../../lib/css/Mixin';
+import Palette from '../../lib/css/Pallete';
 import Typography from '../../lib/css/Typography';
 
 const SignInWrapper = styled.div`
@@ -44,7 +46,8 @@ const SignInBtnContainer = styled.div`
 
 const SocialLoginWrapper = styled.div`
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
+  align-items: center;
   width:432px;
 `
 const Line = styled.div`
@@ -55,9 +58,31 @@ const Line = styled.div`
 const ButtonWrapper = styled.div`
 display:flex;
 flex-direction:row;
-  float:right`
+justify-content: space-between;
+  `
 const CheckBox = styled.input`
-  margin-top:8px`
+  display:none;
+
+  &:checked + label{
+    
+    background-color: ${Palette.Orange600};
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, .1) inset;
+    text-align:center;
+
+    &:after{
+      content:"✓";
+      color:white;
+    }
+  }
+`
+
+const CheckBoxLabel = styled.label`
+display: block;
+width: 1em;
+height: 1em;
+
+border: 1px solid black;
+`;
 
 const CheckBoxText = styled.div`
   font-size: 13px;
@@ -74,5 +99,6 @@ export default {
   Line,
   ButtonWrapper,
   CheckBoxText,
-  CheckBox
+  CheckBox,
+  CheckBoxLabel
 };

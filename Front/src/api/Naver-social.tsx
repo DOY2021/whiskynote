@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 declare global {
   interface Window {
@@ -31,7 +32,7 @@ export default function NaverLogin() {
     setData(naverLogin)
     naverLogin.init();
   }
-  return <div id="naverIdLogin" />;
+  return <NaverLoginWrapper id="naverIdLogin" />;
 }
 
 function GetProfile() {
@@ -55,3 +56,20 @@ function GetProfile() {
       });
   }
 }
+
+
+const NaverLoginWrapper = styled.div`
+  display:flex;
+  justify-content: center;
+
+  #naverIdLogin_loginButton {
+    width: 432px;
+    height: 70px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+  }
+`;
