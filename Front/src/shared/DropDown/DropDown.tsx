@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import P from '../P/P'
 import Styled from './DropDown.styled'
 
 interface DropDownProp {
@@ -23,7 +24,9 @@ function DropDown({
           onClick(child)}
         return (
           <Styled.DropDownItem onClick={handleClick}>
-            {child}
+            <P bold>
+              {child}
+            </P>
           </Styled.DropDownItem>
         )
       })}
