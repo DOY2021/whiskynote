@@ -18,7 +18,7 @@ type WhiskyCreateParamProps = {
 }
 
 type WhiskyMainParamProps = {
-  search: string;
+  search?: string;
   ordering: string;
   page: number;
 }

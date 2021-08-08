@@ -39,13 +39,15 @@ function SearchWhisky(){
 
   //TODO:add dropdown with 'results'
   return(
-    <S.SearchWrapper>
-      <S.SearchIcon></S.SearchIcon>
-      <S.SearchInput  placeholder="위스키명으로 검색하기" onChange={handleSearchChange}></S.SearchInput> 
-      {data && <DropDown>
-        {data}
-      </DropDown>}
-    </S.SearchWrapper>
+    <>
+      <S.SearchWrapper>
+        <S.SearchIcon></S.SearchIcon>
+        <S.SearchInput  placeholder="위스키명으로 검색하기" onChange={handleSearchChange}></S.SearchInput> 
+        {data && <DropDown>
+          {data}
+        </DropDown>}
+      </S.SearchWrapper>
+    </>
   )
 
 }
