@@ -45,6 +45,7 @@ from allauth.account import app_settings, signals
 # Whisky DB
 from api.models import Whisky
 from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyUpdateSerializer)
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
@@ -260,9 +261,10 @@ class WhiskyMainListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.filter(confirmed = True)
     #Add order_by
     serializer_class = WhiskySerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
     search_fields = ['name_eng', 'name_kor', 'distillery']
     ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
+    filterset_fields = ['category']
     #Pagination
     pagination_class = PageSize5Pagination
 

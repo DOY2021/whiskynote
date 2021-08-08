@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     #Social-login Providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
+    #Filter package
+    'django_filters',
     ]
 
 SITE_ID = 1 
@@ -113,7 +115,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
-}
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
+    }
 
 #JWT settings
 

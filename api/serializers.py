@@ -236,6 +236,7 @@ class WhiskyConfirmListSerializer(serializers.ModelSerializer):
         model = Whisky
         fields = '__all__'
 
+
 class WhiskyConfirmSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.HyperlinkedIdentityField(view_name = 'whisky_confirm', format = 'json')
     #Work in progress
