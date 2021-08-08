@@ -14,6 +14,7 @@ import RegisterWhisky from '../Feature/RegisterWhisky/RegisterWhisky';
 import Explore from '../Feature/Explore/Explore';
 import DB from '../Feature/WhiskyDB/DB';
 import SocialLogin from '../Feature/SignIn/SocialLogin';
+import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -67,6 +68,7 @@ function App() {
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
           <Route path='/explore/:order_by/:category' exact component={Explore}/>
           <Route path="/socialLogin" component={SocialLogin} />
+          <Route path="/firstRegister/:name" exact component={AfterRegister} />
           <Route path="/whiskyDB" exact component={DB} />
         </Switch>
       </>
