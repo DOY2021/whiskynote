@@ -7,10 +7,12 @@ const ReviewInputWrapper = styled.div`
     width: 100%;
     max-width: 1200px;
 
+    
+
     background-color: #E7E5DE;
     border-radius: 2px;
+    border-bottom: 1px solid black;
 
-    padding: 6px 8px;
 
     & + & {
         margin-top: 10px;
@@ -24,6 +26,7 @@ interface ReviewTitleWrapper {
 const ReviewTitleWrapper = styled.div<ReviewTitleWrapper>`
     display: flex;
     align-items: center;
+    margin: 6px 8px;
 
     ${({hasSubtitle}) => hasSubtitle && css`
     width: 30%;
@@ -48,6 +51,8 @@ const ReviewContentWrapper = styled.div`
     flex: 1;
     height: inherit;
 
+    
+
     position: relative;
 `;
 
@@ -56,6 +61,8 @@ const ReviewContentText = styled.input`
     height: 100%;
 
     padding: 0;
+
+    margin: 6px 8px;
 
     ${TypoGraphyTheme.body1}
 
