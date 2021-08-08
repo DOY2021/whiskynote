@@ -1,4 +1,6 @@
+import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router';
 import { client } from '../../api/client';
 import { profileAPI } from '../../api/profile';
@@ -12,6 +14,7 @@ function SocialLogin() {
 
   const dispatch = useUserDispatch();
   const history = useHistory();
+  const [cookie, setCookie] = useCookies();
 
   async function GetProfile() {
     window.location.href.includes('access_token') && GetUser();
@@ -22,24 +25,28 @@ function SocialLogin() {
         Authorization: `${loca}`,
       };
      
+      interface SoicalLoginProp{
+        access_token: string;
+        user_pk: number;
+      }
   
-      const response = await client.get('/api/login/naver/', {
+      const response : SoicalLoginProp = await client.get('/api/login/naver/', {
         headers: header,
       })
       console.log(response);
       try {
         if (!dispatch) return;
-        const profile = await profileAPI.getProfile(response.data.user_id);
+        const profile = await profileAPI.getProfile(response.user_pk);
         console.log(profile);
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.data.user_id,
+            user_id: response.user_pk,
             isLoggedIn: true,
-            nickname: response.data.nickname ? response.data.nickname : null,
-            bio: response.data.bio ? response.data.bio : null,
-            profile_photo: response.data.profile_photo
-              ? response.data.profile_photo
+            nickname: profile.data.nickname ? profile.data.nickname : null,
+            bio: profile.data.bio ? profile.data.bio : null,
+            profile_photo: profile.data.profile_photo
+              ? profile.data.profile_photo
               : null,
           },
         });
@@ -49,14 +56,15 @@ function SocialLogin() {
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.data.user_id,
+            user_id: response.user_pk,
             isLoggedIn: true,
             nickname: null,
             bio: null,
             profile_photo: null,
           },
         });
-        history.push('signup/register_profile');
+        setCookie('user_id', response.user_pk, { maxAge: 1209600 }); //2weeks
+        history.push('/signup/register_profile');
       }
 
         

@@ -4,18 +4,16 @@ import { TypoGraphyCategory, TypoGraphyTheme } from "../../../lib/css/Typography
 const ReviewInputWrapper = styled.div`
     display: flex;
 
-    width: 100%;
-    max-width: 1200px;
-
+    width: 816px;
+    height: 56px;
     
 
     background-color: #E7E5DE;
     border-radius: 2px;
-    border-bottom: 1px solid black;
 
 
     & + & {
-        margin-top: 10px;
+        margin-top: 28px;
     }
 `;
 
@@ -51,7 +49,8 @@ const ReviewContentWrapper = styled.div`
     flex: 1;
     height: inherit;
 
-    
+    display:flex;
+    align-items: center;
 
     position: relative;
 `;
@@ -62,7 +61,7 @@ const ReviewContentText = styled.input`
 
     padding: 0;
 
-    margin: 6px 8px;
+    margin: 0px 8px;
 
     ${TypoGraphyTheme.body1}
 

@@ -12,7 +12,7 @@ const config = {
     historyApiFallback: true,
     proxy: {
       '/api/': {
-        target: 'https://whiskynote.herokuapp.com',
+        target: 'http://127.0.0.1:8000',
       },
     },
   },

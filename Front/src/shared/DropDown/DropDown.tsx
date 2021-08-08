@@ -19,8 +19,10 @@ function DropDown({
   return (
     <Styled.DropDownWrapper >
       {React.Children.map(children, (child) => {
+        const handleClick = () => {
+          onClick(child)}
         return (
-          <Styled.DropDownItem onClick={onClick}>
+          <Styled.DropDownItem onClick={handleClick}>
             {child}
           </Styled.DropDownItem>
         )

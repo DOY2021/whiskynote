@@ -1,5 +1,5 @@
 import React, {  useCallback, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
 import SignIn from '../Feature/SignIn/SignIn';
@@ -26,6 +26,7 @@ function App() {
   const fetchProfile = useCallback(async () => {
     if (!dispatch) return;
     if (!cookies) return;
+    console.log(user)
     try {
       const profile = await profileAPI.getProfile(cookies['user_id']);
       //로컬환경인 경우 프록시 설정에 따라 주소가 변하는 이슈가 있어서 수정해주는 코드를 썼습니다.
@@ -70,6 +71,7 @@ function App() {
           <Route path="/socialLogin" component={SocialLogin} />
           <Route path="/firstRegister/:name" exact component={AfterRegister} />
           <Route path="/whiskyDB" exact component={DB} />
+          <Redirect to="/"/>
         </Switch>
       </>
     </>

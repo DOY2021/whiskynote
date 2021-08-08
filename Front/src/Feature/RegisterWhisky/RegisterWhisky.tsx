@@ -6,6 +6,7 @@ import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
 
 import P from '../../shared/P/P'
+import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace'
 import HeadLine from '../Review/NewWhiskyReview/HeadLine'
 import TextField from '../Review/NewWhiskyReview/TextField'
 import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput'
@@ -15,7 +16,6 @@ function RegisterWhisky() {
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [category, setCategory] = useState('');
-  const [isCategoryOpen, setCategoryOpen] = useState(false);
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
   const [series, setSeries] = useState('');
@@ -27,19 +27,25 @@ function RegisterWhisky() {
   const [strength, setStrength] = useState('');
   const [caskNumbers, setCaskNum] = useState('');
   const [bottleNumber,setBottleNum] = useState('');
+  const [describe, setDescribe] = useState('');
 
   return (
     <S.RegisterWhiskyWrapper>
       <P fontSize = {TypoGraphyCategory.title}>새로운 위스키 등록</P>
+      <WhiteSpace height='10'/>
+      <P fontSize = {TypoGraphyCategory.body2} color={Palette.Gray700}>위스키 노트에 등록되지 않은 위스키를 추가하려면, 아래 양식에 맞게 작성해주세요.</P>
+      <P fontSize = {TypoGraphyCategory.body2} color={Palette.Gray700}>양식에 맞게 작성된 내용은 아이디와 함께 위스키 노트 DB에 반영되며, 등록이 완료되면 알림을 보내드립니다.</P>
+
+      <WhiteSpace height='40'/>
       <S.RegisterWhiskyRegisterForm>
         <S.RegisterTitleWrapper>
           
-          <P  fontSize = {TypoGraphyCategory.body} isInline={true}>위스키명을 입력해주세요</P>
+          <P size={TypoGraphyCategory.subtitle} isInline>위스키명을 입력해주세요</P>
           <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
-          
+          <WhiteSpace height='10'/>
           <ReviewInput
             title='국문'
-            subtitle='글렌모렌지 시그넷' 
+            subtitle='Korean name' 
             type={ReviewType.text}
             onChange={setKorean}
             value={koreanName}
@@ -47,23 +53,27 @@ function RegisterWhisky() {
           />
           <ReviewInput
             title='영문'
-            subtitle='Glenmorangie Signet'
+            subtitle='English Name'
             type={ReviewType.text}
             onChange={setEng}
             value={englishName}
             placeholder="등록하는 위스키의 정확한 영문 명칭을 입력해주세요."
           />
         </S.RegisterTitleWrapper>
+        <WhiteSpace height='40'/>
         <S.RegisterPhotoWrapper>
-          <P  fontSize = {TypoGraphyCategory.body}>위스키 대표 사진을 등록해주세요.</P>
-          <P color={Palette.Orange600} fontSize = {TypoGraphyCategory.body2}>상품 이미지 사이즈 이렇게 해주세요.</P>
-          <P color={Palette.Orange600} fontSize = {TypoGraphyCategory.body2}>위스키 대표 사진을 등록해주세요.</P>
+          <P  fontSize = {TypoGraphyCategory.subtitle}>위스키 대표 사진을 등록해주세요.</P>
+          <WhiteSpace height='10'/>
+
+          <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 상품 이미지 사이즈 이렇게 해주세요.</P>
+          <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 위스키 대표 사진을 등록해주세요.</P>
           <ImageUpload
             maxFileNum={5}
             updateFilesCb={() =>{}}
             label='Whisky'
           />
         </S.RegisterPhotoWrapper>
+        <WhiteSpace height='30'/>
         <S.RegisterDescriptWrapper>
           <ReviewInput
             title='카테고리'
@@ -71,6 +81,7 @@ function RegisterWhisky() {
             type={ReviewType.dropdown}
             onClick={setCategory}
             value={category}
+            categoryList={['싱글몰트 위스키', '블렌디드 위스키']}
           />
           <ReviewInput 
             title='증류소' 
@@ -166,7 +177,7 @@ function RegisterWhisky() {
             isMandatory={true}
           ></HeadLine>
         </S.MarginWrapper>
-        {/* <TextField></TextField> */}
+        <TextField text={describe} handleTextAreaInput={(e) =>setDescribe(e.target.value)}/>
 
         <S.ButtonsWrapper>
           <S.TempSaveBtn>임시 저장</S.TempSaveBtn>

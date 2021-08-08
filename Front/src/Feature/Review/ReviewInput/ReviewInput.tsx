@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
 import DropDown from '../../../shared/DropDown/DropDown'
+import P from '../../../shared/P/P';
 import Styled from './ReviewInput.styled'
 
 export enum ReviewType  {
@@ -16,6 +18,7 @@ interface ReviewInputProp {
   onClick?: (v:any) => void,
   value?: string;
   placeholder?: string;
+  categoryList?: string[];
 }
 
 function ReviewInput({
@@ -25,6 +28,7 @@ function ReviewInput({
   onChange,
   onClick,
   placeholder,
+  categoryList,
   value
 }:ReviewInputProp) {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement> ) => {
@@ -37,7 +41,13 @@ function ReviewInput({
 
   const handleOpen = () => {
     if(type !== ReviewType.dropdown) return;
-    setOpen(open => !open);
+    setOpen(!isOpen);
+  }
+
+  const handleDropDownClick = (item:any) => {
+    if(!onClick)return;
+    onClick(item)
+    handleOpen()
   }
 
   return (
@@ -50,9 +60,12 @@ function ReviewInput({
         {type === ReviewType.text 
           ? <Styled.ReviewContentText placeholder={placeholder} onChange={handleInput} value={value}/>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          : isOpen && <DropDown onClick={onClick || (() =>{})}> 
-            {new Array(10).fill(0).map((_,idx) => idx)}  
-          </DropDown>}
+          : isOpen === true
+            ? <DropDown onClick={handleDropDownClick}> 
+              {categoryList}  
+            </DropDown>
+            : <P bold size={TypoGraphyCategory.body2}>{value}</P>
+        }
       </Styled.ReviewContentWrapper>
     </Styled.ReviewInputWrapper>
   )
