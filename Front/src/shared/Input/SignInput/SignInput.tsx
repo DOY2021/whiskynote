@@ -15,7 +15,6 @@ interface SignInputProp extends BaseInputProp {
   isValidated: boolean;
   errorMsg?: string | null;
   signType?: 'signup' | 'signin';
-  inputLabel: string;
   placeholder?: string;
   type?: string;
   maxLength?: number;
@@ -28,7 +27,6 @@ function SignInput({
   value,
   errorMsg,
   signType,
-  inputLabel,
   placeholder,
   type = 'text',
   ...rest
@@ -48,9 +46,6 @@ function SignInput({
         {...rest}
       />
       <StyledSignErrorMsg hasError={hasError}>{errorMsg}</StyledSignErrorMsg>
-      <StyledSignLabel hasError={hasError} signType={signType}>
-        {inputLabel}
-      </StyledSignLabel>
       <StyledSignIcon hasError={hasError} isValidated={isValidated}>
         <FaExclamationCircle />
       </StyledSignIcon>

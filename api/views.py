@@ -2,6 +2,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
+from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
@@ -16,6 +17,7 @@ from rest_framework.renderers import JSONRenderer
 
 #Custom Login
 from .serializers import CustomLoginSerializer
+from rest_auth.utils import jwt_encode
 from .models import TokenModel
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -43,8 +45,7 @@ from allauth.account import app_settings, signals
 
 # Whisky DB
 from api.models import Whisky
-from api.serializers import (WhiskySerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer,
-WhiskyUpdateSerializer)
+from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyUpdateSerializer)
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
@@ -85,6 +86,9 @@ from django.contrib.auth.models import User
 UserModel = get_user_model()
 
 #SocialLogin
+import requests
+import jwt
+from Whisky.settings import SECRET_KEY
 from django.views import View
 from allauth.socialaccount.models import SocialAccount, SocialApp
 
@@ -258,8 +262,8 @@ class WhiskyMainListAPIView(generics.ListAPIView):
     #Add order_by
     serializer_class = WhiskySerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'brand']
-    ordering_fields = ['rating_counts', 'updated_at']
+    search_fields = ['name_eng', 'name_kor', 'distillery']
+    ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
     #Pagination
     pagination_class = PageSize5Pagination
 
@@ -270,7 +274,7 @@ class WhiskyListAPIView(generics.ListAPIView):
     serializer_class = WhiskySerializer
     #Search Function Added - API extraction possible (with queryset, serializer_class)
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'brand']
+    search_fields = ['name_eng', 'name_kor','distillery']
     ordering_fields = ['rating_counts', 'updated_at']
 
 class WhiskyDetailAPIView(generics.RetrieveAPIView):
@@ -297,7 +301,7 @@ class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmSerializer
+        serializer_class = WhiskyConfirmListSerializer
         permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -455,20 +459,19 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs["pk"]
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs['pk']
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(following_id = pk)
-
 
 #Profile - Collection & Wishlist
 class CollectionAPIView(generics.ListAPIView):
@@ -548,33 +551,36 @@ class NaverLoginView(View):
         #유저 정보를 json화하여 변수에 저장
         user = response.json()
 
-        if SocialAccount.objects.filter(uid = user['id']).exists():
-            user_info = SocialAccount.objects.get(uid = user['id'])
+        if SocialAccount.objects.filter(uid = user['response']['id']).exists():
+            user_info = SocialAccount.objects.get(uid = user['response']['id'])
             #jwt token 발행
-            encoded_jwt = jwt.encode({'id':user_info.id}, wef_key, algorithm = 'HS256')
+            encoded_jwt = jwt.encode({'id':user_info.id}, SECRET_KEY, algorithm = 'HS256')
             #jwt토큰, user_pk을 프론트엔드에 전달
             return JsonResponse({
                 'access_token' : encoded_jwt.decode('UTF-8'),
-                'user_pk': user_info.id,
+                'user_id': user_info.id,
                 }, status = 200)
 
         else:
-            new_user, created = User.objects.get_or_create(email = user['email'])
-            if created:
-                new_user.set_password(None)
-                new_user.name = user['name']
-                new_user.is_active = True
+            if User.objects.filter(username = user['response']['email']).exists():
+                return Response(
+                        {"detail": ("이미 가입된 이메일 계정입니다")},
+                        status = status.HTTP_400_BAD_REQUEST
+                        )
+            else:
+                new_user = User.objects.create_user(username = user['response']['email'], password = None, email = user['response']['email'], is_active = True)
                 new_user.save()
 
                 new_user_info = SocialAccount(
                         user_id = new_user.id,
-                        uid = user['id'],
+                        uid = user['response']['id'],
                         provider = SocialApp.objects.get(provider = 'naver')
                         )
                 new_user_info.save()
-                encoded_jwt = jwt.encode({'id': new_user_info.id}, wef_key, algorithm = 'HS256')
+
+                encoded_jwt = jwt.encode({'id': new_user_info.id}, SECRET_KEY, algorithm = 'HS256')
                 none_member_type = 1
                 return JsonResponse({
                     'access_token': encoded_jwt.decode('UTF-8'),
-                    'user_pk': user_info.id,
+                    'user_id': new_user_info.id,
                     }, status = 200)

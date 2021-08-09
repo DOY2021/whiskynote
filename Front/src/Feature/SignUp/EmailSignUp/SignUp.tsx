@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { authAPI } from '../../../api/auth';
 import useInput from '../../../hook/useInput';
 import Button from '../../../shared/Button/Button';
@@ -9,13 +9,14 @@ import SignInput from '../../../shared/Input/SignInput/SignInput';
 import S from './SignUp.styled';
 import useSignUpErr from '../useSignUpErr';
 import CSRFToken from '../../../shared/CSRFToken';
-import BaseInput from '../../../shared/Input/BaseInput/BaseInput';
 import SignTemplate from '../../../shared/SignTemplate/SignTemplate';
 
 export type RegisterDataProp = {
   type: 'success' | 'fail';
   data: any;
 };
+
+//TODO 정규표현식으로 비밀번호 체크해주기.
 
 function SignUpOne() {
   const history = useHistory();
@@ -91,7 +92,7 @@ function SignUpOne() {
           value={nickname}
           onChange={handleNicknameInput}
           name="name"
-          inputLabel="이름"
+          
           placeholder="이름을 입력해주세요."
           errorMsg={errMsg.nickname}
 
@@ -105,8 +106,8 @@ function SignUpOne() {
           value={email}
           onChange={handleEmailInput}
           name="email"
-          inputLabel="이메일"
-          placeholder="imtexter@gmail.com"
+          
+          placeholder="이메일을 입력해주세요."
           errorMsg={errMsg.email}
 
           // ref={register({ required: true })}
@@ -119,8 +120,8 @@ function SignUpOne() {
           onChange={handlePasswordInput}
           type="password"
           name="password"
-          inputLabel="비밀번호"
-          placeholder="영문+숫자 조합 8자리 이내로 입력해주세요."
+          
+          placeholder="비밀번호를 입력해주세요"
           errorMsg={errMsg.password}
 
           // ref={register({ required: true })}
@@ -130,7 +131,7 @@ function SignUpOne() {
           {/* <Link to="signup/email/2"> */}
           <Button
             size="fit"
-            variant="primary"
+            variant="black"
             disabled={loading || !email || !password}
           >
             다음

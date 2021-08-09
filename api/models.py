@@ -26,12 +26,18 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class WhiskyCategory(models.Model):
+    category_name = models.CharField(max_length = 50, null = True)
+
+    def __str__(self):
+        return self.category_name
+
 class Whisky(models.Model):
-    name = models.CharField(max_length = 100, null = True)
-    #Updated - whisky contributor saved in each instance
+    name_eng = models.CharField(max_length = 100, null = True)
+    name_kor = models.CharField(max_length = 100, null = True)
     contributor = models.CharField(max_length = 100, null = True)
-    #Updated - some instances may vary to choice field or ManyToMany relation field
-    category = models.CharField(max_length = 100, null = True)
+    #updated - category to be choicefield (foreignkey to WhiskyCategory)
+    category = models.ForeignKey(WhiskyCategory, related_name = 'category', on_delete = models.CASCADE, null = True, blank = True)
     distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
@@ -49,16 +55,11 @@ class Whisky(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-    #Old
-    #brand = models.CharField(max_length = 100, null = True)
-    #whisky_detail = models.TextField(null=True, blank = True)
-    #whisky_region = models.CharField(max_length = 100, null = True, blank = True)
-
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
 
-    def __str__(self):
-        return self.name
+    #def __str__(self):
+    #    return self.name
 
 class WhiskyImage(models.Model):
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, null = True, related_name = 'whisky_image', related_query_name = 'whisky_image')

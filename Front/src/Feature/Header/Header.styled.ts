@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Nav = styled.div`
   background-color: #EDECE6;
+  min-width: 1200px;
+  width: 100vw;
+  padding: 20px 50px;
+  margin-bottom: 50px;
+  border-bottom: 2px solid black;
 `;
 
 const MenuBtn = styled.button`
@@ -27,10 +32,22 @@ const SignUpBtn = styled.div`
 `;
 const NavHeader = styled.div`
   align-items: center;
-  justify-items: center;
+  justify-content: space-between;
   display: flex;
   width: 100%;
+  margin:0 auto;
 `;
+
+const NavLeftContent = styled.div`
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+
+  width: 600px;
+  height: 100%;
+
+`;
+
 const NavLeft = styled.div`
   width: 20%;
   align-items: center;
@@ -79,6 +96,7 @@ export default {
   NavCenter,
   NavHeader,
   NavLeft,
+  NavLeftContent,
   NavRight,
   MenuLink,
   SearchInput,

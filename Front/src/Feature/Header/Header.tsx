@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import S from './Header.styled';
 import HeaderMenuList from './HeaderMenuList';
 import Palette from '../../lib/css/Pallete';
+import P from '../../shared/P/P';
 
 
 const SearchIcon = styled(FaSearch)`
@@ -33,18 +34,19 @@ function Header() {
           <S.MenuMargin></S.MenuMargin>
           {/* <SearchIcon></SearchIcon>
           <S.SearchInput></S.SearchInput> */}
-        </S.NavCenter>
+          </S.NavCenter>
+       
         <S.NavRight>
           {!cookie.user_id && (
             <> 
               <Link to="/login">
                 <S.MenuBtn>
-                  로그인
+                  <P>로그인</P>
                 </S.MenuBtn>
               </Link>
               <Link to="/signup">
                 <S.SignUpBtn>
-                  회원가입
+                  <P>회원가입</P>
                 </S.SignUpBtn>
               </Link>
             </>

@@ -1,30 +1,31 @@
 import styled, { css } from "styled-components";
+import { absoluteCenter } from "../../lib/css/Mixin";
 
-interface DropDownWrapperProp {
-  isOpen: boolean;
-}
-
-const DropDownWrapper = styled.ul<DropDownWrapperProp>`
+const DropDownWrapper = styled.ul`
     width: 100%;
-    min-height: 40px;
+    
+
+    backround-color: #EDECE6;
     
   text-align: center;
 
   visibility: none;
 
     position: absolute;
-    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
     z-index: 98;
-  ${({isOpen}) => isOpen && css`
-    visibility: visible;
-    border: 1px solid black;
-  `}
+
+
+    
 
 `;
 
 const DropDownItem = styled.li`
+    ${absoluteCenter}
     width: 100%;
-    height: 100px;
+    height: 70px;
 
     z-index: 99;
     background-color: #E7E5DE;

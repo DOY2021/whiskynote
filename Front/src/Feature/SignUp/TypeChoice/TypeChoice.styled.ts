@@ -10,6 +10,12 @@ const TypeChoiceWrapper = styled.div`
   height: 90vh;
 `;
 
+const TypeSocialLoginWrapper = styled.div`
+  display:flex;
+  flex-direction: column;
+
+`;
+
 const TypeChoiceTemplate = styled.div`
   ${absoluteCenter}
   flex-direction: column;
@@ -33,4 +39,5 @@ export default {
   TypeChoiceTemplate,
   TypeChoiceHeaderH1,
   TypeChoiceHeader,
+  TypeSocialLoginWrapper
 };

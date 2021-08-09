@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Explore from '../Explore/Explore';
 import NewWhiskyReview from '../Review/NewWhiskyReview/NewWhiskyReview';
 import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 import Review from '../Review/ReviewListing/Review/Review';

@@ -4,16 +4,16 @@ import { TypoGraphyCategory, TypoGraphyTheme } from "../../../lib/css/Typography
 const ReviewInputWrapper = styled.div`
     display: flex;
 
-    width: 100%;
-    max-width: 1200px;
+    width: 816px;
+    height: 56px;
+    
 
     background-color: #E7E5DE;
     border-radius: 2px;
 
-    padding: 6px 8px;
 
     & + & {
-        margin-top: 10px;
+        margin-top: 28px;
     }
 `;
 
@@ -24,6 +24,7 @@ interface ReviewTitleWrapper {
 const ReviewTitleWrapper = styled.div<ReviewTitleWrapper>`
     display: flex;
     align-items: center;
+    margin: 6px 8px;
 
     ${({hasSubtitle}) => hasSubtitle && css`
     width: 30%;
@@ -48,6 +49,9 @@ const ReviewContentWrapper = styled.div`
     flex: 1;
     height: inherit;
 
+    display:flex;
+    align-items: center;
+
     position: relative;
 `;
 
@@ -56,6 +60,8 @@ const ReviewContentText = styled.input`
     height: 100%;
 
     padding: 0;
+
+    margin: 0px 8px;
 
     ${TypoGraphyTheme.body1}
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import P from '../P/P'
 import Styled from './DropDown.styled'
 
 interface DropDownProp {
@@ -10,18 +11,22 @@ function DropDown({
   children,
   onClick,
 }:DropDownProp) {
-  const [isOpen, setOpen] = useState(false);
+  // const [isOpen, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(open => !open)
-  }
+  // const handleOpen = () => {
+  //   setOpen(open => !open)
+  // }
 
   return (
-    <Styled.DropDownWrapper onClick={handleOpen} isOpen = {isOpen}>
-      {isOpen && React.Children.map(children, (child) => {
+    <Styled.DropDownWrapper >
+      {React.Children.map(children, (child) => {
+        const handleClick = () => {
+          onClick(child)}
         return (
-          <Styled.DropDownItem onClick={onClick}>
-            {child}
+          <Styled.DropDownItem onClick={handleClick}>
+            <P bold>
+              {child}
+            </P>
           </Styled.DropDownItem>
         )
       })}
