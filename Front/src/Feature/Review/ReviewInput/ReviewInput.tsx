@@ -1,5 +1,8 @@
 import React from 'react'
+import { useState } from 'react';
+import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
 import DropDown from '../../../shared/DropDown/DropDown'
+import P from '../../../shared/P/P';
 import Styled from './ReviewInput.styled'
 
 export enum ReviewType  {
@@ -14,6 +17,8 @@ interface ReviewInputProp {
   onChange?: (v:any) => void,
   onClick?: (v:any) => void,
   value?: string;
+  placeholder?: string;
+  categoryList?: string[];
 }
 
 function ReviewInput({
@@ -22,6 +27,8 @@ function ReviewInput({
   type = ReviewType.text,
   onChange,
   onClick,
+  placeholder,
+  categoryList,
   value
 }:ReviewInputProp) {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement> ) => {
@@ -30,19 +37,35 @@ function ReviewInput({
     onChange(e.target.value)
   }
 
+  const [isOpen, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    if(type !== ReviewType.dropdown) return;
+    setOpen(!isOpen);
+  }
+
+  const handleDropDownClick = (item:any) => {
+    if(!onClick)return;
+    onClick(item)
+    handleOpen()
+  }
+
   return (
     <Styled.ReviewInputWrapper>
       <Styled.ReviewTitleWrapper hasSubtitle={subtitle ? true : false}>
         <Styled.ReviewInputTitle>{title}</Styled.ReviewInputTitle>
         {subtitle &&  <Styled.ReviewInputSubTitle>{subtitle}</Styled.ReviewInputSubTitle>}
       </Styled.ReviewTitleWrapper>
-      <Styled.ReviewContentWrapper>
+      <Styled.ReviewContentWrapper onClick={handleOpen}>
         {type === ReviewType.text 
-          ? <Styled.ReviewContentText placeholder='카테고리를 입력하세요' onChange={handleInput} value={value}/>
+          ? <Styled.ReviewContentText placeholder={placeholder} onChange={handleInput} value={value}/>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          : <DropDown onClick={onClick || (() =>{})}> 
-            {new Array(10).fill(0).map((_,idx) => idx)}  
-          </DropDown>}
+          : isOpen === true
+            ? <DropDown onClick={handleDropDownClick}> 
+              {categoryList}  
+            </DropDown>
+            : <P bold size={TypoGraphyCategory.body2}>{value}</P>
+        }
       </Styled.ReviewContentWrapper>
     </Styled.ReviewInputWrapper>
   )

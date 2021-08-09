@@ -3,6 +3,15 @@ Project Whiskey (May 2021 ~)
 
 # Run Server!
 
+**Backend - Superuser 생성법**
+
+<pre><code>
+  명령어 1> python manage.py createsuperuser
+  명령어 2> id 생성 (아무거나)
+  명령어 3> pwd 생성 (아무거나)
+  > localhost:8000/admin 에서 id, pwd 입력 후 로그인
+</pre></code>
+
 **Backend - DB Drop 하는법**
 
 <pre><code>

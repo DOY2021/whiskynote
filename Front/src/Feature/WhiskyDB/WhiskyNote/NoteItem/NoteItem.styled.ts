@@ -10,6 +10,7 @@ interface NoteItemContentWrapperProp {
 const NoteItemWrapper = styled.ul`
     width: 300px;
     height: 224px;
+
 `;
 
 const NoteItemContentWrapper = styled.li<NoteItemContentWrapperProp>`
@@ -20,18 +21,17 @@ const NoteItemContentWrapper = styled.li<NoteItemContentWrapperProp>`
     margin-bottom: 10px;
 
     width: 300px;
-    height: 76px;
+    height: 50px;
 
     background-color: #E5E5DF;
     ${({isFirst,category}) => isFirst && css`
         background-color: ${TagService.getTagColor(category)};
+        height: 76px;
     `}
 
     border-radius: 10px;
 
     box-sizing: border-box;
-
-    ${({})}
 `;
 
 const NoteItemContentIcon = styled.img`

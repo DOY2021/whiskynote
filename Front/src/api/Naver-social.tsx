@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 declare global {
   interface Window {
@@ -20,7 +21,7 @@ export default function NaverLogin() {
   function Naver() {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: `_7_cSSycFzLB4MC8INUt`,
-      callbackUrl: 'http://localhost:3000/signin/',
+      callbackUrl: 'http://localhost:3000/socialLogin/',
       isPopup: false,
       loginButton: {
         color: 'green',
@@ -28,9 +29,10 @@ export default function NaverLogin() {
         height: 40,
       },
     });
+    setData(naverLogin)
     naverLogin.init();
   }
-  return <div id="naverIdLogin" />;
+  return <NaverLoginWrapper id="naverIdLogin" />;
 }
 
 function GetProfile() {
@@ -41,6 +43,7 @@ function GetProfile() {
     const header = {
       Authorization: `Bearer ${loca}`,
     };
+    console.log(header);
 
     fetch('https://openapi.naver.com/v1/nid/me', {
       method: 'get',
@@ -53,3 +56,20 @@ function GetProfile() {
       });
   }
 }
+
+
+const NaverLoginWrapper = styled.div`
+  display:flex;
+  justify-content: center;
+
+  #naverIdLogin_loginButton {
+    width: 432px;
+    height: 70px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+  }
+`;

@@ -4,6 +4,8 @@ import TagService from '../../../../Services/TagService'
 import P from '../../../../shared/P/P'
 import S from './NoteItem.styled'
 import chocolate from '../../../../../assets/TagIcon/chocolate.svg'
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
+import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 
 interface NoteItemProp{
   item : {
@@ -42,7 +44,8 @@ function NoteItem({
   
   return (
     <S.NoteItemWrapper>
-      <P>{name}</P>
+      <P size={TypoGraphyCategory.subtitle}>{name}</P>
+      <WhiteSpace height='10'/>
       {itemArr.map(renderItemContent)}
     </S.NoteItemWrapper>
   )

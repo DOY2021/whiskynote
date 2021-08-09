@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import S from './Header.styled';
 import HeaderMenuList from './HeaderMenuList';
 import Palette from '../../lib/css/Pallete';
+import P from '../../shared/P/P';
 
 
 const SearchIcon = styled(FaSearch)`
@@ -22,32 +23,40 @@ function Header() {
   return (
     <S.Nav>
       <S.NavHeader>
-        <S.NavLeft>
-          <Link to="/">
-            <img src={'../../../assets/logo/logo.svg'}></img>
-          </Link>
-        </S.NavLeft>
-        <S.NavCenter>
-          <S.MenuLink to="#">위스키 찾기</S.MenuLink>
-          <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">위스키 바</S.MenuLink>
-          <S.MenuMargin></S.MenuMargin>
-          <S.MenuLink to="#">커뮤니티</S.MenuLink>
-          <S.MenuMargin></S.MenuMargin>
-          {/* <SearchIcon></SearchIcon>
+        <S.NavLeftContent>
+          <S.NavLeft>
+            <Link to="/">
+              <img src={'../../../assets/logo/logo.svg'}></img>
+            </Link>
+          </S.NavLeft>
+          <S.NavCenter>
+            <S.MenuLink to="#">
+              <P>위스키 찾기</P>
+            </S.MenuLink>
+            <S.MenuMargin></S.MenuMargin>
+            <S.MenuLink to="#">
+              <P>위스키 바</P>
+            </S.MenuLink>
+            <S.MenuMargin></S.MenuMargin>
+            <S.MenuLink to="#">
+              <P>커뮤니티</P>
+            </S.MenuLink>
+            <S.MenuMargin></S.MenuMargin>
+            {/* <SearchIcon></SearchIcon>
           <S.SearchInput></S.SearchInput> */}
-        </S.NavCenter>
+          </S.NavCenter>
+        </S.NavLeftContent>
         <S.NavRight>
           {!cookie.user_id && (
             <> 
               <Link to="/login">
                 <S.MenuBtn>
-                  로그인
+                  <P>로그인</P>
                 </S.MenuBtn>
               </Link>
               <Link to="/signup">
                 <S.SignUpBtn>
-                  회원가입
+                  <P>회원가입</P>
                 </S.SignUpBtn>
               </Link>
             </>

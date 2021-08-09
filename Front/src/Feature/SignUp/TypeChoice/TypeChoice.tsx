@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import KakaoLogin from '../../../api/KakaoLogin';
 import NaverLogin from '../../../api/Naver-social';
+import Palette from '../../../lib/css/Pallete';
 import Button from '../../../shared/Button/Button';
+import WhiteSpace from '../../../shared/WhiteSpace/WhiteSpace';
 import S from './TypeChoice.styled';
 
 function TypeChoice() {
@@ -12,17 +14,18 @@ function TypeChoice() {
         <S.TypeChoiceHeader>
           <S.TypeChoiceHeaderH1>회원가입</S.TypeChoiceHeaderH1>
         </S.TypeChoiceHeader>
-        <div>
+        <S.TypeSocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-        </div>
-        <Link to="/signup/email/1">
-          <Button size="login" variant="primary">
+        </S.TypeSocialLoginWrapper>
+        <WhiteSpace height='10'/>
+        <Link to="/signup/email">
+          <Button size="login" variant="black">
             이메일로 회원가입
           </Button>
         </Link>
-        <Link to="/">
-          <Button size="small" variant="primary" type="text">
+        <Link to="/login">
+          <Button size="small" variant="grayscale" type="text" color={Palette.Black}>
             이미 계정이 있으신가요?
           </Button>
         </Link>

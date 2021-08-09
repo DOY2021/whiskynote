@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { authAPI } from '../../api/auth';
 import Button from '../../shared/Button/Button';
@@ -8,11 +8,11 @@ import { Link, useHistory } from 'react-router-dom';
 import useSignInErr from './useSignInErr';
 import NaverLogin from '../../api/Naver-social';
 import KakaoLogin from '../../api/KakaoLogin';
-import KakaoMap from '../Map/KakaoMap';
 import { useCookies } from 'react-cookie';
 import { profileAPI } from '../../api/profile';
 import CSRFToken from '../../shared/CSRFToken';
-import { useUserDispatch, useUserState } from '../../hook/useUserContext';
+import { useUserDispatch } from '../../hook/useUserContext';
+import Palette from '../../lib/css/Pallete';
 
 function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -22,11 +22,11 @@ function SignIn() {
   const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     setEmail(value);
   };
   const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const {  value } = event.target;
     setPassword(value);
   };
 
@@ -105,7 +105,6 @@ function SignIn() {
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
-            inputLabel=""
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
             value={email}
@@ -116,7 +115,7 @@ function SignIn() {
             errorMsg={errMsg.non_field_errors}
           />
           <SignInput
-            inputLabel=""
+            
             type="password"
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
@@ -131,29 +130,33 @@ function SignIn() {
           <S.SignInBtnContainer>
             <Button
               size="login"
-              variant="primary"
+              variant="black"
               disabled={loading || !password || !email}
             >
               로그인
             </Button>
             <Link to="/signup/type-choice">
-              <Button size="login" variant="primary" type="outline">
+              <Button size="login" variant="grayscale" type="outline" border={Palette.Black} color={Palette.Black}>
                 회원가입
               </Button>
             </Link>
 
             <S.ButtonWrapper>
-              <S.CheckBox
-                type="checkbox"
-                onChange={e => {
-                  setChecked(e.target.checked);
-                }}
-                checked={checked}
-              />
-              <S.CheckBoxText onClick={() => setChecked(!checked)}>
+              <div style={{display:'flex'}}>
+                <S.CheckBox
+                  id='chk'
+                  type="checkbox"
+                  onChange={e => {
+                    setChecked(e.target.checked);
+                  }}
+                  checked={checked}
+                />
+                <S.CheckBoxLabel htmlFor='chk'></S.CheckBoxLabel>
+                <S.CheckBoxText onClick={() => setChecked(!checked)}>
                 로그인 상태 유지
-              </S.CheckBoxText>
-              <Button size="small" variant="grayscale" type="text">
+                </S.CheckBoxText>
+              </div>
+              <Button size="small" variant="grayscale" type="text" color={Palette.Gray600}>
                 이메일/비밀번호 찾기
               </Button>
             </S.ButtonWrapper>
