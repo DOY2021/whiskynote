@@ -21,7 +21,7 @@ function Explore() {
     ignoreQueryPrefix: true
   });
 
-  const {data, isValidating} = useSWR(['/api/whisky/main',order_by], (url, order_by) => whiskyAPI.getWhiskyMain({ordering:order_by, page:1}),{suspense:true} )
+  const {data, isValidating} = useSWR(['/api/whisky/main',order_by], (url, order_by) => whiskyAPI.getWhiskyMain({ordering:order_by, page:1}) )
 
 
 

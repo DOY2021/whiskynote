@@ -1,8 +1,9 @@
 import { client } from "./client"
 import { WhiskyDetailsProps } from "./whiskyDB"
 
-type WhiskyCreateParamProps = {
-  name: string;
+export type WhiskyCreateParamProps = {
+  name_eng: string;
+  name_kor: string;
   whisky_image: Array<string>;
   category: string;
   distillery: string;

@@ -23,7 +23,7 @@ const changeColors = e => {
 };
 
 const selectedTagsToIndex = selectedTags => {
-  let res = {
+  const res = {
     nose: Array<number>(),
     taste: Array<number>(),
     finish: Array<number>(),
@@ -87,7 +87,7 @@ function NewWhiskyReview() {
 
   const updateFiles = files => {
     // console.log(files);
-     setFileLength(files.length);
+    setFileLength(files.length);
     setNewFiles([files]);
   };
 

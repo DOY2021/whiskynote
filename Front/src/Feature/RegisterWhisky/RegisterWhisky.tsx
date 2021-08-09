@@ -1,8 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
-import Palette from '../../lib/css/Pallete';
-import { TypoGraphyCategory } from '../../lib/css/TempTypo';
-import ImageUpload from '../../shared/ImageUpload/ImageUpload';
+import React from 'react'
+import { useState } from 'react'
+import { useHistory } from 'react-router'
+import { whiskyAPI, WhiskyCreateParamProps } from '../../api/whisky'
+import Palette from '../../lib/css/Pallete'
+import { TypoGraphyCategory } from '../../lib/css/TempTypo'
+import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
 import P from '../../shared/P/P';
 import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
@@ -12,6 +14,8 @@ import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 import S from './RegisterWhisky.styled';
 
 function RegisterWhisky() {
+  const history = useHistory();
+
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [category, setCategory] = useState('');
@@ -28,6 +32,32 @@ function RegisterWhisky() {
   const [bottleNumber, setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const createForm : WhiskyCreateParamProps = {
+      name_eng: englishName,
+      name_kor: koreanName,
+      whisky_image: [],
+      category: category,
+      distillery: distillery,
+      bottler: bottler,
+      vintage: parseInt(vintage),
+      bottled: parseInt(bottled),
+      bottle_type: bottleNumber,
+      age: parseInt(age),
+      cask: cask,
+      casknumber: parseInt(caskNumbers),
+      alcohol: parseInt(strength),
+      whisky_detail: describe
+    }
+    try{
+      const result = whiskyAPI.createWhisky(createForm);
+      history.push('/afterRegister')
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <S.RegisterWhiskyWrapper>
       <S.RegisterWhiskyInnerWrapper>
@@ -42,43 +72,34 @@ function RegisterWhisky() {
           등록이 완료되면 알림을 보내드립니다.
         </P>
 
-        <WhiteSpace height="40" />
-        <S.RegisterWhiskyRegisterForm>
+        <WhiteSpace height='40'/>
+        <S.RegisterWhiskyRegisterForm onSubmit={handleRegisterWhisky}>
           <S.RegisterTitleWrapper>
-            <P size={TypoGraphyCategory.subtitle} isInline>
-              위스키명을 입력해주세요
-            </P>
-            <P
-              fontSize={TypoGraphyCategory.body}
-              isInline={true}
-              color={Palette.Orange600}
-            >
-              *
-            </P>
-            <WhiteSpace height="10" />
+          
+            <P size={TypoGraphyCategory.subtitle} isInline>위스키명을 입력해주세요</P>
+            <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
+            <WhiteSpace height='10'/>
             <ReviewInput
-              title="국문"
-              subtitle="Korean name"
+              title='국문'
+              subtitle='Korean name' 
               type={ReviewType.text}
               onChange={setKorean}
               value={koreanName}
-              placeholder="등록하는 위스키의 정확한 국문 명칭을 입력해주세요."
+              placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
             />
             <ReviewInput
-              title="영문"
-              subtitle="English Name"
+              title='영문'
+              subtitle='English Name'
               type={ReviewType.text}
               onChange={setEng}
               value={englishName}
               placeholder="등록하는 위스키의 정확한 영문 명칭을 입력해주세요."
             />
           </S.RegisterTitleWrapper>
-          <WhiteSpace height="40" />
+          <WhiteSpace height='40'/>
           <S.RegisterPhotoWrapper>
-            <P fontSize={TypoGraphyCategory.subtitle}>
-              위스키 대표 사진을 등록해주세요.
-            </P>
-            <WhiteSpace height="10" />
+            <P  fontSize = {TypoGraphyCategory.subtitle}>위스키 대표 사진을 등록해주세요.</P>
+            <WhiteSpace height='10'/>
 
             <P color={Palette.Orange800} fontSize={TypoGraphyCategory.body2}>
               * 상품 이미지 사이즈 이렇게 해주세요.
