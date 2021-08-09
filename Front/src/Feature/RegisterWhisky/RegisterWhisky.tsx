@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { useHistory } from 'react-router'
+import { whiskyAPI, WhiskyCreateParamProps } from '../../api/whisky'
 import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
@@ -13,6 +15,8 @@ import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput'
 import S from './RegisterWhisky.styled'
 
 function RegisterWhisky() {
+  const history = useHistory();
+
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [category, setCategory] = useState('');
@@ -29,6 +33,32 @@ function RegisterWhisky() {
   const [bottleNumber,setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const createForm : WhiskyCreateParamProps = {
+      name_eng: englishName,
+      name_kor: koreanName,
+      whisky_image: [],
+      category: category,
+      distillery: distillery,
+      bottler: bottler,
+      vintage: parseInt(vintage),
+      bottled: parseInt(bottled),
+      bottle_type: bottleNumber,
+      age: parseInt(age),
+      cask: cask,
+      casknumber: parseInt(caskNumbers),
+      alcohol: parseInt(strength),
+      whisky_detail: describe
+    }
+    try{
+      const result = whiskyAPI.createWhisky(createForm);
+      history.push('/afterRegister')
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <S.RegisterWhiskyWrapper>
       <P fontSize = {TypoGraphyCategory.title}>새로운 위스키 등록</P>
@@ -37,7 +67,7 @@ function RegisterWhisky() {
       <P fontSize = {TypoGraphyCategory.body2} color={Palette.Gray700}>양식에 맞게 작성된 내용은 아이디와 함께 위스키 노트 DB에 반영되며, 등록이 완료되면 알림을 보내드립니다.</P>
 
       <WhiteSpace height='40'/>
-      <S.RegisterWhiskyRegisterForm>
+      <S.RegisterWhiskyRegisterForm onSubmit={handleRegisterWhisky}>
         <S.RegisterTitleWrapper>
           
           <P size={TypoGraphyCategory.subtitle} isInline>위스키명을 입력해주세요</P>
