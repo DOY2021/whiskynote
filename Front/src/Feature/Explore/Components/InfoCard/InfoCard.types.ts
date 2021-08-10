@@ -6,4 +6,5 @@ interface InfoCardProps {
   descript: string;
   ratingScore: number;
   ratedUserNum: number;
+  id:number;
 }

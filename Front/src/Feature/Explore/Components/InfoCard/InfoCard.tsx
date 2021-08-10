@@ -1,5 +1,6 @@
 import React from 'react'
 import { useCallback } from 'react'
+import { useHistory } from 'react-router'
 import Palette from '../../../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
 import TagService from '../../../../Services/TagService'
@@ -15,7 +16,14 @@ function InfoCard({
   descript = '글렌모렌지 시그넷(Glenmorangie Signet)은 글렌모렌지 증류소가 창조한 가장 훌륭한 위스키 중 하나입니다. 시그넷은 독특하고 진귀한 2가지 타입의 맥아로 만들어진 두 종류의 위스키 조합으로 만들어졌...',
   ratedUserNum = 234,
   ratingScore = 89.3,
+  id = 1
 }:InfoCardProps) {
+
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.push(`/whiskyDB/${id}`)
+  }
 
   const renderTag = useCallback((item: number) => {
     const tag = '셰리'
@@ -30,7 +38,7 @@ function InfoCard({
   },[])
 
   return (
-    <Styled.InfoCardWrapper>
+    <Styled.InfoCardWrapper onClick={handleClick}>
       <Styled.InfoCardImg src={img}/>
       <Styled.InfoCardDescWrapper>
         <P size={TypoGraphyCategory.subtitle} bold>{koName}</P>

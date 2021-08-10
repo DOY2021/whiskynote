@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import { client } from '../../api/client';
 import { profileAPI } from '../../api/profile';
 import { useUserDispatch } from '../../hook/useUserContext';
+import CSRFToken from '../../shared/CSRFToken';
 
 function SocialLogin() {
 
@@ -27,7 +28,7 @@ function SocialLogin() {
      
       interface SoicalLoginProp{
         access_token: string;
-        user_pk: number;
+        user_id: number;
       }
   
       const response : SoicalLoginProp = await client.get('/api/login/naver/', {
@@ -36,12 +37,12 @@ function SocialLogin() {
       console.log(response);
       try {
         if (!dispatch) return;
-        const profile = await profileAPI.getProfile(response.user_pk);
+        const profile = await profileAPI.getProfile(response.user_id);
         console.log(profile);
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.user_pk,
+            user_id: response.user_id,
             isLoggedIn: true,
             nickname: profile.data.nickname ? profile.data.nickname : null,
             bio: profile.data.bio ? profile.data.bio : null,
@@ -56,14 +57,14 @@ function SocialLogin() {
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.user_pk,
+            user_id: response.user_id,
             isLoggedIn: true,
             nickname: null,
             bio: null,
             profile_photo: null,
           },
         });
-        setCookie('user_id', response.user_pk, { maxAge: 1209600 }); //2weeks
+        setCookie('user_id', JSON.stringify(response.user_id), { maxAge: 1209600 }); //2weeks
         history.push('/signup/register_profile');
       }
 
@@ -76,8 +77,7 @@ function SocialLogin() {
   }
 
   return (
-    <div>
-    </div>
+    <CSRFToken />
   )
 }
 

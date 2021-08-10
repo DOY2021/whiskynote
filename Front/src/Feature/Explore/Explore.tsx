@@ -9,7 +9,7 @@ import { CATEGORY_ENUM, ExploreParamProp } from './constants';
 import S from './Explore.styled'
 import Category from './SideMenu/Category/Category'
 import InfoCard from './Components/InfoCard/InfoCard';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import useSWR from 'swr';
 import { whiskyAPI } from '../../api/whisky';
 
@@ -23,6 +23,7 @@ function Explore() {
 
   const {data, isValidating} = useSWR(['/api/whisky/main',order_by], (url, order_by) => whiskyAPI.getWhiskyMain({ordering:order_by, page:1}) )
 
+  
 
 
   return (
