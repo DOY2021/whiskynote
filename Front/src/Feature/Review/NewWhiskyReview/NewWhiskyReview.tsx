@@ -10,29 +10,7 @@ import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
-
-const handleColors = text => {
-  switch (text) {
-    case '곡물':
-      return Palette.곡물;
-    case '나무':
-      return Palette.나무;
-    case '꽃':
-      return Palette.꽃;
-    case '과일':
-      return Palette.과일;
-    case '와인':
-      return Palette.와인;
-    case '유황':
-      return Palette.유황;
-    case '피트':
-      return Palette.피트;
-    case '후류':
-      return Palette.후류;
-    default:
-      return '#e7e5de';
-  }
-};
+import handleColors from './HandleColors';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
@@ -43,56 +21,51 @@ const changeColors = e => {
   }
 };
 
-const selectedTagsToIndex = (selectedTags) => {
+const selectedTagsToIndex = selectedTags => {
   let res = {
     nose: Array<number>(),
-    taste:Array<number>(),
-    finish:Array<number>(),
-  }
-  selectedTags.nose.forEach(
-    (data) => 
-      res.nose.push(TagIndex[data])
-  )
-  selectedTags.taste.forEach(
-    (data) => 
-      res.taste.push(TagIndex[data])
-  )
-  selectedTags.finish.forEach(
-    (data) => 
-      res.finish.push(TagIndex[data])
-  )
+    taste: Array<number>(),
+    finish: Array<number>(),
+  };
+  selectedTags.nose.length > 0 &&
+    selectedTags.nose.forEach(data => res.nose.push(TagIndex[data]));
+  selectedTags.taste.length > 0 &&
+    selectedTags.taste.forEach(data => res.taste.push(TagIndex[data]));
+  selectedTags.finish.length > 0 &&
+    selectedTags.finish.forEach(data => res.finish.push(TagIndex[data]));
   return res;
-}
+};
 
 const currentClickedReducer = (state, action) => {
-  if(action.type == 'NOSE') {
-    return {currentNoseClicked: action.value}
-
+  console.log(action.type);
+  if (action.type == 'NOSE') {
+    return { ...state, currentNoseClicked: action.value };
   }
-  if(action.type == 'TASTE') {
-    return {currentTasteClicked: action.value}
-
+  if (action.type == 'TASTE') {
+    return { ...state, currentTasteClicked: action.value };
   }
-  if(action.type == 'FINISH') {
-    return {currentFinishClicked: action.value}
+  if (action.type == 'FINISH') {
+    return { ...state, currentFinishClicked: action.value };
   }
   return {
-    currentNoseClicked:'',
-    currentTasteClicked:'',
-    currentFinishClicked:''
-  }
-}
+    currentNoseClicked: '',
+    currentTasteClicked: '',
+    currentFinishClicked: '',
+  };
+};
 
 const initialClickedState = {
-  currentNoseClicked:'',
-  currentTasteClicked:'',
-  currentFinishClicked:''
-
-}
+  currentNoseClicked: '',
+  currentTasteClicked: '',
+  currentFinishClicked: '',
+};
 
 function NewWhiskyReview() {
   //TODO: refactoring
-  const [clickedState, dispatch] = useReducer(currentClickedReducer, initialClickedState)
+  const [clickedState, dispatch] = useReducer(
+    currentClickedReducer,
+    initialClickedState,
+  );
   const [text, setTextState] = useState('');
   const [selectedTags, setSelectedTags] = useState<any>({
     nose: '',
@@ -108,34 +81,36 @@ function NewWhiskyReview() {
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
 
-
-  const updateFiles = (files) => {
+  const updateFiles = files => {
     // console.log(files);
     // console.log(files.length);
     setNewFiles(prevFiles => [...prevFiles, files]);
     console.log(newFiles);
   };
 
-  const handleSubmitReview = (e) => {
+  const handleSubmitReview = e => {
     e.preventDefault();
+    const tags = selectedTagsToIndex(selectedTags);
     const review = {
-      review_body: '',
-      nose_rating: clickedState.currentNoseClicked,
-      taste_rating: clickedState.currentTasteClicked,
-      finish_rating: clickedState.currentFinishClicked,
-    }
-
-   const tags = selectedTagsToIndex(selectedTags);
-
-    console.log(tags)
-    // ReactionApi.createReview(0, review).then(() => {
-
-    // })
+      id: '',
+      user: '',
+      userName: '',
+      whisky_name: '',
+      review_body: text,
+      nose_rating: scores.nose,
+      taste_rating: scores.taste,
+      finish_rating: scores.finish,
+      nose_tag: tags.nose,
+      taste_tag: tags.taste,
+      finish_tag: tags.finish,
+    };
+    console.log(review);
+    ReactionApi.createReview(0, review).then(() => {});
   };
 
   const handleScoreChange = e => {
     setScores(prevValues => {
-      return { ...prevValues, [e.target.name]: e.target.value };
+      return { ...prevValues, [e.target.name]: parseInt(e.target.value) };
     });
     e.target.style.backgroundSize =
       ((e.target.value - 0) * 100) / 100 + '% 100%';
@@ -145,27 +120,34 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      dispatch({type:'NOSE', value:e.target.value});
+      console.log(e.target.value);
+      dispatch({ type: 'NOSE', value: e.target.value });
     } else {
-      if(selectedTags.nose.indexOf(e.target.value) < 0){   
-      setSelectedTags(prevValues =>  {
-        return {...prevValues, nose: [...selectedTags.nose, e.target.value]}
-      })
+      if (selectedTags.nose.indexOf(e.target.value) < 0) {
+        setSelectedTags(prevValues => {
+          return {
+            ...prevValues,
+            nose: [...selectedTags.nose, e.target.value],
+          };
+        });
       }
     }
-
   };
 
   const handleTasteSelection = e => {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      dispatch({type:'TASTE', value:e.target.value});
+      console.log(e.target.value);
+      dispatch({ type: 'TASTE', value: e.target.value });
     } else {
-      if(selectedTags.taste.indexOf(e.target.value) < 0){
-      setSelectedTags(prevValues =>  {
-        return {...prevValues, taste: [...selectedTags.taste, e.target.value]}
-      })
+      if (selectedTags.taste.indexOf(e.target.value) < 0) {
+        setSelectedTags(prevValues => {
+          return {
+            ...prevValues,
+            taste: [...selectedTags.taste, e.target.value],
+          };
+        });
       }
     }
   };
@@ -174,35 +156,46 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       changeColors(e);
-      dispatch({type:'FINISH', value:e.target.value});
+      console.log(e.target.value);
+      dispatch({ type: 'FINISH', value: e.target.value });
     } else {
-      if(selectedTags.finish.indexOf(e.target.value) < 0){
-      setSelectedTags(prevValues =>  {
-        return {...prevValues, finish: [...selectedTags.finish, e.target.value]}
-      })
+      if (selectedTags.finish.indexOf(e.target.value) < 0) {
+        setSelectedTags(prevValues => {
+          return {
+            ...prevValues,
+            finish: [...selectedTags.finish, e.target.value],
+          };
+        });
       }
     }
   };
 
-  const handleNoseDeletion = (name:any) => {
+  const handleNoseDeletion = (name: any) => {
     setSelectedTags(prevValues => {
-      return {...prevValues, nose: selectedTags.nose.filter(tag => tag !== name)}
-    })
-  }
+      return {
+        ...prevValues,
+        nose: selectedTags.nose.filter(tag => tag !== name),
+      };
+    });
+  };
 
-
-  const handleTasteDeletion = (name:any) => {
+  const handleTasteDeletion = (name: any) => {
     setSelectedTags(prevValues => {
-      return {...prevValues, taste: selectedTags.taste.filter(tag => tag !== name)}
-    })
-  }
+      return {
+        ...prevValues,
+        taste: selectedTags.taste.filter(tag => tag !== name),
+      };
+    });
+  };
 
-
-  const handleFinishDeletion = (name:any) => {
+  const handleFinishDeletion = (name: any) => {
     setSelectedTags(prevValues => {
-      return {...prevValues, finish: selectedTags.finish.filter(tag => tag !== name)}
-    })
-  }
+      return {
+        ...prevValues,
+        finish: selectedTags.finish.filter(tag => tag !== name),
+      };
+    });
+  };
 
   const handleTextAreaInput = e => {
     setTextState(e.target.value);
@@ -214,11 +207,11 @@ function NewWhiskyReview() {
           <S.Title>리뷰 작성</S.Title>
           <S.ElementWrapper>
             <S.TitleWrapper>
-            <HeadLine
-              inputText={'사진을 등록해주세요.'}
-              isMandatory={false}
-            ></HeadLine>
-            <S.FileNum>{newFiles.length}/5</S.FileNum>
+              <HeadLine
+                inputText={'사진을 등록해주세요.'}
+                isMandatory={false}
+              ></HeadLine>
+              <S.FileNum>{newFiles.length}/5</S.FileNum>
             </S.TitleWrapper>
 
             <S.MarginWrapper>
@@ -263,7 +256,7 @@ function NewWhiskyReview() {
             inputText={'어떤 맛과 향을 느끼셨나요?'}
             isMandatory={false}
           ></HeadLine>
-         
+
           <WhiskyNote
             label="Nose"
             handleTagSelection={handleNoseSelection}
@@ -273,7 +266,7 @@ function NewWhiskyReview() {
           ></WhiskyNote>
           <WhiskyNote
             label="Taste"
-            handleTagSelection={handleTasteSelection}  
+            handleTagSelection={handleTasteSelection}
             currentClicked={clickedState.currentTasteClicked}
             hashTagList={selectedTags.taste}
             handleTagDelete={handleTasteDeletion}
@@ -290,8 +283,13 @@ function NewWhiskyReview() {
             inputText={'위스키에 대해 설명해주세요.'}
             isMandatory={false}
           ></HeadLine>
-          <S.ImageUploadGuideline>100자 이상 작성시 150포인트 지급</S.ImageUploadGuideline>
-          <TextField text={text} handleTextAreaInput={handleTextAreaInput}></TextField>
+          <S.ImageUploadGuideline>
+            100자 이상 작성시 150포인트 지급
+          </S.ImageUploadGuideline>
+          <TextField
+            text={text}
+            handleTextAreaInput={handleTextAreaInput}
+          ></TextField>
 
           <S.ButtonsWrapper>
             <S.TempSaveBtn>임시 저장</S.TempSaveBtn>

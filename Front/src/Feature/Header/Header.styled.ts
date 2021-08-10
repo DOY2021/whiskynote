@@ -7,7 +7,7 @@ const Nav = styled.div`
   width: 100vw;
   padding: 20px 50px;
   margin-bottom: 50px;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid #736C64;
 `;
 
 const MenuBtn = styled.button`
@@ -18,6 +18,7 @@ const MenuBtn = styled.button`
   display: inline-flex;
   justify-content: center;
   text-align: center;
+  margin-right:10px;
 `;
 const SignUpBtn = styled.div`
   background-color: transparent;
