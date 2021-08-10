@@ -8,7 +8,8 @@ export type WhiskyImageProps = {
 export type WhiskyDetailsProps  ={
   id : number;
   whisky_image : Array<WhiskyImageProps>;
-  name: string;
+  name_eng: string;
+  name_kor:string;
   contributor: string;
   category: string;
   distillery: string;
@@ -31,7 +32,8 @@ export type WhiskyDetailsProps  ={
 export const mockDB : WhiskyDetailsProps = {
   id: 1,
   whisky_image: [{id:1, image:'https://source.unsplash.com/random'}],
-  name: 'Glen',
+  name_eng: 'Glen',
+  name_kor: '글렌',
   contributor: 'Soo',
   category: 'Single',
   distillery: 'Home',

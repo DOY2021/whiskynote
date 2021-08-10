@@ -74,8 +74,7 @@ function App() {
             <Route path='/explore/:order_by/:category' exact component={Explore}/>
             <Route path="/socialLogin" component={SocialLogin} />
             <Route path="/firstRegister/:name" exact component={AfterRegister} />
-            <Route path="/whiskyDB" exact component={DB} />
-            <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
+            <Route path="/whiskyDB/:id" exact component={DB} />
             <Redirect to="/"/>
           </Switch>
         </Suspense>
