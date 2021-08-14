@@ -1,6 +1,7 @@
 import axios from "axios";
 
 type Review = {
+  id: number,
   review_title?: string,
   review_body:string,
   nose_rating: number,

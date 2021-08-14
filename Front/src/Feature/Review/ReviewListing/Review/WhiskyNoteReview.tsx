@@ -51,17 +51,17 @@ function WhiskyNoteReview(props: {whiskyNote?: any[]}) {
     <CoulmnWrapper>
     <Column>Nose</Column>
     <Score>83.4</Score>
-    <Tags>나무, 초콜릿, 해산물ㄹㄹㄹㄹ</Tags>
+    <Tags>나무, 초콜릿, 해산물</Tags>
     </CoulmnWrapper>
     <CoulmnWrapper>
     <Column>Taste</Column>
     <Score>83.4</Score>
-    <Tags>나무, 초콜릿, 해산물ㄹㄹㄹㄹ</Tags>
+    <Tags>시트러스, 생과일</Tags>
     </CoulmnWrapper>
     <CoulmnWrapper>
     <Column>Finish</Column>
     <Score>83.4</Score>
-    <Tags>나무, 초콜릿, 해산물ㄹㄹㄹㄹ</Tags>
+    <Tags>석탄, 맥아</Tags>
     </CoulmnWrapper>
     </ReviewWrapper>
   )

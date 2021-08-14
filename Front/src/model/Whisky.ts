@@ -12,6 +12,7 @@ export interface WhiskyBaseProp {
   caskNum: string;
   strength: string;
   description: string;
+  id: number;
 }
 
 export type WhiskyDescriptionProp = Omit<WhiskyBaseProp, 'englishName' | 'koreanName'>

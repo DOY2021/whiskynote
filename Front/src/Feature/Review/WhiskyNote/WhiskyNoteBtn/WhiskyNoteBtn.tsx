@@ -10,7 +10,6 @@ export interface TagButtonProp {
   color?:string
 }
 
-
 const LowerLevelBtn = styled.button<TagButtonProp>`
   background-color: #edece6;
   border: 1px solid #9c9b99;

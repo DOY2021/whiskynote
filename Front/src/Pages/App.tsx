@@ -15,6 +15,8 @@ import Explore from '../Feature/Explore/Explore';
 import DB from '../Feature/WhiskyDB/DB';
 import SocialLogin from '../Feature/SignIn/SocialLogin';
 import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
+import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
+
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -73,6 +75,7 @@ function App() {
             <Route path="/socialLogin" component={SocialLogin} />
             <Route path="/firstRegister/:name" exact component={AfterRegister} />
             <Route path="/whiskyDB" exact component={DB} />
+            <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
             <Redirect to="/"/>
           </Switch>
         </Suspense>

@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 
-const Title = styled.p`
-  font-weight: 600;
-  font-size: 32px;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  margin-bottom:65px;
 `
 
 const IconWrapper = styled.div`
@@ -17,8 +13,8 @@ const IconWrapper = styled.div`
 `
 const UserIcon = styled.img`
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   margin-bottom:4px;
 `
 const UserName = styled.p`
@@ -26,6 +22,8 @@ const UserName = styled.p`
   font-size: 15px;
   line-height: 140%;
   color: #2F2E2D;
+  justify-content: center;
+  display: flex;
 `
 const ScoreWrapper = styled.div`
   display: flex;
@@ -45,7 +43,7 @@ const ReviewScoreText = styled.span`
 const ReviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 100%;
   height: 100%;
 `;
 const ReviewText = styled.p`
@@ -53,12 +51,43 @@ const ReviewText = styled.p`
   font-size: 18px;
   line-height: 140%;
   margin-bottom: 16px;
+
 `;
 
 const Date = styled.p`
   color: #AFADA0;
   font-size:18px; 
   font-weight:500;
+  margin-bottom: 16px;
+`
+
+const LikeBtn = styled.button`
+  border: 1px solid #B9B0A8;
+  width: 179px;
+  height: 57px;
+  cursor:pointer;
+  padding:16px;
+  background-color: transparent;
+  color: #988C81;
+`
+const BottomWrapper = styled.div`
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+`
+const Like = styled.p`
+font-size: 18px;
+color: #9A928A;
+`
+const LikeNum = styled.span`
+font-size: 18px;
+color: #5C5854;
+margin-left:5px;
+`
+const LikeWrapper = styled.div`
+margin-top:18px;
+display:flex;
+flex-direction:row;
 `
 export default {
   Wrapper,
@@ -68,8 +97,12 @@ export default {
   ScoreWrapper,
   ReviewScore,
   ReviewScoreText,
-  Title,
   ReviewWrapper,
   ReviewText,
-  Date
+  Date,
+  LikeBtn,
+  BottomWrapper,
+  LikeNum,
+  Like,
+  LikeWrapper
 };
