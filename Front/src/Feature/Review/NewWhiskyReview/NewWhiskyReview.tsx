@@ -219,7 +219,7 @@ function NewWhiskyReview() {
                 * 사진은 5개까지 등록할 수 있습니다.
               </S.ImageUploadGuideline>
               <S.ImageUploadGuideline>
-                * 사진 크기는 어쩌구저쩌구
+                * 사진 크기는 200 x 200에 최적화되어 있습니다.
               </S.ImageUploadGuideline>
             </S.MarginWrapper>
             <ImageUpload

@@ -7,6 +7,7 @@ import S from './Description.styled'
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg'
 import BookMarkIcon from '../../../../../assets/CustomIcons/bookmark.svg'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
+import { useHistory } from 'react-router'
 
 type DescriptionProp = Omit<WhiskyDetailProp, 'photo'>
 
@@ -25,9 +26,15 @@ function Description({
   caskType = 'Refill',
   caskNum = '3000',
   strength = '54도',
-  description = '~~'
-
+  description = '~~',
+  id = 1
 }: DescriptionProp) {
+  const history = useHistory();
+
+  const handleReviewClick = () => {
+    //TODO: get whisky_pk
+    history.push(`/newWhiskyReview/${id}`)
+  }
 
   return (
     <S.DescriptionWrapper>
@@ -40,7 +47,7 @@ function Description({
       <WhiteSpace height='15'/>
 
       <S.DescriptionLinkWrapper>
-        <div style={{display:'flex'}}>
+        <div onClick={handleReviewClick} style={{display:'flex'}}>
           <img src={PenIcon}/>
           <P>리뷰 쓰기</P>
         </div>
