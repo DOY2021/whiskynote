@@ -27,8 +27,8 @@ function useWhiskyMain({
         ordering,
         page
       }
-    }).then(res => res.data);
-    return whiskyList
+    })
+    return whiskyList.data
   }) 
   return ({
     data,
