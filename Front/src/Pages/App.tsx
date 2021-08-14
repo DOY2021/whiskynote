@@ -17,6 +17,7 @@ import SocialLogin from '../Feature/SignIn/SocialLogin';
 import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 
+
 function App() {
   const [cookies] = useCookies(['user_id']);
 
