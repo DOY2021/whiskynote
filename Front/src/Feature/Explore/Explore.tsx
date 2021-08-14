@@ -9,11 +9,11 @@ import { CATEGORY_ENUM, ExploreParamProp } from './constants';
 import S from './Explore.styled'
 import Category from './SideMenu/Category/Category'
 import InfoCard from './Components/InfoCard/InfoCard';
-import { useHistory, useParams } from 'react-router';
-import useSWR from 'swr';
-import { whiskyAPI } from '../../api/whisky';
+import { useParams } from 'react-router';
 import useWhiskyMain from '../../hook/swr/useWhiskyMain';
 import { getProperOrdering } from './utils';
+import { useCallback } from 'react';
+import { WhiskyInfoProp } from '../../model/Whisky';
 
 function Explore() {
 
@@ -28,6 +28,10 @@ function Explore() {
     ordering: getProperOrdering(order_by),
     page: 1,
   })
+
+  const renderInfoCard = useCallback((info: WhiskyInfoProp) => {
+    return <InfoCard info={info} key={info.id}/>
+  },[])
 
   
   if(isLoading) (
@@ -50,7 +54,7 @@ function Explore() {
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
-            <InfoCard/>
+            {infos && infos.results.map(renderInfoCard)}
           </S.ExploreMainCardList>
         </S.ExploreMainWrapper>
       </S.ExploreWrapper>

@@ -21,31 +21,31 @@ function ReviewList(props: {
 
   return (
     <>
-    <S.TitleWrapper>
-    <S.Title>리뷰</S.Title>
-    <div onClick={handleReviewClick} style={{display:'flex'}}>
+      <S.TitleWrapper>
+        <S.Title>리뷰</S.Title>
+        <div onClick={handleReviewClick} style={{display:'flex'}}>
           <S.PenIcon src={PenIcon} />
           <P>리뷰 쓰기</P>
         </div>
-    </S.TitleWrapper>
-    <S.Wrapper>
-      <S.InfoWrapper>
-        <S.WhiskyImg src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.WhiskyImg>
+      </S.TitleWrapper>
+      <S.Wrapper>
+        <S.InfoWrapper>
+          <S.WhiskyImg src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.WhiskyImg>
 
-        <S.LineWrapper>
-          <S.InfoWrapper>
-            <S.Score>131</S.Score>
-            <S.ScoreText>점(평균)</S.ScoreText>
-          </S.InfoWrapper>
-          <S.ReviewText>334개의 리뷰</S.ReviewText>
-        </S.LineWrapper>
-      </S.InfoWrapper>
+          <S.LineWrapper>
+            <S.InfoWrapper>
+              <S.Score>131</S.Score>
+              <S.ScoreText>점(평균)</S.ScoreText>
+            </S.InfoWrapper>
+            <S.ReviewText>334개의 리뷰</S.ReviewText>
+          </S.LineWrapper>
+        </S.InfoWrapper>
 
-      <S.ReviewListWrapper>
-        <Review></Review>
-        <Review></Review>
-      </S.ReviewListWrapper>
-    </S.Wrapper>
+        <S.ReviewListWrapper>
+          <Review></Review>
+          <Review></Review>
+        </S.ReviewListWrapper>
+      </S.Wrapper>
     </>
    
   );

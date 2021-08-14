@@ -1,3 +1,5 @@
+import { WhiskyNoteProp } from "./WhiskyNote"
+
 export type WhiskyImageProps = {
   id: number;
   image: string;
@@ -12,20 +14,10 @@ export type WhiskyDetailsProps  ={
   category: string;
   distillery: string;
   bottler: string;
-<<<<<<< HEAD
-  bottlingSeries: string;
-  vintage: string;
-  bottled: string;
-  statedAge: string;
-  caskType : string;
-  caskNum: string;
-  strength: string;
-  description: string;
-  id: number;
-=======
-  bottle_type: string;
-  vintage: number;
   bottled: number;
+  vintage: number;
+  strength: string;
+  bottle_type: string;
   age: number;
   cask: string;
   casknumber: number;
@@ -36,7 +28,8 @@ export type WhiskyDetailsProps  ={
   created_at: string;
   updated_at: string;
   confirmed: boolean;
->>>>>>> 03637fb (Main/Info swr 작성)
+  tags: WhiskyNoteProp
+
 }
 
 export interface WhiskyInfoProp extends WhiskyDetailsProps{
@@ -49,7 +42,7 @@ export interface WhiskyMainProp {
   count: number;
   next: string;
   previous: string
-  results: Array<WhiskyDetailsProps>
+  results: Array<WhiskyInfoProp>
 }
 
 // export type WhiskyDescriptionProp = Omit<WhiskyBaseProp, 'englishName' | 'koreanName'>
