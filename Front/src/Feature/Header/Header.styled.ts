@@ -47,10 +47,15 @@ const MenuMargin = styled.div`
   margin-right: 4px;
 `;
 
+const Line = styled.div`
+width:100%;
+border: 1px solid #736C64`
+
 export default {
   MenuLink,
   SearchInput,
   MenuMargin,
   MenuBtn,
   SignUpBtn,
+  Line
 };

@@ -21,6 +21,7 @@ function Header() {
   const [cookie] = useCookies(['user_id']);
 
   return (
+    <>
     <Navbar>
       <Container>
         <Navbar.Brand>
@@ -54,8 +55,11 @@ function Header() {
             {cookie.user_id && <HeaderMenuList></HeaderMenuList>}
           </Navbar.Text>
         </Navbar.Collapse>
+       
       </Container>
     </Navbar>
+     <S.Line></S.Line>
+     </>
   );
 }
 

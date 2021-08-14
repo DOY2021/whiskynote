@@ -10,7 +10,7 @@ function Review() {
     <S.Wrapper>
       <S.IconWrapper>
         <S.UserIcon src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.UserIcon>
-        <S.UserName>망원동술고래</S.UserName>
+        <S.UserName>술고래</S.UserName>
       </S.IconWrapper>
     <S.ReviewWrapper>
       <S.ScoreWrapper>
@@ -23,7 +23,14 @@ function Review() {
     
       <WhiskyNoteReview></WhiskyNoteReview>
       <S.Date>2020년 3월 19일</S.Date>
-
+      <S.BottomWrapper>
+        <S.LikeWrapper>
+        <S.Like>추천</S.Like>
+        <S.LikeNum>23</S.LikeNum>
+        </S.LikeWrapper>
+      <S.LikeBtn>이 리뷰가 도움이 돼요</S.LikeBtn>
+      </S.BottomWrapper>
+    
     </S.ReviewWrapper>
     </S.Wrapper>
   )
