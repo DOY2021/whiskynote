@@ -26,4 +26,12 @@ function DB() {
   );
 }
 
+<<<<<<< HEAD
 export default DB;
+=======
+export default DB
+
+//TODO
+//찾으시는 위스키가 있나요?? 부분 만들기
+// 로그인은 주말에 싱크를 좀 맞춰봐야할듯 + 스피너 돌리는거랑 isFetching 만들어주기 + 필요하면 페이지네이션도?
+>>>>>>> 03637fb (Main/Info swr 작성)
