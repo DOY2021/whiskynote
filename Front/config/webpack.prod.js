@@ -5,7 +5,11 @@ const common = require("./webpack.common");
 
 const config = {
   mode: "production",
-  devtool: "source-map",
+  output: {
+    path: path.join(__dirname, '../build'),
+    filename: 'js/main.[hash].js',
+    publicPath: './',
+  },
 
   plugins: [new CleanWebpackPlugin()],
 };
