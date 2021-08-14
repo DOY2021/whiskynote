@@ -75,6 +75,7 @@ function App() {
             <Route path="/socialLogin" component={SocialLogin} />
             <Route path="/firstRegister/:name" exact component={AfterRegister} />
             <Route path="/whiskyDB/:id" exact component={DB} />
+            <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
             <Redirect to="/"/>
           </Switch>
         </Suspense>

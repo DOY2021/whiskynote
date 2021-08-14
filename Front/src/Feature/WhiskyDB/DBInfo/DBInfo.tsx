@@ -4,6 +4,7 @@ import ImageSlider from './ImageSlider/ImageSlider'
 import S from './DBInfo.styled'
 
 import useWhiskyDB from '../../../hook/swr/useWhiskyDB'
+import { mockWhisky } from '../../../model/Whisky'
 
 function DBInfo() {
 
@@ -19,7 +20,8 @@ function DBInfo() {
   return (
     <S.DBInfoDetailWrapper>
       <ImageSlider />
-      {data && <Description {...data}/>}
+      {/* {data && <Description {...data}/>} */}
+      <Description {...mockWhisky}/>
     </S.DBInfoDetailWrapper>
   )
 }
