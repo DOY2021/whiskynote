@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './Pages/App';
 
@@ -10,7 +10,7 @@ import { GlobalStyle } from './lib/css/GlobalStyled';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-render(
+ReactDOM.render(
   <BrowserRouter>
     <CookiesProvider>
       <GlobalStyle />

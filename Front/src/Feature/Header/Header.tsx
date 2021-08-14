@@ -8,6 +8,7 @@ import S from './Header.styled';
 import HeaderMenuList from './HeaderMenuList';
 import Palette from '../../lib/css/Pallete';
 import P from '../../shared/P/P';
+import Logo from '../../../assets/logo/logo.svg'
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 
 const SearchIcon = styled(FaSearch)`
@@ -25,7 +26,7 @@ function Header() {
         <Container>
           <Navbar.Brand>
             <Nav.Link href="/">
-              <img src={'../../../assets/logo/logo.svg'}></img>
+              <Logo/>
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
