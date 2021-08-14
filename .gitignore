@@ -140,3 +140,4 @@ migrations/
 */migrations
 api/migrations
 
+node_modules

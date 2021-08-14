@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 console.log(path.resolve(__dirname, '../dist/'));
 
 module.exports = {
-  entry: path.join(__dirname, '../src/index'),
+  entry: path.join(__dirname, '../Front/src/index'),
 
   module: {
     rules: [
@@ -70,7 +70,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: 'Front/index.html',
     }),
   ],
 };
