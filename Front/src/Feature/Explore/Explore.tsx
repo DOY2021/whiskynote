@@ -12,6 +12,8 @@ import InfoCard from './Components/InfoCard/InfoCard';
 import { useHistory, useParams } from 'react-router';
 import useSWR from 'swr';
 import { whiskyAPI } from '../../api/whisky';
+import useWhiskyMain from '../../hook/swr/useWhiskyMain';
+import { getProperOrdering } from './utils';
 
 function Explore() {
 
@@ -21,10 +23,18 @@ function Explore() {
     ignoreQueryPrefix: true
   });
 
-  const {data, isValidating} = useSWR(['/api/whisky/main',order_by], (url, order_by) => whiskyAPI.getWhiskyMain({ordering:order_by, page:1}) )
+  const {data: infos, isLoading} = useWhiskyMain({
+    search: `${query}`,
+    ordering: getProperOrdering(order_by),
+    page: 1,
+  })
 
   
-
+  if(isLoading) (
+    <div>
+      Loading
+    </div>
+  )
 
   return (
     <Suspense fallback={<div>Hi</div>}>

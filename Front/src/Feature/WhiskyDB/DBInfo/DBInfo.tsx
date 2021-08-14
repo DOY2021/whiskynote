@@ -2,23 +2,24 @@ import React from 'react'
 import Description from './Description/Description'
 import ImageSlider from './ImageSlider/ImageSlider'
 import S from './DBInfo.styled'
-import useSWR from 'swr'
-import { useParams } from 'react-router'
-import { whiskyDBAPI } from '../../../api/whiskyDB'
+
+import useWhiskyDB from '../../../hook/swr/useWhiskyDB'
 
 function DBInfo() {
 
-  const whisky_id = useParams()
 
-  const {data, error} = useSWR(['/api/whisky/id', whisky_id],(url, whisky_id) => {
-    return whiskyDBAPI.getWhiskyDetail(whisky_id);
-  })
+  const {data, error, isLoading} = useWhiskyDB();
   
+  if(isLoading) (
+    <div>
+      Loading
+    </div>
+  );
 
   return (
     <S.DBInfoDetailWrapper>
       <ImageSlider />
-      <Description {...data}/>
+      {data && <Description {...data}/>}
     </S.DBInfoDetailWrapper>
   )
 }

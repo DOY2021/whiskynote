@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import Palette from '../../../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
-import { WhiskyDetailProp } from '../../../../model/Whisky'
+import { WhiskyInfoProp } from '../../../../model/Whisky'
 import P from '../../../../shared/P/P'
 import S from './Description.styled'
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg'
@@ -9,24 +9,25 @@ import BookMarkIcon from '../../../../../assets/CustomIcons/bookmark.svg'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 import { useHistory } from 'react-router'
 
-type DescriptionProp = Omit<WhiskyDetailProp, 'photo'>
 
 function Description({
   rating = 89.3, 
   ratingCount = 234,
-  koreanName ='글렌모렌지 시그넷',
-  englishName = 'Glen',
+  name_kor ='글렌모렌지 시그넷',
+  name_eng = 'Glen',
   category ='싱글 몰트 위스키',
   distillery = 'Port Ellen',
-  bottled = '2010',
+  bottled = 2010,
   bottler = 'Distillery Bottling',
-  vintage ='1978',
-  caskType = 'Refill',
-  caskNum = '3000',
-  strength = '54도',
-  description = '~~',
-  id = 1
-}: DescriptionProp) {
+  cask = 'Refill',
+  whisky_detail = '~~',
+  id = 1,
+  vintage =1979,
+  casknumber = 3000,
+  alcohol = 54,
+
+}: WhiskyInfoProp) {
+
   const history = useHistory();
 
   const handleReviewClick = () => {
@@ -36,9 +37,9 @@ function Description({
 
   return (
     <S.DescriptionWrapper>
-      <P size={TypoGraphyCategory.title}>{koreanName}</P>
+      <P size={TypoGraphyCategory.title}>{name_kor}</P>
       <WhiteSpace height='10'/>
-      <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>{englishName}</P>
+      <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>{name_eng}</P>
       <WhiteSpace height='15'/>
       <P size={TypoGraphyCategory.subtitle} isInline={true}>*{rating}</P>
       <P size={TypoGraphyCategory.body} color={Palette.Gray600} isInline={true}>점 ({ratingCount})</P>
