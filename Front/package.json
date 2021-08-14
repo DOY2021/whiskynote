@@ -21,6 +21,7 @@
   "homepage": "https://github.com/DOY2021/Strand-REST#readme",
   "devDependencies": {
     "@babel/core": "^7.13.10",
+    "@babel/plugin-syntax-jsx": "^7.14.5",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",

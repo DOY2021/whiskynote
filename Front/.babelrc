@@ -4,5 +4,5 @@
     "@babel/preset-react",
     "@babel/preset-typescript"
   ],
-  "plugins": ["babel-plugin-styled-components"]
+  "plugins": ["babel-plugin-styled-components","@babel/plugin-syntax-jsx"]
 }
