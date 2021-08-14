@@ -30,7 +30,10 @@ function Header() {
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/explore/popular/total">위스키 찾기</Nav.Link>
+            <Link to='/explore/popular/total'>
+              위스키 찾기  
+            </Link>
+            {/* <Nav.Link href="/explore/popular/total">위스키 찾기</Nav.Link> */}
             {/* <S.MenuMargin></S.MenuMargin>
           <S.MenuMargin></S.MenuMargin> */}
             {/* <SearchIcon></SearchIcon>
