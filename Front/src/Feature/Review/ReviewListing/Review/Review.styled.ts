@@ -22,6 +22,8 @@ const UserName = styled.p`
   font-size: 15px;
   line-height: 140%;
   color: #2F2E2D;
+  justify-content: center;
+  display: flex;
 `
 const ScoreWrapper = styled.div`
   display: flex;
@@ -49,8 +51,7 @@ const ReviewText = styled.p`
   font-size: 18px;
   line-height: 140%;
   margin-bottom: 16px;
-  justify-content: center;
-  display: flex;
+
 `;
 
 const Date = styled.p`
