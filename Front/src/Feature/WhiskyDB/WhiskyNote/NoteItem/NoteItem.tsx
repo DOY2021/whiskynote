@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import TagService from '../../../../Services/TagService'
 import P from '../../../../shared/P/P'
 import S from './NoteItem.styled'
-import chocolate from '../../../../../assets/TagIcon/chocolate.svg'
+import Chocolate from '../../../../../assets/TagIcon/chocolate.svg'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 import Palette from '../../../../lib/css/Pallete'
@@ -34,7 +34,7 @@ function NoteItem({
 
     return(
       <S.NoteItemContentWrapper isFirst = {isFirst} category = {TagService.getTagCategory(tag[TAG_NAME])} key={tag[TAG_NAME]}>
-        <S.NoteItemContentIcon src={chocolate}/>
+        <Chocolate/>
         <S.NoteItemContentText isFirst={isFirst}>
           <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_NAME]}</P>
           <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_PERCENTAGE]}</P>

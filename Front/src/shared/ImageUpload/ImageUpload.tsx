@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
+import Camera from '../../../assets/CustomIcons/camera.svg'
 const MAX_FILE_SIZE = 1000000; //bytes
 import S from './ImageUpload.styled';
 
@@ -48,7 +49,7 @@ const ImageUpload = ({
         files[file.name] = file;
       }
     }
-   ;
+   
     return { ...files };
   };
 
@@ -65,7 +66,7 @@ const ImageUpload = ({
         <S.UploadWrapper>
           <S.UploadFileBtn onClick={handleUploadBtnClick}>
             <S.IconsWrapper>
-              <S.CameraIcon src="../../../assets/CustomIcons/camera.svg"></S.CameraIcon>
+              <Camera/>
               <S.ImageText>이미지 등록</S.ImageText>
               <S.FormField
                 type="file"
@@ -85,12 +86,12 @@ const ImageUpload = ({
           const isImageFile = file.type.split('/')[0] === 'image';
           return (
             <S.PreviewContainer key={fileName}>
-                <S.DeleteBtn onClick={() => removeFile(fileName)}>
-                  <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
-                </S.DeleteBtn>
-                {isImageFile && (
-                  <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
-                )}
+              <S.DeleteBtn onClick={() => removeFile(fileName)}>
+                <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
+              </S.DeleteBtn>
+              {isImageFile && (
+                <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
+              )}
               
             </S.PreviewContainer>
            

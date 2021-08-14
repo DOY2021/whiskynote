@@ -68,7 +68,7 @@ function App() {
           <Route path="/signup" component={SignUpPage} />
           <Route path="/login" exact component={SignIn} />
           <Route path="/mypage" exact component={MyPage} />
-          <Route path="/" exact component={Landing} />
+          <Route path="/" exact component={Explore} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
           <Route path='/explore/:order_by/:category' exact component={Explore}/>
           <Route path="/socialLogin" component={SocialLogin} />

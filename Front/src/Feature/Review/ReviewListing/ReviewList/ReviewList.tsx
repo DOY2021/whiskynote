@@ -5,6 +5,7 @@ import Review from '../Review/Review';
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
+import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 
 function ReviewList(props: {
   whisky_ratings?: number;
@@ -24,13 +25,13 @@ function ReviewList(props: {
       <S.TitleWrapper>
         <S.Title>리뷰</S.Title>
         <div onClick={handleReviewClick} style={{display:'flex'}}>
-          <S.PenIcon src={PenIcon} />
+          <PenIcon/>
           <P>리뷰 쓰기</P>
         </div>
       </S.TitleWrapper>
       <S.Wrapper>
         <S.InfoWrapper>
-          <S.WhiskyImg src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.WhiskyImg>
+          <Glass/>
 
           <S.LineWrapper>
             <S.InfoWrapper>
