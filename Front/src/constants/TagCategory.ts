@@ -1,5 +1,3 @@
-import { TagProp } from "../model/Tag";
-
 export enum Tags {
   홉 = '홉',
   맥아 = '맥아',
@@ -48,8 +46,6 @@ export enum TagVariant {
   피트 = '피트',
   후류 = '후류',
 }
-
-
 
 
 export const TagCategory : {[K in Tags] : TagVariant } = {
