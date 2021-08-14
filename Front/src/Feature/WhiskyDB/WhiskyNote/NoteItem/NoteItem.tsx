@@ -6,6 +6,7 @@ import S from './NoteItem.styled'
 import chocolate from '../../../../../assets/TagIcon/chocolate.svg'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
+import Palette from '../../../../lib/css/Pallete'
 
 interface NoteItemProp{
   item : {
@@ -35,8 +36,8 @@ function NoteItem({
       <S.NoteItemContentWrapper isFirst = {isFirst} category = {TagService.getTagCategory(tag[TAG_NAME])} key={tag[TAG_NAME]}>
         <S.NoteItemContentIcon src={chocolate}/>
         <S.NoteItemContentText isFirst={isFirst}>
-          <P>{tag[TAG_NAME]}</P>
-          <P>{tag[TAG_PERCENTAGE]}</P>
+          <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_NAME]}</P>
+          <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_PERCENTAGE]}</P>
         </S.NoteItemContentText>
       </S.NoteItemContentWrapper>
     )

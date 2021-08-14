@@ -22,7 +22,7 @@ const changeColors = e => {
 };
 
 const selectedTagsToIndex = selectedTags => {
-  let res = {
+  const res = {
     nose: Array<number>(),
     taste: Array<number>(),
     finish: Array<number>(),

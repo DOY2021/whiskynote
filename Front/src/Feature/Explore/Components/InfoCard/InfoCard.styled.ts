@@ -27,6 +27,11 @@ const InfoCardDescWrapper = styled.div`
     padding: 32px;
 `;
 
+const InfoCardDetailWrapper = styled.div`
+    height: 46px;
+    overflow-y: hidden;
+`;
+
 const InfoCardDescTagWrapper = styled.ul`
     display:flex;
 `;
@@ -52,6 +57,7 @@ export default {
   InfoCardDescTagWrapper,
   InfoCardDescWrapper,
   InfoCardImg,
-  InfoCardWrapper
+  InfoCardWrapper,
+  InfoCardDetailWrapper
 }
 

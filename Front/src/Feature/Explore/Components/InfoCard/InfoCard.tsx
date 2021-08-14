@@ -34,7 +34,7 @@ function InfoCard({
 
     return (
       <Styled.InfoCardDescTag key={item} color={tagColor}>
-        {tag}
+        {item}
       </Styled.InfoCardDescTag>
     )
   },[])
@@ -51,9 +51,11 @@ function InfoCard({
           {tags.map(renderTag)}
         </Styled.InfoCardDescTagWrapper>
         <WhiteSpace height='10'/>
-        <P size={TypoGraphyCategory.body2} color={Palette.Gray700} >{info.whisky_detail}</P>
+        <Styled.InfoCardDetailWrapper>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray700} >{info.whisky_detail}</P>
+        </Styled.InfoCardDetailWrapper>
         <WhiteSpace height='40'/>
-        <P isInline size={TypoGraphyCategory.subtitle}>* {info.rating}</P>
+        <P isInline size={TypoGraphyCategory.subtitle}>* {info.whisky_ratings}</P>
         <P isInline color={Palette.Gray700}>점 ({info.rating_counts})</P>
       </Styled.InfoCardDescWrapper>
     </Styled.InfoCardWrapper>

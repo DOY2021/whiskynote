@@ -13,7 +13,8 @@ import { useParams } from 'react-router';
 import useWhiskyMain from '../../hook/swr/useWhiskyMain';
 import { getProperOrdering } from './utils';
 import { useCallback } from 'react';
-import { WhiskyInfoProp } from '../../model/Whisky';
+import { mockWhisky, WhiskyInfoProp } from '../../model/Whisky';
+import { Link } from 'react-router-dom';
 
 function Explore() {
 
@@ -45,7 +46,9 @@ function Explore() {
       <S.ExploreWrapper>
         <S.ExploreSideBarWrapper>
           <Category/>
-          <Button variant={'grayscale'}>+ 새 위스키 등록</Button>
+          <Link to='/registerWhisky'>
+            <Button variant='black'>+ 새 위스키 등록</Button>
+          </Link>
         </S.ExploreSideBarWrapper>
         <S.ExploreMainWrapper>
           <SearchWhisky/>
@@ -54,7 +57,8 @@ function Explore() {
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
-            {infos && infos.results.map(renderInfoCard)}
+            {/* {infos && infos.results.map(renderInfoCard)} */}
+            {[mockWhisky, mockWhisky].map(renderInfoCard)}
           </S.ExploreMainCardList>
         </S.ExploreMainWrapper>
       </S.ExploreWrapper>

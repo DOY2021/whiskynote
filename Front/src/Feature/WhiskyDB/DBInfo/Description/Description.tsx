@@ -11,8 +11,8 @@ import { useHistory } from 'react-router'
 
 
 function Description({
-  rating = 89.3, 
-  ratingCount = 234,
+  whisky_ratings= 83.5,
+  rating_counts= 243,
   name_kor ='글렌모렌지 시그넷',
   name_eng = 'Glen',
   category ='싱글 몰트 위스키',
@@ -22,6 +22,7 @@ function Description({
   cask = 'Refill',
   whisky_detail = '~~',
   id = 1,
+  age= 30,
   vintage =1979,
   casknumber = 3000,
   alcohol = 54,
@@ -37,12 +38,12 @@ function Description({
 
   return (
     <S.DescriptionWrapper>
-      <P size={TypoGraphyCategory.title}>{name_kor}</P>
+      <P size={TypoGraphyCategory.title} bold>{name_kor}</P>
       <WhiteSpace height='10'/>
       <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>{name_eng}</P>
       <WhiteSpace height='15'/>
-      <P size={TypoGraphyCategory.subtitle} isInline={true}>*{rating}</P>
-      <P size={TypoGraphyCategory.body} color={Palette.Gray600} isInline={true}>점 ({ratingCount})</P>
+      <P size={TypoGraphyCategory.subtitle} isInline={true}>*{whisky_ratings}</P>
+      <P size={TypoGraphyCategory.body} color={Palette.Gray600} isInline={true}>점 ({rating_counts})</P>
       <WhiteSpace height='15'/>
 
       <S.DescriptionLinkWrapper>
@@ -87,7 +88,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>바틀 타입</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Bottling Series</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{bottled}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -95,7 +96,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>빈티지</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Vintage</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{vintage}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -103,7 +104,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>병입 날짜</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Bottled</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{bottled}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -111,7 +112,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>숙성 연수</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Stated Age/Age</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{age}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -119,7 +120,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>캐스크타입</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Cask Type</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{cask}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -127,7 +128,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>캐스크넘버</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Cask Number</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{casknumber}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -135,7 +136,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>도수</P>
           <P size={TypoGraphyCategory.body2} color={Palette.Gray600}>Alcohol Strength</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{bottler}</P>
+        <P size={TypoGraphyCategory.body2}>{alcohol}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
 
