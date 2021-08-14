@@ -14,17 +14,6 @@ module.exports = {
         exclude: /(node_modules)/,
         use: {
           loader:'babel-loader',
-          options: {
-            "presets": [
-              "@babel/preset-env",
-              {
-                targets: {chrome: '55'}
-              },
-              "@babel/preset-react",
-              "@babel/preset-typescript"
-            ],
-            "plugins": ["babel-plugin-styled-components","@babel/plugin-syntax-jsx"]
-          }
         }
       },
       {
