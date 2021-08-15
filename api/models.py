@@ -14,6 +14,7 @@ class Profile(models.Model):
     #required at profile creation
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     nickname = models.CharField(max_length = 64, unique=True)
+    #required = False
     bio = models.CharField(max_length = 240, blank = True)
     profile_photo = models.FileField(null = True, blank = True)
     #credit point & tier
@@ -57,6 +58,7 @@ class Whisky(models.Model):
 
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
+    updated = models.BooleanField(default = True)
 
     #def __str__(self):
     #    return self.name

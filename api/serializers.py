@@ -53,7 +53,7 @@ class CustomLoginSerializer(serializers.Serializer):
         if email and password:
             user = self.authenticate(email=email, password=password)
         else:
-            msg = _('Must include "email" and "password".')
+            msg = _('이메일과 비밀번호를 입력해주세요.')
             raise exceptions.ValidationError(msg)
 
         return user
@@ -72,11 +72,14 @@ class CustomLoginSerializer(serializers.Serializer):
                 user = self._validate_email(email, password)
 
         if user:
+            #비밀번호 틀렸을 경우
+
             if not user.is_active:
-                msg = _('User account is disabled.')
+                msg = _('계정이 비활성화되었습니다. 관리자에게 문의해주세요.')
                 raise exceptions.ValidationError(msg)
+
         else:
-            msg = _('Unable to log in with provided credentials.')
+            msg = _('가입된 정보가 없습니다. 이메일과 비밀번호를 확인해주세요.')
             raise exceptions.ValidationError(msg)
 
         # If required, is the email verified?
@@ -85,7 +88,7 @@ class CustomLoginSerializer(serializers.Serializer):
              if app_settings.EMAIL_VERIFICATION == app_settings.EmailVerificationMethod.MANDATORY:
                 email_address = user.emailaddress_set.get(email=user.email)
                 if not email_address.verified:
-                    raise serializers.ValidationError(_('E-mail is not verified.'))
+                    raise serializers.ValidationError(_('이메일을 인증해주세요.'))
 
         attrs['user'] = user
         return attrs
@@ -206,12 +209,6 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
         def create(self, validated_data):
             profile = Profile.objects.create(user = user)
             return profile
-
-class ProfilePhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ("profile_photo", )
-
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):
