@@ -60,9 +60,9 @@ const Line = styled.div`
 
 const MenuItem = styled.div`
   margin:auto;
-  align-items: center;
   padding: 12px;
   height:48px;
+  text-align: center;
   
   &:hover {
     background-color: #E5E5DF;
