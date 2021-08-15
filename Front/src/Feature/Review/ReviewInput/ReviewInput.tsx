@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useMemo } from 'react';
 import { useState } from 'react';
 import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
 import DropDown from '../../../shared/DropDown/DropDown'
@@ -31,44 +32,53 @@ function ReviewInput({
   categoryList,
   value
 }:ReviewInputProp) {
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement> ) => {
     if(e.target === undefined) return;
     if(!onChange) return;
     onChange(e.target.value)
-  }
+  },[])
 
   const [isOpen, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen =useCallback( () => {
     if(type !== ReviewType.dropdown) return;
     setOpen(!isOpen);
-  }
+  },[])
 
-  const handleDropDownClick = (item:any) => {
+  const handleDropDownClick = useCallback((item:any) => {
     if(!onClick)return;
     onClick(item)
     handleOpen()
-  }
+  },[])
 
   return (
-    <Styled.ReviewInputWrapper>
-      <Styled.ReviewTitleWrapper hasSubtitle={subtitle ? true : false}>
-        <Styled.ReviewInputTitle>{title}</Styled.ReviewInputTitle>
-        {subtitle &&  <Styled.ReviewInputSubTitle>{subtitle}</Styled.ReviewInputSubTitle>}
-      </Styled.ReviewTitleWrapper>
-      <Styled.ReviewContentWrapper onClick={handleOpen}>
-        {type === ReviewType.text 
-          ? <Styled.ReviewContentText placeholder={placeholder} onChange={handleInput} value={value}/>
+    useMemo(() => (
+      <Styled.ReviewInputWrapper>
+        <Styled.ReviewTitleWrapper hasSubtitle={subtitle ? true : false}>
+          <Styled.ReviewInputTitle>{title}</Styled.ReviewInputTitle>
+          {subtitle &&  <Styled.ReviewInputSubTitle>{subtitle}</Styled.ReviewInputSubTitle>}
+        </Styled.ReviewTitleWrapper>
+        <Styled.ReviewContentWrapper onClick={handleOpen}>
+          {type === ReviewType.text 
+            ? <Styled.ReviewContentText placeholder={placeholder} onChange={handleInput} value={value}/>
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          : isOpen === true
-            ? <DropDown onClick={handleDropDownClick}> 
-              {categoryList}  
-            </DropDown>
-            : <P bold size={TypoGraphyCategory.body2}>{value}</P>
-        }
-      </Styled.ReviewContentWrapper>
-    </Styled.ReviewInputWrapper>
+            : isOpen === true
+              ? <DropDown onClick={handleDropDownClick}> 
+                {categoryList}  
+              </DropDown>
+              : <P bold size={TypoGraphyCategory.body2}>{value}</P>
+          }
+        </Styled.ReviewContentWrapper>
+      </Styled.ReviewInputWrapper>
+    ),[
+      subtitle,
+      handleInput,
+      title,
+      handleOpen,
+      handleDropDownClick,
+      value
+    ])
   )
 }
 
-export default ReviewInput
+export default React.memo(ReviewInput)

@@ -20,8 +20,8 @@ function DBInfo() {
   return (
     <S.DBInfoDetailWrapper>
       <ImageSlider />
-      {/* {data && <Description {...data}/>} */}
-      <Description {...mockWhisky}/>
+      {data && <Description {...data}/>}
+      {/* <Description {...mockWhisky}/> */}
     </S.DBInfoDetailWrapper>
   )
 }

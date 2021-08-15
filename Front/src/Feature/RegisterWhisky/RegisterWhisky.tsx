@@ -33,12 +33,26 @@ function RegisterWhisky() {
   const [bottleNumber,setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const [images, setImages] = useState<any>();
+
+  const handleImages = (images) => {
+    setImages(images);
+  }
+
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let files;
+    if(images){
+      files = images.map( (image,idx) => ({
+        id: idx,
+        image,
+      }))
+    }
+
     const createForm : WhiskyCreateParamProps = {
       name_eng: englishName,
       name_kor: koreanName,
-      whisky_image: [],
+      whisky_image: files,
       category: category,
       distillery: distillery,
       bottler: bottler,
@@ -99,7 +113,7 @@ function RegisterWhisky() {
           <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 위스키 대표 사진을 등록해주세요.</P>
           <ImageUpload
             maxFileNum={5}
-            updateFilesCb={() =>{}}
+            updateFilesCb={handleImages}
             label='Whisky'
           />
         </S.RegisterPhotoWrapper>
