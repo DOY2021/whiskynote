@@ -80,12 +80,12 @@ function NewWhiskyReview() {
   });
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [fileLength, setFileLength] = useState(0);
 
   const updateFiles = files => {
     // console.log(files);
-    // console.log(files.length);
-    setNewFiles(prevFiles => [...prevFiles, files]);
-    console.log(newFiles);
+     setFileLength(files.length);
+    setNewFiles([files]);
   };
 
   const handleSubmitReview = e => {
@@ -211,7 +211,7 @@ function NewWhiskyReview() {
                 inputText={'사진을 등록해주세요.'}
                 isMandatory={false}
               ></HeadLine>
-              <S.FileNum>{newFiles.length}/5</S.FileNum>
+              <S.FileNum>{fileLength}/5</S.FileNum>
             </S.TitleWrapper>
 
             <S.MarginWrapper>

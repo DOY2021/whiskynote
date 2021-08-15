@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
 const RegisterWhiskyWrapper = styled.div`
-    width: 1200px;
-    margin: 0 auto;
-    padding: 0 200px;
+  display: flex;
+  justify-content: center;
 `;
+
+const RegisterWhiskyInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  overflow:scroll;
+`
 
 const RegisterWhiskyRegisterForm = styled.form`
   width: 100%;
@@ -54,6 +60,7 @@ const RegisterWhiskyBtn = styled.button`
 
 export default {
   RegisterWhiskyWrapper,
+  RegisterWhiskyInnerWrapper,
   RegisterWhiskyRegisterForm,
   RegisterTitleWrapper,
   RegisterPhotoWrapper,
