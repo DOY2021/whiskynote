@@ -5,7 +5,7 @@ const ReviewInputWrapper = styled.div`
     display: flex;
     align-items: center;
 
-    width: 816px;
+    width: 100%;
     height: 56px;
     
 
