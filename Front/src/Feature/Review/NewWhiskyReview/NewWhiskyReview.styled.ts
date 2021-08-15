@@ -10,7 +10,6 @@ const NewWhiskyReviewInnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
-  overflow:scroll;
 `;
 
 const TitleWrapper = styled.div`
