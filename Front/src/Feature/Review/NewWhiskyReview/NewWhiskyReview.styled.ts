@@ -18,18 +18,20 @@ const TitleWrapper = styled.div`
   display:flex;
 `
 const Title = styled.p`
-  ${Typography.display4};
+font-style: normal;
+font-size: 40px;
   color: #201F1E;
   margin-bottom:40px;
+  font-weight: 600;
 `
 const FileNum = styled.p`
   font-size: 16px;
   color: #8A8779;
-  margin-top: 21px;
+  margin-top: 10px;
   margin-left: 6px;
 `
 const MarginWrapper = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 `;
 const ElementWrapper = styled.div`
   margin-bottom: 30px;
@@ -37,11 +39,13 @@ const ElementWrapper = styled.div`
 const ImageUploadGuideline = styled.p`
   font-size: 14px;
   color: #73481e;
+  letter-spacing: -0.03em;
+  line-height: 140%;
 `;
 const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top:155px;
+  margin-top:62px;
   margin-bottom: 179px;
 `;
 const TempSaveBtn = styled.button`
