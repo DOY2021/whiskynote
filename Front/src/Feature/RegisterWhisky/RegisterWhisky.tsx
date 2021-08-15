@@ -4,6 +4,7 @@ import { useHistory } from 'react-router'
 import { whiskyAPI, WhiskyCreateParamProps } from '../../api/whisky'
 import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
+import Check from '../../shared/Check/Check'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
 
@@ -11,8 +12,11 @@ import P from '../../shared/P/P'
 import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace'
 import HeadLine from '../Review/NewWhiskyReview/HeadLine'
 import TextField from '../Review/NewWhiskyReview/TextField'
-import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput'
+import ReviewField from './ReviewInput/ReviewField'
+import ReviewInput, { ReviewType } from './ReviewInput/ReviewInput'
 import S from './RegisterWhisky.styled'
+import ReviewStyled from './ReviewInput/ReviewInput.styled'
+import { useCallback } from 'react'
 
 function RegisterWhisky() {
   const history = useHistory();
@@ -33,11 +37,29 @@ function RegisterWhisky() {
   const [bottleNumber,setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const [singcaskCheck, setSingleCaskCheck] = useState(false);
+  const [nonchillFilter, setChillFilter] = useState(false);
+  const [naturalColor, setNaturalColor] = useState(false);
+  const [independant, setIndependant] = useState(false);
+
   const [images, setImages] = useState<any>();
 
   const handleImages = (images) => {
     setImages(images);
   }
+
+  const handleSingleCaskCheck = useCallback(() => {
+    setSingleCaskCheck(check => !check);
+  },[])
+  const handleNonChillFilter = useCallback(() => {
+    setChillFilter(check => !check);
+  },[])
+  const handleNaturalColor = useCallback(() => {
+    setNaturalColor(check => !check);
+  },[])
+  const handleIndependant = useCallback(() => {
+    setIndependant(check => !check);
+  },[])
 
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -198,22 +220,87 @@ function RegisterWhisky() {
             value={size}
             placeholder='용량을 입력해주세요.'
           />
-          <ReviewInput 
-            title='캐스크 넘버' 
-            subtitle='Cask Numbers' 
-            type={ReviewType.text} 
-            onChange={setCaskNum} 
-            value={caskNumbers}
-            placeholder='캐스크 넘버를 작성해주세요.'
-          />
-          <ReviewInput 
-            title='바틀 넘버' 
-            subtitle='Number of Bottles' 
-            type={ReviewType.text} 
-            onChange={setBottleNum} 
-            value={bottleNumber}
-            placeholder='바틀 넘버를 작성해주세요.'
-          />
+          <ReviewField
+            title='싱글 캐스크'
+            subtitle='Single Cask'
+          >
+            <Check
+              id='SingleCask'
+              checked={singcaskCheck}
+              onChange={handleSingleCaskCheck}
+            />
+          </ReviewField>
+          {singcaskCheck &&  
+          <>
+            <ReviewInput 
+              title='캐스크 넘버' 
+              subtitle='Cask Numbers' 
+              type={ReviewType.text} 
+              onChange={setCaskNum} 
+              value={caskNumbers}
+              placeholder='캐스크 넘버를 작성해주세요.'
+            />
+            <ReviewInput 
+              title='바틀 넘버' 
+              subtitle='Number of Bottles' 
+              type={ReviewType.text} 
+              onChange={setBottleNum} 
+              value={bottleNumber}
+              placeholder='바틀 넘버를 작성해주세요.'
+            />
+          </>
+          }
+          <ReviewStyled.ReviewInputWrapper>
+            <ReviewStyled.ReviewCheckWrapper>
+
+              <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                <ReviewStyled.ReviewInputTitle>
+                논-칠필터
+                </ReviewStyled.ReviewInputTitle>
+                <ReviewStyled.ReviewInputSubTitle>
+                Non-chillfilter
+                </ReviewStyled.ReviewInputSubTitle>
+              </ReviewStyled.ReviewTitleWrapper>
+              <ReviewStyled.ReviewCheckItemWrapper>
+                <Check
+                  id='Non-chillfilter'
+                  checked={nonchillFilter}
+                  onChange={handleNonChillFilter}
+                />
+              </ReviewStyled.ReviewCheckItemWrapper>
+            
+              <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                <ReviewStyled.ReviewInputTitle>
+                내츄럴컬러
+                </ReviewStyled.ReviewInputTitle>
+                <ReviewStyled.ReviewInputSubTitle>
+                Natural-color
+                </ReviewStyled.ReviewInputSubTitle>
+              </ReviewStyled.ReviewTitleWrapper>
+              <ReviewStyled.ReviewCheckItemWrapper>
+                <Check
+                  id='NaturalColor'
+                  checked={naturalColor}
+                  onChange={handleNaturalColor}
+                />
+              </ReviewStyled.ReviewCheckItemWrapper>
+              <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                <ReviewStyled.ReviewInputTitle>
+                독립병입자
+                </ReviewStyled.ReviewInputTitle>
+                <ReviewStyled.ReviewInputSubTitle>
+                Independant Whisky
+                </ReviewStyled.ReviewInputSubTitle>
+              </ReviewStyled.ReviewTitleWrapper>
+              <ReviewStyled.ReviewCheckItemWrapper>
+                <Check
+                  id='independant'
+                  checked={independant}
+                  onChange={handleIndependant}
+                />
+              </ReviewStyled.ReviewCheckItemWrapper>
+            </ReviewStyled.ReviewCheckWrapper>
+          </ReviewStyled.ReviewInputWrapper>
         </S.RegisterDescriptWrapper>
         <S.MarginWrapper>
           <HeadLine
