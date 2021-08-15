@@ -48,8 +48,10 @@ const MenuMargin = styled.div`
 `;
 
 const Line = styled.div`
-width:100%;
-border: 1px solid #736C64`
+  width: 100%;
+  margin-bottom: 60px;
+  border: 1px solid #736c64;
+`;
 
 export default {
   MenuLink,
@@ -57,5 +59,5 @@ export default {
   MenuMargin,
   MenuBtn,
   SignUpBtn,
-  Line
+  Line,
 };

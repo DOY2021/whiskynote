@@ -6,11 +6,13 @@ import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
 import Review from '../Review/ReviewListing/Review/Review';
 import WhiskyNoteReview from '../Review/ReviewListing/Review/WhiskyNoteReview';
 import ReviewList from '../Review/ReviewListing/ReviewList/ReviewList';
+import DB from '../WhiskyDB/DB';
 
 function Landing(){
-  return(<div>this is landing page 
+  return(<div>
  {/* <NewWhiskyReview></NewWhiskyReview> */}
-    {/* <ReviewList></ReviewList> */}
+ {/* <DB></DB> */}
+
   </div>)
 }
 export default Landing;

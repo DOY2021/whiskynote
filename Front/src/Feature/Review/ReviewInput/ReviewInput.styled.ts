@@ -4,7 +4,7 @@ import { TypoGraphyCategory, TypoGraphyTheme } from "../../../lib/css/Typography
 const ReviewInputWrapper = styled.div`
     display: flex;
 
-    width: 816px;
+    width: 100%;
     height: 56px;
     
 
