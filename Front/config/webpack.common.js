@@ -84,5 +84,8 @@ module.exports = {
       hash: true,
     }),
     new BundleAnalyzerPlugin(),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    })
   ],
 };

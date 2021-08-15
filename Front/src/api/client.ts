@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-const END_POINT = 'http://localhost:3000/';
+const END_POINT = process.env.NODE_ENV?.includes('dev') ?  'http://localhost:3000/' : 'https://whiskynote.herokuapp.com/';
+
+console.log('env_test',process.env.NODE_ENV?.includes('dev'))
 
 export const client = axios.create({
   baseURL: END_POINT,
