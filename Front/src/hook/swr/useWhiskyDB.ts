@@ -8,6 +8,8 @@ import { WhiskyInfoProp } from '../../model/Whisky'
 function useWhiskyDB() {
   const whisky_id = useParams()
 
+  console.log('whis',whisky_id);
+
   const {data, error} = useSWR(`/api/whisky/${whisky_id}`, async(url) => {
     const detail = await client.get(url).then((res: AxiosResponse<WhiskyInfoProp> )=> res.data)
     return detail

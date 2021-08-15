@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router';

@@ -32,12 +32,26 @@ function RegisterWhisky() {
   const [bottleNumber, setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const [images, setImages] = useState<any>();
+
+  const handleImages = (images) => {
+    setImages(images);
+  }
+
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let files;
+    if(images){
+      files = images.map( (image,idx) => ({
+        id: idx,
+        image,
+      }))
+    }
+
     const createForm : WhiskyCreateParamProps = {
       name_eng: englishName,
       name_kor: koreanName,
-      whisky_image: [],
+      whisky_image: files,
       category: category,
       distillery: distillery,
       bottler: bottler,

@@ -26,7 +26,7 @@ function Header() {
         <Container>
           <Navbar.Brand>
             <Nav.Link href="/">
-              <Logo/>
+              <Logo />
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
