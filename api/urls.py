@@ -73,6 +73,9 @@ urlpatterns = [
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
+    #whisky_tag
+    #path("whisky/tag/stat/<int:whisky_pk>/", whisky_tag_stat),
+
     #reaction
     path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     path('reaction/<int:reaction_pk>/', reaction_update_delete),

@@ -43,6 +43,9 @@ class Whisky(models.Model):
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+    #tags
+    nose_tags = models.IntegerField(null = True)
+
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -68,7 +71,7 @@ class Tag(models.Model):
 
 class Reaction(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, related_name = 'reactions', related_query_name = 'reactions')
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
     #rating
@@ -85,21 +88,6 @@ class Reaction(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-
-class WhiskyNoseTag(models.Model):
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    nose_tag = models.ForeignKey(Tag, on_delete = models.CASCADE)
-    count = models.IntegerField(null = True, default = 0)
-
-class WhiskyTasteTag(models.Model):
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    taste_tag = models.ForeignKey(Tag, on_delete = models.CASCADE)
-    count = models.IntegerField(null = True, default = 0)
-
-class WhiskyFinTag(models.Model):
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
-    fin_tag = models.ForeignKey(Tag, on_delete = models.CASCADE)
-    count = models.IntegerField(null = True, default = 0)
 
 #Comment
 class ReactionComment(models.Model):

@@ -42,7 +42,7 @@ from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
 #API
-from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment, WhiskyNoseTag, WhiskyTasteTag, WhiskyFinTag
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer, ReactionCommentSerializer
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
@@ -342,7 +342,7 @@ def reaction_update_delete(request, reaction_pk):
             whisky.save()
 
             # Edit Tag Fields in whisky DB
-            
+
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -365,6 +365,7 @@ def reaction_update_delete(request, reaction_pk):
         whisky.save()
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
+
 
 #Tag
 class TagListView(generics.ListAPIView):

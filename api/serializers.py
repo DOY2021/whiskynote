@@ -15,7 +15,7 @@ from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
 #from posts.models import Post
-from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment, WhiskyNoseTag, WhiskyTasteTag, WhiskyFinTag
+from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 
 #CustomTokenSerializer
 from rest_auth.models import TokenModel
@@ -206,14 +206,35 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+class ReactionListSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+    
+    class Meta:
+        model = Reaction
+        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
 
 #WhiskyDB
 #General Whisky List Serializer (Rename if possible -> "WhiskyListSerializer")
 class WhiskySerializer(serializers.ModelSerializer):
+    reactions = ReactionListSerializer(many = True, read_only = True)
+
+    nose_tags = serializers.SerializerMethodField()
+    def get_nose_tags(self, obj):
+        total_nose_counts = obj.reactions.nose_tag.count()
+        print("what",total_nose_counts)
+        return 1
+
     class Meta:
         model = Whisky
         fields = '__all__'
-        read_only_fields = ('whisky_ratings','rating_counts')
+        read_only_fields = ('whisky_ratings','rating_counts', 'reactions')
 
 #Whisky Create Serializer (Open-type DB function)
 class WhiskyCreateSerializer(serializers.ModelSerializer):
@@ -234,35 +255,22 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('kor_tag',)
 
-class ReactionListSerializer(serializers.ModelSerializer):
-    whisky_name = serializers.SerializerMethodField()
-    def get_whisky_name(self, obj):
-        return obj.whisky.name
 
-    userName = serializers.SerializerMethodField()
-    def get_userName(self, obj):
-        return obj.user.username
-    
-    class Meta:
-        model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
-        read_only_fields = ('user',)
+# # Whisky Tag
+# class WhiskyNoseTagSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = WhiskyNoseTag
+#         fields = "__all__"
 
-# Whisky Tag
-class WhiskyNoseTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhiskyNoseTag
-        fields = "__all__"
+# class WhiskyTasteTagSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = WhiskyTasteTag
+#         fields = "__all__"
 
-class WhiskyTasteTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhiskyTasteTag
-        fields = "__all__"
-
-class WhiskyFinTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WhiskyFinTag
-        fields = "__all__"
+# class WhiskyFinTagSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = WhiskyFinTag
+#         fields = "__all__"
 
 #ReactionComment
 class ReactionCommentSerializer(serializers.ModelSerializer):
