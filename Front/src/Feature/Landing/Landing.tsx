@@ -10,8 +10,8 @@ import DB from '../WhiskyDB/DB';
 
 function Landing(){
   return(<div>
- <NewWhiskyReview></NewWhiskyReview>
- {/* <DB></DB> */}
+ {/* <NewWhiskyReview></NewWhiskyReview> */}
+ <DB></DB>
 
   </div>)
 }
