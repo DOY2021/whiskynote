@@ -6,19 +6,19 @@ import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
 import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
 
 function ReviewList(props: {
   whisky_ratings?: number;
   rating_counts?: number;
 }) {
-
   const history = useHistory();
 
   const handleReviewClick = () => {
     //TODO: get whisky_pk
     const id = 1;
-    history.push(`/newWhiskyReview/${id}`)
-  }
+    history.push(`/newWhiskyReview/${id}`);
+  };
 
   return (
     <>
@@ -48,7 +48,6 @@ function ReviewList(props: {
         </S.ReviewListWrapper>
       </S.Wrapper>
     </>
-   
   );
 }
 

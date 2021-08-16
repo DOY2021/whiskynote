@@ -16,6 +16,7 @@ import DB from '../Feature/WhiskyDB/DB';
 import SocialLogin from '../Feature/SignIn/SocialLogin';
 import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
+import NotFoundPage from './NotFoundPage';
 
 
 function App() {
@@ -65,18 +66,20 @@ function App() {
       <>
 
         <Switch>
-          <Route path="/signup" component={SignUpPage} />
+          <Route path="/signup" exact component={SignUpPage} />
           <Route path="/login" exact component={SignIn} />
           <Route path="/mypage" exact component={MyPage} />
-          <Route path="/" exact component={Explore} />
+          <Route path="/" exact component={Landing} />
           <Route path="/registerWhisky" exact component={RegisterWhisky} />
           <Route path='/explore/:order_by/:category' exact component={Explore}/>
-          <Route path="/socialLogin" component={SocialLogin} />
+          <Route path="/socialLogin" exact component={SocialLogin} />
           <Route path="/firstRegister/:name" exact component={AfterRegister} />
-          <Route path="/whiskyDB/:id" exact component={DB} />
+          <Route path="/whiskyDB" exact component={DB} />
           <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
-          <Redirect to="/"/>
+          <Route component={NotFoundPage}/>
+          {/* <Redirect to="/"/> */}
         </Switch>
+  
       </>
     </>
   );

@@ -42,11 +42,14 @@ const ImageUpload = ({
   const addNewFiles = newFiles => {
     for (const file of newFiles) {
       // console.log(file);
-      if (file.size < maxFileSize) {
+      if (file.size <= maxFileSize) {
         if (!otherProps.multiple) {
           return { file };
         }
         files[file.name] = file;
+      }
+      else {
+        alert('업로드 가능한 파일 사이즈를 초과하였습니다.');
       }
     }
    

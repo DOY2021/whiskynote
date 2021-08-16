@@ -12,6 +12,7 @@ import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
 import handleColors from './HandleColors';
 import { useHistory } from 'react-router-dom';
+import { useCallback } from 'react';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
@@ -224,6 +225,9 @@ function NewWhiskyReview() {
               <S.ImageUploadGuideline>
                 * 사진 크기는 200 x 200에 최적화되어 있습니다.
               </S.ImageUploadGuideline>
+              <S.ImageUploadGuideline>
+                * 4MB 이하의 사진을 업로드 해 주세요.
+              </S.ImageUploadGuideline>
             </S.MarginWrapper>
             <ImageUpload
               maxFileNum="5"
@@ -295,7 +299,7 @@ function NewWhiskyReview() {
           ></TextField>
 
           <S.ButtonsWrapper>
-            <S.TempSaveBtn onClick={history.goBack}>뒤로가기</S.TempSaveBtn>
+            <S.TempSaveBtn onClick={history.goBack} type="reset">뒤로가기</S.TempSaveBtn>
             <S.RegisterWhiskyBtn>위스키 등록하기</S.RegisterWhiskyBtn>
           </S.ButtonsWrapper>
         </form>
