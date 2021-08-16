@@ -7,7 +7,7 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, curr
 
   return (
     <>
-    <S.SliderLabel>{props.label}</S.SliderLabel>
+    <S.Label>{props.label}</S.Label>
     <S.HashTagList>
       {props.hashTagList && props.hashTagList.map((tag,index) => (<HashTag key={index} name={tag} handleTagDelete={props.handleTagDelete}></HashTag>))}
     </S.HashTagList>
