@@ -3,6 +3,8 @@ import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 4000000; //bytes
 import S from './ImageUpload.styled';
+import Camera from '../../../assets/CustomIcons/camera.svg';
+
 
 const convertNestedObjectToArray = (nestedObj) => 
   Object.keys(nestedObj).map(key => nestedObj[key]);
@@ -68,7 +70,7 @@ const ImageUpload = ({
         <S.UploadWrapper>
           <S.UploadFileBtn onClick={handleUploadBtnClick}>
             <S.IconsWrapper>
-              <Camera/>
+              <Camera style={{marginLeft:'23px'}}/>
               <S.ImageText>이미지 등록</S.ImageText>
               <S.FormField
                 type="file"

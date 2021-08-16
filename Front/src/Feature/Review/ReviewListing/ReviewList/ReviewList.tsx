@@ -28,13 +28,13 @@ function ReviewList(props: {
           onClick={handleReviewClick}
           style={{ display: 'flex', cursor: 'pointer' }}
         >
-          <S.PenIcon src={PenIcon} />
+          <PenIcon src={PenIcon} />
           <P size={TypoGraphyCategory.subtitle4}>리뷰 쓰기</P>
         </div>
       </S.TitleWrapper>
       <S.Wrapper>
         <S.InfoWrapper>
-          <Glass/>
+          <Glass style={{'marginRight': '26px'}}/>
 
           <S.LineWrapper>
             <S.InfoWrapper>
