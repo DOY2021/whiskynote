@@ -30,7 +30,7 @@ function Header() {
             </Nav.Link>
           </Navbar.Brand>
           <Nav>
-            <Link to='/explore/popular/total'>
+            <Link to='/explore/popular/total' style={{color: '#212529'}}>
               위스키 찾기  
             </Link>
             {/* <Nav.Link href="/explore/popular/total">위스키 찾기</Nav.Link> */}

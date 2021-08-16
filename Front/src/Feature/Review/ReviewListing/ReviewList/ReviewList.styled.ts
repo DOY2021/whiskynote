@@ -13,10 +13,6 @@ const Title = styled.p`
   margin-bottom: 19px;
 `;
 
-const PenIcon = styled.img`
-  width: 24px;
-  height: 24px;
-`;
 const WhiskyImg = styled.img`
   width: 46px;
   height: 124px;
@@ -63,7 +59,6 @@ export default {
   WhiskyImg,
   Title,
   InfoWrapper,
-  PenIcon,
   Score,
   ScoreText,
   ReviewText,

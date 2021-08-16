@@ -31,7 +31,7 @@ function ReviewList(props: {
       </S.TitleWrapper>
       <S.Wrapper>
         <S.InfoWrapper>
-          <Glass/>
+          <Glass style={{'marginRight': '26px'}}/>
 
           <S.LineWrapper>
             <S.InfoWrapper>

@@ -1,4 +1,4 @@
-import React, {  useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
@@ -18,7 +18,6 @@ import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 import NotFoundPage from './NotFoundPage';
 
-
 function App() {
   const [cookies] = useCookies(['user_id']);
 
@@ -29,7 +28,7 @@ function App() {
   const fetchProfile = useCallback(async () => {
     if (!dispatch) return;
     if (!cookies) return;
-    console.log(user)
+    console.log(user);
     try {
       const profile = await profileAPI.getProfile(cookies['user_id']);
       //로컬환경인 경우 프록시 설정에 따라 주소가 변하는 이슈가 있어서 수정해주는 코드를 썼습니다.
@@ -63,24 +62,20 @@ function App() {
   return (
     <>
       <Header />
-      <>
-
-        <Switch>
-          <Route path="/signup" exact component={SignUpPage} />
-          <Route path="/login" exact component={SignIn} />
-          <Route path="/mypage" exact component={MyPage} />
-          <Route path="/" exact component={Landing} />
-          <Route path="/registerWhisky" exact component={RegisterWhisky} />
-          <Route path='/explore/:order_by/:category' exact component={Explore}/>
-          <Route path="/socialLogin" exact component={SocialLogin} />
-          <Route path="/firstRegister/:name" exact component={AfterRegister} />
-          <Route path="/whiskyDB" exact component={DB} />
-          <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
-          <Route component={NotFoundPage}/>
-          {/* <Redirect to="/"/> */}
-        </Switch>
-  
-      </>
+      <Switch>
+        <Route path="/signup" exact component={SignUpPage} />
+        <Route path="/login" exact component={SignIn} />
+        <Route path="/mypage" exact component={MyPage} />
+        <Route path="/" exact component={Landing} />
+        <Route path="/registerWhisky" exact component={RegisterWhisky} />
+        <Route path="/explore/:order_by/:category" exact component={Explore} />
+        <Route path="/socialLogin" exact component={SocialLogin} />
+        <Route path="/firstRegister/:name" exact component={AfterRegister} />
+        <Route path="/whiskyDB" exact component={DB} />
+        <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
+        <Route component={NotFoundPage} />
+        {/* <Redirect to="/"/> */}
+      </Switch>
     </>
   );
 }
