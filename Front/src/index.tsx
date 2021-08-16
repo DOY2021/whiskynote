@@ -8,6 +8,7 @@ import { UserContextProvider } from './hook/useUserContext';
 import { CookiesProvider } from 'react-cookie';
 import { GlobalStyle } from './lib/css/GlobalStyled';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 
 render(

@@ -49,11 +49,11 @@ function Description({
       <S.DescriptionLinkWrapper>
         <div onClick={handleReviewClick} style={{display:'flex'}}>
           <img src={PenIcon}/>
-          <P>리뷰 쓰기</P>
+          <P size={TypoGraphyCategory.subtitle4} >리뷰 쓰기</P>
         </div>
         <div style={{display:'flex'}}>
           <img src={BookMarkIcon}/>
-          <P>위시리스트</P>
+          <P size={TypoGraphyCategory.subtitle4}>위시리스트</P>
         </div>
       </S.DescriptionLinkWrapper>
 
