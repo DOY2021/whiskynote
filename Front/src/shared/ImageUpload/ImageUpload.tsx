@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
-const MAX_FILE_SIZE = 1000000; //bytes
+const MAX_FILE_SIZE = 4000000; //bytes
 import S from './ImageUpload.styled';
 
 const convertNestedObjectToArray = (nestedObj) => 
@@ -41,11 +41,14 @@ const ImageUpload = ({
   const addNewFiles = newFiles => {
     for (const file of newFiles) {
       // console.log(file);
-      if (file.size < maxFileSize) {
+      if (file.size <= maxFileSize) {
         if (!otherProps.multiple) {
           return { file };
         }
         files[file.name] = file;
+      }
+      else {
+        alert('업로드 가능한 파일 사이즈를 초과하였습니다.');
       }
     }
    ;

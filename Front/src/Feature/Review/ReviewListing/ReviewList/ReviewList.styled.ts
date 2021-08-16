@@ -1,3 +1,4 @@
+import { TypoGraphyCategory } from './../../../../lib/css/TempTypo';
 import styled from 'styled-components';
 
 const TitleWrapper = styled.div`
@@ -6,8 +7,9 @@ const TitleWrapper = styled.div`
   flex-direction: row;
 `;
 const Title = styled.p`
-  font-weight: 600;
+  font-family: Pretendard-Medium;
   font-size: 32px;
+  line-height: 140%;
   margin-bottom: 19px;
 `;
 

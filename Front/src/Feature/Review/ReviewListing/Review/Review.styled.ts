@@ -57,7 +57,8 @@ const ReviewText = styled.p`
 const Date = styled.p`
   color: #AFADA0;
   font-size:18px; 
-  font-weight:500;
+  font-family: Pretendard-Medium;
+  line-height: 140%;
   margin-bottom: 16px;
 `
 
