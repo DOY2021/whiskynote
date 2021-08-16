@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
-import { TagProp } from "../../../../model/Tag";
+import { TagVariant } from "../../../../model/WhiskyNote";
 import TagService from "../../../../Services/TagService";
 
 interface NoteItemContentWrapperProp {
   isFirst: boolean;
-  category: TagProp;
+  category: TagVariant;
 }
 
 const NoteItemWrapper = styled.ul`

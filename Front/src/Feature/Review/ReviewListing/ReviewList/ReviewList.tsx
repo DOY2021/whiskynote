@@ -6,6 +6,7 @@ import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
+import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 
 function ReviewList(props: {
   whisky_ratings?: number;
@@ -33,7 +34,7 @@ function ReviewList(props: {
       </S.TitleWrapper>
       <S.Wrapper>
         <S.InfoWrapper>
-          <S.WhiskyImg src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.WhiskyImg>
+          <Glass/>
 
           <S.LineWrapper>
             <S.InfoWrapper>

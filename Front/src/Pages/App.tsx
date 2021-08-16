@@ -1,4 +1,4 @@
-import React, {  Suspense, useCallback, useEffect } from 'react';
+import React, {  useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from '../Feature/Header/Header';
 
@@ -64,8 +64,8 @@ function App() {
     <>
       <Header />
       <>
-        <Suspense fallback={<div>Hi</div>}>
 
+<<<<<<< HEAD
           <Switch>
             <Route path="/signup" exact component={SignUpPage} />
             <Route path="/login" exact component={SignIn} />
@@ -81,6 +81,21 @@ function App() {
             {/* <Redirect to="/"/> */}
           </Switch>
         </Suspense>
+=======
+        <Switch>
+          <Route path="/signup" component={SignUpPage} />
+          <Route path="/login" exact component={SignIn} />
+          <Route path="/mypage" exact component={MyPage} />
+          <Route path="/" exact component={Explore} />
+          <Route path="/registerWhisky" exact component={RegisterWhisky} />
+          <Route path='/explore/:order_by/:category' exact component={Explore}/>
+          <Route path="/socialLogin" component={SocialLogin} />
+          <Route path="/firstRegister/:name" exact component={AfterRegister} />
+          <Route path="/whiskyDB/:id" exact component={DB} />
+          <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
+          <Redirect to="/"/>
+        </Switch>
+>>>>>>> e640672bddf0fcf3c054c050f79f05568344ac01
       </>
     </>
   );

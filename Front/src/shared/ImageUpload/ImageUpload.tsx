@@ -51,7 +51,7 @@ const ImageUpload = ({
         alert('업로드 가능한 파일 사이즈를 초과하였습니다.');
       }
     }
-   ;
+   
     return { ...files };
   };
 
@@ -68,7 +68,7 @@ const ImageUpload = ({
         <S.UploadWrapper>
           <S.UploadFileBtn onClick={handleUploadBtnClick}>
             <S.IconsWrapper>
-              <S.CameraIcon src="../../../assets/CustomIcons/camera.svg"></S.CameraIcon>
+              <Camera/>
               <S.ImageText>이미지 등록</S.ImageText>
               <S.FormField
                 type="file"
@@ -88,12 +88,12 @@ const ImageUpload = ({
           const isImageFile = file.type.split('/')[0] === 'image';
           return (
             <S.PreviewContainer key={fileName}>
-                <S.DeleteBtn onClick={() => removeFile(fileName)}>
-                  <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
-                </S.DeleteBtn>
-                {isImageFile && (
-                  <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
-                )}
+              <S.DeleteBtn onClick={() => removeFile(fileName)}>
+                <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
+              </S.DeleteBtn>
+              {isImageFile && (
+                <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>
+              )}
               
             </S.PreviewContainer>
            

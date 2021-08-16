@@ -1,50 +1,62 @@
 import React from 'react'
 import { useCallback } from 'react'
+import { useHistory } from 'react-router'
 import Palette from '../../../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
+import { WhiskyInfoProp } from '../../../../model/Whisky'
+import { Tags } from '../../../../model/WhiskyNote'
 import TagService from '../../../../Services/TagService'
 import P from '../../../../shared/P/P'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 import Styled from './InfoCard.styled'
 
-function InfoCard({
-  img = 'https://source.unsplash.com/random',
-  koName = '글렌모렌지 시그넷',
-  engName = 'Glen',
-  tagList = [1,2,3],
-  descript = '글렌모렌지 시그넷(Glenmorangie Signet)은 글렌모렌지 증류소가 창조한 가장 훌륭한 위스키 중 하나입니다. 시그넷은 독특하고 진귀한 2가지 타입의 맥아로 만들어진 두 종류의 위스키 조합으로 만들어졌...',
-  ratedUserNum = 234,
-  ratingScore = 89.3,
-}:InfoCardProps) {
+interface InfoCardProps {
+  info : WhiskyInfoProp
+}
 
-  const renderTag = useCallback((item: number) => {
+function InfoCard({
+  info
+}: InfoCardProps) {
+
+  const history = useHistory();
+
+  //TagList에서 받아온 것 중 Nose/Taste/Finish 별로 1위인 태그를 가져옵니다.
+  const tags = Object.entries(info.tags).map( tag => Object.keys(tag[1])[0])
+
+  const handleClick = () => {
+    history.push(`/whiskyDB/${info.id}`)
+  }
+
+  const renderTag = useCallback((item: Tags) => {
     const tag = '셰리'
-    const tagCategory = TagService.getTagCategory(tag);
+    const tagCategory = TagService.getTagCategory(item);
     const tagColor = TagService.getTagColor(tagCategory);
 
     return (
       <Styled.InfoCardDescTag key={item} color={tagColor}>
-        {tag}
+        {item}
       </Styled.InfoCardDescTag>
     )
   },[])
 
   return (
-    <Styled.InfoCardWrapper>
-      <Styled.InfoCardImg src={img}/>
+    <Styled.InfoCardWrapper onClick={handleClick}>
+      <Styled.InfoCardImg src={info.whisky_image[0].image}/>
       <Styled.InfoCardDescWrapper>
-        <P size={TypoGraphyCategory.subtitle} bold>{koName}</P>
+        <P size={TypoGraphyCategory.subtitle} bold>{info.name_kor}</P>
         <WhiteSpace height='10'/>
-        <P size={TypoGraphyCategory.body2} color={Palette.Gray700} bold>{engName}</P>
+        <P size={TypoGraphyCategory.body2} color={Palette.Gray700} bold>{info.name_eng}</P>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDescTagWrapper>
-          {tagList.map(renderTag)}
+          {tags.map(renderTag)}
         </Styled.InfoCardDescTagWrapper>
         <WhiteSpace height='10'/>
-        <P size={TypoGraphyCategory.body2} color={Palette.Gray700} >{descript}</P>
+        <Styled.InfoCardDetailWrapper>
+          <P size={TypoGraphyCategory.body2} color={Palette.Gray700} >{info.whisky_detail}</P>
+        </Styled.InfoCardDetailWrapper>
         <WhiteSpace height='40'/>
-        <P isInline size={TypoGraphyCategory.subtitle}>* {ratingScore}</P>
-        <P isInline color={Palette.Gray700}>점 ({ratedUserNum})</P>
+        <P isInline size={TypoGraphyCategory.subtitle}>* {info.whisky_ratings}</P>
+        <P isInline color={Palette.Gray700}>점 ({info.rating_counts})</P>
       </Styled.InfoCardDescWrapper>
     </Styled.InfoCardWrapper>
   )

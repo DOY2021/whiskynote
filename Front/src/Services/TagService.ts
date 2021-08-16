@@ -1,6 +1,5 @@
-import { TagCategory } from "../constants/TagCategory";
 import Palette from "../lib/css/Pallete";
-import { TagProp } from "../model/Tag";
+import { TagCategory, Tags, TagVariant } from "../model/WhiskyNote";
 
 
 class TagService{
@@ -9,17 +8,17 @@ class TagService{
     this.tagList = TagCategory;
   }
 
-  getSpecificCategoryList(category:TagProp){
+  getSpecificCategoryList(category:TagVariant){
     return Object.entries(this.tagList)
       .filter(tag => tag[1] === category)
       .map(tag => tag[0]);
   }
 
-  getTagCategory(item: string) {
+  getTagCategory(item: Tags) {
     return this.tagList[item];
   }
 
-  getTagColor(category: TagProp){
+  getTagColor(category: TagVariant){
     return Palette[category];
   }
 }

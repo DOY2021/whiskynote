@@ -7,7 +7,10 @@ const DescriptWrapper = styled.div`
 `;
 
 const DescriptText = styled.div`
+    margin-top: 30px;
     ${TypoGraphyTheme.body2}
+    white-space: pre-wrap;
+    line-height: 27px;
     color: #5C5854;
 `;
 

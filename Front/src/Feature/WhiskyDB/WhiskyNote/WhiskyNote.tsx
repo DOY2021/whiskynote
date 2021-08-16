@@ -1,6 +1,6 @@
 import React from 'react'
 import { TypoGraphyCategory } from '../../../lib/css/TempTypo'
-import { MockNoteModel, NoteItemProp, WhiskyNoteProp } from '../../../model/WhiskyNote'
+import { MockNoteModel, NoteItemProp, WhiskyNoteCategory, WhiskyNoteProp } from '../../../model/WhiskyNote'
 import P from '../../../shared/P/P'
 import NoteItem from './NoteItem/NoteItem'
 import S from './WhiskyNote.styled'
@@ -12,7 +12,7 @@ function WhiskyNote() {
 
 
 
-  function convertToMockArr(mock: {[K in WhiskyNoteProp] : NoteItemProp}){
+  function convertToMockArr(mock: {[K in WhiskyNoteCategory] : NoteItemProp}){
     return Object.entries(mock);
   }
 

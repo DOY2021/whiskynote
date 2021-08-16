@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --mode development --open --hot --history-api-fallback --config config/webpack.dev.js",
-    "build": "webpack --mode production --config config/webpack.prod.js"
+    "start": "NODE_ENV=development webpack serve --mode development --open --hot --history-api-fallback --config config/webpack.dev.js",
+    "build": "NODE_ENV=production webpack --mode production --config config/webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
@@ -63,6 +64,7 @@
     "styled-reset": "^4.3.4",
     "swr": "^0.5.6",
     "typescript": "^4.2.3",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }
