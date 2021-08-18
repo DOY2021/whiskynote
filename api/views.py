@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
@@ -377,16 +378,47 @@ class TagListView(generics.ListAPIView):
 @permission_classes([IsAuthenticated])
 def WhiskyTopTagView(request, whisky_pk):
     if request.method == 'GET':
-        selected = Whisky.objects.filter(whisky = pk)
-        pk = self.kwargs['whisky_pk']
-        print(pk)
-        top_tag = []
-        selected = Whisky.objects.filter(whisky = pk)
-        print("Wow")
-        # for reaction in selected.reactions:
-        #     print(reaction)
-        print(selected)
-        return Whisky.objects.filter(whisky = pk)
+        whisky = get_object_or_404(Whisky, pk =whisky_pk)
+        selected = Reaction.objects.filter(whisky = whisky)
+        nose_dict = dict()
+        taste_dict = dict()
+        fin_dict = dict()
+
+        top_nose = dict()
+        top_taste = dict()
+        top_fin = dict()
+
+        nose_counts = 0
+        taste_counts = 0
+        fin_counts = 0
+        for reaction in selected:
+            for tag in reaction.nose_tag.all():
+                nose_dict[tag.kor_tag] = nose_dict.get(tag.kor_tag, 0) + 1
+                nose_counts += 1
+            for tag in reaction.taste_tag.all():
+                taste_dict[tag.kor_tag] = taste_dict.get(tag.kor_tag, 0) + 1
+                taste_counts += 1
+            for tag in reaction.finish_tag.all():
+                fin_dict[tag.kor_tag] = fin_dict.get(tag.kor_tag, 0) + 1
+                fin_counts += 1
+        if nose_counts > 0 :
+            nose_list = sorted(nose_dict.items(), reverse = True, key = lambda item: item[1])[:3]
+            for i in range(3):
+                top_nose[nose_list[i][0]] = (int(round(((nose_list[i][1]*100)/nose_counts), -1)))
+        if taste_counts > 0 :
+            taste_list = sorted(taste_dict.items(), reverse = True, key = lambda item: item[1])[:3]
+            for i in range(3):
+                top_taste[taste_list[i][0]] = (int(round(((taste_list[i][1]*100)/taste_counts), -1)))
+        if fin_counts > 0 :
+            fin_list = sorted(fin_dict.items(), reverse = True, key = lambda item: item[1])[:3]
+            for i in range(3):
+                top_fin[fin_list[i][0]] = (int(round(((fin_list[i][1]*100)/fin_counts), -1)))
+        print(top_nose)
+        print(top_taste)
+        print(top_fin)
+        return Response(
+            {'message':'selected'}
+        )
 
 
 #ReactionComment
