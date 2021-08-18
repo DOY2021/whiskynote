@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import Typography from '../../../lib/css/Typography';
 
 const SliderWrapper = styled.div`
-  margin-topo: 10px;
+  margin-top: 10px;
   display: flex;
   align-items: row;
+  margin-bottom:27px;
 `;
 const InputRange = styled.input`
   -webkit-appearance: none;
@@ -31,7 +32,10 @@ const InputRange = styled.input`
 
 const SliderLabel = styled.div`
   color: #5c5955;
-  font-size: 18px;
+  font-size: 24px;
+  line-height: 140%;
+  font-weight: 500;
+  letter-spacing: -0.04em;
 `;
 const Score = styled.div`
   margin-left: 15px;

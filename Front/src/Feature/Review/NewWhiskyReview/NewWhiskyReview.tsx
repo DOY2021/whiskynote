@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
@@ -11,6 +11,7 @@ import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
 import handleColors from './HandleColors';
+import { useHistory } from 'react-router-dom';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
@@ -81,6 +82,11 @@ function NewWhiskyReview() {
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [fileLength, setFileLength] = useState(0);
+<<<<<<< HEAD
+=======
+
+  const history = useHistory();
+>>>>>>> da43c56f8a1e27c835aa9c4b7e2918b996de754e
 
   const updateFiles = files => {
     // console.log(files);
@@ -209,7 +215,7 @@ function NewWhiskyReview() {
             <S.TitleWrapper>
               <HeadLine
                 inputText={'사진을 등록해주세요.'}
-                isMandatory={false}
+                isMandatory={false} isFirst={true}
               ></HeadLine>
               <S.FileNum>{fileLength}/5</S.FileNum>
             </S.TitleWrapper>
@@ -231,7 +237,7 @@ function NewWhiskyReview() {
 
           <HeadLine
             inputText={'위스키는 만족스러우셨나요?'}
-            isMandatory={false}
+            isMandatory={false} 
           ></HeadLine>
           <ProgressBar
             name="nose"
@@ -283,7 +289,7 @@ function NewWhiskyReview() {
             inputText={'위스키에 대해 설명해주세요.'}
             isMandatory={false}
           ></HeadLine>
-          <S.ImageUploadGuideline>
+          <S.ImageUploadGuideline style={{marginTop: '-12px'}}>
             100자 이상 작성시 150포인트 지급
           </S.ImageUploadGuideline>
           <TextField
@@ -292,7 +298,7 @@ function NewWhiskyReview() {
           ></TextField>
 
           <S.ButtonsWrapper>
-            <S.TempSaveBtn>임시 저장</S.TempSaveBtn>
+            <S.TempSaveBtn onClick={history.goBack}>뒤로가기</S.TempSaveBtn>
             <S.RegisterWhiskyBtn>위스키 등록하기</S.RegisterWhiskyBtn>
           </S.ButtonsWrapper>
         </form>
