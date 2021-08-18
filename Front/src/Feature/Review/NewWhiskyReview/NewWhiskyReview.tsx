@@ -23,7 +23,7 @@ const changeColors = e => {
 };
 
 const selectedTagsToIndex = selectedTags => {
-  let res = {
+  const res = {
     nose: Array<number>(),
     taste: Array<number>(),
     finish: Array<number>(),
@@ -82,8 +82,11 @@ function NewWhiskyReview() {
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [fileLength, setFileLength] = useState(0);
+<<<<<<< HEAD
+=======
 
   const history = useHistory();
+>>>>>>> da43c56f8a1e27c835aa9c4b7e2918b996de754e
 
   const updateFiles = files => {
     // console.log(files);

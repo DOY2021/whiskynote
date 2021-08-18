@@ -1,17 +1,26 @@
-import React from 'react';
-import { useState } from 'react';
-import Palette from '../../lib/css/Pallete';
-import { TypoGraphyCategory } from '../../lib/css/TempTypo';
-import ImageUpload from '../../shared/ImageUpload/ImageUpload';
+import React from 'react'
+import { useState } from 'react'
+import { useHistory } from 'react-router'
+import { whiskyAPI, WhiskyCreateParamProps } from '../../api/whisky'
+import Palette from '../../lib/css/Pallete'
+import { TypoGraphyCategory } from '../../lib/css/TempTypo'
+import Check from '../../shared/Check/Check'
+import ImageUpload from '../../shared/ImageUpload/ImageUpload'
 
-import P from '../../shared/P/P';
-import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
-import HeadLine from '../Review/NewWhiskyReview/HeadLine';
-import TextField from '../Review/NewWhiskyReview/TextField';
-import ReviewInput, { ReviewType } from '../Review/ReviewInput/ReviewInput';
-import S from './RegisterWhisky.styled';
+
+import P from '../../shared/P/P'
+import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace'
+import HeadLine from '../Review/NewWhiskyReview/HeadLine'
+import TextField from '../Review/NewWhiskyReview/TextField'
+import ReviewField from './ReviewInput/ReviewField'
+import ReviewInput, { ReviewType } from './ReviewInput/ReviewInput'
+import S from './RegisterWhisky.styled'
+import ReviewStyled from './ReviewInput/ReviewInput.styled'
+import { useCallback } from 'react'
 
 function RegisterWhisky() {
+  const history = useHistory();
+
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [category, setCategory] = useState('');
@@ -28,6 +37,64 @@ function RegisterWhisky() {
   const [bottleNumber, setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const [singcaskCheck, setSingleCaskCheck] = useState(false);
+  const [nonchillFilter, setChillFilter] = useState(false);
+  const [naturalColor, setNaturalColor] = useState(false);
+  const [independant, setIndependant] = useState(false);
+
+  const [images, setImages] = useState<any>();
+
+  const handleImages = (images) => {
+    setImages(images);
+  }
+
+  const handleSingleCaskCheck = useCallback(() => {
+    setSingleCaskCheck(check => !check);
+  },[])
+  const handleNonChillFilter = useCallback(() => {
+    setChillFilter(check => !check);
+  },[])
+  const handleNaturalColor = useCallback(() => {
+    setNaturalColor(check => !check);
+  },[])
+  const handleIndependant = useCallback(() => {
+    setIndependant(check => !check);
+  },[])
+
+  const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let files;
+    if(images){
+      files = images.map( (image,idx) => ({
+        id: idx,
+        image,
+      }))
+    }
+
+    const createForm : WhiskyCreateParamProps = {
+      name_eng: englishName,
+      name_kor: koreanName,
+      whisky_image: files,
+      category: category,
+      distillery: distillery,
+      bottler: bottler,
+      vintage: parseInt(vintage),
+      bottled: parseInt(bottled),
+      bottle_type: bottleNumber,
+      age: parseInt(age),
+      cask: cask,
+      casknumber: parseInt(caskNumbers),
+      alcohol: parseInt(strength),
+      whisky_detail: describe
+    }
+    try{
+      const result = whiskyAPI.createWhisky(createForm);
+      history.push('/afterRegister')
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <S.RegisterWhiskyWrapper>
       <S.RegisterWhiskyInnerWrapper>
@@ -42,153 +109,205 @@ function RegisterWhisky() {
           등록이 완료되면 알림을 보내드립니다.
         </P>
 
-        <WhiteSpace height="40" />
-        <S.RegisterWhiskyRegisterForm>
+        <WhiteSpace height='40'/>
+        <S.RegisterWhiskyRegisterForm onSubmit={handleRegisterWhisky}>
           <S.RegisterTitleWrapper>
-            <P size={TypoGraphyCategory.subtitle} isInline>
-              위스키명을 입력해주세요
-            </P>
-            <P
-              fontSize={TypoGraphyCategory.body}
-              isInline={true}
-              color={Palette.Orange600}
-            >
-              *
-            </P>
-            <WhiteSpace height="10" />
+          
+            <P size={TypoGraphyCategory.subtitle} isInline>위스키명을 입력해주세요</P>
+            <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
+            <WhiteSpace height='10'/>
             <ReviewInput
-              title="국문"
-              subtitle="Korean name"
+              title='국문'
+              subtitle='Korean name' 
               type={ReviewType.text}
               onChange={setKorean}
               value={koreanName}
-              placeholder="등록하는 위스키의 정확한 국문 명칭을 입력해주세요."
+              placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
             />
             <ReviewInput
-              title="영문"
-              subtitle="English Name"
+              title='영문'
+              subtitle='English Name'
               type={ReviewType.text}
               onChange={setEng}
               value={englishName}
               placeholder="등록하는 위스키의 정확한 영문 명칭을 입력해주세요."
             />
           </S.RegisterTitleWrapper>
-          <WhiteSpace height="40" />
+          <WhiteSpace height='40'/>
           <S.RegisterPhotoWrapper>
-            <P fontSize={TypoGraphyCategory.subtitle}>
-              위스키 대표 사진을 등록해주세요.
-            </P>
-            <WhiteSpace height="10" />
+            <P  fontSize = {TypoGraphyCategory.subtitle}>위스키 대표 사진을 등록해주세요.</P>
+            <WhiteSpace height='10'/>
 
-            <P color={Palette.Orange800} fontSize={TypoGraphyCategory.body2}>
-              * 상품 이미지 사이즈 이렇게 해주세요.
-            </P>
-            <P color={Palette.Orange800} fontSize={TypoGraphyCategory.body2}>
-              * 위스키 대표 사진을 등록해주세요.
-            </P>
+            <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 상품 이미지 사이즈 이렇게 해주세요.</P>
+            <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 위스키 대표 사진을 등록해주세요.</P>
             <ImageUpload
               maxFileNum={5}
-              updateFilesCb={() => {}}
-              label="Whisky"
+              updateFilesCb={handleImages}
+              label='Whisky'
             />
           </S.RegisterPhotoWrapper>
-          <WhiteSpace height="30" />
+          <WhiteSpace height='30'/>
           <S.RegisterDescriptWrapper>
             <ReviewInput
-              title="카테고리"
-              subtitle="Category"
+              title='카테고리'
+              subtitle='Category' 
               type={ReviewType.dropdown}
               onClick={setCategory}
               value={category}
               categoryList={['싱글몰트 위스키', '블렌디드 위스키']}
             />
-            <ReviewInput
-              title="증류소"
-              subtitle="Distillery"
-              type={ReviewType.text}
+            <ReviewInput 
+              title='증류소' 
+              subtitle='Distillery'
+              type={ReviewType.text} 
               onChange={setDistillery}
               value={distillery}
-              placeholder="증류소를 입력해주세요."
+              placeholder='증류소를 입력해주세요.'
             />
-            <ReviewInput
-              title="병입 회사"
-              subtitle="Bottler"
+            <ReviewInput 
+              title='병입 회사'
+              subtitle='Bottler'
               type={ReviewType.text}
               onChange={setBottler}
               value={bottler}
-              placeholder="병입 회사를 입력해주세요."
+              placeholder='병입 회사를 입력해주세요.'
             />
-            <ReviewInput
-              title="바틀 시리즈"
-              subtitle="Bottling Series"
-              type={ReviewType.text}
-              onChange={setSeries}
+            <ReviewInput 
+              title='바틀 시리즈' 
+              subtitle='Bottling Series'
+              type={ReviewType.text} 
+              onChange={setSeries} 
               value={series}
-              placeholder="예시) Fine/Rare, Special Releases 2010, Bond House No.1 Collection"
+              placeholder='예시) Fine/Rare, Special Releases 2010, Bond House No.1 Collection'
             />
             <ReviewInput
-              title="빈티지"
-              subtitle="Vintage"
-              type={ReviewType.text}
-              onChange={setVintage}
+              title='빈티지'
+              subtitle='Vintage'
+              type={ReviewType.text} 
+              onChange={setVintage} 
               value={vintage}
             />
             <ReviewInput
-              title="병입 날짜"
-              subtitle="Bottled"
-              type={ReviewType.text}
+              title='병입 날짜'
+              subtitle='Bottled'
+              type={ReviewType.text} 
               onChange={setBottled}
               value={bottled}
-              placeholder="test"
+              placeholder='test'
             />
             <ReviewInput
-              title="숙성 연수"
-              subtitle="Stated Age/Age"
-              type={ReviewType.text}
+              title='숙성 연수' 
+              subtitle='Stated Age/Age' 
+              type={ReviewType.text} 
               onChange={setAge}
               value={age}
-              placeholder="숙성 연수를 입력해주세요."
+              placeholder='숙성 연수를 입력해주세요.'
             />
-            <ReviewInput
-              title="캐스크타입"
-              subtitle="Cask Type"
-              type={ReviewType.text}
+            <ReviewInput 
+              title='캐스크타입' 
+              subtitle='Cask Type'
+              type={ReviewType.text} 
               onChange={setCask}
               value={cask}
-              placeholder="캐스크에 대한 정보를 작성해주세요."
+              placeholder='캐스크에 대한 정보를 작성해주세요.'
             />
-            <ReviewInput
-              title="알코올 함량"
-              subtitle="ABV"
+            <ReviewInput 
+              title='알코올 함량'
+              subtitle='ABV'
               type={ReviewType.text}
               onChange={setStrength}
               value={strength}
-              placeholder="도수를 입력해주세요."
+              placeholder='도수를 입력해주세요.'
             />
-            <ReviewInput
-              title="용량"
-              subtitle="Size"
-              type={ReviewType.text}
-              onChange={setSize}
+            <ReviewInput 
+              title='용량' 
+              subtitle='Size' 
+              type={ReviewType.text} 
+              onChange={setSize} 
               value={size}
-              placeholder="용량을 입력해주세요."
+              placeholder='용량을 입력해주세요.'
             />
-            <ReviewInput
-              title="캐스크 넘버"
-              subtitle="Cask Numbers"
-              type={ReviewType.text}
-              onChange={setCaskNum}
+            <ReviewField
+              title='싱글 캐스크'
+              subtitle='Single Cask'
+            >
+              <Check
+                id='SingleCask'
+                checked={singcaskCheck}
+                onChange={handleSingleCaskCheck}
+              />
+            </ReviewField>
+            {singcaskCheck &&  
+          <>
+            <ReviewInput 
+              title='캐스크 넘버' 
+              subtitle='Cask Numbers' 
+              type={ReviewType.text} 
+              onChange={setCaskNum} 
               value={caskNumbers}
-              placeholder="캐스크 넘버를 작성해주세요."
+              placeholder='캐스크 넘버를 작성해주세요.'
             />
-            <ReviewInput
-              title="바틀 넘버"
-              subtitle="Number of Bottles"
-              type={ReviewType.text}
-              onChange={setBottleNum}
+            <ReviewInput 
+              title='바틀 넘버' 
+              subtitle='Number of Bottles' 
+              type={ReviewType.text} 
+              onChange={setBottleNum} 
               value={bottleNumber}
-              placeholder="바틀 넘버를 작성해주세요."
+              placeholder='바틀 넘버를 작성해주세요.'
             />
+          </>
+            }
+            <ReviewStyled.ReviewInputWrapper>
+              <ReviewStyled.ReviewCheckWrapper>
+
+                <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                  <ReviewStyled.ReviewInputTitle>
+                논-칠필터
+                  </ReviewStyled.ReviewInputTitle>
+                  <ReviewStyled.ReviewInputSubTitle>
+                Non-chillfilter
+                  </ReviewStyled.ReviewInputSubTitle>
+                </ReviewStyled.ReviewTitleWrapper>
+                <ReviewStyled.ReviewCheckItemWrapper>
+                  <Check
+                    id='Non-chillfilter'
+                    checked={nonchillFilter}
+                    onChange={handleNonChillFilter}
+                  />
+                </ReviewStyled.ReviewCheckItemWrapper>
+            
+                <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                  <ReviewStyled.ReviewInputTitle>
+                내츄럴컬러
+                  </ReviewStyled.ReviewInputTitle>
+                  <ReviewStyled.ReviewInputSubTitle>
+                Natural-color
+                  </ReviewStyled.ReviewInputSubTitle>
+                </ReviewStyled.ReviewTitleWrapper>
+                <ReviewStyled.ReviewCheckItemWrapper>
+                  <Check
+                    id='NaturalColor'
+                    checked={naturalColor}
+                    onChange={handleNaturalColor}
+                  />
+                </ReviewStyled.ReviewCheckItemWrapper>
+                <ReviewStyled.ReviewTitleWrapper hasSubtitle={true}>
+                  <ReviewStyled.ReviewInputTitle>
+                독립병입자
+                  </ReviewStyled.ReviewInputTitle>
+                  <ReviewStyled.ReviewInputSubTitle>
+                Independant Whisky
+                  </ReviewStyled.ReviewInputSubTitle>
+                </ReviewStyled.ReviewTitleWrapper>
+                <ReviewStyled.ReviewCheckItemWrapper>
+                  <Check
+                    id='independant'
+                    checked={independant}
+                    onChange={handleIndependant}
+                  />
+                </ReviewStyled.ReviewCheckItemWrapper>
+              </ReviewStyled.ReviewCheckWrapper>
+            </ReviewStyled.ReviewInputWrapper>
           </S.RegisterDescriptWrapper>
           <S.MarginWrapper>
             <HeadLine
@@ -196,10 +315,7 @@ function RegisterWhisky() {
               isMandatory={true}
             ></HeadLine>
           </S.MarginWrapper>
-          <TextField
-            text={describe}
-            handleTextAreaInput={e => setDescribe(e.target.value)}
-          />
+          <TextField text={describe} handleTextAreaInput={(e) =>setDescribe(e.target.value)}/>
 
           <S.ButtonsWrapper>
             <S.TempSaveBtn>임시 저장</S.TempSaveBtn>

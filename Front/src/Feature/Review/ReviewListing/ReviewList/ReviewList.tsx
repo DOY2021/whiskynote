@@ -5,6 +5,7 @@ import Review from '../Review/Review';
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
+import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 
 function ReviewList(props: {
   whisky_ratings?: number;
@@ -21,31 +22,31 @@ function ReviewList(props: {
 
   return (
     <>
-    <S.TitleWrapper>
-    <S.Title>리뷰</S.Title>
-    <div onClick={handleReviewClick} style={{display:'flex'}}>
-          <S.PenIcon src={PenIcon} />
+      <S.TitleWrapper>
+        <S.Title>리뷰</S.Title>
+        <div onClick={handleReviewClick} style={{display:'flex'}}>
+          <PenIcon/>
           <P>리뷰 쓰기</P>
         </div>
-    </S.TitleWrapper>
-    <S.Wrapper>
-      <S.InfoWrapper>
-        <S.WhiskyImg src="../../../../../assets/CustomIcons/reviewGlass.svg"></S.WhiskyImg>
+      </S.TitleWrapper>
+      <S.Wrapper>
+        <S.InfoWrapper>
+          <Glass/>
 
-        <S.LineWrapper>
-          <S.InfoWrapper>
-            <S.Score>131</S.Score>
-            <S.ScoreText>점(평균)</S.ScoreText>
-          </S.InfoWrapper>
-          <S.ReviewText>334개의 리뷰</S.ReviewText>
-        </S.LineWrapper>
-      </S.InfoWrapper>
+          <S.LineWrapper>
+            <S.InfoWrapper>
+              <S.Score>131</S.Score>
+              <S.ScoreText>점(평균)</S.ScoreText>
+            </S.InfoWrapper>
+            <S.ReviewText>334개의 리뷰</S.ReviewText>
+          </S.LineWrapper>
+        </S.InfoWrapper>
 
-      <S.ReviewListWrapper>
-        <Review></Review>
-        <Review></Review>
-      </S.ReviewListWrapper>
-    </S.Wrapper>
+        <S.ReviewListWrapper>
+          <Review></Review>
+          <Review></Review>
+        </S.ReviewListWrapper>
+      </S.Wrapper>
     </>
    
   );
