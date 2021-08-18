@@ -64,7 +64,6 @@ const DeleteContainer = styled.div`
 const PreviewContainer = styled.section`
   border-radius: 2px;
   width: 200px;
-  height: 200px;
   position: relative;
   margin-right:12px
 `;

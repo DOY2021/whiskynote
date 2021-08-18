@@ -12,6 +12,8 @@ import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
 import handleColors from './HandleColors';
 import { useHistory } from 'react-router-dom';
+import { useCallback } from 'react';
+import useWhiskyDB from '../../../hook/swr/useWhiskyDB';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
@@ -63,6 +65,8 @@ const initialClickedState = {
 
 function NewWhiskyReview() {
   //TODO: refactoring
+  const { data } = useWhiskyDB();
+
   const [clickedState, dispatch] = useReducer(
     currentClickedReducer,
     initialClickedState,
@@ -90,7 +94,7 @@ function NewWhiskyReview() {
 
   const updateFiles = files => {
     // console.log(files);
-     setFileLength(files.length);
+    setFileLength(files.length);
     setNewFiles([files]);
   };
 
@@ -210,12 +214,17 @@ function NewWhiskyReview() {
     <S.NewWhiskyReviewWrapper>
       <S.NewWhiskyReviewInnerWrapper>
         <form onSubmit={handleSubmitReview}>
+          {data && (
+          <S.BreadCrumb>{data.category} {'>'} {data.name_kor}</S.BreadCrumb>
+          )}
+          <S.BreadCrumb>싱글몰트 위스키 {'>'} 글렌모렌지</S.BreadCrumb>
           <S.Title>리뷰 작성</S.Title>
           <S.ElementWrapper>
             <S.TitleWrapper>
               <HeadLine
                 inputText={'사진을 등록해주세요.'}
-                isMandatory={false} isFirst={true}
+                isMandatory={false}
+                isFirst={true}
               ></HeadLine>
               <S.FileNum>{fileLength}/5</S.FileNum>
             </S.TitleWrapper>
@@ -227,6 +236,9 @@ function NewWhiskyReview() {
               <S.ImageUploadGuideline>
                 * 사진 크기는 200 x 200에 최적화되어 있습니다.
               </S.ImageUploadGuideline>
+              <S.ImageUploadGuideline>
+                * 4MB 이하의 사진을 업로드 해 주세요.
+              </S.ImageUploadGuideline>
             </S.MarginWrapper>
             <ImageUpload
               maxFileNum="5"
@@ -237,7 +249,7 @@ function NewWhiskyReview() {
 
           <HeadLine
             inputText={'위스키는 만족스러우셨나요?'}
-            isMandatory={false} 
+            isMandatory={false}
           ></HeadLine>
           <ProgressBar
             name="nose"
@@ -289,7 +301,7 @@ function NewWhiskyReview() {
             inputText={'위스키에 대해 설명해주세요.'}
             isMandatory={false}
           ></HeadLine>
-          <S.ImageUploadGuideline style={{marginTop: '-12px'}}>
+          <S.ImageUploadGuideline style={{ marginTop: '-12px' }}>
             100자 이상 작성시 150포인트 지급
           </S.ImageUploadGuideline>
           <TextField
@@ -298,7 +310,9 @@ function NewWhiskyReview() {
           ></TextField>
 
           <S.ButtonsWrapper>
-            <S.TempSaveBtn onClick={history.goBack}>뒤로가기</S.TempSaveBtn>
+            <S.TempSaveBtn onClick={history.goBack} type="reset">
+              뒤로가기
+            </S.TempSaveBtn>
             <S.RegisterWhiskyBtn>위스키 등록하기</S.RegisterWhiskyBtn>
           </S.ButtonsWrapper>
         </form>
