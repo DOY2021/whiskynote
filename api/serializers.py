@@ -225,12 +225,6 @@ class ReactionListSerializer(serializers.ModelSerializer):
 class WhiskySerializer(serializers.ModelSerializer):
     reactions = ReactionListSerializer(many = True, read_only = True)
 
-    nose_tags = serializers.SerializerMethodField()
-    def get_nose_tags(self, obj):
-        total_nose_counts = obj.reactions.nose_tag.count()
-        print("what",total_nose_counts)
-        return 1
-
     class Meta:
         model = Whisky
         fields = '__all__'

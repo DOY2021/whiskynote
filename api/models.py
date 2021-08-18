@@ -44,7 +44,7 @@ class Whisky(models.Model):
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
     #tags
-    nose_tags = models.IntegerField(null = True)
+    #nose_tags = models.IntegerField(null = True)
 
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)

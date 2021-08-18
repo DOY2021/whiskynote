@@ -13,7 +13,7 @@ from api.views import confirm_email, CustomLoginView,\
     ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
     WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
     reaction_list_create, reaction_update_delete,\
-    TagListView
+    TagListView, WhiskyTopTagView
 
 from rest_framework import permissions
 
@@ -74,7 +74,7 @@ urlpatterns = [
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
     #whisky_tag
-    #path("whisky/tag/stat/<int:whisky_pk>/", whisky_tag_stat),
+    path("whisky/tag/stat/<int:whisky_pk>/", WhiskyTopTagView, name = 'whisky_top_tag'),
 
     #reaction
     path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),

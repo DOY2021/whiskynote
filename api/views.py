@@ -372,6 +372,23 @@ class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+#WhiskyTag
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def WhiskyTopTagView(request, whisky_pk):
+    if request.method == 'GET':
+        selected = Whisky.objects.filter(whisky = pk)
+        pk = self.kwargs['whisky_pk']
+        print(pk)
+        top_tag = []
+        selected = Whisky.objects.filter(whisky = pk)
+        print("Wow")
+        # for reaction in selected.reactions:
+        #     print(reaction)
+        print(selected)
+        return Whisky.objects.filter(whisky = pk)
+
+
 #ReactionComment
 class ReactionCommentListAPIView(generics.ListAPIView):
     serializer_class = ReactionCommentSerializer
