@@ -86,11 +86,8 @@ function NewWhiskyReview() {
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [fileLength, setFileLength] = useState(0);
-<<<<<<< HEAD
-=======
 
   const history = useHistory();
->>>>>>> da43c56f8a1e27c835aa9c4b7e2918b996de754e
 
   const updateFiles = files => {
     // console.log(files);
@@ -215,7 +212,7 @@ function NewWhiskyReview() {
       <S.NewWhiskyReviewInnerWrapper>
         <form onSubmit={handleSubmitReview}>
           {data && (
-          <S.BreadCrumb>{data.category} {'>'} {data.name_kor}</S.BreadCrumb>
+            <S.BreadCrumb>{data.category} {'>'} {data.name_kor}</S.BreadCrumb>
           )}
           <S.BreadCrumb>싱글몰트 위스키 {'>'} 글렌모렌지</S.BreadCrumb>
           <S.Title>리뷰 작성</S.Title>
