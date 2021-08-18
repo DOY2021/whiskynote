@@ -5,33 +5,36 @@ import Review from '../Review/Review';
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
 import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 
 function ReviewList(props: {
   whisky_ratings?: number;
   rating_counts?: number;
 }) {
-
   const history = useHistory();
 
   const handleReviewClick = () => {
     //TODO: get whisky_pk
     const id = 1;
-    history.push(`/newWhiskyReview/${id}`)
-  }
+    history.push(`/newWhiskyReview/${id}`);
+  };
 
   return (
     <>
       <S.TitleWrapper>
         <S.Title>리뷰</S.Title>
-        <div onClick={handleReviewClick} style={{display:'flex'}}>
-          <PenIcon/>
-          <P>리뷰 쓰기</P>
+        <div
+          onClick={handleReviewClick}
+          style={{ display: 'flex', cursor: 'pointer' }}
+        >
+          <PenIcon src={PenIcon} />
+          <P size={TypoGraphyCategory.subtitle4}>리뷰 쓰기</P>
         </div>
       </S.TitleWrapper>
       <S.Wrapper>
         <S.InfoWrapper>
-          <Glass/>
+          <Glass style={{'marginRight': '26px'}}/>
 
           <S.LineWrapper>
             <S.InfoWrapper>
@@ -48,7 +51,6 @@ function ReviewList(props: {
         </S.ReviewListWrapper>
       </S.Wrapper>
     </>
-   
   );
 }
 
