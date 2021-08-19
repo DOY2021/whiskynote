@@ -44,18 +44,6 @@ class ReactionAdmin(admin.ModelAdmin):
 	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
 admin.site.register(Reaction, ReactionAdmin)
 
-# @admin.register(WhiskyNoseTag)
-# class WhiskyNoseTagAdmin(admin.ModelAdmin):
-#     list_display = ('whisky', 'nose_tag', 'count')
-
-# @admin.register(WhiskyTasteTag)
-# class WhiskyTasteTagAdmin(admin.ModelAdmin):
-#     list_display = ('whisky', 'taste_tag', 'count')
-
-# @admin.register(WhiskyFinTag)
-# class WhiskyFinTagAdmin(admin.ModelAdmin):
-#     list_display = ('whisky', 'fin_tag', 'count')
-
 @admin.register(ReactionComment)
 class ReactionCommentAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "review", "comment_body", "created_at", "modified_at")

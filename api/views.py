@@ -343,7 +343,6 @@ def reaction_update_delete(request, reaction_pk):
             whisky.save()
 
             # Edit Tag Fields in whisky DB
-
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -402,22 +401,30 @@ def WhiskyTopTagView(request, whisky_pk):
                 fin_dict[tag.kor_tag] = fin_dict.get(tag.kor_tag, 0) + 1
                 fin_counts += 1
         if nose_counts > 0 :
-            nose_list = sorted(nose_dict.items(), reverse = True, key = lambda item: item[1])[:3]
-            for i in range(3):
-                top_nose[nose_list[i][0]] = (int(round(((nose_list[i][1]*100)/nose_counts), -1)))
+            nose_list = sorted(nose_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(nose_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_nose[nose_list[i][0]] = (int(round(((nose_list[i][1]*100)/nose_counts), 0)))
         if taste_counts > 0 :
-            taste_list = sorted(taste_dict.items(), reverse = True, key = lambda item: item[1])[:3]
-            for i in range(3):
-                top_taste[taste_list[i][0]] = (int(round(((taste_list[i][1]*100)/taste_counts), -1)))
+            taste_list = sorted(taste_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(taste_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_taste[taste_list[i][0]] = (int(round(((taste_list[i][1]*100)/taste_counts), 0)))
         if fin_counts > 0 :
-            fin_list = sorted(fin_dict.items(), reverse = True, key = lambda item: item[1])[:3]
-            for i in range(3):
-                top_fin[fin_list[i][0]] = (int(round(((fin_list[i][1]*100)/fin_counts), -1)))
-        print(top_nose)
-        print(top_taste)
-        print(top_fin)
+            fin_list = sorted(fin_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(fin_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_fin[fin_list[i][0]] = (int(round(((fin_list[i][1]*100)/fin_counts), 0)))
+
+        top_tags = {'Nose_top3': top_nose, 'Taste_top3':top_taste, 'Finish_top3': top_fin}
         return Response(
-            {'message':'selected'}
+            {'Top tags for whisky': top_tags}
         )
 
 

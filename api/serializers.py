@@ -249,23 +249,6 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('kor_tag',)
 
-
-# # Whisky Tag
-# class WhiskyNoseTagSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = WhiskyNoseTag
-#         fields = "__all__"
-
-# class WhiskyTasteTagSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = WhiskyTasteTag
-#         fields = "__all__"
-
-# class WhiskyFinTagSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = WhiskyFinTag
-#         fields = "__all__"
-
 #ReactionComment
 class ReactionCommentSerializer(serializers.ModelSerializer):
     class Meta:
