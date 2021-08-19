@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development webpack serve --mode development --open --hot --history-api-fallback --config config/webpack.dev.js",
-    "build": "NODE_ENV=production webpack --mode production --config config/webpack.prod.js"
+    "build": "NODE_ENV=production webpack --mode production --config config/webpack.prod.js",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^5.2.7",
+    "cypress": "^8.3.0",
     "eslint": "^7.22.0",
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^5.3.1",
