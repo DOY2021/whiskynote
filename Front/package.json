@@ -43,6 +43,7 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
+    "@cypress/react": "^5.9.4",
     "@svgr/webpack": "^5.5.0",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.3",
