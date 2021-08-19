@@ -34,7 +34,7 @@ from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIV
 from api.views import reaction_list_create, reaction_update_delete
 
 #Tag
-from api.views import TagListView
+from api.views import TagListView, WhiskyTopTagView
 
 #Follow
 from api.views import FollowView, FollowerDetailView, FollowingDetailView
@@ -95,6 +95,9 @@ urlpatterns = [
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
+    #whisky_tag
+    path("whisky/tag/stat/<int:whisky_pk>/", WhiskyTopTagView, name = 'whisky_top_tag'),
+
     #reaction
     path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     path('reaction/<int:reaction_pk>/', reaction_update_delete),
@@ -106,7 +109,3 @@ urlpatterns = [
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
     ]
-
-    #Media setting
-#if settings.DEBUG:
-#    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
