@@ -25,6 +25,7 @@ export interface ButtonProp {
   children?: any;
   className?: any;
   onClick?: (event: React.FormEvent<HTMLButtonElement>) => void;
+  data_cy?: string; // testing
 }
 
 const sizes = {
@@ -235,10 +236,12 @@ function Button({
   border= null,
   color=Palette.White,
   children,
+  data_cy,
 }: ButtonProp) {
   return (
     <>
       <Btn
+        data-cy={data_cy}
         size={size}
         type={type}
         disabled={disabled}

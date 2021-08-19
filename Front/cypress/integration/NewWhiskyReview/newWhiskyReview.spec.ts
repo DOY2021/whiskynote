@@ -1,5 +1,5 @@
 import { mount } from '@cypress/react';
-// import Slider from '../../../src/Feature/Review/Slider/Slider';
+
 const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
   window.HTMLInputElement.prototype,
   'value',
