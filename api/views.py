@@ -295,16 +295,6 @@ def reaction_list_create(request, whisky_pk):
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
-            # Saving Tag Fields in whisky DB
-            nose_tags= request.data.get('nose_tag')
-            taste_tags= request.data.get('taste_tag')
-            finish_tags= request.data.get('finish_tag')
-            for n_tag in nose_tags:
-                print(n_tag)
-            for t_tag in taste_tags:
-                print(t_tag)
-            for f_tag in finish_tags:
-                print(f_tag)
             ### Credit Point 기능 추가.
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
