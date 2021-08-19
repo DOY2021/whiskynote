@@ -1,8 +1,10 @@
 import { FaCheckSquare, FaUserCircle } from 'react-icons/fa';
 import { BiCamera } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
-import { responsiveSize } from '../../../css/Mixin';
-import Palette from '../../../css/Palette';
+import { responsiveSize } from '../../../lib/css/Mixin';
+import Palette from '../../../lib/css/Pallete';
+
+
 
 const SignFormWidth = '432px';
 
@@ -37,12 +39,13 @@ const SignUpProfileCamera = styled(BiCamera)`
 
 const SignUpBio = styled.textarea`
 position: relative;
-${responsiveSize(SignFormWidth, '96px', '10%', '10%')}
+${responsiveSize(SignFormWidth, '180px', '10%', '10%')}
 border: 1px solid ${Palette.Gray400};
 border-radius: 5px;
+background-color: #E7E5DE;
 resize: none;
 &:hover, :focus{
-    border 1px solid ${Palette.YB400}
+    border: 1px solid ${Palette.YB600}
 }
 `;
 
@@ -51,7 +54,7 @@ const SignUpForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  ${responsiveSize(SignFormWidth, '350px', '10%', '10%')}
+  ${responsiveSize(SignFormWidth, '500px', '10%', '10%')}
 `;
 
 const SignUpPolicyContainer = styled.div`
@@ -70,7 +73,7 @@ const SignUpPolicyIcon = styled(FaCheckSquare)<SignUpPolicyIconProp>`
   ${({ isChecked }) => {
     if (isChecked)
       return css`
-        color: ${Palette.YB300};
+        color: ${Palette.YB600};
         border: none;
       `;
   }}

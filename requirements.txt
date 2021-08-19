@@ -1,5 +1,6 @@
 Django
 djangorestframework
+djangorestframework-jwt
 django-rest-auth
 django-rest-swagger
 dj-rest-auth
@@ -13,3 +14,10 @@ six
 requests
 django-rest-friendship
 django-model-utils
+
+django-heroku
+django-cors-headers
+gunicorn 
+psycopg2-binary 
+whitenoise 
+dj-database-url

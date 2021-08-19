@@ -5,20 +5,26 @@ export const GlobalStyle = createGlobalStyle`
     ${reset}
 
     body {
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
-        font-family: 'Noto Sans KR','Roboto', sans-serif;
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+
+        background-color: #EDECE6;
         margin:0;
         padding: 0;
-        min-height: 100%;
+        min-height: 100vh;
+        width: 100%;
     }
     #root {
-        min-height: 100vh;
     }
     html {
-        height: 100%;
     }
     div{
         box-sizing: border-box;
+    }
+
+    button {
+        font-family: inherit;
     }
 
     a {

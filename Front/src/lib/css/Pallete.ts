@@ -1,6 +1,17 @@
 enum Palette {
   White = "#ffffff",
   Black = "#000000",
+  //WhiskyYellow
+  Orange000 = "#FFF8E8",
+  Orange100 = "#FEF2D4",
+  Orange200 = "#FCE1AA",
+  Orange300 = "#FACB80",
+  Orange400 = "#F6B560",
+  Orange500 = "#F29423",
+  Orange600 = "#CE7428",
+  Orange700 = "#AD581E",
+  Orange800 = "#8B3F15",
+  Orange900 = "#732E0E",
   //Gray
   Gray000 = "#f8f9fa",
   Gray100 = "#f1f3f5",
@@ -69,8 +80,17 @@ enum Palette {
   CautionNormal = "#fab005",
   CautionDarken = "#f59f00",
   CautionDarkest = "#e67700",
-  YB600 = "YB600",
-  YB500 = "YB500"
+  YB600 = "#CE7428",
+  YB500 = "YB500",
+
+  곡물 = "#928372",
+  나무 = "#7A973E",
+  꽃 = "#CC739E",
+  과일 = "#856BCE",
+  와인 = "#B14932",
+  유황 = '#D49821',
+  피트 = '#3F334B',
+  후류 = '#6B99CE'
 }
 
 export default Palette;

@@ -3,6 +3,9 @@ import os
 import json
 from django.core.exceptions import ImproperlyConfigured
 
+#JWT Setting
+from datetime import timedelta
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -12,18 +15,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_file = os.path.join(BASE_DIR, 'secret.json')
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
+#secret_file = os.path.join(BASE_DIR, 'secret.json')
+#with open(secret_file) as f:
+#    secrets = json.loads(f.read())
+#
+#def get_secret(setting, secrets=secrets):
+#    try:
+#        return secrets[setting]
+#    except KeyError:
+#        error_msg = "Set the {} environment variable".format(setting)
+#        raise ImproperlyConfigured(error_msg)
+#
+#SECRET_KEY = get_secret("SECRET_KEY")
 
-def get_secret(setting, secrets=secrets):
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-5_^(+n7*k%ts*iv1r^l#_ys-8-o3$7zlhm-id)l+m_80z3yy5g')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,10 +36,7 @@ DEBUG = True
 # Host addresses
 ALLOWED_HOSTS = ['*']
 
-SECRET_KEY = 'django-insecure-5_^(+n7*k%ts*iv1r^l#_ys-8-o3$7zlhm-id)l+m_80z3yy5g'
-
-# Application definition
-
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +60,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     #Apps
     'api.apps.ApiConfig',
-]
+    #Social-login Providers
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver',
+    ]
 
 SITE_ID = 1 
 
@@ -70,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Whisky.urls'
@@ -99,11 +105,34 @@ REST_AUTH_SERIALIZERS = {
 
         }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+}
+
+#JWT settings
+
+REST_USE_JWT = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+## Insert into secret.json before release
 
 DATABASES = {
     'default': {
@@ -115,6 +144,11 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+# Database url
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

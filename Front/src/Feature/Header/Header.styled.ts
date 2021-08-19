@@ -1,38 +1,29 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Palette from '../../css/Palette';
 
-const Nav = styled.div`
-  background-color: white;
-`;
-const NavHeader = styled.div`
-  align-items: center;
-  justify-items: center;
-  display: flex;
-  width: 100%;
-`;
-const NavLeft = styled.div`
-  width: 20%;
-  align-items: center;
-  text-align: center;
+const MenuBtn = styled.button`
+  background-color: transparent;
   cursor: pointer;
-`;
-const NavCenter = styled.div`
+  color: #272624;
+  font-size: 16px;
   display: inline-flex;
   justify-content: center;
-  cursor: pointer;
-  align-items: center;
   text-align: center;
+  margin-right: 10px;
 `;
-
-const NavRight = styled.div`
-  width: 20%;
+const SignUpBtn = styled.div`
+  background-color: transparent;
+  cursor: pointer;
+  color: #201f1e;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
   text-align: center;
+  border: 1px solid #272624;
+  padding: 7px;
 `;
 
 const MenuLink = styled(Link)`
-  font-size: 16px;
-  color: #495057;
   font-family: 'Noto Sans KR', sans-serif;
 
   width: 100px;
@@ -43,12 +34,9 @@ const MenuLink = styled(Link)`
   align-items: center;
   text-align: center;
 
-  &:hover {
-    color: ${Palette.YB600};
-  }
-  &:active {
-    color: ${Palette.YB500};
-  }
+  cursor: pointer;
+  color: #272624;
+  font-size: 16px;
 `;
 
 const SearchInput = styled.input`
@@ -59,13 +47,15 @@ const MenuMargin = styled.div`
   margin-right: 4px;
 `;
 
+const Line = styled.div`
+width:100%;
+border: 1px solid #736C64`
+
 export default {
-  Nav,
-  NavCenter,
-  NavHeader,
-  NavLeft,
-  NavRight,
   MenuLink,
   SearchInput,
-  MenuMargin
-}
+  MenuMargin,
+  MenuBtn,
+  SignUpBtn,
+  Line
+};

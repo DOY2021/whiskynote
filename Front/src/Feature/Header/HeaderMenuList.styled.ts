@@ -1,11 +1,11 @@
 import styled, { css, keyframes }  from 'styled-components';
 import { Link } from 'react-router-dom';
-import Palette from '../../css/Palette';
+import Palette from '../../lib/css/Pallete';
+
 
 type activeProp = {
   isActive: boolean;
 };
-
 
 const trans = keyframes`
   from {
@@ -29,14 +29,15 @@ const slideIn = keyframes`
 const MenuNav = styled.nav<activeProp>`
   position: absolute;
   top: 50px;
-  width: 176px;
-  height: 176px;
+  width: 160px;
+  height: 193px;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.1));
-  border-radius: 8px;
-  background-color: white;
+  background-color: #EDECE6;
   right: 0px;
   visibility: hidden;
+  border: 1px solid #736C64;
   animation: ${slideIn} 0.4s ease, ${trans} 0.4s ease, visibility 0.4s;
+
 
   ${props =>
     props.isActive &&
@@ -47,17 +48,25 @@ const MenuNav = styled.nav<activeProp>`
 
 const MenuFont = styled.div`
   font-size: 16px;
-  color: ${Palette.Gray900};
-  margin-left: 10px;
+  color: #201F1E;
+  margin-top:5px;
 `;
 
+const Line = styled.div`
+  width:100%;
+  height: 1px;
+  background-color: #736C64
+`
+
 const MenuItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  margin:auto;
+  align-items: center;
   padding: 12px;
+  height:48px;
+  
   &:hover {
-    background-color: ${Palette.Gray000};
+    background-color: #E5E5DF;
+    
   }
 `;
 
@@ -88,5 +97,6 @@ export default {
   MenuItem,
   PositionMenuList,
   UserIcon,
-  ProfileImg
+  ProfileImg,
+  Line
 }

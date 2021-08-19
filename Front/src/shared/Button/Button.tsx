@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Palette from '../../css/Palette';
+import Palette from '../../lib/css/Pallete';
+
 
 export type ButtonSize =
   | 'xlarge'
@@ -11,12 +12,14 @@ export type ButtonSize =
   | 'xsmall'
   | 'login'
   | 'fit';
-export type ButtonVariant = 'primary' | 'secondary' | 'grayscale';
+export type ButtonVariant = 'primary' | 'secondary' | 'grayscale' | 'black' | 'white';
 
 export interface ButtonProp {
   size?: ButtonSize;
   disabled?: boolean;
   type?: any; // outline, text;
+  border?: Palette | null
+  color?: Palette
   btnType?: any; //button, submit
   variant?: ButtonVariant;
   children?: any;
@@ -97,6 +100,7 @@ const sizeStyles = css<ButtonProp>`
   `}
 `;
 
+
 const handleColors = (variant, hover, active, disabled) => {
   if (!hover && !active && !disabled) {
     switch (variant) {
@@ -105,7 +109,11 @@ const handleColors = (variant, hover, active, disabled) => {
       case 'secondary':
         return Palette.Violet500;
       case 'grayscale':
-        return Palette.Gray500;
+        return 'unset';
+      case 'black':
+        return Palette.Black;
+      case 'white':
+        return Palette.White;
       default:
         return;
     }
@@ -117,7 +125,11 @@ const handleColors = (variant, hover, active, disabled) => {
       case 'secondary':
         return Palette.Violet600;
       case 'grayscale':
-        return Palette.Gray600;
+        return 'unset';
+      case 'black':
+        return Palette.Black;
+      case 'white':
+        return Palette.White;
       default:
         return;
     }
@@ -125,11 +137,15 @@ const handleColors = (variant, hover, active, disabled) => {
   if (active) {
     switch (variant) {
       case 'primary':
-        return Palette.YB400;
+        return Palette.YB600;
       case 'secondary':
         return Palette.Violet400;
       case 'grayscale':
-        return Palette.Gray400;
+        return 'unset';
+      case 'black':
+        return Palette.Black;
+      case 'white':
+        return Palette.White;
       default:
         return;
     }
@@ -137,11 +153,15 @@ const handleColors = (variant, hover, active, disabled) => {
   if (disabled) {
     switch (variant) {
       case 'primary':
-        return Palette.YB200;
+        return Palette.YB600;
       case 'secondary':
         return Palette.Violet200;
       case 'grayscale':
-        return Palette.Gray200;
+        return 'unset';
+      case 'black':
+        return Palette.Black;
+      case 'white':
+        return Palette.White;
       default:
         return;
     }
@@ -157,31 +177,19 @@ const Btn = styled.button<ButtonProp>`
   align-items: center;
   text-align: center;
 
-  color: ${props =>
-    props.type
-      ? css`
-          ${handleColors(props.variant, null, null, null)}
-        `
-      : css`white`};
+  color: ${({color}) => color};
   background-color: ${props =>
-    props.type
-      ? css`white`
-      : css`
+        css`
           ${handleColors(props.variant, null, null, null)}
         `};
-  border: ${props =>
-    props.type == 'outline'
-      ? css`1px solid ${handleColors(props.variant, null, null, null)}`
-      : css`none`};
+  border: ${({border}) => border &&
+          css`
+            1px solid ${border}
+          `};
   border-radius: 4px;
 
   &:hover {
-    color: ${props =>
-      props.type
-        ? css`
-            ${handleColors(props.variant, true, null, null)}
-          `
-        : css`white`};
+    color: ${({color}) => color};
     background-color: ${props =>
       props.type
         ? css`white`
@@ -199,7 +207,7 @@ const Btn = styled.button<ButtonProp>`
           `};
     border: ${props =>
       props.type == 'outline'
-        ? css`1px solid ${handleColors(props.variant, null, true, null)}`
+        ? css`1px solid ${props.border}`
         : css`none`};
   }
 
@@ -212,7 +220,7 @@ const Btn = styled.button<ButtonProp>`
           `};
     border: ${props =>
       props.type == 'outline'
-        ? css`1px solid ${handleColors(props.variant, null, null, true)}`
+        ? css`1px solid ${props.border}`
         : css`none`};
     cursor: default;
   }
@@ -224,6 +232,8 @@ function Button({
   btnType,
   variant = 'primary',
   disabled = false,
+  border= null,
+  color=Palette.White,
   children,
 }: ButtonProp) {
   return (
@@ -234,6 +244,8 @@ function Button({
         disabled={disabled}
         variant={variant}
         className={disabled && 'button:disabled'}
+        border={border}
+        color={color}
       >
         {children}
       </Btn>

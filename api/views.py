@@ -3,6 +3,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
+from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
@@ -17,6 +18,7 @@ from rest_framework.renderers import JSONRenderer
 
 #Custom Login
 from .serializers import CustomLoginSerializer
+from rest_auth.utils import jwt_encode
 from .models import TokenModel
 from django.views.decorators.debug import sensitive_post_parameters
 from django.utils.decorators import method_decorator
@@ -42,9 +44,14 @@ from django.http import (
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from allauth.account import app_settings, signals
 
-#API
-from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
-from api.serializers import ProfileSerializer, ProfileCreateSerializer, WhiskySerializer, WhiskyCreateSerializer, WhiskyConfirmSerializer, ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+# Whisky DB
+from api.models import Whisky
+from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyUpdateSerializer)
+
+# Reaction
+from api.models import Reaction, Tag, ReactionComment
+from api.serializers import ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
 
@@ -55,11 +62,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 #Follow-Unfollow
+from api.models import Follow
 from api.serializers import FollowSerializer, FollowerSerializer, FollowingSerializer
-
-#Get UserModel
-from django.contrib.auth.models import User
-UserModel = get_user_model()
 
 #SearchAPI
 from rest_framework import filters
@@ -67,15 +71,34 @@ from rest_framework import filters
 #Whisky Confirm
 from rest_framework.permissions import IsAdminUser
 
+#Pagination
+from api.pagination import PageSize5Pagination
+
+#Profile
+from api.models import Profile
+from api.serializers import ProfileSerializer, ProfileCreateSerializer
+
+#Profile - Collection & Wishlist
+from api.models import Wishlist, Collection
+from api.serializers import WishlistSerializer, WishlistViewSerializer, CollectionSerializer, CollectionViewSerializer
+
+#Get UserModel
+from django.contrib.auth.models import User
+UserModel = get_user_model()
+
+#SocialLogin
+import requests
+import jwt
+from Whisky.settings import SECRET_KEY
+from django.views import View
+from allauth.socialaccount.models import SocialAccount, SocialApp
+
+#Login-parameters
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
         'password', 'old_password', 'new_password1', 'new_password2'
     )
 )
-
-#Profile - Collection & Wishlist
-from api.models import Wishlist, Collection
-from api.serializers import WishlistSerializer, CollectionSerializer
 
 #Custom Login
 class CustomLoginView(GenericAPIView):
@@ -212,6 +235,13 @@ class ProfileCreateAPIView(generics.CreateAPIView):
         file_obj = serializer.validated_data['profile_photo']
         serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
 
+class NicknameDuplicateAPIView(APIView):
+    def get(self, request, nickname, format = None):
+        if Profile.objects.filter(nickname = nickname).exists():
+            return Response({'message': 'Already exists'})
+        else:
+            return Response({'message': 'Available nickname'})
+
 class ProfileViewSet(generics.ListAPIView):
     #url: profile/all
     serializer_class = ProfileSerializer
@@ -227,6 +257,17 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
         file_obj = request.data['profile_photo']
         return self.update(request, *args, **kwargs)
 
+#Whisky Mainpage
+class WhiskyMainListAPIView(generics.ListAPIView):
+    queryset = Whisky.objects.filter(confirmed = True)
+    #Add order_by
+    serializer_class = WhiskySerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name_eng', 'name_kor', 'distillery']
+    ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
+    #Pagination
+    pagination_class = PageSize5Pagination
+
 
 #Whisky DB
 class WhiskyListAPIView(generics.ListAPIView):
@@ -234,34 +275,40 @@ class WhiskyListAPIView(generics.ListAPIView):
     serializer_class = WhiskySerializer
     #Search Function Added - API extraction possible (with queryset, serializer_class)
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'brand']
+    search_fields = ['name_eng', 'name_kor','distillery']
     ordering_fields = ['rating_counts', 'updated_at']
 
-class WhiskyDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class WhiskyDetailAPIView(generics.RetrieveAPIView):
     queryset = Whisky.objects.all()
     serializer_class = WhiskySerializer
 
-
-#Whisky Create (Open-type DB function)
-#Admin authorization function should be added
+#Whisky Create (Open-type DB function #1)
 class WhiskyCreateAPIView(generics.CreateAPIView):
         model = Whisky
         serializer_class = WhiskyCreateSerializer
+        permission_classes = [permissions.IsAuthenticated]
 
         def post(self, request, *args, **kwargs):
             return self.create(request, *args, **kwargs)
 
+#Whisky Update (Open-type DB function #2)
+class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Whisky.objects.all()
+    serializer_class = WhiskyUpdateSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskySerializer
-        permission_class = (IsAdminUser)
+        serializer_class = WhiskyConfirmListSerializer
+        permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
         queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskySerializer
-        permission_class = (IsAdminUser)
+        serializer_class = WhiskyConfirmSerializer
+        permission_classes = [IsAdminUser]
 
 
 #Reaction
@@ -451,14 +498,17 @@ class FollowView(GenericAPIView):
                         {"detail": ("Already Following User")}
                         )
             #Exc) 자기자신을 follow 할 수 없음
-            elif request.data['follower'] == request.data['following']: 
+            elif request.data['follower'] == request.data['following']:
                 return Response(
                         {"detail": ("Can't follow yourself")}
                         )
             else:
-                serializer = self.get_serializer(data=request.data)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
+                follower_new = Profile.objects.get(id = request.data['follower'])
+                following_new = Profile.objects.get(id = request.data['following'])
+                Follow.objects.create(follower = follower_new, following = following_new)
+                #serializer = self.get_serializer(data=request.data)
+                #serializer.is_valid(raise_exception=True)
+                #serializer.save()
                 return Response(
                         {"detail": ("Successfully Followed")}
                         )
@@ -469,24 +519,23 @@ class FollowView(GenericAPIView):
 
 class FollowingDetailView(generics.ListAPIView):
     serializer_class = FollowingSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs["pk"]
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(follower_id = pk)
 
 class FollowerDetailView(generics.ListAPIView):
     serializer_class = FollowerSerializer
-    queryset = Follow.objects.all()
 
-    def get_object(self):
-        pk = self.kwargs['pk']
+    def get_queryset(self):
+        queryset = Follow.objects.all()
+        pk = self.kwargs['profile_pk']
         return Follow.objects.filter(following_id = pk)
-
 
 #Profile - Collection & Wishlist
 class CollectionAPIView(generics.ListAPIView):
-    serializer_class = CollectionSerializer
+    serializer_class = CollectionViewSerializer
     queryset = Collection.objects.all()
 
     def get_object(self):
@@ -518,10 +567,10 @@ class CollectionCreateAPIView(generics.CreateAPIView):
                     )
 
 class WishlistAPIView(generics.ListAPIView):
-    serializer_class = WishlistSerializer
+    serializer_class = WishlistViewSerializer
     queryset = Wishlist.objects.all()
 
-    def get_object(self, queryset = None):
+    def get_object(self):
         pk = self.kwargs['pk']
         return Wishlist.objects.filter(user = pk)
 
@@ -548,3 +597,50 @@ class WishlistCreateAPIView(generics.CreateAPIView):
                     {"detail": ("Successfully added in your Collection (+1 Credit Point!)")},
                     status=status.HTTP_200_OK,
             )
+
+#Social Login - Naver
+
+class NaverLoginView(View):
+    def get(self, request):
+        access_token = request.headers["Authorization"]
+        headers = ({'Authorization' : f"Bearer {access_token}"})
+        #Authorization(프론트에서 받은 토큰)을 이용해서 회원정보를 확인하는 API 주소
+        url = "https://openapi.naver.com/v1/nid/me"
+        #API를 요청하여 회원 정보를 response에 저장
+        response = requests.request("POST", url, headers=headers)
+        #유저 정보를 json화하여 변수에 저장
+        user = response.json()
+
+        if SocialAccount.objects.filter(uid = user['response']['id']).exists():
+            user_info = SocialAccount.objects.get(uid = user['response']['id'])
+            #jwt token 발행
+            encoded_jwt = jwt.encode({'id':user_info.id}, SECRET_KEY, algorithm = 'HS256')
+            #jwt토큰, user_pk을 프론트엔드에 전달
+            return JsonResponse({
+                'access_token' : encoded_jwt.decode('UTF-8'),
+                'user_id': user_info.id,
+                }, status = 200)
+
+        else:
+            if User.objects.filter(username = user['response']['email']).exists():
+                return Response(
+                        {"detail": ("이미 가입된 이메일 계정입니다")},
+                        status = status.HTTP_400_BAD_REQUEST
+                        )
+            else:
+                new_user = User.objects.create_user(username = user['response']['email'], password = None, email = user['response']['email'], is_active = True)
+                new_user.save()
+
+                new_user_info = SocialAccount(
+                        user_id = new_user.id,
+                        uid = user['response']['id'],
+                        provider = SocialApp.objects.get(provider = 'naver')
+                        )
+                new_user_info.save()
+
+                encoded_jwt = jwt.encode({'id': new_user_info.id}, SECRET_KEY, algorithm = 'HS256')
+                none_member_type = 1
+                return JsonResponse({
+                    'access_token': encoded_jwt.decode('UTF-8'),
+                    'user_id': new_user_info.id,
+                    }, status = 200)

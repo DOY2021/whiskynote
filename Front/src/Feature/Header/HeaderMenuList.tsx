@@ -3,10 +3,11 @@ import { FaCog, FaRegBell, FaRegUser, FaSignOutAlt } from 'react-icons/fa';
 import { Link, useHistory } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { authAPI } from '../../api/auth';
-import Palette from '../../css/Palette';
+
 import { useCookies } from 'react-cookie';
 import { useUserState } from '../../hook/useUserContext';
 import S from './HeaderMenuList.styled';
+import Palette from '../../lib/css/Pallete';
 
 const userIconStyle = {
   color: Palette.Gray500,
@@ -14,7 +15,7 @@ const userIconStyle = {
   marginTop: '5',
 };
 
-const IconStyle = { fontSize: '20px', color: `${Palette.YB400}` };
+const IconStyle = { fontSize: '20px', color: `${Palette.YB600}` };
 
 function HeaderMenuList(props) {
   const user = useUserState();
@@ -55,33 +56,31 @@ function HeaderMenuList(props) {
     <S.PositionMenuList>
       {user?.profile_photo ? <S.ProfileImg src={user.profile_photo} onClick={onDropdownClick}>
       </S.ProfileImg> :
-      <S.UserIcon>
-        <FaRegUser size={25} style={userIconStyle} onClick={onDropdownClick} />
-      </S.UserIcon>
-       }
+        <S.UserIcon>
+          <FaRegUser size={25} style={userIconStyle} onClick={onDropdownClick} />
+        </S.UserIcon>
+      }
       
       {isActive && (
         <S.MenuNav ref={dropdownRef} isActive={isActive}>
           <Link to="/my-page">
             <S.MenuItem>
-              <FaRegUser style={IconStyle}></FaRegUser>
-              <S.MenuFont>마이페이지</S.MenuFont>
+              <S.MenuFont>나의 리뷰</S.MenuFont>
             </S.MenuItem>
           </Link>
-          <Link to="/alerts">
+          <Link to="/collection">
+            
             <S.MenuItem>
-              <FaRegBell style={IconStyle}></FaRegBell>
-              <S.MenuFont>알림</S.MenuFont>
+              <S.MenuFont>위스키 콜렉션</S.MenuFont>
             </S.MenuItem>
           </Link>
-          <Link to="/settings">
+          <Link to="/wishlist">
             <S.MenuItem>
-              <FaCog style={IconStyle}></FaCog>
-              <S.MenuFont>설정</S.MenuFont>
+              <S.MenuFont>위시리스트</S.MenuFont>
             </S.MenuItem>
           </Link>
+          <S.Line></S.Line>
           <S.MenuItem onClick={onLogOut}>
-            <FaSignOutAlt style={IconStyle}></FaSignOutAlt>
             <S.MenuFont>로그아웃</S.MenuFont>
           </S.MenuItem>
         </S.MenuNav>

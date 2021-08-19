@@ -9,19 +9,32 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from rest_auth.registration.views import VerifyEmailView
-from api.views import confirm_email, CustomLoginView,\
-    ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView,\
-    WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyConfirmListAPIView, WhiskyConfirmAPIView,\
-    reaction_list_create, reaction_update_delete,\
-    TagListView, WhiskyTopTagView
 
 from rest_framework import permissions
 
-#CustomUrls-RestAuth_related
-from rest_auth.views import (
-    LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView,
-    )
+#Login
+from api.views import confirm_email, CustomLoginView
+#Customized RestAuth
+from rest_auth.views import LogoutView, UserDetailsView, PasswordChangeView, PasswordResetView
+#Customized Login
 from api.views import PasswordResetConfirmView
+
+#Social Login
+from api.views import NaverLoginView
+
+#Profile
+from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
+from api.views import NicknameDuplicateAPIView
+
+#Whisky DB
+from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyUpdateAPIView,  WhiskyConfirmListAPIView, WhiskyConfirmAPIView
+#import WhiskyCreateViewSet
+
+#Reaction
+from api.views import reaction_list_create, reaction_update_delete
+
+#Tag
+from api.views import TagListView, WhiskyTopTagView
 
 #Follow
 from api.views import FollowView, FollowerDetailView, FollowingDetailView
@@ -43,6 +56,9 @@ urlpatterns = [
     #customlogin
     path('login/', CustomLoginView.as_view(), name='rest_login'),
 
+    #social-login
+    path('login/naver/', NaverLoginView.as_view(), name = 'naver_login'),
+
     #registration
     path('register/', include('rest_auth.registration.urls')),
 
@@ -53,12 +69,15 @@ urlpatterns = [
     #profile
     path("profile/all/", ProfileViewSet.as_view(), name = 'profile_all'),
     path("profile/create/", ProfileCreateAPIView.as_view(), name = 'profile_create'),
-    path("profile/<int:pk>/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+    path("<int:pk>/profile/", ProfileDetailAPIView.as_view(), name = 'profile_detail'),
+
+    #nickname-duplicate_check
+    path("nickname-duplicate/<nickname>/", NicknameDuplicateAPIView.as_view(), name = 'nickname-duplicate_check'),
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
-    path("following/<int:pk>", FollowingDetailView.as_view(), name = "followers"),
-    path("follower/<int:pk>", FollowerDetailView.as_view(), name = "following"),
+    path("<int:profile_pk>/following/", FollowingDetailView.as_view(), name = "followers"),
+    path("<int:profile_pk>/follower/", FollowerDetailView.as_view(), name = "following"),
 
     #Collection & Wishlist
     path("<int:pk>/collection", CollectionAPIView.as_view(), name = "collection"),
@@ -67,9 +86,12 @@ urlpatterns = [
     path("wishlist/create/", WishlistCreateAPIView.as_view(), name = "wishlist_new"),
 
     #whisky
-    path("whisky/", WhiskyListAPIView.as_view(), name = 'whisky'),
-    path("whisky/<int:pk>", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
-    path("whisky/new/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    path("whisky/main/", WhiskyMainListAPIView.as_view(), name = 'whisky_main'),
+    path("whisky/<int:pk>/", WhiskyDetailAPIView.as_view(), name = 'whisky_detail'),
+    path("whisky/<int:pk>/update/", WhiskyUpdateAPIView.as_view(), name = 'whisky_update'),
+    path("whisky/create/", WhiskyCreateAPIView.as_view(), name = 'whisky_new'),
+    #path("whisky/create/", WhiskyCreateViewSet.as_view({'post':'create'}), name = 'whisky_create'),
+    #new method using ViewSet (TBD)
     path("whisky/confirm/", WhiskyConfirmListAPIView.as_view(), name = 'whisky_confirm_list'),
     path("whisky/confirm/<int:pk>", WhiskyConfirmAPIView.as_view(), name = 'whisky_confirm'),
 
@@ -87,7 +109,3 @@ urlpatterns = [
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
     ]
-
-    #Media setting
-#if settings.DEBUG:
-#    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
