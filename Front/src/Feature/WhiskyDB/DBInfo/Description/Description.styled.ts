@@ -4,26 +4,36 @@ const DescriptionWrapper = styled.div`
   margin-left: 30px;
 `;
 
+const RatingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  
+  & p {
+    margin-right: 4px;
+  }
+`;
+
 const DescriptionItemWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
-    width: 400px;
+    width: 100%;
 `;
 const DescriptionLinkWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
-    width: 200px;
 `;
 
 const DescriptionItemTitle = styled.div`
     display:flex;
+    width: 180px;
 
-    width: 200px;
+    p + p {
+      margin-left: 7px;
+    }
 `;
 
 export default {
   DescriptionWrapper,
   DescriptionItemWrapper,
+  RatingWrapper,
   DescriptionItemTitle,
   DescriptionLinkWrapper
 }

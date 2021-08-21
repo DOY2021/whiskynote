@@ -15,9 +15,9 @@ function DB() {
           <S.DBWrapper>
             <WhiteSpace height='40'/>
             <DBInfo />
-            <WhiteSpace height='40'/>
+            <WhiteSpace height='70'/>
             <WhiskyNote />
-            <WhiteSpace height='40'/>
+            <WhiteSpace height='70'/>
             <Descript />
           </S.DBWrapper>
           <S.Line></S.Line>

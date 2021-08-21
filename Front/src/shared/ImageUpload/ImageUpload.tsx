@@ -1,12 +1,7 @@
 import React, { useRef, useState } from 'react';
 import ImagePreviewModal from '../ImagePreviewModal/ImagePreviewModal';
 import ImagePreview from './ImagePreview';
-<<<<<<< HEAD
-import Camera from '../../../assets/CustomIcons/camera.svg'
-const MAX_FILE_SIZE = 1000000; //bytes
-=======
 const MAX_FILE_SIZE = 4000000; //bytes
->>>>>>> 66216ffdcc9df3e03442d937a74de75952c0665a
 import S from './ImageUpload.styled';
 import Camera from '../../../assets/CustomIcons/camera.svg';
 

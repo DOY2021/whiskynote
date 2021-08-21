@@ -36,8 +36,8 @@ function NoteItem({
       <S.NoteItemContentWrapper isFirst = {isFirst} category = {TagService.getTagCategory(tag[TAG_NAME])} key={tag[TAG_NAME]}>
         <Chocolate/>
         <S.NoteItemContentText isFirst={isFirst}>
-          <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_NAME]}</P>
-          <P color={isFirst ? Palette.White : Palette.Gray700}>{tag[TAG_PERCENTAGE]}</P>
+          <P color={isFirst ? Palette.White : Palette.WhiskyGray}>{tag[TAG_NAME]}</P>
+          <P color={isFirst ? Palette.White : Palette.WhiskyGray}>{tag[TAG_PERCENTAGE]}</P>
         </S.NoteItemContentText>
       </S.NoteItemContentWrapper>
     )
@@ -45,7 +45,7 @@ function NoteItem({
   
   return (
     <S.NoteItemWrapper>
-      <P size={TypoGraphyCategory.subtitle}>{name}</P>
+      <P size={TypoGraphyCategory.subtitle2}>{name}</P>
       <WhiteSpace height='10'/>
       {itemArr.map(renderItemContent)}
     </S.NoteItemWrapper>
