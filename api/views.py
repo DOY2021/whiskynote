@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
@@ -333,6 +334,7 @@ def reaction_list_create(request, whisky_pk):
             new_nose_rating = request.data.get('nose_rating')
             new_taste_rating = request.data.get('taste_rating')
             new_finish_rating = request.data.get('finish_rating')
+            ### Exception?. if rating : None -> exception, message: Needs ratings
             new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
             new_total_rating = cur_rating + new_average_rating
             cur_counts = cur_counts+1
@@ -340,12 +342,12 @@ def reaction_list_create(request, whisky_pk):
             whisky.rating_counts = cur_counts
             whisky.whisky_ratings = new_rating
             whisky.save()
-
-            #nose_tag = request.data.get('nose_tag')
-            #serializer.nose_tag = nose_tag
+            ### Credit Point 기능 추가.
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+        # created_time, modified_time
+        # image 추가
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -377,6 +379,7 @@ def reaction_update_delete(request, reaction_pk):
             whisky.whisky_ratings = new_rating
             whisky.save()
 
+            # Edit Tag Fields in whisky DB
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -400,10 +403,67 @@ def reaction_update_delete(request, reaction_pk):
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
 
+
 #Tag
 class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+#WhiskyTag
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def WhiskyTopTagView(request, whisky_pk):
+    if request.method == 'GET':
+        whisky = get_object_or_404(Whisky, pk =whisky_pk)
+        selected = Reaction.objects.filter(whisky = whisky)
+        nose_dict = dict()
+        taste_dict = dict()
+        fin_dict = dict()
+
+        top_nose = dict()
+        top_taste = dict()
+        top_fin = dict()
+
+        nose_counts = 0
+        taste_counts = 0
+        fin_counts = 0
+        for reaction in selected:
+            for tag in reaction.nose_tag.all():
+                nose_dict[tag.kor_tag] = nose_dict.get(tag.kor_tag, 0) + 1
+                nose_counts += 1
+            for tag in reaction.taste_tag.all():
+                taste_dict[tag.kor_tag] = taste_dict.get(tag.kor_tag, 0) + 1
+                taste_counts += 1
+            for tag in reaction.finish_tag.all():
+                fin_dict[tag.kor_tag] = fin_dict.get(tag.kor_tag, 0) + 1
+                fin_counts += 1
+        if nose_counts > 0 :
+            nose_list = sorted(nose_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(nose_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_nose[nose_list[i][0]] = (int(round(((nose_list[i][1]*100)/nose_counts), 0)))
+        if taste_counts > 0 :
+            taste_list = sorted(taste_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(taste_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_taste[taste_list[i][0]] = (int(round(((taste_list[i][1]*100)/taste_counts), 0)))
+        if fin_counts > 0 :
+            fin_list = sorted(fin_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(fin_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_fin[fin_list[i][0]] = (int(round(((fin_list[i][1]*100)/fin_counts), 0)))
+
+        top_tags = {'Nose_top3': top_nose, 'Taste_top3':top_taste, 'Finish_top3': top_fin}
+        return Response(
+            {'Top tags for whisky': top_tags}
+        )
+
 
 #ReactionComment
 class ReactionCommentListAPIView(generics.ListAPIView):

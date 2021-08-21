@@ -46,11 +46,14 @@ class Whisky(models.Model):
     age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
     casknumber = models.IntegerField(default = 0, blank = True)
-    alcohol = models.IntegerField(null = True)
+    alcohol = models.FloatField(null = True)
     whisky_detail = models.TextField(null = True, blank = True)
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
+    #tags
+    #nose_tags = models.IntegerField(null = True)
+
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -75,7 +78,7 @@ class Tag(models.Model):
 
 class Reaction(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, related_name = 'reactions', related_query_name = 'reactions')
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
     #rating
