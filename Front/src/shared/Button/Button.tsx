@@ -30,10 +30,10 @@ export interface ButtonProp {
 
 const sizes = {
   xlarge: {
-    height: '48px',
+    height: '44px',
     fontSize: '16px',
-    paddingLeft: '24px',
-    paddingRight: '24px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
     paddingTop: '12px',
     paddingBottom: '12px',
   },
@@ -87,6 +87,7 @@ const sizes = {
     paddingTop: '4px',
     paddingBottom: '4px',
   },
+  
 };
 
 const sizeStyles = css<ButtonProp>`

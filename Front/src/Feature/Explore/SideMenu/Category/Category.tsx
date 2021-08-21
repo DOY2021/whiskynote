@@ -24,14 +24,14 @@ function Category() {
     const isSelected = item[0] === category
     return (
       <S.CategoryItemWrapper key={item[0]} onClick={() => handleClick(item[0])}>
-        <P bold={isSelected} size={TypoGraphyCategory.body2} color={isSelected ? Palette.Black : Palette.Gray600}>{item[1]}</P>
+        <P bold={isSelected} size={TypoGraphyCategory.body2} color={isSelected ? Palette.SemiBlack : Palette.WhiskyGray}>{item[1]}</P>
       </S.CategoryItemWrapper>
     )
   },[category])
 
   return (
     <>
-      <P size={TypoGraphyCategory.subtitle}>카테고리</P>
+      <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle2}>카테고리</P>
       <S.CategoryWrapper>
         {CATEGORY_SET.map(renderItems)}
       </S.CategoryWrapper>

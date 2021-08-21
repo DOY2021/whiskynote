@@ -43,20 +43,22 @@ function InfoCard({
     <Styled.InfoCardWrapper onClick={handleClick}>
       <Styled.InfoCardImg src={info.whisky_image[0].image}/>
       <Styled.InfoCardDescWrapper>
-        <P size={TypoGraphyCategory.subtitle} bold>{info.name_kor}</P>
-        <WhiteSpace height='10'/>
-        <P size={TypoGraphyCategory.body2} color={Palette.Gray700} bold>{info.name_eng}</P>
+        <P size={TypoGraphyCategory.subtitle2} bold>{info.name_kor}</P>
+        <WhiteSpace height='4'/>
+        <P size={TypoGraphyCategory.body2} color={Palette.WhiskyGray} bold>{info.name_eng}</P>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDescTagWrapper>
           {tags.map(renderTag)}
         </Styled.InfoCardDescTagWrapper>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDetailWrapper>
-          <P size={TypoGraphyCategory.body2} color={Palette.Gray700} >{info.whisky_detail}</P>
+          <P size={TypoGraphyCategory.body2} color={Palette.WhiskyGray} >{info.whisky_detail}</P>
         </Styled.InfoCardDetailWrapper>
-        <WhiteSpace height='40'/>
+        <WhiteSpace height='60'/>
+        <div style={{display: 'flex', alignItems: 'center'}}>
         <P isInline size={TypoGraphyCategory.subtitle}>* {info.whisky_ratings}</P>
-        <P isInline color={Palette.Gray700}>점 ({info.rating_counts})</P>
+        <P isInline color={Palette.WhiskyGray}>점 ({info.rating_counts})</P>
+        </div>
       </Styled.InfoCardDescWrapper>
     </Styled.InfoCardWrapper>
   )
