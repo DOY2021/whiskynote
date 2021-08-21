@@ -1,4 +1,5 @@
 import React from 'react'
+import { useMemo } from 'react'
 import { useCallback } from 'react'
 import P from '../../../../shared/P/P'
 import Styled from './RegisterInput.styled'
@@ -21,7 +22,7 @@ function RegisterInput({
         onChange(value)
     },[])
 
-    return (
+    return useMemo(() =>(
         <Styled.RegisterInputWrapper>
             <Styled.RegisterInput 
                 placeholder={placeholder}
@@ -32,7 +33,7 @@ function RegisterInput({
                 <P>%</P>
             </Styled.RegisterInputUnit>}
         </Styled.RegisterInputWrapper>
-    )
+    ),[value,handleInputChange,placeholder])
 }
 
 export default React.memo(RegisterInput)

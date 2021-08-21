@@ -26,6 +26,39 @@ const MarginWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
+
+const RegisterDropDownWrapper = styled.div`
+    position: relative;
+    width: 100%;
+    height: 56px;
+    padding: 16px 15px;
+    background-color: #E7E5DE;
+`;
+
+const RegisterDropDownIcon = styled.div`
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+`;
+
+const DropdownItemWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #EDECE6;
+    cursor: pointer;
+    
+    p + p {
+        margin-left: 8px;
+    }
+
+    :hover {
+        background-color: #E7E5DE;
+      }
+`;
+
+
 const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -62,6 +95,27 @@ const RegisterInputLabel = styled.div`
   margin-top: 12px;
 `;
 
+const RegisterWhiskySearchWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  
+`;
+
+const SearchDropdownItemWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #EDECE6;
+    cursor: pointer;
+    
+    p + p {
+        margin-left: 8px;
+    }
+
+    :hover {
+        background-color: #E7E5DE;
+      }
+`;
 
 export default {
   RegisterWhiskyInnerWrapper,
@@ -74,5 +128,10 @@ export default {
   MarginWrapper,
   ButtonsWrapper,
   RegisterInputLabel,
+  RegisterWhiskySearchWrapper,
+  SearchDropdownItemWrapper,
+  RegisterDropDownIcon,
+    RegisterDropDownWrapper,
+    DropdownItemWrapper,
 
 }

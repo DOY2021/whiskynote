@@ -17,6 +17,7 @@ import SocialLogin from '../Feature/SignIn/SocialLogin';
 import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 import NotFoundPage from './NotFoundPage';
+import WhiteSpace from '../shared/WhiteSpace/WhiteSpace';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -77,6 +78,8 @@ function App() {
         <Route component={NotFoundPage} />
         {/* <Redirect to="/"/> */}
       </Switch>
+      {/* //TODO Footer */}
+      <WhiteSpace height='300'/>
     </>
   );
 }

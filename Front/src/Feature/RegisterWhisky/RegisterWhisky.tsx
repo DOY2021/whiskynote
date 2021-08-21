@@ -20,14 +20,19 @@ import { useCallback } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import RegisterInput from './Components/RegisterInput/RegisterInput'
 import styled from 'styled-components'
-import RegisterDropDown from './Components/RegisterDropDown/RegisterDropDown'
-import { WhiskyCategory } from './constants'
+import RegisterDropDown, { WhiskyCategoryProps } from './Components/RegisterDropDown/RegisterDropDown'
+import { CountryCategory, WhiskyCategory } from './constants'
+import DropDown from '../../shared/DropDown/DropDown'
+import useDebounce from '../../hook/useDebounce'
 
 function RegisterWhisky() {
   const history = useHistory();
 
+  
+
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
+  const [country, setCountry] = useState('');
   const [category, setCategory] = useState('싱글 몰트 위스키');
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
@@ -42,6 +47,8 @@ function RegisterWhisky() {
   const [bottleNumber, setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const debouncedCountry = useDebounce(country, 500);
+
   const [isDistillery, setDistilleryCheck] = useState(false);
 
   const [singcaskCheck, setSingleCaskCheck] = useState(false);
@@ -54,6 +61,10 @@ function RegisterWhisky() {
   const handleImages = (images) => {
     setImages(images);
   }
+
+  const handleDistillery = useCallback((value:string) => {
+    setDistillery(value);
+  },[])
 
   const handleSingleCaskCheck = useCallback(() => {
     setSingleCaskCheck(check => !check);
@@ -76,6 +87,13 @@ function RegisterWhisky() {
     }
     setDistilleryCheck(check => !check);
   },[isDistillery])
+
+  const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
+    <S.DropdownItemWrapper key={item.eng_name} onClick={() => setCountry(item.kor_name)}>
+        <P size={TypoGraphyCategory.body2}>{item.kor_name}</P>
+        <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}>{item.eng_name}</P>
+    </S.DropdownItemWrapper>
+),[])
 
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -178,16 +196,21 @@ function RegisterWhisky() {
                           onClick={(v: string) =>setCategory(v)}
                           valueList={WhiskyCategory}
             />
-
             <S.RegisterInputLabel>
               <P size={TypoGraphyCategory.body2}> 생산국가, 지역</P>
               <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> {'Country&Region'}</P>
             </S.RegisterInputLabel>
+            <S.RegisterWhiskySearchWrapper>
             <RegisterInput 
-               onChange={setBottler}
-               value={bottler}
+               onChange={setCountry}
+               value={country}
                placeholder='생산 국가, 지역명을 입력해주세요.'
             />
+            {  debouncedCountry &&
+              <DropDown >
+              {CountryCategory.filter(country => country.kor_name.match(debouncedCountry)).map(renderDropdownItem)}
+            </DropDown>}
+            </S.RegisterWhiskySearchWrapper>
             <S.RegisterInputLabel>
               <P size={TypoGraphyCategory.body2}> 증류소</P>
               <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Distillery</P>

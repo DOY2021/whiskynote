@@ -50,3 +50,62 @@ export const WhiskyCategory : Array<WhiskyCategoryProps> = [
         kor_name: '알 수 없음',
     },
 ]
+
+export const CountryCategory : Array<WhiskyCategoryProps> = [
+    {
+        eng_name: 'Scotland-Speyside',
+        kor_name: '스코틀랜드 스페이사이드',
+    },
+    {
+        eng_name: 'Scotland-Islay',
+        kor_name: '스코틀랜드 아일라',
+    },
+    {
+        eng_name: 'Scotland-Highland',
+        kor_name: '스코틀랜드 하이랜드',
+    },
+    {
+        eng_name: 'Scotland-skye',
+        kor_name: '스코틀랜드 스카이',
+    },
+    {
+        eng_name: 'Scotland-Orkney',
+        kor_name: '스코틀랜드 오크니',
+    },
+    {
+        eng_name: 'Scotland-Arran',
+        kor_name: '스코틀랜드 아란',
+    },
+    {
+        eng_name: 'Scotland-Campbeltown',
+        kor_name: '스코틀랜드 캠벨타운',
+    },
+    {
+        eng_name: 'Scotland-Jura',
+        kor_name: '스코틀랜드 주라',
+    },
+    {
+        eng_name: 'Scotland-Mull',
+        kor_name: '스코틀랜드 멀',
+    },
+    {
+        eng_name: 'Scotch',
+        kor_name: '스코틀랜드',
+    },
+    {
+        eng_name: 'Irish',
+        kor_name: '아일랜드',
+    },
+    {
+        eng_name: 'Canada',
+        kor_name: '캐나다',
+    },
+    {
+        eng_name: 'American',
+        kor_name: '미국',
+    },
+    {
+        eng_name: 'Korean',
+        kor_name: '한국',
+    }
+]

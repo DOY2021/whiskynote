@@ -19,6 +19,8 @@ interface RegisterDropDownProps {
     valueList: Array<WhiskyCategoryProps>;
 }
 
+
+
 function RegisterDropDown({
     selectedValue,
     onClick,
@@ -30,7 +32,7 @@ function RegisterDropDown({
         setOpen(open => !open);
     }
 
-    const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
+     const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
         <Styled.DropdownItemWrapper key={item.eng_name} onClick={() => onClick(item.kor_name)}>
             <P size={TypoGraphyCategory.body2}>{item.kor_name}</P>
             <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}>{item.eng_name}</P>
