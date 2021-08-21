@@ -18,6 +18,7 @@ interface SignInputProp extends BaseInputProp {
   placeholder?: string;
   type?: string;
   maxLength?: number;
+  data_cy?:string;
 }
 
 function SignInput({
@@ -29,11 +30,13 @@ function SignInput({
   signType,
   placeholder,
   type = 'text',
+  data_cy,
   ...rest
 }: SignInputProp) {
   return (
     <StyledSignInputWrapper>
       <StyledSignInput
+        data-cy={data_cy}
         type={type}
         width="432px"
         height="56px"

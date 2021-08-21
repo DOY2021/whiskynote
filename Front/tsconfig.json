@@ -8,5 +8,8 @@
     "module": "commonjs",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src", "./types/custom.d.ts"]
+  "include": ["./src", "./types/custom.d.ts"],
+  "types": [ 
+    "cypress"
+  ]
 }

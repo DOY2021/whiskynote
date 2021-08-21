@@ -5,8 +5,8 @@ import Review from '../Review/Review';
 import PenIcon from '../../../../../assets/CustomIcons/pen.svg';
 import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
-import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
+import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 
 function ReviewList(props: {
   whisky_ratings?: number;
@@ -24,9 +24,12 @@ function ReviewList(props: {
     <>
       <S.TitleWrapper>
         <S.Title>리뷰</S.Title>
-        <div onClick={handleReviewClick} style={{display:'flex'}}>
-          <PenIcon/>
-          <P>리뷰 쓰기</P>
+        <div
+          onClick={handleReviewClick}
+          style={{ display: 'flex', cursor: 'pointer' }}
+        >
+          <PenIcon src={PenIcon} />
+          <P size={TypoGraphyCategory.subtitle4}>리뷰 쓰기</P>
         </div>
       </S.TitleWrapper>
       <S.Wrapper>

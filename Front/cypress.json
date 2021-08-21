@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "integrationFolder": "../Front/cypress/integration",
+  "fixturesFolder": "../Front/cypress/fixtures",
+  "supportFile": "../Front/cypress/support/index.js",
+  "pluginsFile": "../Front/cypress/plugins/index.js",
+	"component": {
+    "testFiles": "**/*.test.{js,ts,jsx,tsx}",
+    "componentFolder": "src"
+  }
+}

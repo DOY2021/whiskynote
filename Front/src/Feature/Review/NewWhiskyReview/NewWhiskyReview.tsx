@@ -4,7 +4,7 @@ import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
 import ImageUpload from '../../../shared/ImageUpload/ImageUpload';
 import TextField from './TextField';
-import ProgressBar from '../Slider/Slider';
+import Slider from '../Slider/Slider';
 import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
 import Palette from '../../../lib/css/Pallete';
@@ -212,9 +212,9 @@ function NewWhiskyReview() {
       <S.NewWhiskyReviewInnerWrapper>
         <form onSubmit={handleSubmitReview}>
           {data && (
-            <S.BreadCrumb>{data.category} {'>'} {data.name_kor}</S.BreadCrumb>
+            <S.BreadCrumb data-cy="breadcrumb">{data.category} {'>'} {data.name_kor}</S.BreadCrumb>
           )}
-          <S.BreadCrumb>싱글몰트 위스키 {'>'} 글렌모렌지</S.BreadCrumb>
+          <S.BreadCrumb data-cy="breadcrumb">싱글몰트 위스키 {'>'} 글렌모렌지</S.BreadCrumb>
           <S.Title>리뷰 작성</S.Title>
           <S.ElementWrapper>
             <S.TitleWrapper>
@@ -248,24 +248,27 @@ function NewWhiskyReview() {
             inputText={'위스키는 만족스러우셨나요?'}
             isMandatory={false}
           ></HeadLine>
-          <ProgressBar
+          <Slider
+           data_cy="slider-nose"
             name="nose"
             label="Nose"
             score={scores.nose}
             handleChange={handleScoreChange}
-          ></ProgressBar>
-          <ProgressBar
+          ></Slider>
+          <Slider
+           data_cy="slider-taste"
             name="taste"
             label="Taste"
             score={scores.taste}
             handleChange={handleScoreChange}
-          ></ProgressBar>
-          <ProgressBar
+          ></Slider>
+          <Slider
+            data_cy="slider-finish"
             name="finish"
             label="Finish"
             score={scores.finish}
             handleChange={handleScoreChange}
-          ></ProgressBar>
+          ></Slider>
 
           <HeadLine
             inputText={'어떤 맛과 향을 느끼셨나요?'}
@@ -273,6 +276,7 @@ function NewWhiskyReview() {
           ></HeadLine>
 
           <WhiskyNote
+            data_cy="whiskynote-nose"
             label="Nose"
             handleTagSelection={handleNoseSelection}
             currentClicked={clickedState.currentNoseClicked}
@@ -280,6 +284,7 @@ function NewWhiskyReview() {
             handleTagDelete={handleNoseDeletion}
           ></WhiskyNote>
           <WhiskyNote
+            data_cy="whiskynote-taste"
             label="Taste"
             handleTagSelection={handleTasteSelection}
             currentClicked={clickedState.currentTasteClicked}
@@ -287,6 +292,7 @@ function NewWhiskyReview() {
             handleTagDelete={handleTasteDeletion}
           ></WhiskyNote>
           <WhiskyNote
+            data_cy="whiskynote-finish"
             label="Finish"
             handleTagSelection={handleFinishSelection}
             currentClicked={clickedState.currentFinishClicked}
