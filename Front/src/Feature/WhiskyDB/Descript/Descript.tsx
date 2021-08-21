@@ -1,5 +1,7 @@
 import React from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
 import useWhiskyDB from '../../../hook/swr/useWhiskyDB'
+import Palette from '../../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../../lib/css/TempTypo'
 import { mockWhisky } from '../../../model/Whisky'
 import P from '../../../shared/P/P'
@@ -15,13 +17,18 @@ function Descript() {
   )
     
   return (
-    <S.DescriptWrapper>
-      <P size={TypoGraphyCategory.title}>정보</P>
+    <Container>
+      <Row>
+        <Col>
+      <P color={Palette.SemiBlack} size={TypoGraphyCategory.title}>정보</P>
       <S.DescriptText>
         {/* {data?.whisky_detail} */}
         {mockWhisky.whisky_detail}
       </S.DescriptText>
-    </S.DescriptWrapper>
+        </Col>
+
+      </Row>
+    </Container>
   )
 }
 

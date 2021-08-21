@@ -930,9 +930,9 @@
     "find-yarn-workspace-root" "2.0.0"
 
 "@cypress/request@^2.88.5":
-  "integrity" "sha512-TzEC1XMi1hJkywWpRfD2clreTa/Z+lOrXDCxxBTBPEcY5azdPi56A6Xw+O4tWJnaJH3iIE7G5aDXZC6JgRZLcA=="
-  "resolved" "https://registry.npmjs.org/@cypress/request/-/request-2.88.5.tgz"
-  "version" "2.88.5"
+  "integrity" "sha512-z0UxBE/+qaESAHY9p9sM2h8Y4XqtsbDCt0/DPOrqA/RZgKi4PkxdpXyK4wCCnSk1xHqWHZZAE+gV6aDAR6+caQ=="
+  "resolved" "https://registry.npmjs.org/@cypress/request/-/request-2.88.6.tgz"
+  "version" "2.88.6"
   dependencies:
     "aws-sign2" "~0.7.0"
     "aws4" "^1.8.0"
@@ -947,13 +947,12 @@
     "isstream" "~0.1.2"
     "json-stringify-safe" "~5.0.1"
     "mime-types" "~2.1.19"
-    "oauth-sign" "~0.9.0"
     "performance-now" "^2.1.0"
     "qs" "~6.5.2"
     "safe-buffer" "^5.1.2"
     "tough-cookie" "~2.5.0"
     "tunnel-agent" "^0.6.0"
-    "uuid" "^3.3.2"
+    "uuid" "^8.3.2"
 
 "@cypress/xvfb@^1.2.4":
   "integrity" "sha512-skbBzPggOVYCbnGgV+0dmBdW/s77ZkAOXIC1knS8NagwDjBrNC1LuXtQJeiN6l+m7lzmHtaoUw/ctJKdqkG57Q=="
@@ -7631,6 +7630,11 @@
   "integrity" "sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz"
   "version" "3.4.0"
+
+"uuid@^8.3.2":
+  "integrity" "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="
+  "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
+  "version" "8.3.2"
 
 "v8-compile-cache@^2.0.3", "v8-compile-cache@^2.2.0":
   "integrity" "sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA=="

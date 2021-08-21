@@ -14,7 +14,7 @@ const ReviewInputWrapper = styled.div`
 
 
     & + & {
-        margin-top: 28px;
+        margin-top: 12px;
     }
 `;
 

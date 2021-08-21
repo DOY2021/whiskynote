@@ -10,6 +10,7 @@ import Palette from '../../lib/css/Pallete';
 import P from '../../shared/P/P';
 import Logo from '../../../assets/logo/logo.svg'
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { TypoGraphyCategory } from '../../lib/css/TempTypo';
 
 const SearchIcon = styled(FaSearch)`
   color: ${Palette.Gray500};
@@ -31,7 +32,9 @@ function Header() {
           </Navbar.Brand>
           <Nav>
             <Link to='/explore/popular/total' style={{color: '#212529'}}>
-              위스키 찾기  
+              <P size={TypoGraphyCategory.body2}>
+                위스키 찾기
+              </P>
             </Link>
             {/* <Nav.Link href="/explore/popular/total">위스키 찾기</Nav.Link> */}
             {/* <S.MenuMargin></S.MenuMargin>
@@ -45,12 +48,12 @@ function Header() {
                 <>
                   <Link to="/login">
                     <S.MenuBtn>
-                      <P>로그인</P>
+                      <P size={TypoGraphyCategory.body3}>로그인</P>
                     </S.MenuBtn>
                   </Link>
                   <Link to="/signup">
                     <S.SignUpBtn>
-                      <P>회원가입</P>
+                      <P size={TypoGraphyCategory.body3}>회원가입</P>
                     </S.SignUpBtn>
                   </Link>
                 </>

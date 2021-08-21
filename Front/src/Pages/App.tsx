@@ -17,6 +17,7 @@ import SocialLogin from '../Feature/SignIn/SocialLogin';
 import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister';
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 import NotFoundPage from './NotFoundPage';
+import WhiteSpace from '../shared/WhiteSpace/WhiteSpace';
 
 function App() {
   const [cookies] = useCookies(['user_id']);
@@ -68,14 +69,17 @@ function App() {
         <Route path="/mypage" exact component={MyPage} />
         <Route path="/" exact component={Landing} />
         <Route path="/registerWhisky" exact component={RegisterWhisky} />
+        <Route path="/afterRegister" exact component={AfterRegister} />
         <Route path="/explore/:order_by/:category" exact component={Explore} />
         <Route path="/socialLogin" exact component={SocialLogin} />
         <Route path="/firstRegister/:name" exact component={AfterRegister} />
-        <Route path="/whiskyDB" exact component={DB} />
+        <Route path="/whiskyDB/:id" exact component={DB} />
         <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
         <Route component={NotFoundPage} />
         {/* <Redirect to="/"/> */}
       </Switch>
+      {/* //TODO Footer */}
+      <WhiteSpace height='300'/>
     </>
   );
 }

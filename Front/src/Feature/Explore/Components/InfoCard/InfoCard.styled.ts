@@ -7,21 +7,20 @@ const InfoCardWrapper = styled.li`
 
     background-color: #E5E5df;
 
-    width: 800px;
     height: 327px;
 
     padding: 0px 10px;
 `;
 
 const InfoCardImg = styled.img`
-    width: 260px;
+    flex: 1;
     height: 97%;
 
     object-fit: cover;
 `;
 
 const InfoCardDescWrapper = styled.div`
-    width: 740px;
+    flex: 2;
     height: 100%;
 
     padding: 32px;

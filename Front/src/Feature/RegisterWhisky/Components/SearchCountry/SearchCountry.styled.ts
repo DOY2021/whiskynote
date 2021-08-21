@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
-import { TypoGraphyTheme } from '../../../lib/css/Typography';
-import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
 
 
 const SearchWrapper = styled.div`

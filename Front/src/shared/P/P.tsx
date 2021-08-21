@@ -41,6 +41,7 @@ function P({
 
 const Paren = styled.p<StyleParenProp>`
   ${({ size }) => size && TypoGraphyTheme[size]}
+  font-family: Pretendard sans-serif;
 
   color: #5C5956;
 

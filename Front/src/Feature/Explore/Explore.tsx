@@ -15,6 +15,9 @@ import { getProperOrdering } from './utils';
 import { useCallback } from 'react';
 import { mockWhisky, WhiskyInfoProp } from '../../model/Whisky';
 import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
+import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
+import Palette from '../../lib/css/Pallete';
 
 function Explore() {
 
@@ -43,25 +46,36 @@ function Explore() {
 
   return (
     <Suspense fallback={<div>Hi</div>}>
-      <S.ExploreWrapper>
-        <S.ExploreSideBarWrapper>
+      <Container>
+        <Row>
+          <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >     
+          <Container>
+            <Row>
+              <Col xs={2} sm={2} md={2} lg={2} xl={2} xxl={2} >
+        
           <Category/>
+          <WhiteSpace height='50'/>
           <Link to='/registerWhisky'>
-            <Button variant='black'>+ 새 위스키 등록</Button>
+            <Button size='xlarge' variant='black'>+ 새 위스키 등록</Button>
           </Link>
-        </S.ExploreSideBarWrapper>
-        <S.ExploreMainWrapper>
+              </Col>
+              <Col>
           <SearchWhisky/>
           <S.ExploreMainTitleWithOrdering>
-            <P size={TypoGraphyCategory.subtitle}>{CATEGORY_ENUM[category]}</P>
+            <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle}>{CATEGORY_ENUM[category]}</P>
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
             {/* {infos && infos.results.map(renderInfoCard)} */}
             {[mockWhisky, mockWhisky].map(renderInfoCard)}
           </S.ExploreMainCardList>
-        </S.ExploreMainWrapper>
-      </S.ExploreWrapper>
+              </Col>
+            </Row>
+          </Container>
+      
+          </Col>
+        </Row>
+      </Container>
     </Suspense>
   )
 }

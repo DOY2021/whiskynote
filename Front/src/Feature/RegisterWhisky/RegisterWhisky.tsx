@@ -17,13 +17,23 @@ import ReviewInput, { ReviewType } from './ReviewInput/ReviewInput'
 import S from './RegisterWhisky.styled'
 import ReviewStyled from './ReviewInput/ReviewInput.styled'
 import { useCallback } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
+import RegisterInput from './Components/RegisterInput/RegisterInput'
+import styled from 'styled-components'
+import RegisterDropDown, { WhiskyCategoryProps } from './Components/RegisterDropDown/RegisterDropDown'
+import { CountryCategory, WhiskyCategory } from './constants'
+import DropDown from '../../shared/DropDown/DropDown'
+import useDebounce from '../../hook/useDebounce'
 
 function RegisterWhisky() {
   const history = useHistory();
 
+  
+
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
-  const [category, setCategory] = useState('');
+  const [country, setCountry] = useState('');
+  const [category, setCategory] = useState('싱글 몰트 위스키');
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
   const [series, setSeries] = useState('');
@@ -37,6 +47,10 @@ function RegisterWhisky() {
   const [bottleNumber, setBottleNum] = useState('');
   const [describe, setDescribe] = useState('');
 
+  const debouncedCountry = useDebounce(country, 500);
+
+  const [isDistillery, setDistilleryCheck] = useState(false);
+
   const [singcaskCheck, setSingleCaskCheck] = useState(false);
   const [nonchillFilter, setChillFilter] = useState(false);
   const [naturalColor, setNaturalColor] = useState(false);
@@ -47,6 +61,10 @@ function RegisterWhisky() {
   const handleImages = (images) => {
     setImages(images);
   }
+
+  const handleDistillery = useCallback((value:string) => {
+    setDistillery(value);
+  },[])
 
   const handleSingleCaskCheck = useCallback(() => {
     setSingleCaskCheck(check => !check);
@@ -60,6 +78,22 @@ function RegisterWhisky() {
   const handleIndependant = useCallback(() => {
     setIndependant(check => !check);
   },[])
+  const handleDistilleryCheck = useCallback(() => {
+    if(isDistillery){
+      setDistillery('')
+    }
+    else{
+      setDistillery('증류소 병입')
+    }
+    setDistilleryCheck(check => !check);
+  },[isDistillery])
+
+  const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
+    <S.DropdownItemWrapper key={item.eng_name} onClick={() => setCountry(item.kor_name)}>
+        <P size={TypoGraphyCategory.body2}>{item.kor_name}</P>
+        <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}>{item.eng_name}</P>
+    </S.DropdownItemWrapper>
+),[])
 
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,24 +130,25 @@ function RegisterWhisky() {
   }
 
   return (
-    <S.RegisterWhiskyWrapper>
+    <Container>
+      <Row>
+        <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} />
+        <Col xs={10} sm={10} md={10} lg={10} xl={10} xxl={10} >
       <S.RegisterWhiskyInnerWrapper>
-        <P fontSize={TypoGraphyCategory.title}>새로운 위스키 등록</P>
-        <WhiteSpace height="10" />
-        <P fontSize={TypoGraphyCategory.body2} color={Palette.Gray700}>
-          위스키 노트에 등록되지 않은 위스키를 추가하려면, 아래 양식에 맞게
-          작성해주세요.
+        <P fontSize={TypoGraphyCategory.title} color={Palette.SemiBlack}>새로운 위스키 등록</P>
+        <WhiteSpace height="16" />
+        <P size={TypoGraphyCategory.body2}>
+          위스키 노트에 등록되지 않은 위스키를 추가하려면, 아래 양식에 맞게 작성해주세요.
         </P>
-        <P fontSize={TypoGraphyCategory.body2} color={Palette.Gray700}>
-          양식에 맞게 작성된 내용은 아이디와 함께 위스키 노트 DB에 반영되며,
-          등록이 완료되면 알림을 보내드립니다.
+        <P size={TypoGraphyCategory.body2}>
+          양식에 맞게 작성된 내용은 작성자의 아이디와 함께 위스키 노트 DB에 반영되며, 등록이 완료되면 알림을 보내드립니다.
         </P>
+        <WhiteSpace height='64'/>
 
-        <WhiteSpace height='40'/>
         <S.RegisterWhiskyRegisterForm onSubmit={handleRegisterWhisky}>
           <S.RegisterTitleWrapper>
           
-            <P size={TypoGraphyCategory.subtitle} isInline>위스키명을 입력해주세요</P>
+            <P size={TypoGraphyCategory.subtitle2} color={Palette.SemiBlack} isInline>위스키명을 입력해주세요</P>
             <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
             <WhiteSpace height='10'/>
             <ReviewInput
@@ -135,7 +170,8 @@ function RegisterWhisky() {
           </S.RegisterTitleWrapper>
           <WhiteSpace height='40'/>
           <S.RegisterPhotoWrapper>
-            <P  fontSize = {TypoGraphyCategory.subtitle}>위스키 대표 사진을 등록해주세요.</P>
+            <P  size = {TypoGraphyCategory.subtitle2} isInline color={Palette.SemiBlack} >위스키 대표 사진을 등록해주세요.</P>
+            <P size={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
             <WhiteSpace height='10'/>
 
             <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 상품 이미지 사이즈 이렇게 해주세요.</P>
@@ -145,116 +181,134 @@ function RegisterWhisky() {
               updateFilesCb={handleImages}
               label='Whisky'
             />
+            <WhiteSpace height='16'/>
           </S.RegisterPhotoWrapper>
-          <WhiteSpace height='30'/>
+          <WhiteSpace height='48'/>
+          <P size={TypoGraphyCategory.subtitle2} isInline color={Palette.SemiBlack}>위스키명을 입력해주세요</P>
+          <P size={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
           <S.RegisterDescriptWrapper>
-            <ReviewInput
-              title='카테고리'
-              subtitle='Category' 
-              type={ReviewType.dropdown}
-              onClick={setCategory}
-              value={category}
-              categoryList={['싱글몰트 위스키', '블렌디드 위스키']}
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 카테고리</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Category</P>
+            </S.RegisterInputLabel>
+             <RegisterDropDown
+                        selectedValue={category}
+                          onClick={(v: string) =>setCategory(v)}
+                          valueList={WhiskyCategory}
             />
-            <ReviewInput 
-              title='증류소' 
-              subtitle='Distillery'
-              type={ReviewType.text} 
-              onChange={setDistillery}
-              value={distillery}
-              placeholder='증류소를 입력해주세요.'
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 생산국가, 지역</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> {'Country&Region'}</P>
+            </S.RegisterInputLabel>
+            <S.RegisterWhiskySearchWrapper>
+            <RegisterInput 
+               onChange={setCountry}
+               value={country}
+               placeholder='생산 국가, 지역명을 입력해주세요.'
             />
-            <ReviewInput 
-              title='병입 회사'
-              subtitle='Bottler'
-              type={ReviewType.text}
-              onChange={setBottler}
-              value={bottler}
-              placeholder='병입 회사를 입력해주세요.'
-            />
-            <ReviewInput 
-              title='바틀 시리즈' 
-              subtitle='Bottling Series'
-              type={ReviewType.text} 
-              onChange={setSeries} 
-              value={series}
-              placeholder='예시) Fine/Rare, Special Releases 2010, Bond House No.1 Collection'
-            />
-            <ReviewInput
-              title='빈티지'
-              subtitle='Vintage'
-              type={ReviewType.text} 
-              onChange={setVintage} 
-              value={vintage}
-            />
-            <ReviewInput
-              title='병입 날짜'
-              subtitle='Bottled'
-              type={ReviewType.text} 
-              onChange={setBottled}
-              value={bottled}
-              placeholder='test'
-            />
-            <ReviewInput
-              title='숙성 연수' 
-              subtitle='Stated Age/Age' 
-              type={ReviewType.text} 
-              onChange={setAge}
-              value={age}
-              placeholder='숙성 연수를 입력해주세요.'
-            />
-            <ReviewInput 
-              title='캐스크타입' 
-              subtitle='Cask Type'
-              type={ReviewType.text} 
-              onChange={setCask}
-              value={cask}
-              placeholder='캐스크에 대한 정보를 작성해주세요.'
-            />
-            <ReviewInput 
-              title='알코올 함량'
-              subtitle='ABV'
-              type={ReviewType.text}
-              onChange={setStrength}
-              value={strength}
-              placeholder='도수를 입력해주세요.'
-            />
-            <ReviewInput 
-              title='용량' 
-              subtitle='Size' 
-              type={ReviewType.text} 
-              onChange={setSize} 
-              value={size}
-              placeholder='용량을 입력해주세요.'
-            />
-            <ReviewField
-              title='싱글 캐스크'
-              subtitle='Single Cask'
-            >
+            {  debouncedCountry &&
+              <DropDown >
+              {CountryCategory.filter(country => country.kor_name.match(debouncedCountry)).map(renderDropdownItem)}
+            </DropDown>}
+            </S.RegisterWhiskySearchWrapper>
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 증류소</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Distillery</P>
+              <P size ={TypoGraphyCategory.body2}> 증류소 병입</P>
+              <div style={{width: '5px'}}/>
               <Check
+                    id='DistilleryBottling'
+                    checked={isDistillery}
+                    onChange={handleDistilleryCheck}
+              />
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setDistillery}
+               value={distillery}
+               placeholder='증류소를 입력해주세요.'
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 병입 회사</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Bottler</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setBottler}
+               value={bottler}
+               placeholder='병입 회사를 입력해주세요.'
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 바틀 시리즈</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Bottling Series</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setSeries}
+               value={series}
+               placeholder={'Fine & Rare, Speacial Releases 2010, Bond House No.1 COllection'}
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 숙성 연수</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Age</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setAge}
+               value={age}
+               unit='years old'
+               placeholder='숙성 연수를 입력해주세요.'
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 캐스크 타입</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Cask Type</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setCask}
+               value={cask}
+               placeholder='캐스크에 대한 정보를 입력해주세요.'
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 알코올 함량</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> ABV</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setStrength}
+               value={strength}
+               placeholder='알코올 함량을 입력해주세요.'
+            />
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 용량</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Size</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setSize}
+               value={size}
+               placeholder='용량을 입력해주세요.'
+            />
+
+            <WhiteSpace height='12'/>
+            
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 싱글 캐스크</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Single Cash</P>
+              <div style={{width: '5px'}}/>
+            <Check
                 id='SingleCask'
                 checked={singcaskCheck}
                 onChange={handleSingleCaskCheck}
               />
-            </ReviewField>
+            </S.RegisterInputLabel>
+            
             {singcaskCheck &&  
           <>
-            <ReviewInput 
-              title='캐스크 넘버' 
-              subtitle='Cask Numbers' 
-              type={ReviewType.text} 
-              onChange={setCaskNum} 
-              value={caskNumbers}
-              placeholder='캐스크 넘버를 작성해주세요.'
+            <WhiteSpace height='15'/> 
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 캐스크 넘버</P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Cask Number</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setCaskNum}
+               value={caskNumbers}
+               placeholder='캐스크 넘버를 입력해주세요.'
             />
-            <ReviewInput 
-              title='바틀 넘버' 
-              subtitle='Number of Bottles' 
-              type={ReviewType.text} 
-              onChange={setBottleNum} 
-              value={bottleNumber}
-              placeholder='바틀 넘버를 작성해주세요.'
-            />
+            <WhiteSpace height='15'/>
           </>
             }
             <ReviewStyled.ReviewInputWrapper>
@@ -323,7 +377,10 @@ function RegisterWhisky() {
           </S.ButtonsWrapper>
         </S.RegisterWhiskyRegisterForm>
       </S.RegisterWhiskyInnerWrapper>
-    </S.RegisterWhiskyWrapper>
+        </Col>
+        </Row>
+    </Container>
+
   );
 }
 

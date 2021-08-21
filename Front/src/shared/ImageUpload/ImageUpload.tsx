@@ -6,6 +6,7 @@ import S from './ImageUpload.styled';
 import Camera from '../../../assets/CustomIcons/camera.svg';
 
 
+
 const convertNestedObjectToArray = (nestedObj) => 
   Object.keys(nestedObj).map(key => nestedObj[key]);
 

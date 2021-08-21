@@ -16,6 +16,8 @@ export type ButtonVariant = 'primary' | 'secondary' | 'grayscale' | 'black' | 'w
 
 export interface ButtonProp {
   size?: ButtonSize;
+  paddingHorizontal?: number;
+  paddingVertical?: number;
   disabled?: boolean;
   type?: any; // outline, text;
   border?: Palette | null
@@ -30,10 +32,10 @@ export interface ButtonProp {
 
 const sizes = {
   xlarge: {
-    height: '48px',
+    height: '44px',
     fontSize: '16px',
-    paddingLeft: '24px',
-    paddingRight: '24px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
     paddingTop: '12px',
     paddingBottom: '12px',
   },
@@ -87,6 +89,7 @@ const sizes = {
     paddingTop: '4px',
     paddingBottom: '4px',
   },
+  
 };
 
 const sizeStyles = css<ButtonProp>`
@@ -172,6 +175,12 @@ const handleColors = (variant, hover, active, disabled) => {
 const Btn = styled.button<ButtonProp>`
   ${sizeStyles}
 
+  padding-top: ${({paddingVertical}) => paddingVertical && paddingVertical}px;
+  padding-bottom: ${({paddingVertical}) => paddingVertical && paddingVertical}px;
+  padding-right: ${({paddingHorizontal}) => paddingHorizontal && paddingHorizontal}px;
+  padding-left: ${({paddingHorizontal}) => paddingHorizontal && paddingHorizontal}px;
+
+  box-sizing: content-box;
   display: inline-flex;
   justify-content: center;
   cursor: pointer;
@@ -237,10 +246,14 @@ function Button({
   color=Palette.White,
   children,
   data_cy,
+  paddingHorizontal,
+  paddingVertical,
 }: ButtonProp) {
   return (
     <>
       <Btn
+        paddingHorizontal={paddingHorizontal}
+        paddingVertical={paddingVertical}
         data-cy={data_cy}
         size={size}
         type={type}
