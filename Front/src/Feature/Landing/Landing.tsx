@@ -4,10 +4,6 @@ import Explore from '../Explore/Explore';
 import NewWhiskyReview from '../Review/NewWhiskyReview/NewWhiskyReview';
 
 function Landing(){
-  return(<div>
-    <NewWhiskyReview></NewWhiskyReview>
-    {/* <DB></DB> */}
-
-  </div>)
+  return(<Explore/>)
 }
 export default Landing;
