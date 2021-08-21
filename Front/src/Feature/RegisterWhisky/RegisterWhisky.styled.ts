@@ -1,15 +1,9 @@
 import styled from "styled-components";
 
-const RegisterWhiskyWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const RegisterWhiskyInnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
-  overflow:scroll;
+
 `
 
 const RegisterWhiskyRegisterForm = styled.form`
@@ -57,9 +51,19 @@ const RegisterWhiskyBtn = styled.button`
   color: #edece6;
 `;
 
+const RegisterInputLabel = styled.div`
+  display: flex;
+  align-items: center;
+
+  p + p {
+    margin-left: 8px;
+  }
+
+  margin-top: 12px;
+`;
+
 
 export default {
-  RegisterWhiskyWrapper,
   RegisterWhiskyInnerWrapper,
   RegisterWhiskyRegisterForm,
   RegisterTitleWrapper,
@@ -68,6 +72,7 @@ export default {
   TempSaveBtn,
   RegisterWhiskyBtn,
   MarginWrapper,
-  ButtonsWrapper
+  ButtonsWrapper,
+  RegisterInputLabel,
 
 }

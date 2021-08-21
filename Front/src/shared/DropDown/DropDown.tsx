@@ -4,7 +4,7 @@ import Styled from './DropDown.styled'
 
 interface DropDownProp {
   children: React.ReactNode;
-  onClick: (v:any) => void;
+  onClick?: (v:any) => void;
 }
 
 function DropDown({
@@ -20,13 +20,9 @@ function DropDown({
   return (
     <Styled.DropDownWrapper >
       {React.Children.map(children, (child) => {
-        const handleClick = () => {
-          onClick(child)}
         return (
-          <Styled.DropDownItem onClick={handleClick}>
-            <P bold>
+          <Styled.DropDownItem >
               {child}
-            </P>
           </Styled.DropDownItem>
         )
       })}

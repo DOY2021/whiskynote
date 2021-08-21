@@ -3,9 +3,7 @@ import { absoluteCenter } from "../../../lib/css/Mixin";
 
 const AfterRegisterLayout = styled.div`
     ${absoluteCenter}
-
-    width: 100%;
-    height: 100vh;
+    height: 80vh;
 `;
 
 const AfterRegisterWrapper = styled.div`
@@ -15,12 +13,12 @@ const AfterRegisterWrapper = styled.div`
     align-items: center;
 
     text-align : center;
-    height: 256px;
+    
 `;
 
 const AfterRegisterBtnWrapper = styled.div`
     display: flex;
-    width: 400px;
+    width: 457px;
     justify-content: space-between;
 `;
 
