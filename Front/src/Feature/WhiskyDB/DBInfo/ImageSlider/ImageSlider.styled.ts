@@ -13,6 +13,7 @@ const ImageSliderBox = styled.div`
     overflow-x: hidden;
 
     height: 580px;
+    max-width: ${SLIDER_WIDTH}px;
 
 `;
 
