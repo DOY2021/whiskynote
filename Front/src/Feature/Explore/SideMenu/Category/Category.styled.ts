@@ -8,6 +8,7 @@ const CategoryWrapper = styled.ul`
 
 const CategoryItemWrapper = styled.li`
   margin-top: 11px;
+  cursor: pointer;
 `;
 
 export default{
