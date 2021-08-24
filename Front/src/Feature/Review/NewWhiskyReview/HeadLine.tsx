@@ -13,7 +13,7 @@ const HeadLineWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 24px;
-  margin-top: 72px;
+  margin-top: 48px;
 `;
 const HeadLineText = styled.p`
   color: #2f2e2d;

@@ -79,6 +79,7 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, curr
     <S.ButtonWrapper>
     <WhiskyNoteBtn text='피트' onClick={props.handleTagSelection}></WhiskyNoteBtn>
       <WhiskyNoteBtn text='후류' onClick={props.handleTagSelection}></WhiskyNoteBtn>
+      <div style={{width:'608px'}}></div>
     </S.ButtonWrapper>
 
     {  props.currentClicked == '피트' &&
@@ -98,6 +99,7 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, curr
       <WhiskyNoteBtn text="담배" low={true} onClick={props.handleTagSelection} ></WhiskyNoteBtn>
     </S.ButtonWrapper>
 }
+
     </div>
   )
 }

@@ -32,6 +32,7 @@ const UploadFileBtn = styled.div`
 `;
 
 const ImageText = styled.div`
+  margin-top:8px;
   font-size: 18px;
   color: #837f7c;
 `;

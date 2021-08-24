@@ -2,29 +2,31 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const MenuBtn = styled.button`
+  font-family: Pretendard-SemiBold;
   background-color: transparent;
   cursor: pointer;
-  color: #272624;
-  font-size: 16px;
+  color: #201f1e;
+  font-size: 18px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
   margin-right: 10px;
 `;
 const SignUpBtn = styled.div`
+  font-family: Pretendard-SemiBold;
   background-color: transparent;
   cursor: pointer;
   color: #201f1e;
-  font-size: 16px;
+  font-size: 18px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
-  border: 1px solid #272624;
+  border: 1px solid #201f1e;
   padding: 7px;
 `;
 
-const MenuLink = styled(Link)`
-  font-family: 'Noto Sans KR', sans-serif;
+const MenuLink = styled.div`
+  font-family: Pretendard-Medium;
 
   width: 100px;
   height: 60px;
@@ -36,7 +38,7 @@ const MenuLink = styled(Link)`
 
   cursor: pointer;
   color: #272624;
-  font-size: 16px;
+  font-size: 18px;
 `;
 
 const SearchInput = styled.input`
@@ -49,8 +51,9 @@ const MenuMargin = styled.div`
 
 const Line = styled.div`
   width: 100%;
+  height: 1px;
+  background-color: #736c64;
   margin-bottom: 60px;
-  border: 1px solid #736c64;
 `;
 
 export default {

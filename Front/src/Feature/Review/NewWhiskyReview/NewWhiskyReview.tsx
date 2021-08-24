@@ -304,9 +304,9 @@ function NewWhiskyReview() {
             inputText={'위스키에 대해 설명해주세요.'}
             isMandatory={false}
           ></HeadLine>
-          <S.ImageUploadGuideline style={{ marginTop: '-12px' }}>
+          {/* <S.ImageUploadGuideline style={{ marginTop: '-12px' }}>
             100자 이상 작성시 150포인트 지급
-          </S.ImageUploadGuideline>
+          </S.ImageUploadGuideline> */}
           <TextField
             text={text}
             handleTextAreaInput={handleTextAreaInput}
