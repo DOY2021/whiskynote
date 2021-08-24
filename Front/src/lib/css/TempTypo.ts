@@ -6,6 +6,13 @@ const title = css`
   line-height: 140%;
 `;
 
+const title2 = css`
+  font-family: Pretendard-SemiBold;
+  font-size: 36px;
+  line-height: 140%;
+`;
+
+
 const subtitle = css`
   font-family: Pretendard-Medium;
   font-size: 32px;
@@ -36,6 +43,11 @@ const body = css`
   line-height: 140%;
 `;
 
+const body1 = css`
+  font-size: 18px;
+  line-height: 140%;
+`;
+
 const body2 = css`
   font-size: 16px;
   line-height: 140%;
@@ -49,11 +61,13 @@ const body3 = css`
 
 export enum TypoGraphyCategory {
   title = 'title',
+  title2 = 'title2',
   subtitle = 'subtitle',
   subtitle2 = 'subtitle2',
   subtitle3 = 'subtitle3',
   subtitle4 = 'subtitle4',
   body = 'body',
+  body1 = 'body1',
   body2 = 'body2',
   body3 = 'body3',
 }
@@ -62,11 +76,13 @@ export const TypoGraphyTheme: {
   [typo in TypoGraphyCategory]: FlattenSimpleInterpolation;
 } = {
   [TypoGraphyCategory.title]: title,
+  [TypoGraphyCategory.title2]: title,
   [TypoGraphyCategory.subtitle]: subtitle,
   [TypoGraphyCategory.subtitle2]: subtitle2,
   [TypoGraphyCategory.subtitle3]: subtitle3,
   [TypoGraphyCategory.subtitle4]: subtitle4,
   [TypoGraphyCategory.body]: body,
+  [TypoGraphyCategory.body1]: body1,
   [TypoGraphyCategory.body2]: body2,
   [TypoGraphyCategory.body3]: body3,
 };

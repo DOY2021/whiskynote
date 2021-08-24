@@ -26,7 +26,9 @@ const ExploreMainTitleWithOrdering = styled.div`
   justify-content: space-between;
 
   width: 100%;
-  height: 100px;
+  
+  margin-top: 24px;
+  margin-bottom: 30px;
 `;
 
 const ExploreMainCardList = styled.ul`

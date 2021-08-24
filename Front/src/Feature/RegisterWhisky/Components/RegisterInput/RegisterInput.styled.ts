@@ -6,8 +6,7 @@ const RegisterInputWrapper = styled.div`
     width: 100%;
 
     :hover{
-        border: 1px solid #9C9B99;
-        background-color: #E7E5DE;
+        outline: 1px solid black;
     }
 `;
 
