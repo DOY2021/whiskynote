@@ -4,7 +4,7 @@ const orderingBoxWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    width: 150px;
+    width: 108px;
 `;
 
 export default {

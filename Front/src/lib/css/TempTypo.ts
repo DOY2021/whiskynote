@@ -1,56 +1,82 @@
-import { css, FlattenSimpleInterpolation } from "styled-components";
+import { css, FlattenSimpleInterpolation } from 'styled-components';
 
 const title = css`
-    font-weight: 600;
-    font-size: 48px;
-    line-height: 62.4px;
+  font-family: Pretendard-SemiBold;
+  font-size: 40px;
+  line-height: 140%;
 `;
 
 const subtitle = css`
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 33.6px;
+  font-family: Pretendard-Medium;
+  font-size: 32px;
+  line-height: 140%;
+`;
+
+const subtitle2 = css`
+  font-family: Pretendard-Medium;
+  font-size: 24px;
+  line-height: 140%;
+`;
+
+const subtitle3 = css`
+  font-family: Pretendard-Medium;
+  font-size: 20px;
+  line-height: 140%;
+`;
+
+const subtitle4 = css`
+  font-family: Pretendard-SemiBold;
+  font-size: 16px;
+  line-height: 22.4px;
 `;
 
 const body = css`
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 24px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
 `;
 
 const body2 = css`
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22.4px;
-`
+  font-size: 16px;
+  line-height: 140%;
+`;
 
 const body3 = css`
-  font-weight: 400;
+  font-family: Pretendard-SemiBold;
   font-size: 12px;
-  line-height: 22.4px;
-`
-
+  line-height: 140%;
+`;
 
 export enum TypoGraphyCategory {
   title = 'title',
   subtitle = 'subtitle',
+  subtitle2 = 'subtitle2',
+  subtitle3 = 'subtitle3',
+  subtitle4 = 'subtitle4',
   body = 'body',
-  body2= 'body2',
-  body3= 'body3',
+  body2 = 'body2',
+  body3 = 'body3',
 }
-  
-export const TypoGraphyTheme : { [typo in TypoGraphyCategory] : FlattenSimpleInterpolation} = {
-  [TypoGraphyCategory.title] : title,
-  [TypoGraphyCategory.subtitle] : subtitle,
-  [TypoGraphyCategory.body] : body,
-  [TypoGraphyCategory.body2] : body2,
-  [TypoGraphyCategory.body3] : body3,
-  
-}
+
+export const TypoGraphyTheme: {
+  [typo in TypoGraphyCategory]: FlattenSimpleInterpolation;
+} = {
+  [TypoGraphyCategory.title]: title,
+  [TypoGraphyCategory.subtitle]: subtitle,
+  [TypoGraphyCategory.subtitle2]: subtitle2,
+  [TypoGraphyCategory.subtitle3]: subtitle3,
+  [TypoGraphyCategory.subtitle4]: subtitle4,
+  [TypoGraphyCategory.body]: body,
+  [TypoGraphyCategory.body2]: body2,
+  [TypoGraphyCategory.body3]: body3,
+};
 
 export default {
   title,
   subtitle,
+  subtitle2,
+  subtitle3,
+  subtitle4,
   body,
-  body2
-}
+  body2,
+};

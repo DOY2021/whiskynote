@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
 import { TypoGraphyTheme } from '../../../lib/css/Typography';
+import { TypoGraphyCategory } from '../../../lib/css/TempTypo';
 
 
 const SearchWrapper = styled.div`
@@ -10,8 +11,7 @@ const SearchWrapper = styled.div`
   position: relative;
 
   width: 100%;
-  max-width: 1200px;
-  height: 40px;
+  height: 56px;
 
   background-color: #e7e5de;
   border-radius: 2px;
@@ -22,8 +22,8 @@ const SearchWrapper = styled.div`
 
 const SearchIcon = styled(FiSearch)`
   color: #5c5955;
-  font-size: 16px;
-  margin-right: 10px;
+  font-size: 24px;
+  margin-right: 12px;
 `;
 
 const SearchInput = styled.input`
@@ -32,7 +32,7 @@ const SearchInput = styled.input`
 
   padding: 0;
 
-  ${TypoGraphyTheme.body1}
+  ${TypoGraphyCategory.body};
 
   background-color: inherit;
 

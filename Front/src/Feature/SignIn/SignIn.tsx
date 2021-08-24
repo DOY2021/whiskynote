@@ -105,6 +105,7 @@ function SignIn() {
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
+            data_cy='email'
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
             value={email}
@@ -115,7 +116,7 @@ function SignIn() {
             errorMsg={errMsg.non_field_errors}
           />
           <SignInput
-            
+            data_cy="password"
             type="password"
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
@@ -129,6 +130,7 @@ function SignIn() {
 
           <S.SignInBtnContainer>
             <Button
+              data_cy="signin_btn"
               size="login"
               variant="black"
               disabled={loading || !password || !email}
@@ -136,7 +138,7 @@ function SignIn() {
               로그인
             </Button>
             <Link to="/signup/type-choice">
-              <Button size="login" variant="grayscale" type="outline" border={Palette.Black} color={Palette.Black}>
+              <Button data_cy="signup_btn" size="login" variant="grayscale" type="outline" border={Palette.Black} color={Palette.Black}>
                 회원가입
               </Button>
             </Link>
@@ -152,7 +154,7 @@ function SignIn() {
                   checked={checked}
                 />
                 <S.CheckBoxLabel htmlFor='chk'></S.CheckBoxLabel>
-                <S.CheckBoxText onClick={() => setChecked(!checked)}>
+                <S.CheckBoxText data-cy="checkbox-txt" onClick={() => setChecked(!checked)}>
                 로그인 상태 유지
                 </S.CheckBoxText>
               </div>

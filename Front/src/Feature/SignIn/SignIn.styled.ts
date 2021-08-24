@@ -86,7 +86,7 @@ border: 1px solid black;
 
 const CheckBoxText = styled.div`
   font-size: 13px;
-  margin-top:8px;
+  margin-top:2px;
   margin-left:5px`
 export default {
   SignInWrapper,

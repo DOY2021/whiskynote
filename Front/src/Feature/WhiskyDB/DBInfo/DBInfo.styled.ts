@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const DBInfoWrapper = styled.section`
     width: 100%;
-    max-width: 1200px;
 `;
 
 const DBInfoDetailWrapper = styled.div`

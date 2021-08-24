@@ -37,9 +37,9 @@ const display1 = css`
 `;
 
 const headline = css`
+  font-family: Pretendard-SemiBold;
   font-size: 24px;
   line-height: 36px;
-  font-weight: 500;
 `;
 
 const subhead4 = css`
@@ -113,6 +113,9 @@ const body = css`
   line-height: 18px;
   font-weight: 400;
 `;
+
+
+
 
 export enum TypoGraphyCategory {
   display6 = 'display6',

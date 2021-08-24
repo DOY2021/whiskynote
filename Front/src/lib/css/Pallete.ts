@@ -1,6 +1,8 @@
 enum Palette {
   White = "#ffffff",
   Black = "#000000",
+  SemiBlack = '#201F1E',
+  WhiskyGray = '#948A80',
   //WhiskyYellow
   Orange000 = "#FFF8E8",
   Orange100 = "#FEF2D4",

@@ -10,8 +10,14 @@ import S from './Explore.styled'
 import Category from './SideMenu/Category/Category'
 import InfoCard from './Components/InfoCard/InfoCard';
 import { useParams } from 'react-router';
-import useSWR from 'swr';
-import { whiskyAPI } from '../../api/whisky';
+import useWhiskyMain from '../../hook/swr/useWhiskyMain';
+import { getProperOrdering } from './utils';
+import { useCallback } from 'react';
+import { mockWhisky, WhiskyInfoProp } from '../../model/Whisky';
+import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
+import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
+import Palette from '../../lib/css/Pallete';
 
 function Explore() {
 
@@ -21,28 +27,55 @@ function Explore() {
     ignoreQueryPrefix: true
   });
 
-  const {data, isValidating} = useSWR(['/api/whisky/main',order_by], (url, order_by) => whiskyAPI.getWhiskyMain({ordering:order_by, page:1}),{suspense:true} )
+  const {data: infos, isLoading} = useWhiskyMain({
+    search: `${query}`,
+    ordering: getProperOrdering(order_by),
+    page: 1,
+  })
 
+  const renderInfoCard = useCallback((info: WhiskyInfoProp) => {
+    return <InfoCard info={info} key={info.id}/>
+  },[])
 
+  
+  if(isLoading) (
+    <div>
+      Loading
+    </div>
+  )
 
   return (
     <Suspense fallback={<div>Hi</div>}>
-      <S.ExploreWrapper>
-        <S.ExploreSideBarWrapper>
+      <Container>
+        <Row>
+          <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >     
+          <Container>
+            <Row>
+              <Col xs={2} sm={2} md={2} lg={2} xl={2} xxl={2} >
+        
           <Category/>
-          <Button variant={'grayscale'}>+ 새 위스키 등록</Button>
-        </S.ExploreSideBarWrapper>
-        <S.ExploreMainWrapper>
+          <WhiteSpace height='50'/>
+          <Link to='/registerWhisky'>
+            <Button size='xlarge' variant='black'>+ 새 위스키 등록</Button>
+          </Link>
+              </Col>
+              <Col>
           <SearchWhisky/>
           <S.ExploreMainTitleWithOrdering>
-            <P size={TypoGraphyCategory.subtitle}>{CATEGORY_ENUM[category]}</P>
+            <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle}>{CATEGORY_ENUM[category]}</P>
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
-            <InfoCard/>
+            {/* {infos && infos.results.map(renderInfoCard)} */}
+            {[mockWhisky, mockWhisky].map(renderInfoCard)}
           </S.ExploreMainCardList>
-        </S.ExploreMainWrapper>
-      </S.ExploreWrapper>
+              </Col>
+            </Row>
+          </Container>
+      
+          </Col>
+        </Row>
+      </Container>
     </Suspense>
   )
 }

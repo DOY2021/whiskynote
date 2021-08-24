@@ -37,13 +37,14 @@ const ImageText = styled.div`
 `;
 
 const IconsWrapper = styled.div`
-  align-items: column;
+  display:flex;
+  flex-direction:column;
 `;
 
 const CameraIcon = styled.img`
   width: 40px;
   height: 40px;
-  margin-left: 23px;
+  margin-left:22px;
 `;
 
 const ImageDeleteIcon = styled.img`
@@ -63,7 +64,6 @@ const DeleteContainer = styled.div`
 const PreviewContainer = styled.section`
   border-radius: 2px;
   width: 200px;
-  height: 200px;
   position: relative;
   margin-right:12px
 `;
