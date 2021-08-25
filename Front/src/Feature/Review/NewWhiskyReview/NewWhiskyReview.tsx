@@ -27,15 +27,9 @@ const changeColors = e => {
 const selectedTagsToIndex = selectedTags => {
   const res = {
     nose: Array<number>(),
-    taste: Array<number>(),
-    finish: Array<number>(),
   };
   selectedTags.nose.length > 0 &&
     selectedTags.nose.forEach(data => res.nose.push(TagIndex[data]));
-  selectedTags.taste.length > 0 &&
-    selectedTags.taste.forEach(data => res.taste.push(TagIndex[data]));
-  selectedTags.finish.length > 0 &&
-    selectedTags.finish.forEach(data => res.finish.push(TagIndex[data]));
   return res;
 };
 
@@ -44,23 +38,14 @@ const currentClickedReducer = (state, action) => {
   if (action.type == 'NOSE') {
     return { ...state, currentNoseClicked: action.value };
   }
-  if (action.type == 'TASTE') {
-    return { ...state, currentTasteClicked: action.value };
-  }
-  if (action.type == 'FINISH') {
-    return { ...state, currentFinishClicked: action.value };
-  }
+
   return {
     currentNoseClicked: '',
-    currentTasteClicked: '',
-    currentFinishClicked: '',
   };
 };
 
 const initialClickedState = {
   currentNoseClicked: '',
-  currentTasteClicked: '',
-  currentFinishClicked: '',
 };
 
 function NewWhiskyReview() {
@@ -108,8 +93,6 @@ function NewWhiskyReview() {
       taste_rating: scores.taste,
       finish_rating: scores.finish,
       nose_tag: tags.nose,
-      taste_tag: tags.taste,
-      finish_tag: tags.finish,
     };
     console.log(review);
     ReactionApi.createReview(0, review).then(() => {});
@@ -141,65 +124,11 @@ function NewWhiskyReview() {
     }
   };
 
-  const handleTasteSelection = e => {
-    e.preventDefault();
-    if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
-      console.log(e.target.value);
-      dispatch({ type: 'TASTE', value: e.target.value });
-    } else {
-      if (selectedTags.taste.indexOf(e.target.value) < 0) {
-        setSelectedTags(prevValues => {
-          return {
-            ...prevValues,
-            taste: [...selectedTags.taste, e.target.value],
-          };
-        });
-      }
-    }
-  };
-
-  const handleFinishSelection = e => {
-    e.preventDefault();
-    if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
-      console.log(e.target.value);
-      dispatch({ type: 'FINISH', value: e.target.value });
-    } else {
-      if (selectedTags.finish.indexOf(e.target.value) < 0) {
-        setSelectedTags(prevValues => {
-          return {
-            ...prevValues,
-            finish: [...selectedTags.finish, e.target.value],
-          };
-        });
-      }
-    }
-  };
-
   const handleNoseDeletion = (name: any) => {
     setSelectedTags(prevValues => {
       return {
         ...prevValues,
         nose: selectedTags.nose.filter(tag => tag !== name),
-      };
-    });
-  };
-
-  const handleTasteDeletion = (name: any) => {
-    setSelectedTags(prevValues => {
-      return {
-        ...prevValues,
-        taste: selectedTags.taste.filter(tag => tag !== name),
-      };
-    });
-  };
-
-  const handleFinishDeletion = (name: any) => {
-    setSelectedTags(prevValues => {
-      return {
-        ...prevValues,
-        finish: selectedTags.finish.filter(tag => tag !== name),
       };
     });
   };
@@ -282,22 +211,6 @@ function NewWhiskyReview() {
             currentClicked={clickedState.currentNoseClicked}
             hashTagList={selectedTags.nose}
             handleTagDelete={handleNoseDeletion}
-          ></WhiskyNote>
-          <WhiskyNote
-            data_cy="whiskynote-taste"
-            label="Taste"
-            handleTagSelection={handleTasteSelection}
-            currentClicked={clickedState.currentTasteClicked}
-            hashTagList={selectedTags.taste}
-            handleTagDelete={handleTasteDeletion}
-          ></WhiskyNote>
-          <WhiskyNote
-            data_cy="whiskynote-finish"
-            label="Finish"
-            handleTagSelection={handleFinishSelection}
-            currentClicked={clickedState.currentFinishClicked}
-            hashTagList={selectedTags.finish}
-            handleTagDelete={handleFinishDeletion}
           ></WhiskyNote>
 
           <HeadLine
