@@ -13,6 +13,7 @@ const HashTagList = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
 `;
 
 const ButtonWrapper = styled.div`

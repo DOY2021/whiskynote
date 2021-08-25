@@ -17,19 +17,13 @@ import useWhiskyDB from '../../../hook/swr/useWhiskyDB';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
-const changeColors = e => {
-  if (!e.target.style.backgroundColor) {
-    e.target.style.backgroundColor = handleColors(e.target.value);
-    e.target.style.color = '#edece6';
-  }
-};
 
 const selectedTagsToIndex = selectedTags => {
   const res = {
-    nose: Array<number>(),
+    flavor: Array<number>(),
   };
-  selectedTags.nose.length > 0 &&
-    selectedTags.nose.forEach(data => res.nose.push(TagIndex[data]));
+  selectedTags.flavor.length > 0 &&
+    selectedTags.flavor.forEach(data => res.flavor.push(TagIndex[data]));
   return res;
 };
 
@@ -58,9 +52,7 @@ function NewWhiskyReview() {
   );
   const [text, setTextState] = useState('');
   const [selectedTags, setSelectedTags] = useState<any>({
-    nose: '',
-    taste: '',
-    finish: '',
+    flavor: '',
   });
 
   const [scores, setScores] = useState({
@@ -92,7 +84,7 @@ function NewWhiskyReview() {
       nose_rating: scores.nose,
       taste_rating: scores.taste,
       finish_rating: scores.finish,
-      nose_tag: tags.nose,
+      flavor_tag: tags.flavor,
     };
     console.log(review);
     ReactionApi.createReview(0, review).then(() => {});
@@ -106,29 +98,28 @@ function NewWhiskyReview() {
       ((e.target.value - 0) * 100) / 100 + '% 100%';
   };
 
-  const handleNoseSelection = e => {
+  const handleFlavorSelection = e => {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
       console.log(e.target.value);
       dispatch({ type: 'NOSE', value: e.target.value });
     } else {
-      if (selectedTags.nose.indexOf(e.target.value) < 0) {
+      if (selectedTags.flavor.indexOf(e.target.value) < 0) {
         setSelectedTags(prevValues => {
           return {
             ...prevValues,
-            nose: [...selectedTags.nose, e.target.value],
+            flavor: [...selectedTags.flavor, e.target.value],
           };
         });
       }
     }
   };
 
-  const handleNoseDeletion = (name: any) => {
+  const handleFlavorDeletion = (name: any) => {
     setSelectedTags(prevValues => {
       return {
         ...prevValues,
-        nose: selectedTags.nose.filter(tag => tag !== name),
+        flavor: selectedTags.flavor.filter(tag => tag !== name),
       };
     });
   };
@@ -207,10 +198,11 @@ function NewWhiskyReview() {
           <WhiskyNote
             data_cy="whiskynote-nose"
             label="Nose"
-            handleTagSelection={handleNoseSelection}
+            handleTagSelection={handleFlavorSelection}
             currentClicked={clickedState.currentNoseClicked}
-            hashTagList={selectedTags.nose}
-            handleTagDelete={handleNoseDeletion}
+            hashTagList={selectedTags.flavor}
+            handleTagDelete={handleFlavorDeletion}
+           
           ></WhiskyNote>
 
           <HeadLine
