@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useReducer } from 'react';
-import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
 import ImageUpload from '../../../shared/ImageUpload/ImageUpload';
@@ -7,16 +6,12 @@ import TextField from './TextField';
 import Slider from '../Slider/Slider';
 import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
-import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
-import handleColors from './HandleColors';
 import { useHistory } from 'react-router-dom';
-import { useCallback } from 'react';
 import useWhiskyDB from '../../../hook/swr/useWhiskyDB';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
-
 
 const selectedTagsToIndex = selectedTags => {
   const res = {
@@ -29,21 +24,19 @@ const selectedTagsToIndex = selectedTags => {
 
 const currentClickedReducer = (state, action) => {
   console.log(action.type);
-  if (action.type == 'NOSE') {
-    return { ...state, currentNoseClicked: action.value };
+  if (action.type == 'FLAVOR') {
+    return { ...state, currentFlavorClicked: action.value };
   }
-
   return {
-    currentNoseClicked: '',
+    currentFlavorClicked: '',
   };
 };
 
 const initialClickedState = {
-  currentNoseClicked: '',
+  currentFlavorClicked: '',
 };
 
 function NewWhiskyReview() {
-  //TODO: refactoring
   const { data } = useWhiskyDB();
 
   const [clickedState, dispatch] = useReducer(
@@ -194,15 +187,13 @@ function NewWhiskyReview() {
             inputText={'어떤 맛과 향을 느끼셨나요?'}
             isMandatory={false}
           ></HeadLine>
-
           <WhiskyNote
             data_cy="whiskynote-nose"
             label="Nose"
             handleTagSelection={handleFlavorSelection}
-            currentClicked={clickedState.currentNoseClicked}
+            currentClicked={clickedState.currentFlavorClicked}
             hashTagList={selectedTags.flavor}
-            handleTagDelete={handleFlavorDeletion}
-           
+            handleTagDelete={handleFlavorDeletion}    
           ></WhiskyNote>
 
           <HeadLine
