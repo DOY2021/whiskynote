@@ -48,7 +48,7 @@ const ReviewWrapper = styled.div`
 `;
 const ReviewText = styled.p`
   color: #5c5854;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 140%;
   margin-bottom: 16px;
 

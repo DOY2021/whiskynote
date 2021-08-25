@@ -45,18 +45,9 @@ cursor:pointer;
    color:#edece6;
   }
 
-
 `;
 
-
-//  &:focus{
-//    background-color: ${handleColors(btnText)};
-//    color:#edece6;
-//   }
-
-
 function WhiskyNoteBtn({text, low, onClick}: TagButtonProp) {
-
 
   return (
     <>

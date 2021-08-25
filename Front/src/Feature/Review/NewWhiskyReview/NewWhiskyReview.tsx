@@ -95,7 +95,7 @@ function NewWhiskyReview() {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
       console.log(e.target.value);
-      dispatch({ type: 'NOSE', value: e.target.value });
+      dispatch({ type: 'FLAVOR', value: e.target.value });
     } else {
       if (selectedTags.flavor.indexOf(e.target.value) < 0) {
         setSelectedTags(prevValues => {
@@ -189,7 +189,7 @@ function NewWhiskyReview() {
           ></HeadLine>
           <WhiskyNote
             data_cy="whiskynote-nose"
-            label="Nose"
+            label="Flavor"
             handleTagSelection={handleFlavorSelection}
             currentClicked={clickedState.currentFlavorClicked}
             hashTagList={selectedTags.flavor}
