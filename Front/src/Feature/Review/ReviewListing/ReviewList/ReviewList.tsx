@@ -29,7 +29,7 @@ function ReviewList(props: {
           style={{ display: 'flex', cursor: 'pointer' }}
         >
           <PenIcon src={PenIcon} />
-          <P size={TypoGraphyCategory.subtitle4}>리뷰 쓰기</P>
+          <S.ReviewBtnText>리뷰 쓰기</S.ReviewBtnText>
         </div>
       </S.TitleWrapper>
       <S.Wrapper>

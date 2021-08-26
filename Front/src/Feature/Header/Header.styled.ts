@@ -6,18 +6,18 @@ const MenuBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   color: #201f1e;
-  font-size: 18px;
+  font-size: 16px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
-  margin-right: 10px;
+  margin-right: 25px;
 `;
 const SignUpBtn = styled.div`
   font-family: Pretendard-SemiBold;
   background-color: transparent;
   cursor: pointer;
   color: #201f1e;
-  font-size: 18px;
+  font-size: 16px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
@@ -38,7 +38,7 @@ const MenuLink = styled.div`
 
   cursor: pointer;
   color: #272624;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 const SearchInput = styled.input`
