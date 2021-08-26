@@ -151,22 +151,25 @@ function RegisterWhisky() {
             <P size={TypoGraphyCategory.subtitle2} color={Palette.SemiBlack} isInline>위스키명을 입력해주세요</P>
             <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
             <WhiteSpace height='10'/>
-            <ReviewInput
-              title='국문'
-              subtitle='Korean name' 
-              type={ReviewType.text}
-              onChange={setKorean}
-              value={koreanName}
-              placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 국문 </P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Korean Name</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setKorean}
+               value={strength}
+               placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
             />
-            <ReviewInput
-              title='영문'
-              subtitle='English Name'
-              type={ReviewType.text}
-              onChange={setEng}
-              value={englishName}
-              placeholder="등록하는 위스키의 정확한 영문 명칭을 입력해주세요."
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 영문 </P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> English Name</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setEng}
+               value={size}
+               placeholder='등록하는 위스키의 정확한 영문 명칭을 입력해주세요.'
             />
+           
           </S.RegisterTitleWrapper>
           <WhiteSpace height='40'/>
           <S.RegisterPhotoWrapper>
@@ -363,12 +366,12 @@ function RegisterWhisky() {
               </ReviewStyled.ReviewCheckWrapper>
             </ReviewStyled.ReviewInputWrapper>
           </S.RegisterDescriptWrapper>
-          <S.MarginWrapper>
+          
             <HeadLine
               inputText={'위스키에 대해 설명해주세요.'}
               isMandatory={true}
             ></HeadLine>
-          </S.MarginWrapper>
+          
           <TextField text={describe} handleTextAreaInput={(e) =>setDescribe(e.target.value)}/>
 
           <S.ButtonsWrapper>

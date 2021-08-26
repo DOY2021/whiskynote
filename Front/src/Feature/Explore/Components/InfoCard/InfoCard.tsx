@@ -43,9 +43,9 @@ function InfoCard({
     <Styled.InfoCardWrapper onClick={handleClick}>
       <Styled.InfoCardImg src={info.whisky_image[0].image}/>
       <Styled.InfoCardDescWrapper>
-        <P size={TypoGraphyCategory.subtitle2} bold>{info.name_kor}</P>
+        <P color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle2} bold>{info.name_kor}</P>
         <WhiteSpace height='4'/>
-        <P size={TypoGraphyCategory.body2} color={Palette.WhiskyGray} bold>{info.name_eng}</P>
+        <P size={TypoGraphyCategory.body2} color={Palette.WhiskyGray} >{info.name_eng}</P>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDescTagWrapper>
           {tags.map(renderTag)}
@@ -56,8 +56,8 @@ function InfoCard({
         </Styled.InfoCardDetailWrapper>
         <WhiteSpace height='60'/>
         <div style={{display: 'flex', alignItems: 'center'}}>
-        <P isInline size={TypoGraphyCategory.subtitle}>* {info.whisky_ratings}</P>
-        <P isInline color={Palette.WhiskyGray}>점 ({info.rating_counts})</P>
+        <P isInline color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle}>* {info.whisky_ratings}</P>
+        <P isInline color={Palette.WhiskyGray} marginLeft={3}>점 ({info.rating_counts})</P>
         </div>
       </Styled.InfoCardDescWrapper>
     </Styled.InfoCardWrapper>

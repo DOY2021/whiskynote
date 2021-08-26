@@ -15,7 +15,7 @@ const NoteItemContentWrapper = styled.li<NoteItemContentWrapperProp>`
     align-items: center;
 
     
-    padding: 15px 20px;
+    padding: 17px;
     margin-bottom: 10px;
 
   
