@@ -86,15 +86,20 @@ class Reaction(models.Model):
     taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     #tag
-    nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
-    taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
-    finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
+    # nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
+    # taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
+    # finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
+    flavor_tag = models.ManyToManyField(Tag, related_name = "flavor_tag")
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_at"]
+
+class ReactionImage(models.Model):
+    reaction = models.ForeignKey(Reaction, on_delete = models.CASCADE, null = True, related_name = 'reaction_image', related_query_name = 'reaction_image')
+    image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
 
 #Comment
 class ReactionComment(models.Model):

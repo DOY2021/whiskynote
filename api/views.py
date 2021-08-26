@@ -416,50 +416,21 @@ def WhiskyTopTagView(request, whisky_pk):
     if request.method == 'GET':
         whisky = get_object_or_404(Whisky, pk =whisky_pk)
         selected = Reaction.objects.filter(whisky = whisky)
-        nose_dict = dict()
-        taste_dict = dict()
-        fin_dict = dict()
-
-        top_nose = dict()
-        top_taste = dict()
-        top_fin = dict()
-
-        nose_counts = 0
-        taste_counts = 0
-        fin_counts = 0
+        flavor_dict = dict()
+        top_flavor = dict()
+        flavor_counts = 0
         for reaction in selected:
-            for tag in reaction.nose_tag.all():
-                nose_dict[tag.kor_tag] = nose_dict.get(tag.kor_tag, 0) + 1
-                nose_counts += 1
-            for tag in reaction.taste_tag.all():
-                taste_dict[tag.kor_tag] = taste_dict.get(tag.kor_tag, 0) + 1
-                taste_counts += 1
-            for tag in reaction.finish_tag.all():
-                fin_dict[tag.kor_tag] = fin_dict.get(tag.kor_tag, 0) + 1
-                fin_counts += 1
-        if nose_counts > 0 :
-            nose_list = sorted(nose_dict.items(), reverse = True, key = lambda item: item[1])
-            list_len = len(nose_list)
+            for tag in reaction.flavor_tag.all():
+                flavor_dict[tag.kor_tag] = flavor_dict.get(tag.kor_tag, 0) + 1
+                flavor_counts += 1
+        if flavor_counts > 0 :
+            flavor_list = sorted(flavor_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(flavor_list)
             if list_len >= 3:
                 list_len = 3
             for i in range(list_len):
-                top_nose[nose_list[i][0]] = (int(round(((nose_list[i][1]*100)/nose_counts), 0)))
-        if taste_counts > 0 :
-            taste_list = sorted(taste_dict.items(), reverse = True, key = lambda item: item[1])
-            list_len = len(taste_list)
-            if list_len >= 3:
-                list_len = 3
-            for i in range(list_len):
-                top_taste[taste_list[i][0]] = (int(round(((taste_list[i][1]*100)/taste_counts), 0)))
-        if fin_counts > 0 :
-            fin_list = sorted(fin_dict.items(), reverse = True, key = lambda item: item[1])
-            list_len = len(fin_list)
-            if list_len >= 3:
-                list_len = 3
-            for i in range(list_len):
-                top_fin[fin_list[i][0]] = (int(round(((fin_list[i][1]*100)/fin_counts), 0)))
-
-        top_tags = {'Nose_top3': top_nose, 'Taste_top3':top_taste, 'Finish_top3': top_fin}
+                top_flavor[flavor_list[i][0]] = (int(round(((flavor_list[i][1]*100)/flavor_counts), 0)))
+        top_tags = {'Flavor_top3': top_flavor}
         return Response(
             {'Top tags for whisky': top_tags}
         )
