@@ -76,7 +76,7 @@ function App() {
         <Route path="/whiskyDB/:id" exact component={DB} />
         <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
         <Route component={NotFoundPage} />
-        {/* <Redirect to="/"/> */}
+        <Redirect to="/"/>
       </Switch>
       {/* //TODO Footer */}
       <WhiteSpace height='300'/>
