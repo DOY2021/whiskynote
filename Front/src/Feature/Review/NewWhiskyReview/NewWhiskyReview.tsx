@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useReducer } from 'react';
-import SearchWhisky from '../SearchWhisky/SearchWhisky';
 import S from './NewWhiskyReview.styled';
 import HeadLine from './HeadLine';
 import ImageUpload from '../../../shared/ImageUpload/ImageUpload';
@@ -7,64 +6,37 @@ import TextField from './TextField';
 import Slider from '../Slider/Slider';
 import { useState } from 'react';
 import WhiskyNote from '../WhiskyNote/WhiskyNote/WhiskyNote';
-import Palette from '../../../lib/css/Pallete';
 import { ReactionApi } from '../../../api/reaction';
 import { TagIndex } from '../../../constants/TagIndex';
-import handleColors from './HandleColors';
 import { useHistory } from 'react-router-dom';
-import { useCallback } from 'react';
 import useWhiskyDB from '../../../hook/swr/useWhiskyDB';
 
 const tagList = ['곡물', '나무', '꽃', '과일', '와인', '유황', '피트', '후류'];
 
-const changeColors = e => {
-  if (!e.target.style.backgroundColor) {
-    e.target.style.backgroundColor = handleColors(e.target.value);
-    e.target.style.color = '#edece6';
-  }
-};
-
 const selectedTagsToIndex = selectedTags => {
   const res = {
-    nose: Array<number>(),
-    taste: Array<number>(),
-    finish: Array<number>(),
+    flavor: Array<number>(),
   };
-  selectedTags.nose.length > 0 &&
-    selectedTags.nose.forEach(data => res.nose.push(TagIndex[data]));
-  selectedTags.taste.length > 0 &&
-    selectedTags.taste.forEach(data => res.taste.push(TagIndex[data]));
-  selectedTags.finish.length > 0 &&
-    selectedTags.finish.forEach(data => res.finish.push(TagIndex[data]));
+  selectedTags.flavor.length > 0 &&
+    selectedTags.flavor.forEach(data => res.flavor.push(TagIndex[data]));
   return res;
 };
 
 const currentClickedReducer = (state, action) => {
   console.log(action.type);
-  if (action.type == 'NOSE') {
-    return { ...state, currentNoseClicked: action.value };
-  }
-  if (action.type == 'TASTE') {
-    return { ...state, currentTasteClicked: action.value };
-  }
-  if (action.type == 'FINISH') {
-    return { ...state, currentFinishClicked: action.value };
+  if (action.type == 'FLAVOR') {
+    return { ...state, currentFlavorClicked: action.value };
   }
   return {
-    currentNoseClicked: '',
-    currentTasteClicked: '',
-    currentFinishClicked: '',
+    currentFlavorClicked: '',
   };
 };
 
 const initialClickedState = {
-  currentNoseClicked: '',
-  currentTasteClicked: '',
-  currentFinishClicked: '',
+  currentFlavorClicked: '',
 };
 
 function NewWhiskyReview() {
-  //TODO: refactoring
   const { data } = useWhiskyDB();
 
   const [clickedState, dispatch] = useReducer(
@@ -73,9 +45,7 @@ function NewWhiskyReview() {
   );
   const [text, setTextState] = useState('');
   const [selectedTags, setSelectedTags] = useState<any>({
-    nose: '',
-    taste: '',
-    finish: '',
+    flavor: '',
   });
 
   const [scores, setScores] = useState({
@@ -107,9 +77,7 @@ function NewWhiskyReview() {
       nose_rating: scores.nose,
       taste_rating: scores.taste,
       finish_rating: scores.finish,
-      nose_tag: tags.nose,
-      taste_tag: tags.taste,
-      finish_tag: tags.finish,
+      flavor_tag: tags.flavor,
     };
     console.log(review);
     ReactionApi.createReview(0, review).then(() => {});
@@ -123,83 +91,28 @@ function NewWhiskyReview() {
       ((e.target.value - 0) * 100) / 100 + '% 100%';
   };
 
-  const handleNoseSelection = e => {
+  const handleFlavorSelection = e => {
     e.preventDefault();
     if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
       console.log(e.target.value);
-      dispatch({ type: 'NOSE', value: e.target.value });
+      dispatch({ type: 'FLAVOR', value: e.target.value });
     } else {
-      if (selectedTags.nose.indexOf(e.target.value) < 0) {
+      if (selectedTags.flavor.indexOf(e.target.value) < 0) {
         setSelectedTags(prevValues => {
           return {
             ...prevValues,
-            nose: [...selectedTags.nose, e.target.value],
+            flavor: [...selectedTags.flavor, e.target.value],
           };
         });
       }
     }
   };
 
-  const handleTasteSelection = e => {
-    e.preventDefault();
-    if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
-      console.log(e.target.value);
-      dispatch({ type: 'TASTE', value: e.target.value });
-    } else {
-      if (selectedTags.taste.indexOf(e.target.value) < 0) {
-        setSelectedTags(prevValues => {
-          return {
-            ...prevValues,
-            taste: [...selectedTags.taste, e.target.value],
-          };
-        });
-      }
-    }
-  };
-
-  const handleFinishSelection = e => {
-    e.preventDefault();
-    if (tagList.indexOf(e.target.value) > -1) {
-      changeColors(e);
-      console.log(e.target.value);
-      dispatch({ type: 'FINISH', value: e.target.value });
-    } else {
-      if (selectedTags.finish.indexOf(e.target.value) < 0) {
-        setSelectedTags(prevValues => {
-          return {
-            ...prevValues,
-            finish: [...selectedTags.finish, e.target.value],
-          };
-        });
-      }
-    }
-  };
-
-  const handleNoseDeletion = (name: any) => {
+  const handleFlavorDeletion = (name: any) => {
     setSelectedTags(prevValues => {
       return {
         ...prevValues,
-        nose: selectedTags.nose.filter(tag => tag !== name),
-      };
-    });
-  };
-
-  const handleTasteDeletion = (name: any) => {
-    setSelectedTags(prevValues => {
-      return {
-        ...prevValues,
-        taste: selectedTags.taste.filter(tag => tag !== name),
-      };
-    });
-  };
-
-  const handleFinishDeletion = (name: any) => {
-    setSelectedTags(prevValues => {
-      return {
-        ...prevValues,
-        finish: selectedTags.finish.filter(tag => tag !== name),
+        flavor: selectedTags.flavor.filter(tag => tag !== name),
       };
     });
   };
@@ -274,30 +187,13 @@ function NewWhiskyReview() {
             inputText={'어떤 맛과 향을 느끼셨나요?'}
             isMandatory={false}
           ></HeadLine>
-
           <WhiskyNote
             data_cy="whiskynote-nose"
-            label="Nose"
-            handleTagSelection={handleNoseSelection}
-            currentClicked={clickedState.currentNoseClicked}
-            hashTagList={selectedTags.nose}
-            handleTagDelete={handleNoseDeletion}
-          ></WhiskyNote>
-          <WhiskyNote
-            data_cy="whiskynote-taste"
-            label="Taste"
-            handleTagSelection={handleTasteSelection}
-            currentClicked={clickedState.currentTasteClicked}
-            hashTagList={selectedTags.taste}
-            handleTagDelete={handleTasteDeletion}
-          ></WhiskyNote>
-          <WhiskyNote
-            data_cy="whiskynote-finish"
-            label="Finish"
-            handleTagSelection={handleFinishSelection}
-            currentClicked={clickedState.currentFinishClicked}
-            hashTagList={selectedTags.finish}
-            handleTagDelete={handleFinishDeletion}
+            label="Flavor"
+            handleTagSelection={handleFlavorSelection}
+            currentClicked={clickedState.currentFlavorClicked}
+            hashTagList={selectedTags.flavor}
+            handleTagDelete={handleFlavorDeletion}    
           ></WhiskyNote>
 
           <HeadLine

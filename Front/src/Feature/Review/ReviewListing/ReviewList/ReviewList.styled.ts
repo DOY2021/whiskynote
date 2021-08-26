@@ -1,4 +1,3 @@
-import { TypoGraphyCategory } from './../../../../lib/css/TempTypo';
 import styled from 'styled-components';
 
 const TitleWrapper = styled.div`
@@ -52,8 +51,16 @@ const ReviewText = styled.p`
 
 const ReviewListWrapper = styled.div`
   margin-top: 30px;
-  margin-left: 3%;
+  margin-left: 15%;
 `;
+
+const ReviewBtnText = styled.p`
+  font-family: Pretendard-Medium;
+  font-size: 20px;
+  line-height: 140%;
+  margin-left:4px;
+  margin-top: -2px;
+`
 
 export default {
   WhiskyImg,
@@ -66,4 +73,5 @@ export default {
   ReviewListWrapper,
   Wrapper,
   TitleWrapper,
+  ReviewBtnText
 };
