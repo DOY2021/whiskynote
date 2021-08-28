@@ -39,8 +39,9 @@ admin.site.register(WhiskyCategory, WhiskyCategoryAdmin)
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("name_eng", "name_kor",  "category", "distillery", "bottler", "bottle_type", "vintage", "age", "cask", "casknumber", "alcohol", "whisky_detail")
-	search_fields = ["name", "distillery", "age"]
+    list_display = ("name_eng", "name_kor",  "category")
+    #admin 오류 방지를 위해 DB 업데이트 끝날때까지 list_display field 수 제한
+    search_fields = ("name", "distillery", "age")
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
