@@ -60,6 +60,7 @@ const ReviewBtnText = styled.p`
   line-height: 140%;
   margin-left:4px;
   margin-top: -2px;
+  color: #4A443F;
 `
 
 export default {
