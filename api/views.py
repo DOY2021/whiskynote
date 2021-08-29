@@ -284,12 +284,12 @@ class WhiskyDetailAPIView(generics.RetrieveAPIView):
 
 #Whisky Create (Open-type DB function #1)
 class WhiskyCreateAPIView(generics.CreateAPIView):
-        model = Whisky
-        serializer_class = WhiskyCreateSerializer
-        permission_classes = [permissions.IsAuthenticated]
+    model = Whisky
+    serializer_class = WhiskyCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-        def post(self, request, *args, **kwargs):
-            return self.create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 #Whisky Update (Open-type DB function #2)
 class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -301,14 +301,14 @@ class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
-        queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmListSerializer
-        permission_classes = [IsAdminUser]
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskyConfirmListSerializer
+    permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
-        queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmSerializer
-        permission_classes = [IsAdminUser]
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskyConfirmSerializer
+    permission_classes = [IsAdminUser]
 
 
 #Reaction

@@ -26,7 +26,7 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 from api.models import Collection, Wishlist
 
 #Images
-from api.models import WhiskyImage
+from api.models import WhiskyImage, ReactionImage
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -212,6 +212,7 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+#ReactionDB
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
@@ -220,11 +221,34 @@ class ReactionListSerializer(serializers.ModelSerializer):
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
         return obj.user.username
-    
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
+
+class ReactionCreateSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Reaction
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+class ReactionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionImage
+        fields = ('id', 'image',)
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):
