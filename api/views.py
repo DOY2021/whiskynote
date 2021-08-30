@@ -50,7 +50,7 @@ from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, Whis
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
-from api.serializers import ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+from api.serializers import ReactionListSerializer, ReactionCreateSerializer, TagSerializer, ReactionCommentSerializer
 
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
@@ -312,42 +312,49 @@ class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Reaction
-@api_view(['GET','POST'])
-@permission_classes([IsAuthenticated])
-def reaction_list_create(request, whisky_pk):
-    if request.method == 'GET':
-        reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
-        serializer = ReactionListSerializer(reactions, many = True)
-        return Response(serializer.data)
+class ReactionListAPIView(generics.ListAPIView):
+    queryset = Reaction.objects.all().filter(whisky_id = whisky_pk)
+    serializer_class = ReactionListSerializer
+    ordering_fields = ['modified_at']
+    #Pagination
+    pagination_class = PageSize5Pagination
 
-    elif request.method == 'POST':
-        reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
-        check = reactions.filter(user = request.user).count()
-        if check >= 1:
-            return Response({'message':'Your review to that whisky already exists'})
+# @api_view(['GET','POST'])
+# @permission_classes([IsAuthenticated])
+# def reaction_list_create(request, whisky_pk):
+#     if request.method == 'GET':
+#         reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
+#         serializer = ReactionListSerializer(reactions, many = True)
+#         return Response(serializer.data)
 
-        serializer = ReactionListSerializer(data = request.data)
-        if serializer.is_valid(raise_exception = True):
-            whisky = get_object_or_404(Whisky, pk = whisky_pk)
-            cur_counts = whisky.rating_counts
-            cur_rating = whisky.whisky_ratings * cur_counts
-            new_nose_rating = request.data.get('nose_rating')
-            new_taste_rating = request.data.get('taste_rating')
-            new_finish_rating = request.data.get('finish_rating')
-            ### Exception?. if rating : None -> exception, message: Needs ratings
-            new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
-            new_total_rating = cur_rating + new_average_rating
-            cur_counts = cur_counts+1
-            new_rating = round(new_total_rating/cur_counts, 2)
-            whisky.rating_counts = cur_counts
-            whisky.whisky_ratings = new_rating
-            whisky.save()
-            ### Credit Point 기능 추가.
-            serializer.save(user = request.user, whisky = whisky)
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-        # created_time, modified_time
-        # image 추가
+#     elif request.method == 'POST':
+#         reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
+#         check = reactions.filter(user = request.user).count()
+#         if check >= 1:
+#             return Response({'message':'Your review to that whisky already exists'})
+
+#         serializer = ReactionListSerializer(data = request.data)
+#         if serializer.is_valid(raise_exception = True):
+#             whisky = get_object_or_404(Whisky, pk = whisky_pk)
+#             cur_counts = whisky.rating_counts
+#             cur_rating = whisky.whisky_ratings * cur_counts
+#             new_nose_rating = request.data.get('nose_rating')
+#             new_taste_rating = request.data.get('taste_rating')
+#             new_finish_rating = request.data.get('finish_rating')
+#             ### Exception?. if rating : None -> exception, message: Needs ratings
+#             new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
+#             new_total_rating = cur_rating + new_average_rating
+#             cur_counts = cur_counts+1
+#             new_rating = round(new_total_rating/cur_counts, 2)
+#             whisky.rating_counts = cur_counts
+#             whisky.whisky_ratings = new_rating
+#             whisky.save()
+#             ### Credit Point 기능 추가.
+#             serializer.save(user = request.user, whisky = whisky)
+#             return Response(serializer.data, status = status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#         # created_time, modified_time
+#         # image 추가
 
 
 @api_view(['GET', 'PUT', 'DELETE'])

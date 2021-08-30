@@ -245,6 +245,21 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
+    def create(self, validated_data):
+        current_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'reaction_image' in validated_data:
+            reaction_image = validated_data.pop('reaction_image')
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            for img in reaction_image:
+                ReactionImage.objects.create(**img, reaction = reaction_image)
+            return reaction_instance
+
+        if 'reaction_image' not in validated_data:
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            return reaction_instance
+
 class ReactionImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReactionImage
