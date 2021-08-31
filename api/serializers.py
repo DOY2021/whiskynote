@@ -213,6 +213,11 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         fields = ("profile_photo", )
 
 #ReactionDB
+class ReactionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionImage
+        fields = ('id', 'image',)
+        
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
@@ -259,11 +264,6 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         if 'reaction_image' not in validated_data:
             reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
             return reaction_instance
-
-class ReactionImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReactionImage
-        fields = ('id', 'image',)
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):

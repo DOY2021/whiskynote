@@ -318,6 +318,7 @@ class ReactionListAPIView(generics.ListAPIView):
     ordering_fields = ['modified_at']
     #Pagination
     pagination_class = PageSize5Pagination
+    permission_classes = [IsAuthenticated]
 
 # @api_view(['GET','POST'])
 # @permission_classes([IsAuthenticated])
