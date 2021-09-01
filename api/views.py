@@ -312,8 +312,15 @@ class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Reaction
-class ReactionListAPIView(generics.ListAPIView):
-    queryset = Reaction.objects.all().filter(whisky_id = whisky_pk)
+class ReactionDetailAPIView(APIView):
+    def get_object(self, pk):
+        try:
+            return Reaction.objects.get(pk = pk)
+        except Reaction.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format = None):
+    queryset = Reaction.objects.all().filter(pk = pk)
     serializer_class = ReactionListSerializer
     ordering_fields = ['modified_at']
     #Pagination
