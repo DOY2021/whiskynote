@@ -14,6 +14,7 @@ class Profile(models.Model):
     #required at profile creation
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     nickname = models.CharField(max_length = 64, unique=True)
+    #required = False
     bio = models.CharField(max_length = 240, blank = True)
     profile_photo = models.FileField(null = True, blank = True)
     #credit point & tier
@@ -33,26 +34,42 @@ class WhiskyCategory(models.Model):
         return self.category_name
 
 class Whisky(models.Model):
+    #input
     name_eng = models.CharField(max_length = 100, null = True)
     name_kor = models.CharField(max_length = 100, null = True)
-    contributor = models.CharField(max_length = 100, null = True)
-    #updated - category to be choicefield (foreignkey to WhiskyCategory)
     category = models.ForeignKey(WhiskyCategory, related_name = 'category', on_delete = models.CASCADE, null = True, blank = True)
+    region = models.CharField(max_length = 100, null = True)
     distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
+    bottling_series = models.CharField(max_length = 100, null = True, blank = True)
     vintage = models.IntegerField(null = True, blank = True)
     bottled = models.IntegerField(null = True, blank = True)
     age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
-    casknumber = models.IntegerField(default = 0, blank = True)
-    alcohol = models.FloatField(null = True)
+    alcohol = models.IntegerField(null = True)
+    size = models.IntegerField(null = True, blank = True)
     whisky_detail = models.TextField(null = True, blank = True)
+    
+    #if single cask
+    single_cask = models.BooleanField(default = False)
+    cask_number = models.IntegerField(null = True, blank = True)
+    bottle_number = models.IntegerField(null = True, blank = True)
+    
+    #checklist?
+    cask_strength = models.CharField(max_length = 100, null = True, blank = True)
+    non_chillfiltered = models.CharField(max_length = 100, null = True, blank = True)
+    natural_color = models.CharField(max_length = 100, null = True, blank = True)
+    independent_whisky = models.CharField(max_length = 100, null = True, blank = True)
+
+    #non-input / auto_add
+    contributor = models.CharField(max_length = 100, null = True)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-    #tags
-    #nose_tags = models.IntegerField(null = True)
 
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
@@ -60,6 +77,10 @@ class Whisky(models.Model):
 
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
+    updated = models.BooleanField(default = True)
+
+    #User comment
+    comment = models.TextField(max_length = 500, blank = True, null = True)
 
     #def __str__(self):
     #    return self.name

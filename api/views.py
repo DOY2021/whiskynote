@@ -47,6 +47,7 @@ from allauth.account import app_settings, signals
 # Whisky DB
 from api.models import Whisky
 from api.serializers import (WhiskySerializer, WhiskyConfirmListSerializer, WhiskyConfirmSerializer, WhiskyCreateSerializer, WhiskyUpdateSerializer)
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
@@ -231,9 +232,12 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     parser_classes = (FormParser, MultiPartParser)
 
     def perform_create(self, serializer):
-        #File Upload
-        file_obj = serializer.validated_data['profile_photo']
-        serializer.save(user_id = self.request.user.pk, id = self.request.user.pk)
+        if Profile.objects.filter(id = self.request.user.pk).exists():
+            return Response({'message': '이미 프로필을 생성하셨습니다.'},)
+        #redirection to profile update if possible
+        else:
+            file_obj = serializer.validated_data['profile_photo']
+            serializer.save(user_id = self.request.user.pk, id = self.request.user.pk, profile_photo = file_obj)
 
 class NicknameDuplicateAPIView(APIView):
     def get(self, request, nickname, format = None):
@@ -262,9 +266,10 @@ class WhiskyMainListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.filter(confirmed = True)
     #Add order_by
     serializer_class = WhiskySerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
     search_fields = ['name_eng', 'name_kor', 'distillery']
     ordering_fields = ['whisky_ratings','rating_counts', 'updated_at']
+    filterset_fields = ['category']
     #Pagination
     pagination_class = PageSize5Pagination
 
@@ -603,6 +608,7 @@ class NaverLoginView(View):
             user_info = SocialAccount.objects.get(uid = user['response']['id'])
             #jwt token 발행
             encoded_jwt = jwt.encode({'id':user_info.id}, SECRET_KEY, algorithm = 'HS256')
+
             #jwt토큰, user_pk을 프론트엔드에 전달
             return JsonResponse({
                 'access_token' : encoded_jwt.decode('UTF-8'),
