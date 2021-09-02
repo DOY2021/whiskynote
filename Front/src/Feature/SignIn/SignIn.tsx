@@ -150,7 +150,7 @@ function SignIn() {
             </Button>
 
             <S.ButtonWrapper>
-              <div style={{ display: 'flex', marginTop: '13px' }}>
+              <div style={{ display: 'flex'}}>
                 <S.CheckBox
                   id="chk"
                   type="checkbox"
@@ -167,14 +167,10 @@ function SignIn() {
                   로그인 상태 유지
                 </S.CheckBoxText>
               </div>
-              <Button
-                size="small"
-                variant="grayscale"
-                type="text"
-                color={Palette.Gray600}
+              <S.findIdPwBtn 
               >
-                이메일/비밀번호 찾기
-              </Button>
+                아이디/비밀번호 찾기
+              </S.findIdPwBtn>
             </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>

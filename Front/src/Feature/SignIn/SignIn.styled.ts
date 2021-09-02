@@ -86,10 +86,18 @@ border: 1px ${Palette.Orange600} solid;
 `;
 
 const CheckBoxText = styled.div`
-  font-size: 13px;
+font-family: Pretendard-Medium;
+  font-size: 15px;
   margin-top:2px;
   margin-left:5px`
 
+const findIdPwBtn = styled.button`
+font-family: Pretendard-Medium;
+font-size: 15px;
+color: #837F7C;
+outline:none;
+cursor:pointer;
+`
 export default {
   SignInWrapper,
   SignInTemplate,
@@ -102,5 +110,6 @@ export default {
   ButtonWrapper,
   CheckBoxText,
   CheckBox,
-  CheckBoxLabel
+  CheckBoxLabel,
+  findIdPwBtn
 };
