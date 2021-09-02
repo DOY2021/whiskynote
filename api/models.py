@@ -100,7 +100,7 @@ class Reaction(models.Model):
 class ReactionImage(models.Model):
     reaction = models.ForeignKey(Reaction, on_delete = models.CASCADE, null = True, related_name = 'reaction_image', related_query_name = 'reaction_image')
     image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
-
+    
 #Comment
 class ReactionComment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)

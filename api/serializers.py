@@ -26,7 +26,7 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 from api.models import Collection, Wishlist
 
 #Images
-from api.models import WhiskyImage
+from api.models import WhiskyImage, ReactionImage
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -212,19 +212,58 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+#ReactionDB
+class ReactionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionImage
+        fields = ('id', 'image',)
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
-        return obj.whisky.name
+        return obj.whisky.name_eng
 
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
         return obj.user.username
-    
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
+
+class ReactionCreateSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name_eng
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Reaction
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        current_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'reaction_image' in validated_data:
+            reaction_image = validated_data.pop('reaction_image')
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            for img in reaction_image:
+                ReactionImage.objects.create(**img, reaction = reaction_image)
+            return reaction_instance
+
+        if 'reaction_image' not in validated_data:
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            return reaction_instance
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):

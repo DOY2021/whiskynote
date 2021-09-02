@@ -133,14 +133,14 @@ SIMPLE_JWT = {
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
 #CORS
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = [
-    'https://google.com',
-    'https://hostname.example.com',
-    'https://localhost:8000',
-    'https://127.0.0.1:9000',
-    'https://example.com'
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = [
+#     'https://google.com',
+#     'https://hostname.example.com',
+#     'https://localhost:8000',
+#     'https://127.0.0.1:9000',
+#     'https://example.com'
+# ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
