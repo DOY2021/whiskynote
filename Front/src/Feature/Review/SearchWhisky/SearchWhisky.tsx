@@ -14,7 +14,6 @@ function SearchWhisky(){
   }
 
   const { data } = useSWR(['/api/whiskylist', debouncedSearchQuery], mockList)
-  console.log('re',data)
 
   // useEffect(() => {
   //   if(debouncedSearchQuery) {
@@ -43,7 +42,7 @@ function SearchWhisky(){
       <S.SearchWrapper>
         <S.SearchIcon></S.SearchIcon>
         <S.SearchInput  placeholder="위스키명으로 검색하기" onChange={handleSearchChange}></S.SearchInput> 
-        {data && <DropDown>
+        {searchQuery && <DropDown>
           {data}
         </DropDown>}
       </S.SearchWrapper>

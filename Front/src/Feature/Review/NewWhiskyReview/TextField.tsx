@@ -12,7 +12,6 @@ const Input = styled.textarea`
   padding: 6px 0px;
   padding-left: 8px;
   border: transparent;
-  margin-top:16px;
   padding: 20px;
 
   ::placeholder,
@@ -25,10 +24,10 @@ const Input = styled.textarea`
     outline: none;
   }
 
+  margin-top:16px;
   :hover{
-    border: 1px solid #9C9B99;
-    background-color: #E7E5DE;
-}
+    outline: 1px solid black;
+  }
 `;
 
 const TextCount = styled.p`

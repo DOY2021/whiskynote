@@ -10,10 +10,15 @@ const InfoCardWrapper = styled.li`
     height: 327px;
 
     padding: 0px 10px;
+
+    margin-bottom: 16px;
+
+    cursor: pointer;
 `;
 
 const InfoCardImg = styled.img`
     flex: 1;
+    max-width: 264px;
     height: 97%;
 
     object-fit: cover;

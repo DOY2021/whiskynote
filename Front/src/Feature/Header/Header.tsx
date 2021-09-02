@@ -32,9 +32,9 @@ function Header() {
           </Navbar.Brand>
           <Nav>
             <Link to='/explore/popular/total' style={{color: '#212529'}}>
-              <P size={TypoGraphyCategory.body2}>
+              <S.MenuLink>
                 위스키 찾기
-              </P>
+              </S.MenuLink>
             </Link>
             {/* <Nav.Link href="/explore/popular/total">위스키 찾기</Nav.Link> */}
             {/* <S.MenuMargin></S.MenuMargin>
@@ -48,12 +48,12 @@ function Header() {
                 <>
                   <Link to="/login">
                     <S.MenuBtn>
-                      <P size={TypoGraphyCategory.body3}>로그인</P>
+                      로그인
                     </S.MenuBtn>
                   </Link>
                   <Link to="/signup">
                     <S.SignUpBtn>
-                      <P size={TypoGraphyCategory.body3}>회원가입</P>
+                     회원가입
                     </S.SignUpBtn>
                   </Link>
                 </>

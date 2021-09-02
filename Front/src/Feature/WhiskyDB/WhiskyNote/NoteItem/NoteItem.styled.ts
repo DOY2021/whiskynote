@@ -26,7 +26,7 @@ const NoteItemContentWrapper = styled.li<NoteItemContentWrapperProp>`
         padding: 26px 19px;
     `}
 
-    border-radius: 10px;
+    border-radius: 4px;
 
     box-sizing: border-box;
 `;

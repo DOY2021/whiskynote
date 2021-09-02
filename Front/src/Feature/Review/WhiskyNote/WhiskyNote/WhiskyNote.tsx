@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HashTag from "../HashTag/HashTag";
 import WhiskyNoteBtn from "../WhiskyNoteBtn/WhiskyNoteBtn";
 import S from './WhiskyNote.styled';
+import handleColors from "../../NewWhiskyReview/HandleColors";
 function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, currentClicked: string, hashTagList: [], handleTagDelete: (k:any) => void, data_cy: string}) {
 
+  // useEffect(() => {
+  //    changeColors(props.currentClicked);
+  //   return () => {
+      
+  //   }
+  // }, [props.currentClicked])
+
+  // const changeColors = e => {
+  //   if (!e.target.style.backgroundColor) {
+  //     e.target.style.backgroundColor = handleColors(e.target.value);
+  //     e.target.style.color = '#edece6';
+  //   }
+  // };
 
   return (
     <div data-cy={props.data_cy}>
@@ -79,6 +93,7 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, curr
     <S.ButtonWrapper>
     <WhiskyNoteBtn text='피트' onClick={props.handleTagSelection}></WhiskyNoteBtn>
       <WhiskyNoteBtn text='후류' onClick={props.handleTagSelection}></WhiskyNoteBtn>
+      <div style={{width:'608px'}}></div>
     </S.ButtonWrapper>
 
     {  props.currentClicked == '피트' &&
@@ -98,6 +113,7 @@ function WhiskyNote(props: {label: string, handleTagSelection: (e) => void, curr
       <WhiskyNoteBtn text="담배" low={true} onClick={props.handleTagSelection} ></WhiskyNoteBtn>
     </S.ButtonWrapper>
 }
+
     </div>
   )
 }

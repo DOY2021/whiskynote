@@ -18,7 +18,7 @@ function OrderingBox() {
   }
 
   const getColor = (current_order: OrderByProp) => {
-    return order_by === current_order ? Palette.Black : Palette.Gray700
+    return order_by === current_order ? Palette.WhiskyBlack : Palette.WhiskyWhite
   }
 
   const isBold = (current_order : OrderByProp) => {
@@ -27,8 +27,12 @@ function OrderingBox() {
 
   return (
     <S.orderingBoxWrapper>
-      <P size={TypoGraphyCategory.body2} onClick={handlePopularClick} color={getColor('popular')} bold={isBold('popular')} >인기순</P>
-      <P size={TypoGraphyCategory.body2} onClick={handleRecentClick} color={getColor('recent')} bold={isBold('recent')}>최신순</P>
+      <div style={{cursor: 'pointer'}}>
+        <P size={TypoGraphyCategory.body1} onClick={handlePopularClick} color={getColor('popular')} bold={isBold('popular')} >인기순</P>
+      </div>
+      <div style={{cursor: 'pointer'}}>
+         <P size={TypoGraphyCategory.body1} onClick={handleRecentClick} color={getColor('recent')} bold={isBold('recent')}>최신순</P>
+      </div>
     </S.orderingBoxWrapper>
   )
 }

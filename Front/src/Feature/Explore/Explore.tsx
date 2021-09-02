@@ -56,13 +56,13 @@ function Explore() {
           <Category/>
           <WhiteSpace height='50'/>
           <Link to='/registerWhisky'>
-            <Button size='xlarge' variant='black'>+ 새 위스키 등록</Button>
+            <Button paddingVertical={10} paddingHorizontal={15} variant='black'>+ 새로운 위스키 등록</Button>
           </Link>
               </Col>
               <Col>
           <SearchWhisky/>
           <S.ExploreMainTitleWithOrdering>
-            <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle}>{CATEGORY_ENUM[category]}</P>
+            <P color={Palette.SemiBlack} size={TypoGraphyCategory.title2}>{CATEGORY_ENUM[category]}</P>
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
