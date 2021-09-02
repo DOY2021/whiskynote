@@ -134,8 +134,3 @@ dmypy.json
 .DS_Store
 media/
 secret.json
-migrations/
-/migrations/
-/migrations
-*/migrations
-api/migrations/*
