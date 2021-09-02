@@ -217,11 +217,11 @@ class ReactionImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReactionImage
         fields = ('id', 'image',)
-        
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
-        return obj.whisky.name
+        return obj.whisky.name_eng
 
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
@@ -237,7 +237,7 @@ class ReactionListSerializer(serializers.ModelSerializer):
 class ReactionCreateSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
-        return obj.whisky.name
+        return obj.whisky.name_eng
 
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
