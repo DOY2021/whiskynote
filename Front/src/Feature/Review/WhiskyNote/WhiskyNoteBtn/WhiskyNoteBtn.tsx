@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import Palette from '../../../../lib/css/Pallete';
+import handleColors from '../../NewWhiskyReview/HandleColors';
 
 export interface TagButtonProp {
   text: string,
@@ -38,11 +39,15 @@ border-radius: 4px;
 border: transparent;
 margin-right:  ${props => props.text == '유황' ? null: '10px'};
 cursor:pointer;
+
+ &:focus{
+   background-color: ${props => handleColors(props.text)};
+   color:#edece6;
+  }
+
 `;
 
-
 function WhiskyNoteBtn({text, low, onClick}: TagButtonProp) {
- 
 
   return (
     <>

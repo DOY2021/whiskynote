@@ -12,8 +12,7 @@ const Input = styled.textarea`
   padding: 6px 0px;
   padding-left: 8px;
   border: transparent;
-  margin-top:16px;
-  padding: 10px;
+  padding: 20px;
 
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -24,12 +23,18 @@ const Input = styled.textarea`
   &:focus {
     outline: none;
   }
+
+  margin-top:16px;
+  :hover{
+    outline: 1px solid black;
+  }
 `;
 
 const TextCount = styled.p`
   color: #5f5e5b;
   ${Typography.body1};
   float: right;
+  margin-top:8px;
 `;
 
 function TextField(props: {text:any, handleTextAreaInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void}) {
@@ -39,7 +44,7 @@ function TextField(props: {text:any, handleTextAreaInput: (e: React.ChangeEvent<
       <Input
         maxLength={2000}
         value={props.text}
-        placeholder="위스키에 대해 설명해주세요"
+        placeholder="리뷰를 작성해주세요."
         onChange={props.handleTextAreaInput}
       ></Input>
       <TextCount>{props.text.length}/2000</TextCount>

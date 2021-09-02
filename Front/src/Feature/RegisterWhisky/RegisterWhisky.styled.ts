@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const RegisterWhiskyWrapper = styled.div`
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-`;
+const RegisterWhiskyInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+`
 
 const RegisterWhiskyRegisterForm = styled.form`
   width: 100%;
@@ -25,6 +25,39 @@ const RegisterDescriptWrapper = styled.section`
 const MarginWrapper = styled.div`
   margin-bottom: 12px;
 `;
+
+
+const RegisterDropDownWrapper = styled.div`
+    position: relative;
+    width: 100%;
+    height: 56px;
+    padding: 16px 15px;
+    background-color: #E7E5DE;
+`;
+
+const RegisterDropDownIcon = styled.div`
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+`;
+
+const DropdownItemWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #EDECE6;
+    cursor: pointer;
+    
+    p + p {
+        margin-left: 8px;
+    }
+
+    :hover {
+        background-color: #E7E5DE;
+      }
+`;
+
 
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -51,9 +84,41 @@ const RegisterWhiskyBtn = styled.button`
   color: #edece6;
 `;
 
+const RegisterInputLabel = styled.div`
+  display: flex;
+  align-items: center;
+
+  p + p {
+    margin-left: 8px;
+  }
+
+  margin-top: 12px;
+`;
+
+const RegisterWhiskySearchWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  
+`;
+
+const SearchDropdownItemWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #EDECE6;
+    cursor: pointer;
+    
+    p + p {
+        margin-left: 8px;
+    }
+
+    :hover {
+        background-color: #E7E5DE;
+      }
+`;
 
 export default {
-  RegisterWhiskyWrapper,
+  RegisterWhiskyInnerWrapper,
   RegisterWhiskyRegisterForm,
   RegisterTitleWrapper,
   RegisterPhotoWrapper,
@@ -61,6 +126,12 @@ export default {
   TempSaveBtn,
   RegisterWhiskyBtn,
   MarginWrapper,
-  ButtonsWrapper
+  ButtonsWrapper,
+  RegisterInputLabel,
+  RegisterWhiskySearchWrapper,
+  SearchDropdownItemWrapper,
+  RegisterDropDownIcon,
+    RegisterDropDownWrapper,
+    DropdownItemWrapper,
 
 }

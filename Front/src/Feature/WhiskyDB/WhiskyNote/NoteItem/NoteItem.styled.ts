@@ -1,37 +1,34 @@
 import styled, { css } from "styled-components";
-import { TagProp } from "../../../../model/Tag";
+import { TagVariant } from "../../../../model/WhiskyNote";
 import TagService from "../../../../Services/TagService";
 
 interface NoteItemContentWrapperProp {
   isFirst: boolean;
-  category: TagProp;
+  category: TagVariant;
 }
 
 const NoteItemWrapper = styled.ul`
-    width: 300px;
-    height: 224px;
 `;
 
 const NoteItemContentWrapper = styled.li<NoteItemContentWrapperProp>`
     display: flex;
     align-items: center;
 
-    padding: 10px 20px;
+    
+    padding: 15px 20px;
     margin-bottom: 10px;
 
-    width: 300px;
-    height: 76px;
+  
 
     background-color: #E5E5DF;
     ${({isFirst,category}) => isFirst && css`
         background-color: ${TagService.getTagColor(category)};
+        padding: 26px 19px;
     `}
 
-    border-radius: 10px;
+    border-radius: 4px;
 
     box-sizing: border-box;
-
-    ${({})}
 `;
 
 const NoteItemContentIcon = styled.img`
@@ -47,6 +44,7 @@ interface NoteItemContentTextProp {
 
 const NoteItemContentText = styled.div<NoteItemContentTextProp>`
     flex: 1;
+    margin-left: 13px;
     
     display:flex;
     align-items: center;

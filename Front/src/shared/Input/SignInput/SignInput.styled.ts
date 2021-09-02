@@ -18,24 +18,15 @@ export const StyledSignInputWrapper = styled.div`
 `;
 
 export const StyledSignInput = styled(BaseInput)<StyledSignInputProp>`
+  background-color : #E7E5DE;
   ${({ hasError }) => {
     if (hasError)
       return css`
         border: 1px solid ${Palette.ErrorLight};
       `;
   }}
-  ${({ signType }) => {
-    if (signType === 'signup') {
-      return css`
-        padding-top: 20px;
-        padding-left: 16px;
-      `;
-    } else {
-      return css`
-        padding-left: 16px;
-      `;
-    }
-  }}
+ padding-left: 16px;
+
 `;
 
 export const StyledSignErrorMsg = styled.div<StyledSignInputProp>`

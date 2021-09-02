@@ -3,17 +3,18 @@ import { TypoGraphyCategory, TypoGraphyTheme } from "../../../lib/css/Typography
 
 const ReviewInputWrapper = styled.div`
     display: flex;
+    align-items: center;
 
     width: 100%;
-    max-width: 1200px;
+    height: 56px;
+    
 
     background-color: #E7E5DE;
     border-radius: 2px;
 
-    padding: 6px 8px;
 
     & + & {
-        margin-top: 10px;
+        margin-top: 12px;
     }
 `;
 
@@ -24,6 +25,7 @@ interface ReviewTitleWrapper {
 const ReviewTitleWrapper = styled.div<ReviewTitleWrapper>`
     display: flex;
     align-items: center;
+    margin: 6px 8px;
 
     ${({hasSubtitle}) => hasSubtitle && css`
     width: 30%;
@@ -48,7 +50,22 @@ const ReviewContentWrapper = styled.div`
     flex: 1;
     height: inherit;
 
+    display:flex;
+    align-items: center;
+
     position: relative;
+`;
+
+const ReviewCheckWrapper = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0 30px;
+`;
+
+const ReviewCheckItemWrapper = styled.div`
+    margin-right: 20px;
 `;
 
 const ReviewContentText = styled.input`
@@ -56,6 +73,8 @@ const ReviewContentText = styled.input`
     height: 100%;
 
     padding: 0;
+
+    margin: 0px 8px;
 
     ${TypoGraphyTheme.body1}
 
@@ -69,4 +88,6 @@ export default {
   ReviewTitleWrapper,
   ReviewContentWrapper,
   ReviewContentText,
+  ReviewCheckWrapper,
+  ReviewCheckItemWrapper,
 }

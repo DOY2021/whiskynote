@@ -1,7 +1,9 @@
+import json
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
+from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 
@@ -49,7 +51,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Reaction
 from api.models import Reaction, Tag, ReactionComment
-from api.serializers import ReactionListSerializer, TagSerializer, ReactionCommentSerializer
+from api.serializers import ReactionListSerializer, ReactionCreateSerializer, TagSerializer, ReactionCommentSerializer
 
 #Custom Permission
 from api.permissions import IsOwnerOrReadOnly
@@ -287,12 +289,12 @@ class WhiskyDetailAPIView(generics.RetrieveAPIView):
 
 #Whisky Create (Open-type DB function #1)
 class WhiskyCreateAPIView(generics.CreateAPIView):
-        model = Whisky
-        serializer_class = WhiskyCreateSerializer
-        permission_classes = [permissions.IsAuthenticated]
+    model = Whisky
+    serializer_class = WhiskyCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-        def post(self, request, *args, **kwargs):
-            return self.create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 #Whisky Update (Open-type DB function #2)
 class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -304,52 +306,70 @@ class WhiskyUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 #Whisky Confirm
 class WhiskyConfirmListAPIView(generics.ListAPIView):
-        queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmListSerializer
-        permission_classes = [IsAdminUser]
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskyConfirmListSerializer
+    permission_classes = [IsAdminUser]
 
 class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
-        queryset = Whisky.objects.filter(confirmed = False)
-        serializer_class = WhiskyConfirmSerializer
-        permission_classes = [IsAdminUser]
+    queryset = Whisky.objects.filter(confirmed = False)
+    serializer_class = WhiskyConfirmSerializer
+    permission_classes = [IsAdminUser]
 
 
 #Reaction
-@api_view(['GET','POST'])
-@permission_classes([IsAuthenticated])
-def reaction_list_create(request, whisky_pk):
-    if request.method == 'GET':
-        reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
-        serializer = ReactionListSerializer(reactions, many = True)
+class ReactionDetailAPIView(APIView):
+    ordering_fields = ['modified_at']
+    #Pagination
+    pagination_class = PageSize5Pagination
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk):
+        try:
+            return Reaction.objects.get(pk = pk)
+        except Reaction.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format = None):
+        reaction = self.get_object(pk)
+        serializer = ReactionListSerializer(reaction)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
-        check = reactions.filter(user = request.user).count()
-        if check >= 1:
-            return Response({'message':'Your review to that whisky already exists'})
+# @api_view(['GET','POST'])
+# @permission_classes([IsAuthenticated])
+# def reaction_list_create(request, whisky_pk):
+#     if request.method == 'GET':
+#         reactions = Reaction.objects.all().filter(whisky_id = whisky_pk)
+#         serializer = ReactionListSerializer(reactions, many = True)
+#         return Response(serializer.data)
 
-        serializer = ReactionListSerializer(data = request.data)
-        if serializer.is_valid(raise_exception = True):
-            whisky = get_object_or_404(Whisky, pk = whisky_pk)
-            cur_counts = whisky.rating_counts
-            cur_rating = whisky.whisky_ratings * cur_counts
-            new_nose_rating = request.data.get('nose_rating')
-            new_taste_rating = request.data.get('taste_rating')
-            new_finish_rating = request.data.get('finish_rating')
-            new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
-            new_total_rating = cur_rating + new_average_rating
-            cur_counts = cur_counts+1
-            new_rating = round(new_total_rating/cur_counts, 2)
-            whisky.rating_counts = cur_counts
-            whisky.whisky_ratings = new_rating
-            whisky.save()
+#     elif request.method == 'POST':
+#         reactions = Reaction.objects.filter(whisky_id = whisky_pk)      # Duplicate Check (Review "POST" to one whisky by a user is done only once.)
+#         check = reactions.filter(user = request.user).count()
+#         if check >= 1:
+#             return Response({'message':'Your review to that whisky already exists'})
 
-            #nose_tag = request.data.get('nose_tag')
-            #serializer.nose_tag = nose_tag
-            serializer.save(user = request.user, whisky = whisky)
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#         serializer = ReactionListSerializer(data = request.data)
+#         if serializer.is_valid(raise_exception = True):
+#             whisky = get_object_or_404(Whisky, pk = whisky_pk)
+#             cur_counts = whisky.rating_counts
+#             cur_rating = whisky.whisky_ratings * cur_counts
+#             new_nose_rating = request.data.get('nose_rating')
+#             new_taste_rating = request.data.get('taste_rating')
+#             new_finish_rating = request.data.get('finish_rating')
+#             ### Exception?. if rating : None -> exception, message: Needs ratings
+#             new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
+#             new_total_rating = cur_rating + new_average_rating
+#             cur_counts = cur_counts+1
+#             new_rating = round(new_total_rating/cur_counts, 2)
+#             whisky.rating_counts = cur_counts
+#             whisky.whisky_ratings = new_rating
+#             whisky.save()
+#             ### Credit Point 기능 추가.
+#             serializer.save(user = request.user, whisky = whisky)
+#             return Response(serializer.data, status = status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#         # created_time, modified_time
+#         # image 추가
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -381,6 +401,7 @@ def reaction_update_delete(request, reaction_pk):
             whisky.whisky_ratings = new_rating
             whisky.save()
 
+            # Edit Tag Fields in whisky DB
             serializer.save(user = request.user, whisky = whisky)
             return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -404,10 +425,38 @@ def reaction_update_delete(request, reaction_pk):
         reaction.delete()
         return Response({'message':'Review: %d Deleted' %reaction_pk})
 
+
 #Tag
 class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+#WhiskyTag
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def WhiskyTopTagView(request, whisky_pk):
+    if request.method == 'GET':
+        whisky = get_object_or_404(Whisky, pk =whisky_pk)
+        selected = Reaction.objects.filter(whisky = whisky)
+        flavor_dict = dict()
+        top_flavor = dict()
+        flavor_counts = 0
+        for reaction in selected:
+            for tag in reaction.flavor_tag.all():
+                flavor_dict[tag.kor_tag] = flavor_dict.get(tag.kor_tag, 0) + 1
+                flavor_counts += 1
+        if flavor_counts > 0 :
+            flavor_list = sorted(flavor_dict.items(), reverse = True, key = lambda item: item[1])
+            list_len = len(flavor_list)
+            if list_len >= 3:
+                list_len = 3
+            for i in range(list_len):
+                top_flavor[flavor_list[i][0]] = (int(round(((flavor_list[i][1]*100)/flavor_counts), 0)))
+        top_tags = {'Flavor_top3': top_flavor}
+        return Response(
+            {'Top tags for whisky': top_tags}
+        )
+
 
 #ReactionComment
 class ReactionCommentListAPIView(generics.ListAPIView):
@@ -568,7 +617,7 @@ class NaverLoginView(View):
 
         else:
             if User.objects.filter(username = user['response']['email']).exists():
-                return Reponse(
+                return Response(
                         {"detail": ("이미 가입된 이메일 계정입니다")},
                         status = status.HTTP_400_BAD_REQUEST
                         )

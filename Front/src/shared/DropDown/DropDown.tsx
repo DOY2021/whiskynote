@@ -1,27 +1,28 @@
 import React, { useState } from 'react'
+import P from '../P/P'
 import Styled from './DropDown.styled'
 
 interface DropDownProp {
   children: React.ReactNode;
-  onClick: (v:any) => void;
+  onClick?: (v:any) => void;
 }
 
 function DropDown({
   children,
   onClick,
 }:DropDownProp) {
-  const [isOpen, setOpen] = useState(false);
+  // const [isOpen, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(open => !open)
-  }
+  // const handleOpen = () => {
+  //   setOpen(open => !open)
+  // }
 
   return (
-    <Styled.DropDownWrapper onClick={handleOpen} isOpen = {isOpen}>
-      {isOpen && React.Children.map(children, (child) => {
+    <Styled.DropDownWrapper >
+      {React.Children.map(children, (child) => {
         return (
-          <Styled.DropDownItem onClick={onClick}>
-            {child}
+          <Styled.DropDownItem >
+              {child}
           </Styled.DropDownItem>
         )
       })}

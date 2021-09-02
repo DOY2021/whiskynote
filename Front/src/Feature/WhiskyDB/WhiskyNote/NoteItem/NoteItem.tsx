@@ -3,7 +3,10 @@ import { useCallback } from 'react'
 import TagService from '../../../../Services/TagService'
 import P from '../../../../shared/P/P'
 import S from './NoteItem.styled'
-import chocolate from '../../../../../assets/TagIcon/chocolate.svg'
+import Chocolate from '../../../../../assets/TagIcon/chocolate.svg'
+import { TypoGraphyCategory } from '../../../../lib/css/TempTypo'
+import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
+import Palette from '../../../../lib/css/Pallete'
 
 interface NoteItemProp{
   item : {
@@ -31,10 +34,10 @@ function NoteItem({
 
     return(
       <S.NoteItemContentWrapper isFirst = {isFirst} category = {TagService.getTagCategory(tag[TAG_NAME])} key={tag[TAG_NAME]}>
-        <S.NoteItemContentIcon src={chocolate}/>
+        <Chocolate/>
         <S.NoteItemContentText isFirst={isFirst}>
-          <P>{tag[TAG_NAME]}</P>
-          <P>{tag[TAG_PERCENTAGE]}</P>
+          <P size={isFirst ? TypoGraphyCategory.subtitle2 : TypoGraphyCategory.body1} color={isFirst ? Palette.White : Palette.WhiskyGray}>{tag[TAG_NAME]}</P>
+          <P size={isFirst ? TypoGraphyCategory.subtitle2 : TypoGraphyCategory.body1} color={isFirst ? Palette.White : Palette.WhiskyGray}>{tag[TAG_PERCENTAGE]}</P>
         </S.NoteItemContentText>
       </S.NoteItemContentWrapper>
     )
@@ -42,7 +45,8 @@ function NoteItem({
   
   return (
     <S.NoteItemWrapper>
-      <P>{name}</P>
+      <P size={TypoGraphyCategory.subtitle2}>{name}</P>
+      <WhiteSpace height='10'/>
       {itemArr.map(renderItemContent)}
     </S.NoteItemWrapper>
   )

@@ -18,7 +18,9 @@ export const StyledBaseInput = styled.input<StyledBaseInputProp>`
   ${({ fontStyle }) => fontStyle}
 
   &:hover, :focus{
-      border: 1px solid ${Palette.YB600}
+      border: 1px solid ${Palette.YB600};
+      padding-left: 16px;
+       
   }
   &::placeholder {
     ${({ placeholderStyle }) => placeholderStyle}

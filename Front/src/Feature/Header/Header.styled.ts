@@ -1,57 +1,32 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Nav = styled.div`
-  background-color: #EDECE6;
-`;
-
 const MenuBtn = styled.button`
+  font-family: Pretendard-SemiBold;
   background-color: transparent;
   cursor: pointer;
-  color: #272624;
+  color: #201f1e;
   font-size: 16px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
+  margin-right: 25px;
 `;
 const SignUpBtn = styled.div`
+  font-family: Pretendard-SemiBold;
   background-color: transparent;
   cursor: pointer;
-  color: #201F1E;
+  color: #201f1e;
   font-size: 16px;
   display: inline-flex;
   justify-content: center;
   text-align: center;
-  border: 1px solid #272624;
+  border: 1px solid #201f1e;
   padding: 7px;
 `;
-const NavHeader = styled.div`
-  align-items: center;
-  justify-items: center;
-  display: flex;
-  width: 100%;
-`;
-const NavLeft = styled.div`
-  width: 20%;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-`;
-const NavCenter = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  cursor: pointer;
-  align-items: center;
-  text-align: center;
-`;
 
-const NavRight = styled.div`
-  width: 20%;
-  text-align: center;
-`;
-
-const MenuLink = styled(Link)`
-  font-family: 'Noto Sans KR', sans-serif;
+const MenuLink = styled.div`
+  font-family: Pretendard-Medium;
 
   width: 100px;
   height: 60px;
@@ -74,15 +49,18 @@ const MenuMargin = styled.div`
   margin-right: 4px;
 `;
 
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #736c64;
+  margin-bottom: 60px;
+`;
+
 export default {
-  Nav,
-  NavCenter,
-  NavHeader,
-  NavLeft,
-  NavRight,
   MenuLink,
   SearchInput,
   MenuMargin,
   MenuBtn,
   SignUpBtn,
+  Line,
 };
