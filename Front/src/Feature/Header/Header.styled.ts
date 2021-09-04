@@ -10,7 +10,8 @@ const MenuBtn = styled.button`
   display: inline-flex;
   justify-content: center;
   text-align: center;
-  margin-right: 25px;
+  margin-right: 20px;
+  padding: 10px 16px;
 `;
 const SignUpBtn = styled.div`
   font-family: Pretendard-SemiBold;
@@ -22,7 +23,7 @@ const SignUpBtn = styled.div`
   justify-content: center;
   text-align: center;
   border: 1px solid #201f1e;
-  padding: 7px;
+  padding: 10px 16px;
 `;
 
 const MenuLink = styled.div`

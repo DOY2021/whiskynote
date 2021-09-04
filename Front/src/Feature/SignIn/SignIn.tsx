@@ -26,7 +26,7 @@ function SignIn() {
     setEmail(value);
   };
   const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {  value } = event.target;
+    const { value } = event.target;
     setPassword(value);
   };
 
@@ -98,14 +98,14 @@ function SignIn() {
         <S.SignInHeader>
           <S.SignInHeaderH1>로그인</S.SignInHeaderH1>
         </S.SignInHeader>
-        <S.SocialLoginWrapper>
+        {/* <S.SocialLoginWrapper>
           <NaverLogin />
           <KakaoLogin></KakaoLogin>
-        </S.SocialLoginWrapper>
+        </S.SocialLoginWrapper> */}
         <S.Line></S.Line>
         <S.SignInForm onSubmit={handleLoginSubmit}>
           <SignInput
-            data_cy='email'
+            data_cy="email"
             hasError={errMsg.non_field_errors !== null}
             isValidated={false}
             value={email}
@@ -137,30 +137,40 @@ function SignIn() {
             >
               로그인
             </Button>
-            <Link to="/signup/type-choice">
-              <Button data_cy="signup_btn" size="login" variant="grayscale" type="outline" border={Palette.Black} color={Palette.Black}>
-                회원가입
-              </Button>
-            </Link>
+
+            <Button
+              data_cy="signup_btn"
+              size="login"
+              variant="grayscale"
+              type="outline"
+              border={Palette.Black}
+              color={Palette.Black}
+            >
+              <Link to="/signup/type-choice">회원가입</Link>
+            </Button>
 
             <S.ButtonWrapper>
-              <div style={{display:'flex'}}>
+              <div style={{ display: 'flex'}}>
                 <S.CheckBox
-                  id='chk'
+                  id="chk"
                   type="checkbox"
                   onChange={e => {
                     setChecked(e.target.checked);
                   }}
                   checked={checked}
                 />
-                <S.CheckBoxLabel htmlFor='chk'></S.CheckBoxLabel>
-                <S.CheckBoxText data-cy="checkbox-txt" onClick={() => setChecked(!checked)}>
-                로그인 상태 유지
+                <S.CheckBoxLabel htmlFor="chk"></S.CheckBoxLabel>
+                <S.CheckBoxText
+                  data-cy="checkbox-txt"
+                  onClick={() => setChecked(!checked)}
+                >
+                  로그인 상태 유지
                 </S.CheckBoxText>
               </div>
-              <Button size="small" variant="grayscale" type="text" color={Palette.Gray600}>
-                이메일/비밀번호 찾기
-              </Button>
+              <S.findIdPwBtn 
+              >
+                아이디/비밀번호 찾기
+              </S.findIdPwBtn>
             </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>

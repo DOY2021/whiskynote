@@ -72,13 +72,14 @@ const sizes = {
     paddingBottom: '4px',
   },
   login: {
-    height: '48px',
+    height: '56px',
     width: '432px',
     fontSize: '12px',
     paddingLeft: '16px',
     paddingRight: '16px',
-    paddingTop: '4px',
-    paddingBottom: '4px',
+    paddingTop: '0px',
+    paddingBottom: '0px',
+    marginBottom: '12px'
   },
   fit: {
     height: '100%',
@@ -94,13 +95,14 @@ const sizes = {
 
 const sizeStyles = css<ButtonProp>`
   ${({ size }) => css`
-    ${(size === 'login' || size === 'fit') && `width: ${sizes.login.width};`}
+    ${( size === 'fit') && `width: ${sizes.login.width};`}
     height: ${sizes[size ?? 'medium'].height};
     font-size: ${sizes[size ?? 'medium'].fontSize};
     padding-left: ${sizes[size ?? 'medium'].paddingLeft};
     padding-right: ${sizes[size ?? 'medium'].paddingRight};
     padding-top: ${sizes[size ?? 'medium'].paddingTop};
     padding-bottom: ${sizes[size ?? 'medium'].paddingBottom};
+    margin-bottom: ${sizes['login'].marginBottom};
   `}
 `;
 

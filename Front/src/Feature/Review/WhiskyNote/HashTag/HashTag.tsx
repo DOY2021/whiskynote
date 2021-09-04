@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import Delete from '../../../../../assets/CustomIcons/removetag.svg'
 
 const HashTagWrapper = styled.div`
   background-color: #d0cec5;
@@ -31,7 +32,7 @@ function HashTag(props: { name: string, key:any, handleTagDelete:(k:any) => void
     <HashTagWrapper>
       <TagText>{props.name}</TagText>
       <DeleteIcon onClick={handleDeletion}>
-        <img src="../../../../../assets/CustomIcons/removetag.svg"></img>
+        <Delete src={Delete}></Delete>
       </DeleteIcon>
     </HashTagWrapper>
   );
