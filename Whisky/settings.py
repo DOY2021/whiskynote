@@ -168,6 +168,11 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 ## Insert into secret.json before release
