@@ -23,6 +23,7 @@ const DescriptionLinkWrapper = styled.div`
 
 const DescriptionItemTitle = styled.div`
     display:flex;
+    align-items: center;
     width: 180px;
 
     p + p {

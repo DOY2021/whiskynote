@@ -14,6 +14,7 @@ class Profile(models.Model):
     #required at profile creation
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     nickname = models.CharField(max_length = 64, unique=True)
+    #required = False
     bio = models.CharField(max_length = 240, blank = True)
     profile_photo = models.FileField(null = True, blank = True)
     #credit point & tier
@@ -33,26 +34,42 @@ class WhiskyCategory(models.Model):
         return self.category_name
 
 class Whisky(models.Model):
+    #input
     name_eng = models.CharField(max_length = 100, null = True)
     name_kor = models.CharField(max_length = 100, null = True)
-    contributor = models.CharField(max_length = 100, null = True)
-    #updated - category to be choicefield (foreignkey to WhiskyCategory)
     category = models.ForeignKey(WhiskyCategory, related_name = 'category', on_delete = models.CASCADE, null = True, blank = True)
+    region = models.CharField(max_length = 100, null = True)
     distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottle_type = models.CharField(max_length = 100, null = True, blank = True)
+    bottling_series = models.CharField(max_length = 100, null = True, blank = True)
     vintage = models.IntegerField(null = True, blank = True)
     bottled = models.IntegerField(null = True, blank = True)
     age = models.IntegerField(null = True)
     cask = models.CharField(max_length = 100, null = True, blank = True)
-    casknumber = models.IntegerField(default = 0, blank = True)
-    alcohol = models.FloatField(null = True)
+    alcohol = models.IntegerField(null = True)
+    size = models.IntegerField(null = True, blank = True)
     whisky_detail = models.TextField(null = True, blank = True)
+    
+    #if single cask
+    single_cask = models.BooleanField(default = False)
+    cask_number = models.IntegerField(null = True, blank = True)
+    bottle_number = models.IntegerField(null = True, blank = True)
+    
+    #checklist?
+    cask_strength = models.CharField(max_length = 100, null = True, blank = True)
+    non_chillfiltered = models.CharField(max_length = 100, null = True, blank = True)
+    natural_color = models.CharField(max_length = 100, null = True, blank = True)
+    independent_whisky = models.CharField(max_length = 100, null = True, blank = True)
+
+    #non-input / auto_add
+    contributor = models.CharField(max_length = 100, null = True)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-    #tags
-    #nose_tags = models.IntegerField(null = True)
 
     #auto_add
     created_at = models.DateTimeField(auto_now_add = True)
@@ -60,6 +77,10 @@ class Whisky(models.Model):
 
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
+    updated = models.BooleanField(default = True)
+
+    #User comment
+    comment = models.TextField(max_length = 500, blank = True, null = True)
 
     #def __str__(self):
     #    return self.name
@@ -86,9 +107,10 @@ class Reaction(models.Model):
     taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
     #tag
-    nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
-    taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
-    finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
+    # nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
+    # taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")
+    # finish_tag = models.ManyToManyField(Tag, related_name = "finish_tag")
+    flavor_tag = models.ManyToManyField(Tag, related_name = "flavor_tag")
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -96,6 +118,10 @@ class Reaction(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
+class ReactionImage(models.Model):
+    reaction = models.ForeignKey(Reaction, on_delete = models.CASCADE, null = True, related_name = 'reaction_image', related_query_name = 'reaction_image')
+    image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
+    
 #Comment
 class ReactionComment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)

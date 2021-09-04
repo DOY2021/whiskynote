@@ -26,7 +26,7 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 from api.models import Collection, Wishlist
 
 #Images
-from api.models import WhiskyImage
+from api.models import WhiskyImage, ReactionImage
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -53,7 +53,7 @@ class CustomLoginSerializer(serializers.Serializer):
         if email and password:
             user = self.authenticate(email=email, password=password)
         else:
-            msg = _('Must include "email" and "password".')
+            msg = _('이메일과 비밀번호를 입력해주세요.')
             raise exceptions.ValidationError(msg)
 
         return user
@@ -72,11 +72,14 @@ class CustomLoginSerializer(serializers.Serializer):
                 user = self._validate_email(email, password)
 
         if user:
+            #비밀번호 틀렸을 경우
+
             if not user.is_active:
-                msg = _('User account is disabled.')
+                msg = _('계정이 비활성화되었습니다. 관리자에게 문의해주세요.')
                 raise exceptions.ValidationError(msg)
+
         else:
-            msg = _('Unable to log in with provided credentials.')
+            msg = _('가입된 정보가 없습니다. 이메일과 비밀번호를 확인해주세요.')
             raise exceptions.ValidationError(msg)
 
         # If required, is the email verified?
@@ -85,7 +88,7 @@ class CustomLoginSerializer(serializers.Serializer):
              if app_settings.EMAIL_VERIFICATION == app_settings.EmailVerificationMethod.MANDATORY:
                 email_address = user.emailaddress_set.get(email=user.email)
                 if not email_address.verified:
-                    raise serializers.ValidationError(_('E-mail is not verified.'))
+                    raise serializers.ValidationError(_('이메일을 인증해주세요.'))
 
         attrs['user'] = user
         return attrs
@@ -207,24 +210,64 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
             profile = Profile.objects.create(user = user)
             return profile
 
+
 class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("profile_photo", )
 
+#ReactionDB
+class ReactionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionImage
+        fields = ('id', 'image',)
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
-        return obj.whisky.name
+        return obj.whisky.name_eng
 
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
         return obj.user.username
-    
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
+
+class ReactionCreateSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name_eng
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Reaction
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        current_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'reaction_image' in validated_data:
+            reaction_image = validated_data.pop('reaction_image')
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            for img in reaction_image:
+                ReactionImage.objects.create(**img, reaction = reaction_image)
+            return reaction_instance
+
+        if 'reaction_image' not in validated_data:
+            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            return reaction_instance
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):
@@ -249,6 +292,7 @@ class WhiskyConfirmListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         fields = '__all__'
+
 
 class WhiskyConfirmSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.HyperlinkedIdentityField(view_name = 'whisky_confirm', format = 'json')

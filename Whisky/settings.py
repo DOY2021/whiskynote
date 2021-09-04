@@ -63,11 +63,19 @@ INSTALLED_APPS = [
     #Social-login Providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
+
+    #Filter package
+    'django_filters',
+
+    #allow CORS
+    'corsheaders',
+
     ]
 
 SITE_ID = 1 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -113,7 +121,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
-}
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
+    }
 
 #JWT settings
 
@@ -129,6 +140,33 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
+#CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+     'https://whiskynote.kr',
+     'https://pensive-shannon-99847a.netlify.app'
+]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

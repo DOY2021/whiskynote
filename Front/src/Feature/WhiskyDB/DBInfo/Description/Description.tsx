@@ -40,11 +40,11 @@ function Description({
     <S.DescriptionWrapper>
       <P color={Palette.SemiBlack} size={TypoGraphyCategory.title} bold>{name_kor}</P>
       <WhiteSpace height='10'/>
-      <P size={TypoGraphyCategory.subtitle3} color={Palette.Gray600}>{name_eng}</P>
+      <P size={TypoGraphyCategory.subtitle3} color={Palette.WhiskyGray}>{name_eng}</P>
       <WhiteSpace height='24'/>
       <S.RatingWrapper>
       <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle}>*{whisky_ratings}</P>
-      <P size={TypoGraphyCategory.body} color={Palette.Gray600} >점 ({rating_counts})</P>
+      <P size={TypoGraphyCategory.body} color={Palette.WhiskyGray} >점 ({rating_counts})</P>
       </S.RatingWrapper>
       <WhiteSpace height='10'/>
 
@@ -114,7 +114,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>숙성 연수</P>
           <P size={TypoGraphyCategory.body3} color={Palette.Gray600}>Stated Age/Age</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{age}</P>
+        <P size={TypoGraphyCategory.body2}>{age}년</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>
@@ -138,7 +138,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} marginRight={15} bold>도수</P>
           <P size={TypoGraphyCategory.body3} color={Palette.Gray600}>Alcohol Strength</P>
         </S.DescriptionItemTitle>
-        <P size={TypoGraphyCategory.body2}>{alcohol}</P>
+        <P size={TypoGraphyCategory.body2}>{alcohol}도</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
 
