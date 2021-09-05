@@ -119,6 +119,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         #SessionAuthentication OFF(210905)
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': (
