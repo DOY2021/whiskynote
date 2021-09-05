@@ -172,6 +172,7 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
+SECURE_REFERRER_POLICY = None
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
