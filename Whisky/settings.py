@@ -147,11 +147,6 @@ CSRF_TRUSTED_ORIGINS = [
         'https://whiskynote.herokuapp.com/',
         'https://pensive-shannon-99847a.netlify.app/'
 ]
-CORS_ORIGIN_WHITELIST = [
-        'https://whiskynote.kr/',
-        'https://whiskynote.herokuapp.com/',
-        'https://pensive-shannon-99847a.netlify.app/'
-]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
