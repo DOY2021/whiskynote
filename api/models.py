@@ -41,26 +41,22 @@ class Whisky(models.Model):
     region = models.CharField(max_length = 100, null = True)
     distillery = models.CharField(max_length = 100, null = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
-    bottle_type = models.CharField(max_length = 100, null = True, blank = True)
     bottling_series = models.CharField(max_length = 100, null = True, blank = True)
-    vintage = models.IntegerField(null = True, blank = True)
-    bottled = models.IntegerField(null = True, blank = True)
     age = models.IntegerField(null = True)
-    cask = models.CharField(max_length = 100, null = True, blank = True)
-    alcohol = models.IntegerField(null = True)
+    cask_type = models.CharField(max_length = 100, null = True, blank = True)
+    alcohol = models.FloatField(null = True)
     size = models.IntegerField(null = True, blank = True)
-    whisky_detail = models.TextField(null = True, blank = True)
-    
+
     #if single cask
     single_cask = models.BooleanField(default = False)
     cask_number = models.IntegerField(null = True, blank = True)
-    bottle_number = models.IntegerField(null = True, blank = True)
-    
+
     #checklist?
-    cask_strength = models.CharField(max_length = 100, null = True, blank = True)
-    non_chillfiltered = models.CharField(max_length = 100, null = True, blank = True)
-    natural_color = models.CharField(max_length = 100, null = True, blank = True)
-    independent_whisky = models.CharField(max_length = 100, null = True, blank = True)
+    non_chillfiltered = models.BooleanField(null = True, default = False)
+    natural_color = models.BooleanField(null = True, default = False)
+    independent_whisky = models.BooleanField(null = True, default = False)
+
+    whisky_detail = models.TextField(null = True, blank = True)
 
     #non-input / auto_add
     contributor = models.CharField(max_length = 100, null = True)
@@ -71,16 +67,9 @@ class Whisky(models.Model):
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
 
-    #auto_add
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
-
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
     updated = models.BooleanField(default = True)
-
-    #User comment
-    comment = models.TextField(max_length = 500, blank = True, null = True)
 
     #def __str__(self):
     #    return self.name

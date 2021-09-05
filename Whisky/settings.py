@@ -118,6 +118,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        #SessionAuthentication OFF(210905)
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': (
@@ -150,12 +151,10 @@ CSRF_TRUSTED_ORIGINS = [
         'https://pensive-shannon-99847a.netlify.app/'
 ]
 CORS_ORIGIN_WHITELIST = [
-        'whiskynote.kr',
-        'whiskynote.herokuapp.com',
-        'pensive-shannon-99847a.netlify.app',
-        'https://whiskynote.kr/',
-        'https://whiskynote.herokuapp.com/',
-        'https://pensive-shannon-99847a.netlify.app/'
+        #requires scheme, no path
+        'https://whiskynote.kr',
+        'https://whiskynote.herokuapp.com',
+        'https://pensive-shannon-99847a.netlify.app'
 ]
 CSRF_COOKIE_DOMAIN = [
         'whiskynote.kr',
