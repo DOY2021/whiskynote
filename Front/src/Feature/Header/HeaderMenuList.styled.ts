@@ -27,10 +27,11 @@ const slideIn = keyframes`
 `;
 
 const MenuNav = styled.nav<activeProp>`
+  z-index: 100;
   position: absolute;
   top: 50px;
   width: 160px;
-  height: 193px;
+  height: 196px;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.1));
   background-color: #EDECE6;
   right: 0px;
