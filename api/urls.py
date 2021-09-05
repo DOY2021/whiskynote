@@ -31,7 +31,7 @@ from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIV
 #import WhiskyCreateViewSet
 
 #Reaction
-from api.views import ReactionDetailAPIView
+from api.views import ReactionListAPIView
 #from api.views import reaction_list_create, reaction_update_delete
 
 #Tag
@@ -100,7 +100,7 @@ urlpatterns = [
     path("whisky/tag/stat/<int:whisky_pk>/", WhiskyTopTagView, name = 'whisky_top_tag'),
 
     #reaction
-    path('reaction/<int:pk>/', ReactionDetailAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/', ReactionListAPIView.as_view()),
     #path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     #path('reaction/<int:reaction_pk>/', reaction_update_delete),
 

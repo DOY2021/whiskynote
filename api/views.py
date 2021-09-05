@@ -317,26 +317,18 @@ class WhiskyConfirmAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 #Reaction
-class ReactionDetailAPIView(APIView):
+class ReactionListAPIView(generics.ListAPIView):
     ordering_fields = ['modified_at']
     #Pagination
     pagination_class = PageSize5Pagination
     permission_classes = [IsAuthenticated]
-
-    def get_object(self, pk):
-        try:
-            return Reaction.objects.get(pk = pk)
-        except Reaction.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format = None):
-        reaction = self.get_object(pk)
-        serializer = ReactionListSerializer(reaction)
-        return Response(serializer.data)
-
-    #queryset = Reaction.objects.all().filter(pk = pk )
     serializer_class = ReactionListSerializer
-    
+
+    def get_queryset(self):
+        queryset = Reaction.objects.all()
+        pk = self.kwargs['whisky_pk']
+        whisky_reactions = Reaction.objects.filter(whisky_id = pk)
+        return Reaction.objects.filter(whisky_id = pk)
 
 # @api_view(['GET','POST'])
 # @permission_classes([IsAuthenticated])
