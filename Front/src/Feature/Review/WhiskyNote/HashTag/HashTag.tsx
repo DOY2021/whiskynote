@@ -12,6 +12,7 @@ const HashTagWrapper = styled.div`
   display-items: row;
   margin-right:12px;
   margin-bottom: 16px;
+  height:30px;
 `;
 const TagText = styled.div`
   font-size: 13px;
@@ -22,7 +23,6 @@ const DeleteIcon = styled.div`
   margin-left: 3px;
   cursor: pointer;
   background-color: transparent;
-  margin-top: 2px;
 `;
 function HashTag(props: { name: string, key:any, handleTagDelete:(k:any) => void}) {
   const handleDeletion = () => {
