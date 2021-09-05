@@ -143,8 +143,9 @@ WSGI_APPLICATION = 'Whisky.wsgi.application'
 #CORS
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-     'https://whiskynote.kr',
-     'https://pensive-shannon-99847a.netlify.app'
+     'https://whiskynote.kr/',
+     'https://whiskynote.herokuapp.com/',
+     'https://pensive-shannon-99847a.netlify.app/'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
@@ -168,8 +169,8 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 SECURE_REFERRER_POLICY = None
