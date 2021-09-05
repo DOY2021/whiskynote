@@ -142,10 +142,15 @@ WSGI_APPLICATION = 'Whisky.wsgi.application'
 
 #CORS
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = [
+        'https://whiskynote.kr/',
+        'https://whiskynote.herokuapp.com/',
+        'https://pensive-shannon-99847a.netlify.app/'
+]
 CORS_ORIGIN_WHITELIST = [
-     'https://whiskynote.kr/',
-     'https://whiskynote.herokuapp.com/',
-     'https://pensive-shannon-99847a.netlify.app/'
+        'https://whiskynote.kr/',
+        'https://whiskynote.herokuapp.com/',
+        'https://pensive-shannon-99847a.netlify.app/'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
