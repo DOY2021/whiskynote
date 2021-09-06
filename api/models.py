@@ -92,9 +92,9 @@ class Reaction(models.Model):
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
     #rating
-    nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
-    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
-    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100)
+    nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
+    taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
+    finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
     #tag
     # nose_tag = models.ManyToManyField(Tag, related_name = "nose_tag")
     # taste_tag = models.ManyToManyField(Tag, related_name = "taste_tag")

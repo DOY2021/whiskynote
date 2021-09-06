@@ -330,6 +330,45 @@ class ReactionListAPIView(generics.ListAPIView):
         whisky_reactions = Reaction.objects.filter(whisky_id = pk)
         return Reaction.objects.filter(whisky_id = pk)
 
+class ReactionCreateAPIView(GenericAPIView):
+    model = Reaction
+    serializer_class = ReactionCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        #중복 reaction 생성 확인 -> update만 가능
+        return self.create(request, *args, **kwargs)
+
+    # permission_classes = [IsAuthenticated]
+    # serializer_class = FollowSerializer
+
+    # def post(self, request, *args, **kwargs):
+    #     #Exc) 타인 계정 request 불가
+    #     if int(self.request.user.id) == int(request.data['follower']):
+    #         #Exc) 중복 팔로우 불가
+    #         if Follow.objects.filter(follower = request.data['follower'], following = request.data['following']):
+    #             return Response(
+    #                     {"detail": ("Already Following User")}
+    #                     )
+    #         #Exc) 자기자신을 follow 할 수 없음
+    #         elif request.data['follower'] == request.data['following']:
+    #             return Response(
+    #                     {"detail": ("Can't follow yourself")}
+    #                     )
+    #         else:
+    #             follower_new = Profile.objects.get(id = request.data['follower'])
+    #             following_new = Profile.objects.get(id = request.data['following'])
+    #             Follow.objects.create(follower = follower_new, following = following_new)
+    #             #serializer = self.get_serializer(data=request.data)
+    #             #serializer.is_valid(raise_exception=True)
+    #             #serializer.save()
+    #             return Response(
+    #                     {"detail": ("Successfully Followed")}
+    #                     )
+    #     else:
+    #         return Response(
+    #                 {"detail": ("Bad Request")}
+    #                 )
 # @api_view(['GET','POST'])
 # @permission_classes([IsAuthenticated])
 # def reaction_list_create(request, whisky_pk):
