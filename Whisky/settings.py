@@ -158,14 +158,15 @@ CORS_ORIGIN_WHITELIST = [
         'https://whiskynote.herokuapp.com',
         'https://pensive-shannon-99847a.netlify.app'
 ]
-CSRF_COOKIE_DOMAIN = [
-        'whiskynote.kr',
-        'whiskynote.herokuapp.com',
-        'pensive-shannon-99847a.netlify.app',
-        'https://whiskynote.kr/',
-        'https://whiskynote.herokuapp.com/',
-        'https://pensive-shannon-99847a.netlify.app/'
-]
+CSRF_COOKIE_DOMAIN = '.pensive-shannon-99847a.netlify.app'
+#
+#        'whiskynote.kr',
+#        'whiskynote.herokuapp.com',
+#        'pensive-shannon-99847a.netlify.app',
+#        'https://whiskynote.kr/',
+#        'https://whiskynote.herokuapp.com/',
+#        'https://pensive-shannon-99847a.netlify.app/'
+#]
 
 
 CORS_ALLOW_CREDENTIALS = True
