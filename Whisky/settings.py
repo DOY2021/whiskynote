@@ -154,11 +154,11 @@ CORS_ORIGIN_ALLOW_ALL = False
 #]
 CORS_ORIGIN_WHITELIST = [
         #requires scheme, no path
-        'https://whiskynote.kr',
-        'https://whiskynote.herokuapp.com',
+        #'https://whiskynote.kr',
+        #'https://whiskynote.herokuapp.com',
         'https://pensive-shannon-99847a.netlify.app'
 ]
-CSRF_COOKIE_DOMAIN = '.pensive-shannon-99847a.netlify.app'
+#CSRF_COOKIE_DOMAIN = '.pensive-shannon-99847a.netlify.app'
 #
 #        'whiskynote.kr',
 #        'whiskynote.herokuapp.com',
