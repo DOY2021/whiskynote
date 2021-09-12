@@ -35,11 +35,11 @@ class WhiskyCategory(models.Model):
 
 class Whisky(models.Model):
     #input
-    name_eng = models.CharField(max_length = 100, null = True)
+    name_eng = models.CharField(max_length = 100, null = True, blank = True)
     name_kor = models.CharField(max_length = 100, null = True)
     category = models.ForeignKey(WhiskyCategory, related_name = 'category', on_delete = models.CASCADE, null = True, blank = True)
     region = models.CharField(max_length = 100, null = True)
-    distillery = models.CharField(max_length = 100, null = True)
+    distillery = models.CharField(max_length = 100, null = True, blank = True)
     bottler = models.CharField(max_length = 100, null = True, blank = True)
     bottling_series = models.CharField(max_length = 100, null = True, blank = True)
     age = models.IntegerField(null = True)
