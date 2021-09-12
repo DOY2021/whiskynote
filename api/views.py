@@ -334,6 +334,10 @@ class ReactionDetailAPIView(APIView):
         serializer = ReactionListSerializer(reaction)
         return Response(serializer.data)
 
+    #queryset = Reaction.objects.all().filter(pk = pk )
+    serializer_class = ReactionListSerializer
+    
+
 # @api_view(['GET','POST'])
 # @permission_classes([IsAuthenticated])
 # def reaction_list_create(request, whisky_pk):
