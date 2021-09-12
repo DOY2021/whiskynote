@@ -1,9 +1,10 @@
+import dj_database_url
 from pathlib import Path
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
 
-#JWT Setting
+# JWT Setting
 from datetime import timedelta
 
 
@@ -16,10 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #secret_file = os.path.join(BASE_DIR, 'secret.json')
-#with open(secret_file) as f:
+# with open(secret_file) as f:
 #    secrets = json.loads(f.read())
 #
-#def get_secret(setting, secrets=secrets):
+# def get_secret(setting, secrets=secrets):
 #    try:
 #        return secrets[setting]
 #    except KeyError:
@@ -28,7 +29,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #
 #SECRET_KEY = get_secret("SECRET_KEY")
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-5_^(+n7*k%ts*iv1r^l#_ys-8-o3$7zlhm-id)l+m_80z3yy5g')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'django-insecure-5_^(+n7*k%ts*iv1r^l#_ys-8-o3$7zlhm-id)l+m_80z3yy5g')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,34 +47,34 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    #DFR
+    # DFR
     'rest_framework',
     'rest_framework.authtoken',
-    #password-reset
-    #allauth
+    # password-reset
+    # allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #restauth
+    # restauth
     'rest_auth.registration',
-    #swagger
+    # swagger
     'rest_framework_swagger',
     'drf_yasg',
-    #Apps
+    # Apps
     'api.apps.ApiConfig',
-    #Social-login Providers
+    # Social-login Providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
 
-    #Filter package
+    # Filter package
     'django_filters',
 
-    #allow CORS
+    # allow CORS
     'corsheaders',
 
-    ]
+]
 
-SITE_ID = 1 
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -108,10 +110,10 @@ REST_AUTH_SERIALIZERS = {
     'PASSWORD_RESET_SERIALIZER':
         'api.serializers.PasswordResetSerializer',
 
-    #CustomTokenSerializer
-    'TOKEN_SERIALIZER': 'api.serializers.CustomTokenSerializer' 
+    # CustomTokenSerializer
+    'TOKEN_SERIALIZER': 'api.serializers.CustomTokenSerializer'
 
-        }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -122,11 +124,10 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
     )
-    }
+}
 
-#JWT settings
+# JWT settings
 
 REST_USE_JWT = True
 
@@ -140,11 +141,11 @@ SIMPLE_JWT = {
 
 WSGI_APPLICATION = 'Whisky.wsgi.application'
 
-#CORS
+# CORS
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-     'https://whiskynote.kr',
-     'https://pensive-shannon-99847a.netlify.app'
+    'https://whiskynote.kr',
+    'https://pensive-shannon-99847a.netlify.app'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
@@ -170,21 +171,20 @@ CORS_ALLOW_HEADERS = [
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-## Insert into secret.json before release
+# Insert into secret.json before release
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'masterdb2',
         'USER': 'doy',
-        'PASSWORD':'doy',
+        'PASSWORD': 'doy',
         'HOST': '127.0.0.1',
         'PORT': 5432,
     }
 }
 
 # Database url
-import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
@@ -228,10 +228,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-        )
+    os.path.join(BASE_DIR, 'static'),
+)
 
-#Media uploads
+# Media uploads
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -255,15 +255,15 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-#Following is added to enable registration with email instead of username
+# Following is added to enable registration with email instead of username
 
 AUTHENTICATION_BACKENDS = (
-        # Needed to login by username in Django admin, regardless of 'allauth'
-        "django.contrib.auth.backends.ModelBackend",
+    # Needed to login by username in Django admin, regardless of 'allauth'
+    "django.contrib.auth.backends.ModelBackend",
 
-        #'allauth' specific authentication methods, such as login by email
-        "allauth.account.auth_backends.AuthenticationBackend"
-        )
+    # 'allauth' specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
 
 # Swagger Settings
 
@@ -280,4 +280,3 @@ SWAGGER_SETTINGS = {
 # Django 3.2 Release Note
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-

@@ -10,6 +10,7 @@ export const client = axios.create({
   withCredentials: true,
   headers: {
     'Access-Control-Allow-Origin': true,
+   
   },
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
@@ -23,5 +24,6 @@ function responseInterceptor(res: AxiosResponse) {
 
   return res.data;
 }
+
 
 client.interceptors.response.use(responseInterceptor);
