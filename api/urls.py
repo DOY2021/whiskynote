@@ -31,7 +31,7 @@ from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIV
 #import WhiskyCreateViewSet
 
 #Reaction
-from api.views import ReactionDetailAPIView
+from api.views import ReactionListAPIView, ReactionCreateAPIView
 #from api.views import reaction_list_create, reaction_update_delete
 
 #Tag
@@ -45,6 +45,9 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 
 #Reaction Comment
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
+
+#jwt
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
     #rest-auth
@@ -100,7 +103,8 @@ urlpatterns = [
     path("whisky/tag/stat/<int:whisky_pk>/", WhiskyTopTagView, name = 'whisky_top_tag'),
 
     #reaction
-    path('reaction/<int:pk>/', ReactionDetailAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/', ReactionListAPIView.as_view()),
+    path('reaction/create/<int:whisky_pk>', ReactionCreateAPIView.as_view()),
     #path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     #path('reaction/<int:reaction_pk>/', reaction_update_delete),
 
@@ -110,4 +114,9 @@ urlpatterns = [
     #reaction comment
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
+    
+    #jwt
+    path('token/', obtain_jwt_token),
+    path('token/verify/', verify_jwt_token),
+    path('token/refresh/', refresh_jwt_token),
     ]

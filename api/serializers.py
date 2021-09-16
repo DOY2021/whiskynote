@@ -255,19 +255,34 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
     def create(self, validated_data):
+        current_whisky = self.kwargs['whisky_pk'].whisky
         current_user = self.context['request'].user
 
         #if whisky contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
-            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
+            reaction_instance = Reaction.objects.create(user = current_user, whisky = current_whisky, **validated_data)
             for img in reaction_image:
                 ReactionImage.objects.create(**img, reaction = reaction_image)
-            return reaction_instance
 
         if 'reaction_image' not in validated_data:
-            reaction_instance = Reaction.objects.create(contributor = current_user, **validated_data)
-            return reaction_instance
+            reaction_instance = Reaction.objects.create(user = current_user, whisky = current_whisky, **validated_data)
+        
+        whisky = get_object_or_404(Whisky, pk = whisky_pk)
+        cur_counts = whisky.rating_counts
+        cur_rating = whisky.whisky_ratings * cur_counts
+        new_nose_rating = request.data.get('nose_rating')
+        new_taste_rating = request.data.get('taste_rating')
+        new_finish_rating = request.data.get('finish_rating')
+        ### Exception?. if rating : None -> exception, message: Needs ratings
+        new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
+        new_total_rating = cur_rating + new_average_rating
+        cur_counts = cur_counts+1
+        new_rating = round(new_total_rating/cur_counts, 2)
+        whisky.rating_counts = cur_counts
+        whisky.whisky_ratings = new_rating
+        whisky.save()
+        return reaction_instance
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):
