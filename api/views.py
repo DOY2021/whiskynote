@@ -330,7 +330,7 @@ class ReactionListAPIView(generics.ListAPIView):
         whisky_reactions = Reaction.objects.filter(whisky_id = pk)
         return Reaction.objects.filter(whisky_id = pk)
 
-class ReactionCreateAPIView(GenericAPIView):
+class ReactionCreateAPIView(generics.CreateAPIView):
     model = Reaction
     serializer_class = ReactionCreateSerializer
     permission_classes = [permissions.IsAuthenticated]

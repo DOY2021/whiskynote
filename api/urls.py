@@ -46,6 +46,9 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 #Reaction Comment
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 
+#jwt
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+
 urlpatterns = [
     #rest-auth
     path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
@@ -111,4 +114,9 @@ urlpatterns = [
     #reaction comment
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
+    
+    #jwt
+    path('token/', obtain_jwt_token),
+    path('token/verify/', verify_jwt_token),
+    path('token/refresh/', refresh_jwt_token),
     ]
