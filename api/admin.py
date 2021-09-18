@@ -33,7 +33,7 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 
 class WhiskyCategoryAdmin(admin.ModelAdmin):
-    list_display = ("category_name", )
+    list_display = ("id", "category_name")
 
 admin.site.register(WhiskyCategory, WhiskyCategoryAdmin)
 
@@ -55,7 +55,7 @@ admin.site.register(Reaction, ReactionAdmin)
 @admin.register(ReactionComment)
 class ReactionCommentAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "review", "comment_body", "created_at", "modified_at")
-    
+
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("user", "whisky", "created_at")
