@@ -6,7 +6,7 @@ import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
 import Check from '../../shared/Check/Check'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
-
+import CSRFToken from '../../shared/CSRFToken'
 
 import P from '../../shared/P/P'
 import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace'
@@ -24,7 +24,6 @@ import RegisterDropDown, { WhiskyCategoryProps } from './Components/RegisterDrop
 import { CountryCategory, WhiskyCategory } from './constants'
 import DropDown from '../../shared/DropDown/DropDown'
 import useDebounce from '../../hook/useDebounce'
-
 function RegisterWhisky() {
   const history = useHistory();
 
@@ -32,8 +31,8 @@ function RegisterWhisky() {
 
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
-  const [country, setCountry] = useState('');
-  const [category, setCategory] = useState('싱글 몰트 위스키');
+  const [country, setCountry] = useState(1);
+  const [category, setCategory] = useState(1);
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
   const [series, setSeries] = useState('');
@@ -157,7 +156,7 @@ function RegisterWhisky() {
             </S.RegisterInputLabel>
             <RegisterInput 
                onChange={setKorean}
-               value={strength}
+               value={koreanName}
                placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
             />
             <S.RegisterInputLabel>
@@ -166,7 +165,7 @@ function RegisterWhisky() {
             </S.RegisterInputLabel>
             <RegisterInput 
                onChange={setEng}
-               value={size}
+               value={englishName}
                placeholder='등록하는 위스키의 정확한 영문 명칭을 입력해주세요.'
             />
            
@@ -195,8 +194,8 @@ function RegisterWhisky() {
               <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Category</P>
             </S.RegisterInputLabel>
              <RegisterDropDown
-                        selectedValue={category}
-                          onClick={(v: string) =>setCategory(v)}
+                        selectedValue={WhiskyCategory.find( item => item.idx === category)!!.kor_name}
+                          onClick={(v: number) =>setCategory(v)}
                           valueList={WhiskyCategory}
             />
             <S.RegisterInputLabel>
@@ -382,6 +381,7 @@ function RegisterWhisky() {
       </S.RegisterWhiskyInnerWrapper>
         </Col>
         </Row>
+      <CSRFToken/>
     </Container>
 
   );

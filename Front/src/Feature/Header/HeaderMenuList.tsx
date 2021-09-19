@@ -46,6 +46,7 @@ function HeaderMenuList(props) {
     const response = await authAPI.postLogout();
     if (response.type === 'success') {
       removeCookie('user_id');
+      removeCookie('token');
       history.push('/');
     } else {
       console.log('Logout failed');

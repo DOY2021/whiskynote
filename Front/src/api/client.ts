@@ -6,10 +6,8 @@ console.log('env_test',process.env.NODE_ENV?.includes('dev'))
 
 export const client = axios.create({
   baseURL: END_POINT,
-  //쿠키 주고받을 때 true로 설정해줘야 함.
   withCredentials: true,
   headers: {
-    'Access-Control-Allow-Origin': true,
   },
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
@@ -17,11 +15,12 @@ export const client = axios.create({
 //(value: AxiosResponse<any>) => AxiosResponse<any>
 //accessToken이 있으면 헤더에 등록해줍니다.
 function responseInterceptor(res: AxiosResponse) {
-  const { accessToken } = res.data;
-  if (accessToken)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  const { token } = res.data;
+  if (token)
+    client.defaults.headers.common['Authorization'] = `JWT ${token}`;
 
   return res.data;
 }
 
+client.defaults.withCredentials = true;
 client.interceptors.response.use(responseInterceptor);

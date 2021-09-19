@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo';
 import Button from '../../shared/Button/Button';
 import P from '../../shared/P/P';
@@ -13,11 +13,14 @@ import { useParams } from 'react-router';
 import useWhiskyMain from '../../hook/swr/useWhiskyMain';
 import { getProperOrdering } from './utils';
 import { useCallback } from 'react';
-import { mockWhisky, WhiskyInfoProp } from '../../model/Whisky';
+import { mockWhisky, WhiskyInfoProp, WhiskyMainProp } from '../../model/Whisky';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
 import Palette from '../../lib/css/Pallete';
+import { AxiosResponse } from 'axios';
+import { client } from '../../api/client';
+import { whiskyAPI, WhiskyCreateParamProps, WhiskyMainParamProps, WhiskyMainProps } from '../../api/whisky';
 
 function Explore() {
 
@@ -27,22 +30,41 @@ function Explore() {
     ignoreQueryPrefix: true
   });
 
-  const {data: infos, isLoading} = useWhiskyMain({
-    search: `${query}`,
-    ordering: getProperOrdering(order_by),
-    page: 1,
-  })
+  // const {data: infos, isLoading} = useWhiskyMain({
+  //   page: 1,
+  //   ordering: getProperOrdering(order_by),
+  // })    
+  const data: WhiskyMainParamProps = {  
+    ordering: order_by,
+    page: 1
+}
+
+  
+
+  const [list ,setList] = useState<Array<WhiskyInfoProp> | undefined>();
+
+  useEffect(() => {
+    const test = async() => {
+      const whiskyList: WhiskyMainProps | undefined =  await whiskyAPI.getWhiskyMain(data)
+      setList(whiskyList?.results)
+      console.log(whiskyList)
+    }
+    test()
+  },[])
+
 
   const renderInfoCard = useCallback((info: WhiskyInfoProp) => {
     return <InfoCard info={info} key={info.id}/>
   },[])
 
   
-  if(isLoading) (
+  if(!list) (
     <div>
       Loading
     </div>
   )
+
+  
 
   return (
     <Suspense fallback={<div>Hi</div>}>
@@ -69,8 +91,8 @@ function Explore() {
             <OrderingBox/>
           </S.ExploreMainTitleWithOrdering>
           <S.ExploreMainCardList>
-            {/* {infos && infos.results.map(renderInfoCard)} */}
-            {[mockWhisky, mockWhisky].map(renderInfoCard)}
+            {list && list.length > 0 && list.map(renderInfoCard)}
+            {/* {[mockWhisky, mockWhisky].map(renderInfoCard)} */}
           </S.ExploreMainCardList>
               </Col>
             </Row>

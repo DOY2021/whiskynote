@@ -21,7 +21,9 @@ function InfoCard({
   const history = useHistory();
 
   //TagList에서 받아온 것 중 Nose/Taste/Finish 별로 1위인 태그를 가져옵니다.
-  const tags = Object.entries(info.tags).map( tag => Object.keys(tag[1])[0])
+  // const tags = Object.entries(info.tags).map( tag => Object.keys(tag[1])[0])
+  const tags = [];
+
 
   const handleClick = () => {
     history.push(`/whiskyDB/${info.id}`)
@@ -41,14 +43,14 @@ function InfoCard({
 
   return (
     <Styled.InfoCardWrapper onClick={handleClick}>
-      <Styled.InfoCardImg src={info.whisky_image[0].image}/>
+      <Styled.InfoCardImg src={'https://source.unsplash.com/random'}/>
       <Styled.InfoCardDescWrapper>
         <P color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle2} bold>{info.name_kor}</P>
         <WhiteSpace height='4'/>
         <P size={TypoGraphyCategory.body2} color={Palette.WhiskyGray} >{info.name_eng}</P>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDescTagWrapper>
-          {tags.map(renderTag)}
+          {tags.length > 0 && tags.map(renderTag)}
         </Styled.InfoCardDescTagWrapper>
         <WhiteSpace height='10'/>
         <Styled.InfoCardDetailWrapper>

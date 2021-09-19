@@ -13,13 +13,15 @@ import { profileAPI } from '../../api/profile';
 import CSRFToken from '../../shared/CSRFToken';
 import { useUserDispatch } from '../../hook/useUserContext';
 import Palette from '../../lib/css/Pallete';
+import { client } from '../../api/client';
 
 function SignIn() {
+
   const [email, setEmail] = useState<string>('');
   const history = useHistory();
 
   const [password, setPassword] = useState<string>('');
-  const [cookies, setCookie, removeCookie] = useCookies(['user_id']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user_id','csrftoken']);
 
   const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -46,19 +48,20 @@ function SignIn() {
     if (response.type === 'success') {
       //redirect to landing page
 
+      setCookie('token', response.data.token);
       try {
         if (!dispatch) return;
-        const profile = await profileAPI.getProfile(response.data.user_id);
+        const profile = await profileAPI.getProfile(response.data.user.pk);
         console.log(profile);
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.data.user_id,
+            user_id: profile.data.user_id,
             isLoggedIn: true,
-            nickname: response.data.nickname ? response.data.nickname : null,
-            bio: response.data.bio ? response.data.bio : null,
-            profile_photo: response.data.profile_photo
-              ? response.data.profile_photo
+            nickname: profile.data.nickname ? profile.data.nickname : null,
+            bio: profile.data.bio ? profile.data.bio : null,
+            profile_photo: profile.data.profile_photo
+              ? profile.data.profile_photo
               : null,
           },
         });
@@ -68,7 +71,7 @@ function SignIn() {
         dispatch({
           type: 'LOGIN',
           payload: {
-            user_id: response.data.user_id,
+            user_id: response.data.user.pk,
             isLoggedIn: true,
             nickname: null,
             bio: null,
@@ -79,7 +82,7 @@ function SignIn() {
       }
 
       if (checked) {
-        setCookie('user_id', response.data.user_id, { maxAge: 1209600 }); //2weeks
+        setCookie('user_id', response.data.user.pk, { maxAge: 1209600 }); //2weeks
       } else {
         removeCookie('user_id');
       }
@@ -172,3 +175,20 @@ function SignIn() {
 export default SignIn;
 
 /* TODO: add link for forgot ID/PW */
+
+function getCookie(name) {
+  let cookieValue: null | string = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      console.log(cookies)
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}

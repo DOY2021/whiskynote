@@ -25,9 +25,9 @@ function DBInfo() {
         <ImageSlider />
         </Col>
         <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}>
-        <Description {...mockWhisky}/>
+        {/* <Description {...mockWhisky}/> */}
+        {data && <Description {...data}/>}
         </Col>
-        {/* {data && <Description {...data}/>} */}
       </Row>
     </Container>
     )

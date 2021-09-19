@@ -18,9 +18,10 @@ import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 import NotFoundPage from './NotFoundPage';
 import WhiteSpace from '../shared/WhiteSpace/WhiteSpace';
+import { client } from '../api/client';
 
 function App() {
-  const [cookies] = useCookies(['user_id']);
+  const [cookies] = useCookies();
 
   const dispatch = useUserDispatch();
 
@@ -29,8 +30,9 @@ function App() {
   const fetchProfile = useCallback(async () => {
     if (!dispatch) return;
     if (!cookies) return;
-    console.log(user);
     try {
+      if(cookies['token'])
+        client.defaults.headers.common['Authorization'] = `JWT ${cookies['token']}`;
       const profile = await profileAPI.getProfile(cookies['user_id']);
       //로컬환경인 경우 프록시 설정에 따라 주소가 변하는 이슈가 있어서 수정해주는 코드를 썼습니다.
       if (profile['profile_photo'].match('localhost'))

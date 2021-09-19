@@ -23,7 +23,6 @@ type NewPassword = {
 const postLogin = async (loginParam: LoginParam) => {
   try {
     const response = await client.post('/api/login/', loginParam);
-
     return {
       type: 'success',
       data: response,
