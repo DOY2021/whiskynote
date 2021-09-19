@@ -47,7 +47,7 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 
 #jwt
-from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+#from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 #simple-jwt
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
