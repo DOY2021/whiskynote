@@ -4,7 +4,8 @@ from django.contrib.auth import (
     logout as django_logout
 )
 from django.http.response import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.conf import settings
 
 #Test API
@@ -178,7 +179,7 @@ class CustomConfirmEmailView(APIView):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
         # A React Router Route will handle the failure scenario 
-        return HttpResponseRedirect('')
+        return redirect(reverse('rest_login'))
 
     def get_object(self, queryset=None):
         key = self.kwargs["key"]
