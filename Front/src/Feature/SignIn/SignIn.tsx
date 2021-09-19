@@ -167,10 +167,10 @@ function SignIn() {
                   로그인 상태 유지
                 </S.CheckBoxText>
               </div>
-              <S.findIdPwBtn 
+              {/* <S.findIdPwBtn 
               >
                 아이디/비밀번호 찾기
-              </S.findIdPwBtn>
+              </S.findIdPwBtn> */}
             </S.ButtonWrapper>
           </S.SignInBtnContainer>
         </S.SignInForm>
