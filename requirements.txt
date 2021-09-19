@@ -1,5 +1,6 @@
 Django
 djangorestframework
+djangorestframework-jwt
 djangorestframework-simplejwt==4.4.0
 PyJWT==1.7.1
 django-rest-auth
