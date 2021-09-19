@@ -49,6 +49,9 @@ from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 #jwt
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
+#simple-jwt
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 urlpatterns = [
     #rest-auth
     path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
@@ -64,6 +67,7 @@ urlpatterns = [
     path('login/naver/', NaverLoginView.as_view(), name = 'naver_login'),
 
     #registration
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('register/', include('rest_auth.registration.urls')),
 
     #email verification
@@ -116,7 +120,14 @@ urlpatterns = [
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
     
     #jwt
-    path('token/', obtain_jwt_token),
-    path('token/verify/', verify_jwt_token),
-    path('token/refresh/', refresh_jwt_token),
+    #path('token/', obtain_jwt_token),
+    #path('token/verify/', verify_jwt_token),
+    #path('token/refresh/', refresh_jwt_token),
+    
+    #simple-jwt
+    path('token/', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     ]
+    
+
+
