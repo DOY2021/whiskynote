@@ -33,12 +33,13 @@ const SignInForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  ${responsiveSize('432px', '300px', '10%', '10%')}
+  ${responsiveSize('432px', '370px', '10%', '10%')}
   margUp: 40px 0;
 `;
 
 const SignInBtnContainer = styled.div`
-  ${responsiveSize('432px', '150px', '10%', '10%')}
+ ${responsiveSize('432px', '200px', '10%', '10%')}
+  margin-top:30px;
   display:flex;
   flex-direction: column;
   justify-content: space-around;
@@ -51,7 +52,7 @@ const SocialLoginWrapper = styled.div`
   width:432px;
 `
 const Line = styled.div`
-  background-color: #F1F3F5;
+  background-color: #BBBBBB;
   width: 432px;
   height: 1px;
 `
@@ -80,14 +81,23 @@ const CheckBoxLabel = styled.label`
 display: block;
 width: 1em;
 height: 1em;
-
-border: 1px solid black;
+border-radius: 4px;
+border: 1px ${Palette.Orange600} solid;
 `;
 
 const CheckBoxText = styled.div`
-  font-size: 13px;
+font-family: Pretendard-Medium;
+  font-size: 15px;
   margin-top:2px;
   margin-left:5px`
+
+const findIdPwBtn = styled.button`
+font-family: Pretendard-Medium;
+font-size: 15px;
+color: #837F7C;
+outline:none;
+cursor:pointer;
+`
 export default {
   SignInWrapper,
   SignInTemplate,
@@ -100,5 +110,6 @@ export default {
   ButtonWrapper,
   CheckBoxText,
   CheckBox,
-  CheckBoxLabel
+  CheckBoxLabel,
+  findIdPwBtn
 };
