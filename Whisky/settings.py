@@ -296,14 +296,31 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# Email SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'ensemble.kor@gmail.com'
-EMAIL_HOST_PASSWORD = 'Ensemble123!'
+# Email SMTP - Gmail
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = '587'
+#EMAIL_HOST_USER = 'ensemble.kor@gmail.com'
+#EMAIL_HOST_PASSWORD = 'Ensemble123!'
+#EMAIL_USE_TLS = True
+
+# Email SMTP - Sendgrid
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+#EMAIL_HOST_PASSWORD = os.environ.get('')
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = 'doykorea@gmail.com'
+
+#Test email
+SERVER_EMAIL = 'doykorea@gmail.com'
+ADMINS = (
+        ('DOY', 'doykorea@gmail.com'),
+        )
+MANAGERS = ADMINS
+
 # Email Auth
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
