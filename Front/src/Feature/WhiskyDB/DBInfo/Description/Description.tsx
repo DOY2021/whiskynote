@@ -8,6 +8,7 @@ import PenIcon from '../../../../../assets/CustomIcons/pen.svg'
 import BookMarkIcon from '../../../../../assets/CustomIcons/bookmark.svg'
 import WhiteSpace from '../../../../shared/WhiteSpace/WhiteSpace'
 import { useHistory } from 'react-router'
+import { WhiskyCategory } from '../../../RegisterWhisky/constants'
 
 
 function Description({
@@ -66,7 +67,7 @@ function Description({
           <P size={TypoGraphyCategory.body2} color={Palette.WhiskyBlack3}  marginRight={8} semiBold>카테고리</P>
           <P size={TypoGraphyCategory.body3} semiBold color={Palette.WhiskyBlack4}>Category</P>
         </S.DescriptionItemTitle>
-        <P color={Palette.WhiskyBlack2} size={TypoGraphyCategory.body2}>{category}</P>
+        <P color={Palette.WhiskyBlack2} size={TypoGraphyCategory.body2}>{category && WhiskyCategory[parseInt(category)-1].kor_name}</P>
       </S.DescriptionItemWrapper>
       <WhiteSpace height='10'/>
       <S.DescriptionItemWrapper>

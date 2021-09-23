@@ -22,7 +22,7 @@ export interface ButtonProp {
   type?: any; // outline, text;
   border?: Palette | null
   color?: Palette
-  btnType?: any; //button, submit
+  btnType?: 'button' | 'submit'; //button, submit
   variant?: ButtonVariant;
   children?: any;
   className?: any;
@@ -252,11 +252,12 @@ function Button({
   paddingVertical,
 }: ButtonProp) {
   return (
-    <>
+    
       <Btn
         paddingHorizontal={paddingHorizontal}
         paddingVertical={paddingVertical}
         data-cy={data_cy}
+        
         size={size}
         type={type}
         disabled={disabled}
@@ -265,9 +266,10 @@ function Button({
         border={border}
         color={color}
       >
+        <button type={btnType}>
         {children}
+        </button>
       </Btn>
-    </>
   );
 }
 

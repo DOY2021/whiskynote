@@ -53,7 +53,6 @@ function SignUpTwo() {
   const handleRegisterSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
-    console.log(event);
     event.preventDefault();
 
     setLoading(true);
@@ -134,7 +133,7 @@ function SignUpTwo() {
           size="login"
           variant="black"
           disabled={!bio || !nickname || !policyCheck}
-          btnType="button"
+          btnType='submit'
         >
           다음
         </Button>

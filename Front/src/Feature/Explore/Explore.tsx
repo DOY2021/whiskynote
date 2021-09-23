@@ -36,7 +36,6 @@ function Explore() {
   // })    
   const data: WhiskyMainParamProps = {  
     ordering: order_by,
-    page: 1
 }
 
   
@@ -68,10 +67,11 @@ function Explore() {
 
   return (
     <Suspense fallback={<div>Hi</div>}>
-      <Container>
-        <Row>
+      <Container fluid>
+        <Row style={{minWidth: '1200px'}}>
+          <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} />
           <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >     
-          <Container>
+          <Container fluid>
             <Row>
               <Col xs={2} sm={2} md={2} lg={2} xl={2} xxl={2} >
         

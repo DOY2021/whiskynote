@@ -7,6 +7,8 @@ import Styled from './RegisterInput.styled'
 interface RegisterInputProps {
     placeholder?: string;
     onChange: (value: string) => void
+    onFocus?: () => void
+    onBlur?: () => void
     value: string
     unit?: string
 }
@@ -14,6 +16,8 @@ interface RegisterInputProps {
 function RegisterInput({
     placeholder,
     onChange,
+    onFocus,
+    onBlur,
     value,
     unit,
 }: RegisterInputProps) {
@@ -22,15 +26,26 @@ function RegisterInput({
         onChange(value)
     },[])
 
+    const handleFoucs = useCallback(() => {
+        if(onFocus)
+            onFocus()
+    },[])
+    const handleBlur = useCallback(() => {
+        if(onBlur)
+            onBlur()
+    },[])
+
     return useMemo(() =>(
         <Styled.RegisterInputWrapper>
             <Styled.RegisterInput 
                 placeholder={placeholder}
                 onChange={handleInputChange}
+                onFocus={handleFoucs}
+                onBlur={handleBlur}
                 value={value}
                 />
             {unit && <Styled.RegisterInputUnit>
-                <P>%</P>
+                <P>{unit}</P>
             </Styled.RegisterInputUnit>}
         </Styled.RegisterInputWrapper>
     ),[value,handleInputChange,placeholder])

@@ -32,9 +32,13 @@ export type WhiskyMainProps = {
   results: Array<WhiskyInfoProp>
 }
 
-const createWhisky = async(param: WhiskyCreateParamProps) => {
+const createWhisky = async(param: FormData) => {
   try{
-    const result = await client.post('/api/whisky/create/', param);
+    const result = await client.post('/api/whisky/create/', param, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return result.data;
   }
   catch(e){

@@ -15,7 +15,7 @@ function SignUpPage({ match }) {
       <Route path="/signup/email" exact component={SignUpOne} />
     
       <Route path="/signup/email-verification" exact component={MailVf} />
-      <Route path="/signup/register_profile" exact component={SignUpTwo} />
+      
       <Route path="/signup" exact component={SignUp} />
       <Route path="/api/account-confirm-email/:value" component={SignIn} />
     </Switch>

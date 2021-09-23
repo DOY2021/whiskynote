@@ -48,7 +48,8 @@ function SignIn() {
     if (response.type === 'success') {
       //redirect to landing page
 
-      setCookie('token', response.data.token);
+      setCookie('refresh', response.data['refresh_token']);
+      await renewAccess(response.data['refresh_token'])
       try {
         if (!dispatch) return;
         const profile = await profileAPI.getProfile(response.data.user.pk);
@@ -78,7 +79,7 @@ function SignIn() {
             profile_photo: null,
           },
         });
-        history.push('signup/register_profile');
+        history.push('/register_profile');
       }
 
       if (checked) {
@@ -201,4 +202,10 @@ function getCookie(name) {
       }
   }
   return cookieValue;
+}
+
+export async function renewAccess(token: string) {
+  const newAccess = await authAPI.postRenewAccess(token)
+
+  setTimeout(async() => await renewAccess(token), 60000)
 }

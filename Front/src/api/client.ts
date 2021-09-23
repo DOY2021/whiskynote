@@ -15,9 +15,13 @@ export const client = axios.create({
 //(value: AxiosResponse<any>) => AxiosResponse<any>
 //accessToken이 있으면 헤더에 등록해줍니다.
 function responseInterceptor(res: AxiosResponse) {
-  const { token } = res.data;
-  if (token)
-    client.defaults.headers.common['Authorization'] = `JWT ${token}`;
+  const { access_token, access } = res.data;
+  if (access_token)
+    client.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+  else if (access)
+    client.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+
+
 
   return res.data;
 }

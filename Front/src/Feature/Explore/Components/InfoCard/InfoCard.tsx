@@ -43,7 +43,7 @@ function InfoCard({
 
   return (
     <Styled.InfoCardWrapper onClick={handleClick}>
-      <Styled.InfoCardImg src={'https://source.unsplash.com/random'}/>
+      <Styled.InfoCardImg src={info.whisky_image[0]?.image || 'https://source.unsplash.com/random'}/>
       <Styled.InfoCardDescWrapper>
         <P color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle2} bold>{info.name_kor}</P>
         <WhiteSpace height='4'/>

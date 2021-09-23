@@ -8,6 +8,7 @@ import { useCookies } from 'react-cookie';
 import { useUserState } from '../../hook/useUserContext';
 import S from './HeaderMenuList.styled';
 import Palette from '../../lib/css/Pallete';
+import { client } from '../../api/client';
 
 const userIconStyle = {
   color: Palette.Gray500,
@@ -47,6 +48,8 @@ function HeaderMenuList(props) {
     if (response.type === 'success') {
       removeCookie('user_id');
       removeCookie('token');
+      removeCookie('refresh');
+      delete client.defaults.headers.common['Authorization']
       history.push('/');
     } else {
       console.log('Logout failed');
