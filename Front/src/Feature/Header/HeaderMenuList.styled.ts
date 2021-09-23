@@ -30,13 +30,14 @@ const MenuNav = styled.nav<activeProp>`
   position: absolute;
   top: 50px;
   width: 160px;
-  height: 193px;
+  height: 195px;
   filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.1));
   background-color: #EDECE6;
   right: 0px;
   visibility: hidden;
   border: 1px solid #736C64;
   animation: ${slideIn} 0.4s ease, ${trans} 0.4s ease, visibility 0.4s;
+  z-index:100;
 
 
   ${props =>
