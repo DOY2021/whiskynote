@@ -14,6 +14,8 @@ from django.utils.encoding import force_text, force_bytes
 from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
+from django.shortcuts import render, get_object_or_404
+
 #from posts.models import Post
 from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 
@@ -255,25 +257,52 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
     def create(self, validated_data):
-        current_whisky = self.kwargs['whisky_pk'].whisky
-        current_user = self.context['request'].user
+        request = self.context['request']
+        url = request.build_absolute_uri()
+        whisky_pk = int(url.split('/')[-2])
+        cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
+        cur_user = self.context['request'].user
 
         #if whisky contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
-            reaction_instance = Reaction.objects.create(user = current_user, whisky = current_whisky, **validated_data)
+            reaction_instance = Reaction.objects.create(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
             for img in reaction_image:
-                ReactionImage.objects.create(**img, reaction = reaction_image)
+                ReactionImage.objects.create(**img, reaction = reaction_instance)
 
-        if 'reaction_image' not in validated_data:
-            reaction_instance = Reaction.objects.create(user = current_user, whisky = current_whisky, **validated_data)
-        
-        whisky = get_object_or_404(Whisky, pk = whisky_pk)
+        else:
+            reaction_instance = Reaction.objects.create(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
+
+        #위스키 평점 반영
+        whisky = get_object_or_404(Whisky, pk = cur_whisky.pk)
         cur_counts = whisky.rating_counts
         cur_rating = whisky.whisky_ratings * cur_counts
-        new_nose_rating = request.data.get('nose_rating')
-        new_taste_rating = request.data.get('taste_rating')
-        new_finish_rating = request.data.get('finish_rating')
+        new_nose_rating = int(request.data.get('nose_rating'))
+        new_taste_rating = int(request.data.get('taste_rating'))
+        new_finish_rating = int(request.data.get('finish_rating'))
+
         ### Exception?. if rating : None -> exception, message: Needs ratings
         new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
         new_total_rating = cur_rating + new_average_rating
@@ -317,7 +346,6 @@ class WhiskyConfirmSerializer(serializers.HyperlinkedModelSerializer):
         model = Whisky
         fields = ('url', 'id', 'whisky_image', 'name_eng', 'name_kor', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail', 'confirmed')
 
-
 class WhiskyUpdateSerializer(serializers.ModelSerializer):
     whisky_image = WhiskyImageSerializer(many = True, required = False)
 
@@ -346,7 +374,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
                 WhiskyImage.objects.create(**img, whisky = whisky_instance)
             return whisky_instance
 
-        if 'whisky_image' not in validated_data:
+        else:
             whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
             return whisky_instance
 

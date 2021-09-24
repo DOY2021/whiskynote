@@ -104,7 +104,7 @@ urlpatterns = [
 
     #reaction
     path('reaction/<int:whisky_pk>/', ReactionListAPIView.as_view()),
-    path('reaction/create/<int:whisky_pk>', ReactionCreateAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/create', ReactionCreateAPIView.as_view()),
     #path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     #path('reaction/<int:reaction_pk>/', reaction_update_delete),
 
