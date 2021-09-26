@@ -1,6 +1,9 @@
 from django.contrib import admin
 from api.models import Profile, WhiskyCategory, Whisky, Reaction, Follow, Tag, Collection, Wishlist, ReactionComment
 
+#WhiskyImage
+from api.models import WhiskyImage
+
 #CustomUserAdmin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -33,14 +36,22 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 
 class WhiskyCategoryAdmin(admin.ModelAdmin):
-    list_display = ("category_name", )
+    list_display = ("id", "category_name")
+
+
+#WhiskyImageInline
+class WhiskyImageInline(admin.StackedInline):
+    model = WhiskyImage
+    con_delete = False
 
 admin.site.register(WhiskyCategory, WhiskyCategoryAdmin)
 
 @admin.register(Whisky)
 class WhiskyAdmin(admin.ModelAdmin):
-	list_display = ("name_eng", "name_kor",  "category", "distillery", "bottler", "bottle_type", "vintage", "age", "cask", "casknumber", "alcohol", "whisky_detail")
-	search_fields = ["name", "distillery", "age"]
+    list_display = ("name_eng", "name_kor",  "category", "contributor", "created_at", "updated_at")
+    inlines = [WhiskyImageInline, ]
+    #admin 오류 방지를 위해 DB 업데이트 끝날때까지 list_display field 수 제한
+    search_fields = ("name", "distillery", "age")
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -48,13 +59,13 @@ class TagAdmin(admin.ModelAdmin):
 
 class ReactionAdmin(admin.ModelAdmin):
 	model = Reaction
-	filter_horizontal = ('nose_tag', 'taste_tag', 'finish_tag')
+	#filter_horizontal = ("flavor_tag")
 admin.site.register(Reaction, ReactionAdmin)
 
 @admin.register(ReactionComment)
 class ReactionCommentAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "review", "comment_body", "created_at", "modified_at")
-    
+
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("user", "whisky", "created_at")

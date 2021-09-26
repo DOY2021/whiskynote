@@ -53,8 +53,11 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    #dj-rest-auth
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     #restauth
-    'rest_auth.registration',
+    #'rest_auth.registration',
     #swagger
     'rest_framework_swagger',
     'drf_yasg',
@@ -63,11 +66,19 @@ INSTALLED_APPS = [
     #Social-login Providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
+
+    #Filter package
+    'django_filters',
+
+    #allow CORS
+    'corsheaders',
+
     ]
 
 SITE_ID = 1 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,30 +121,124 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+
+        #simple-jwt update
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
-}
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
+    }
+
 
 #JWT settings
-
 REST_USE_JWT = True
+#SIMPLE_JWT = {
+#    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+#    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+#    'ROTATE_REFRESH_TOKENS': False,
+#    'BLACKLIST_AFTER_ROTATION': True,
+#}
 
+
+#Simple-JWT settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=30),
 }
 
 
+#WSGI
 WSGI_APPLICATION = 'Whisky.wsgi.application'
+
+
+#CORS
+CORS_ORIGIN_ALLOW_ALL = False
+#CSRF_TRUSTED_ORIGINS = [
+#        'whiskynote.kr',
+#        'whiskynote.herokuapp.com',
+#        'pensive-shannon-99847a.netlify.app',
+#        'https://whiskynote.kr/',
+#        'https://whiskynote.herokuapp.com/',
+#        'https://pensive-shannon-99847a.netlify.app/'
+#]
+CORS_ORIGIN_WHITELIST = [
+        #requires scheme, no path
+        'https://whiskynote.kr',
+        #'https://whiskynote.herokuapp.com',
+        'https://pensive-shannon-99847a.netlify.app'
+]
+#CSRF_COOKIE_DOMAIN = '.pensive-shannon-99847a.netlify.app'
+#
+#        'whiskynote.kr',
+#        'whiskynote.herokuapp.com',
+#        'pensive-shannon-99847a.netlify.app',
+#        'https://whiskynote.kr/',
+#        'https://whiskynote.herokuapp.com/',
+#        'https://pensive-shannon-99847a.netlify.app/'
+#]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+CORS_REPLACE_HTTPS_REFERER = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+SECURE_REFERRER_POLICY = None
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 ## Insert into secret.json before release
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -144,15 +249,14 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
 # Database url
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -171,54 +275,59 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Seoul'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
         )
 
-#Media uploads
 
+#Media uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Email SMTP
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Email SMTP - Gmail
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = '587'
+#EMAIL_HOST_USER = 'ensemble.kor@gmail.com'
+#EMAIL_HOST_PASSWORD = 'Ensemble123!'
+#EMAIL_USE_TLS = True
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'ensemble.kor@gmail.com'
-EMAIL_HOST_PASSWORD = 'Ensemble123!'
+# Email SMTP - Sendgrid
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
+#EMAIL_HOST_PASSWORD = os.environ.get('')
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = 'doykorea@gmail.com'
+
+#Test email
+SERVER_EMAIL = 'doykorea@gmail.com'
+ADMINS = (
+        ('DOY', 'doykorea@gmail.com'),
+        )
+MANAGERS = ADMINS
 
 # Email Auth
-
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-
 #Following is added to enable registration with email instead of username
-
 AUTHENTICATION_BACKENDS = (
         # Needed to login by username in Django admin, regardless of 'allauth'
         "django.contrib.auth.backends.ModelBackend",
@@ -227,8 +336,8 @@ AUTHENTICATION_BACKENDS = (
         "allauth.account.auth_backends.AuthenticationBackend"
         )
 
-# Swagger Settings
 
+# Swagger Settings
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
@@ -239,7 +348,6 @@ SWAGGER_SETTINGS = {
     },
 }
 
+
 # Django 3.2 Release Note
-
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
