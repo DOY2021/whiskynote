@@ -294,23 +294,6 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
             flavor_tags = request.data.getlist("flavor_tag")
             for flavor in flavor_tags:
                 reaction_instance.flavor_tag.add(int(flavor))
-
-        #위스키 평점 반영
-        # whisky = get_object_or_404(Whisky, pk = cur_whisky.pk)
-        # cur_counts = whisky.rating_counts
-        # cur_rating = whisky.whisky_ratings * cur_counts
-        # new_nose_rating = int(request.data.get('nose_rating'))
-        # new_taste_rating = int(request.data.get('taste_rating'))
-        # new_finish_rating = int(request.data.get('finish_rating'))
-
-        # ### Exception?. if rating : None -> exception, message: Needs ratings
-        # new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
-        # new_total_rating = cur_rating + new_average_rating
-        # cur_counts = cur_counts+1
-        # new_rating = round(new_total_rating/cur_counts, 2)
-        # whisky.rating_counts = cur_counts
-        # whisky.whisky_ratings = new_rating
-        # whisky.save()
         return reaction_instance
 
 class ReactionUpdateSerializer(serializers.ModelSerializer):
@@ -329,7 +312,7 @@ class ReactionUpdateSerializer(serializers.ModelSerializer):
         fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         request = self.context['request']
         url = request.build_absolute_uri()
         whisky_pk = int(url.split('/')[-2])
@@ -367,23 +350,6 @@ class ReactionUpdateSerializer(serializers.ModelSerializer):
             flavor_tags = request.data.getlist("flavor_tag")
             for flavor in flavor_tags:
                 reaction_instance.flavor_tag.add(int(flavor))
-
-        #위스키 평점 반영
-        # whisky = get_object_or_404(Whisky, pk = cur_whisky.pk)
-        # cur_counts = whisky.rating_counts
-        # cur_rating = whisky.whisky_ratings * cur_counts
-        # new_nose_rating = int(request.data.get('nose_rating'))
-        # new_taste_rating = int(request.data.get('taste_rating'))
-        # new_finish_rating = int(request.data.get('finish_rating'))
-
-        # ### Exception?. if rating : None -> exception, message: Needs ratings
-        # new_average_rating = round((new_nose_rating + new_taste_rating + new_finish_rating)/3, 2)
-        # new_total_rating = cur_rating + new_average_rating
-        # cur_counts = cur_counts+1
-        # new_rating = round(new_total_rating/cur_counts, 2)
-        # whisky.rating_counts = cur_counts
-        # whisky.whisky_ratings = new_rating
-        # whisky.save()
         return reaction_instance
 
 #WhiskyDB
@@ -398,7 +364,7 @@ class WhiskySerializer(serializers.ModelSerializer):
     reactions = ReactionListSerializer(many = True, read_only = True)
     whisky_image = WhiskyImageSerializer(many = True, required = False)
 
-    whisky_ratings = serializers.SerializerMethodField()                # new style to calculate whisky rating (@whisky)
+    whisky_ratings = serializers.SerializerMethodField()                # Whisky Rating is done from whisky-side (changed)
     def get_whisky_ratings(self, obj):
         cur_whisky = obj.id
         reactions = Reaction.objects.filter(whisky_id = cur_whisky)
