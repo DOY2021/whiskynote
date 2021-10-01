@@ -31,8 +31,7 @@ from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIV
 #import WhiskyCreateViewSet
 
 #Reaction
-from api.views import ReactionListAPIView, ReactionCreateAPIView
-#from api.views import reaction_list_create, reaction_update_delete
+from api.views import ReactionListAPIView, ReactionCreateAPIView, ReactionUpdateAPIView
 
 #Tag
 from api.views import TagListView, WhiskyTopTagView
@@ -109,7 +108,8 @@ urlpatterns = [
 
     #reaction
     path('reaction/<int:whisky_pk>/', ReactionListAPIView.as_view()),
-    path('reaction/<int:whisky_pk>/create', ReactionCreateAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/create/', ReactionCreateAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/update/', ReactionUpdateAPIView.as_view()),
     #path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
     #path('reaction/<int:reaction_pk>/', reaction_update_delete),
 
