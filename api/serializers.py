@@ -322,7 +322,7 @@ class ReactionUpdateSerializer(serializers.ModelSerializer):
         #if whisky contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
-            reaction_instance = Reaction.objects.create(
+            reaction_instance = Reaction.objects.update(
                 user = cur_user,
                 whisky = cur_whisky,
                 review_title = request.data.get("review_title"),
