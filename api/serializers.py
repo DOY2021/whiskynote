@@ -218,6 +218,38 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+
+#Profile - Whisky List (Full)
+class MenuFullSerializer(serializers.ModelSerializer):
+    my_ratings = serializers.SerializerMethodField()
+    def get_my_ratings(self, obj):
+        if Reaction.objects.filter(whisky = obj).exists():
+            return True
+        else:
+            return False
+    #Work in progress
+
+#    def my_ratings(self, obj):
+#        if Reaction.objects.filter(user = user, whisky = obj).exists():
+#            print(True)
+#            reaction_obj = Reaction.objects.get(user = user, whisky = obj)
+#            my_ratings = reaction_obj.nose_rating
+#            return my_ratings
+#        else:
+#            my_ratings = "N/A"
+#            return my_ratings
+#
+    class Meta:
+        model = Whisky
+        fields = ("name_eng", "region", "cask_type", "alcohol", "my_ratings")
+        read_only_fields = ("name_eng", "region", "cask_type", "alcohol", "my_ratings")
+        #"public" should be added as a custom field
+        #"my_ratings" should be added as a nested field
+
+
+#Profile - Whisky List (Short)
+
+
 #ReactionDB
 class ReactionImageSerializer(serializers.ModelSerializer):
     class Meta:

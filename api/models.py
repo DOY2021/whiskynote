@@ -137,3 +137,8 @@ class Wishlist(models.Model):
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
 
+#Profile - Whisky Menu 
+#class Menu(models.Model):
+#    user = models.ForeignKey(User, on_delete = models.CASCADE)
+#    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+#    created_at = models.DateTimeField()
