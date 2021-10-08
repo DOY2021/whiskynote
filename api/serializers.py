@@ -233,11 +233,15 @@ class ReactionListSerializer(serializers.ModelSerializer):
     def get_userName(self, obj):
         return obj.user.username
 
+    avg_rating = serializers.SerializerMethodField()
+    def get_avg_rating(self,obj):
+        return round((obj.nose_rating + obj.taste_rating + obj.finish_rating)/3, 2)
+
     reaction_image = ReactionImageSerializer(many = True, required = False)
 
     class Meta:
         model = Reaction
-        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'avg_rating', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 class ReactionCreateSerializer(serializers.ModelSerializer):
