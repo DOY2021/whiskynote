@@ -10,28 +10,17 @@ import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
 import { ReactionApi } from '../../../../api/reaction';
 import { ReactionList } from '../../../../api/reaction';
 
+
 function ReviewList(props: {
   whisky_ratings?: number;
   rating_counts?: number;
   reactions: ReactionList[]
 }) {
   const history = useHistory();
-  // const [reviewItems, setReviewItems] = useState<ReactionList[]>([])
-  // const [reviewCount, setReviewCount] = useState()
-
   let id = window.location.href.split("/").pop();
   const handleReviewClick = () => {
     history.push(`/newWhiskyReview/${id}`);
   };
-
-  // useEffect(() => {
-  //   ReactionApi.getReviews(parseInt(id!)).then((review) => {
-  //     console.log(review)
-  //     setReviewCount(review.count)
-  //     setReviewItems(review.results)
-  //   })
-
-  // },[])
 
   return (
     <>
