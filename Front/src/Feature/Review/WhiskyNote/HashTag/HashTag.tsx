@@ -6,7 +6,7 @@ const HashTagWrapper = styled.div`
   background-color: #d0cec5;
   align-items: center;
   border-radius: 4px;
-  padding: 2px 6px;
+  padding: 2px 6px 4px;
   width: fit-content;
   display: flex;
   display-items: row;
@@ -16,6 +16,7 @@ const HashTagWrapper = styled.div`
 const TagText = styled.div`
   font-size: 13px;
   color: #2f2e2d;
+  padding-top: 2px;
 `;
 const DeleteIcon = styled.div`
   outline: none;

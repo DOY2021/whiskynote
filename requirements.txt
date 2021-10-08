@@ -1,11 +1,14 @@
 Django
 djangorestframework
 djangorestframework-jwt
+djangorestframework-simplejwt==4.4.0
+PyJWT==1.7.1
 django-rest-auth
 django-rest-swagger
 dj-rest-auth
 django-allauth
 django-crispy-forms
+django-filter
 drf-yasg
 django-humanize
 psycopg2-binary

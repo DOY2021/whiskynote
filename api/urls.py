@@ -31,7 +31,7 @@ from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIV
 #import WhiskyCreateViewSet
 
 #Reaction
-from api.views import reaction_list_create, reaction_update_delete
+from api.views import ReactionListAPIView, ReactionCreateAPIView, ReactionUpdateAPIView
 
 #Tag
 from api.views import TagListView, WhiskyTopTagView
@@ -45,13 +45,19 @@ from api.views import WishlistAPIView, WishlistCreateAPIView,  CollectionAPIView
 #Reaction Comment
 from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 
+#jwt
+#from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+
+#simple-jwt
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 urlpatterns = [
     #rest-auth
-    path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
-    path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    #path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset' ),
+    #path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('logout/', LogoutView.as_view(), name='rest_logout'),
-    path('user/', UserDetailsView.as_view(), name='rest_user_details'),
-    path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+    #path('user/', UserDetailsView.as_view(), name='rest_user_details'),
+    #path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
 
     #customlogin
     path('login/', CustomLoginView.as_view(), name='rest_login'),
@@ -60,6 +66,8 @@ urlpatterns = [
     path('login/naver/', NaverLoginView.as_view(), name = 'naver_login'),
 
     #registration
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    #serializers override errors = rest_password change / reset / user_details
     path('register/', include('rest_auth.registration.urls')),
 
     #email verification
@@ -99,8 +107,11 @@ urlpatterns = [
     path("whisky/tag/stat/<int:whisky_pk>/", WhiskyTopTagView, name = 'whisky_top_tag'),
 
     #reaction
-    path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
-    path('reaction/<int:reaction_pk>/', reaction_update_delete),
+    path('reaction/<int:whisky_pk>/', ReactionListAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/create/', ReactionCreateAPIView.as_view()),
+    path('reaction/<int:whisky_pk>/update/', ReactionUpdateAPIView.as_view()),
+    #path('reaction_list_create/<int:whisky_pk>/', reaction_list_create),
+    #path('reaction/<int:reaction_pk>/', reaction_update_delete),
 
     #tag (list only)
     path('tag/all/', TagListView.as_view(), name = 'tag'),
@@ -108,4 +119,16 @@ urlpatterns = [
     #reaction comment
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
+    
+    #jwt
+    #path('token/', obtain_jwt_token),
+    #path('token/verify/', verify_jwt_token),
+    #path('token/refresh/', refresh_jwt_token),
+    
+    #simple-jwt
+    path('token/', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     ]
+    
+
+

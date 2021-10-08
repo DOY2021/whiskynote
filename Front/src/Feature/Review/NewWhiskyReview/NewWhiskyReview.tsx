@@ -60,7 +60,7 @@ function NewWhiskyReview() {
   const history = useHistory();
 
   const updateFiles = files => {
-    // console.log(files);
+    console.log(files);
     setFileLength(files.length);
     setNewFiles([files]);
   };
@@ -68,11 +68,10 @@ function NewWhiskyReview() {
   const handleSubmitReview = e => {
     e.preventDefault();
     const tags = selectedTagsToIndex(selectedTags);
+    let lastPart = window.location.href.split("/").pop();
     const review = {
-      id: '',
-      user: '',
-      userName: '',
-      whisky_name: '',
+      
+      reaction_image: newFiles,
       review_body: text,
       nose_rating: scores.nose,
       taste_rating: scores.taste,
@@ -80,7 +79,9 @@ function NewWhiskyReview() {
       flavor_tag: tags.flavor,
     };
     console.log(review);
-    ReactionApi.createReview(0, review).then(() => {});
+    ReactionApi.createReview(parseInt(lastPart!), review).then((review) => {
+      console.log(review)
+    });
   };
 
   const handleScoreChange = e => {
