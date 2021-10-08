@@ -218,9 +218,9 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
-
 #Profile - Whisky List (Full)
 class MenuFullSerializer(serializers.ModelSerializer):
+    #"my_ratings" field
     my_ratings = serializers.SerializerMethodField()
     def get_my_ratings(self, obj):
         request = self.context['request']
@@ -234,10 +234,14 @@ class MenuFullSerializer(serializers.ModelSerializer):
         else:
             return False
 
+    #"public", "short_list" field
+    #public = serializers.BooleanField()
+    #short_list = serializers.BooleanField()
+
     class Meta:
         model = Whisky
-        fields = ("name_eng", "region", "cask_type", "alcohol", "my_ratings")
-        read_only_fields = ("name_eng", "region", "cask_type", "alcohol", "my_ratings")
+        fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings" )
+        read_only_fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings")
         #"public" should be added as a custom field
         #"my_ratings" should be added as a nested field
 
