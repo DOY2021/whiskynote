@@ -13,25 +13,25 @@ import { ReactionList } from '../../../../api/reaction';
 function ReviewList(props: {
   whisky_ratings?: number;
   rating_counts?: number;
+  reactions: ReactionList[]
 }) {
   const history = useHistory();
-  const [reviewItems, setReviewItems] = useState<ReactionList[]>([])
-  const [reviewCount, setReviewCount] = useState()
+  // const [reviewItems, setReviewItems] = useState<ReactionList[]>([])
+  // const [reviewCount, setReviewCount] = useState()
 
   let id = window.location.href.split("/").pop();
   const handleReviewClick = () => {
-
-  
     history.push(`/newWhiskyReview/${id}`);
   };
 
-  useEffect(() => {
-    ReactionApi.getReviews(parseInt(id!)).then((review) => {
-      console.log(review)
-      setReviewCount(review.count)
-      setReviewItems(review.results)
-    })
-  },[])
+  // useEffect(() => {
+  //   ReactionApi.getReviews(parseInt(id!)).then((review) => {
+  //     console.log(review)
+  //     setReviewCount(review.count)
+  //     setReviewItems(review.results)
+  //   })
+
+  // },[])
 
   return (
     <>
@@ -51,10 +51,10 @@ function ReviewList(props: {
 
           <S.LineWrapper>
             <S.InfoWrapper>
-              <S.Score>131</S.Score>
+              <S.Score>{props.whisky_ratings}</S.Score>
               <S.ScoreText>점(평균)</S.ScoreText>
             </S.InfoWrapper>
-            <S.ReviewText>{reviewCount}개의 리뷰</S.ReviewText>
+            <S.ReviewText>{props.rating_counts}개의 리뷰</S.ReviewText>
           </S.LineWrapper>
         </S.InfoWrapper>
 
@@ -62,7 +62,7 @@ function ReviewList(props: {
           {/* <Review></Review>
           <Review></Review> */}
           {
-            reviewItems.map(item => {
+            props.reactions.map(item => {
               let reviewScore = (item.nose_rating+item.taste_rating+item.finish_rating)/3
               return (
                 <Review key={item.id} username={item.userName} reviewScore={reviewScore} reviewDate={item.modified_at} reviewText={item.review_body}></Review>
