@@ -58,8 +58,9 @@ class TagAdmin(admin.ModelAdmin):
 	list_display = ("id", "kor_tag", "eng_tag")
 
 class ReactionAdmin(admin.ModelAdmin):
-	model = Reaction
-	#filter_horizontal = ("flavor_tag")
+    model = Reaction
+    list_display = ("user", "whisky", "review_title", "created_at")
+    #filter_horizontal = ("flavor_tag")
 admin.site.register(Reaction, ReactionAdmin)
 
 @admin.register(ReactionComment)

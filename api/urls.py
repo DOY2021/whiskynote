@@ -124,16 +124,16 @@ urlpatterns = [
     #reaction comment
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
-    
+
     #jwt
     #path('token/', obtain_jwt_token),
     #path('token/verify/', verify_jwt_token),
     #path('token/refresh/', refresh_jwt_token),
-    
+
     #simple-jwt
     path('token/', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     ]
-    
+
 
 
