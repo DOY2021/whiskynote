@@ -92,6 +92,8 @@ class Reaction(models.Model):
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
     #rating
+    avg_rating = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
+    
     nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
     taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
     finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
