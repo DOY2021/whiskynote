@@ -53,7 +53,7 @@ const MenuMargin = styled.div`
 const Line = styled.div`
   width: 100%;
   height: 1px;
-  background-color: #736c64;
+  background-color: #D8D5C4;
   margin-bottom: 60px;
 `;
 

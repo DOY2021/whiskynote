@@ -14,6 +14,8 @@ from django.utils.encoding import force_text, force_bytes
 from rest_framework import serializers, exceptions
 from rest_framework.exceptions import ValidationError
 
+from django.shortcuts import render, get_object_or_404
+
 #from posts.models import Post
 from api.models import Profile, Whisky, Reaction, Follow, Tag, ReactionComment
 
@@ -26,7 +28,7 @@ from rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSer
 from api.models import Collection, Wishlist
 
 #Images
-from api.models import WhiskyImage
+from api.models import WhiskyImage, ReactionImage
 
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
@@ -53,7 +55,7 @@ class CustomLoginSerializer(serializers.Serializer):
         if email and password:
             user = self.authenticate(email=email, password=password)
         else:
-            msg = _('Must include "email" and "password".')
+            msg = _('이메일과 비밀번호를 입력해주세요.')
             raise exceptions.ValidationError(msg)
 
         return user
@@ -72,11 +74,14 @@ class CustomLoginSerializer(serializers.Serializer):
                 user = self._validate_email(email, password)
 
         if user:
+            #비밀번호 틀렸을 경우
+
             if not user.is_active:
-                msg = _('User account is disabled.')
+                msg = _('계정이 비활성화되었습니다. 관리자에게 문의해주세요.')
                 raise exceptions.ValidationError(msg)
+
         else:
-            msg = _('Unable to log in with provided credentials.')
+            msg = _('가입된 정보가 없습니다. 이메일과 비밀번호를 확인해주세요.')
             raise exceptions.ValidationError(msg)
 
         # If required, is the email verified?
@@ -85,7 +90,7 @@ class CustomLoginSerializer(serializers.Serializer):
              if app_settings.EMAIL_VERIFICATION == app_settings.EmailVerificationMethod.MANDATORY:
                 email_address = user.emailaddress_set.get(email=user.email)
                 if not email_address.verified:
-                    raise serializers.ValidationError(_('E-mail is not verified.'))
+                    raise serializers.ValidationError(_('이메일을 인증해주세요.'))
 
         attrs['user'] = user
         return attrs
@@ -207,24 +212,145 @@ class ProfileCreateSerializer(serializers.ModelSerializer):
             profile = Profile.objects.create(user = user)
             return profile
 
+
 class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("profile_photo", )
 
+#ReactionDB
+class ReactionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReactionImage
+        fields = ('id', 'image',)
+
 class ReactionListSerializer(serializers.ModelSerializer):
     whisky_name = serializers.SerializerMethodField()
     def get_whisky_name(self, obj):
-        return obj.whisky.name
+        return obj.whisky.name_eng
 
     userName = serializers.SerializerMethodField()
     def get_userName(self, obj):
         return obj.user.username
-    
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
     class Meta:
         model = Reaction
-        fields = ('id','user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'nose_tag', 'taste_tag', 'finish_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
+
+class ReactionCreateSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name_eng
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Reaction
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+    def create(self, validated_data):
+        request = self.context['request']
+        url = request.build_absolute_uri()
+        whisky_pk = int(url.split('/')[-2])
+        cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
+        cur_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'reaction_image' in validated_data:
+            reaction_image = validated_data.pop('reaction_image')
+            reaction_instance = Reaction.objects.create(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
+            for img in reaction_image:
+                ReactionImage.objects.create(**img, reaction = reaction_instance)
+
+        else:
+            reaction_instance = Reaction.objects.create(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
+        return reaction_instance
+
+class ReactionUpdateSerializer(serializers.ModelSerializer):
+    whisky_name = serializers.SerializerMethodField()
+    def get_whisky_name(self, obj):
+        return obj.whisky.name_eng
+
+    userName = serializers.SerializerMethodField()
+    def get_userName(self, obj):
+        return obj.user.username
+
+    reaction_image = ReactionImageSerializer(many = True, required = False)
+
+    class Meta:
+        model = Reaction
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        read_only_fields = ('user',)
+
+    def update(self, instance, validated_data):
+        request = self.context['request']
+        url = request.build_absolute_uri()
+        whisky_pk = int(url.split('/')[-2])
+        cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
+        cur_user = self.context['request'].user
+
+        #if whisky contains images
+        if 'reaction_image' in validated_data:
+            reaction_image = validated_data.pop('reaction_image')
+            reaction_instance = Reaction.objects.update(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
+            for img in reaction_image:
+                ReactionImage.objects.create(**img, reaction = reaction_instance)
+
+        else:
+            reaction_instance = Reaction.objects.create(
+                user = cur_user,
+                whisky = cur_whisky,
+                review_title = request.data.get("review_title"),
+                review_body = request.data.get("review_body"),
+                nose_rating = request.data.get("nose_rating"),
+                taste_rating = request.data.get("taste_rating"),
+                finish_rating = request.data.get("finish_rating"),
+            )
+            flavor_tags = request.data.getlist("flavor_tag")
+            for flavor in flavor_tags:
+                reaction_instance.flavor_tag.add(int(flavor))
+        return reaction_instance
 
 #WhiskyDB
 class WhiskyImageSerializer(serializers.ModelSerializer):
@@ -238,6 +364,28 @@ class WhiskySerializer(serializers.ModelSerializer):
     reactions = ReactionListSerializer(many = True, read_only = True)
     whisky_image = WhiskyImageSerializer(many = True, required = False)
 
+    whisky_ratings = serializers.SerializerMethodField()                # Whisky Rating is done from whisky-side (changed)
+    def get_whisky_ratings(self, obj):
+        cur_whisky = obj.id
+        reactions = Reaction.objects.filter(whisky_id = cur_whisky)
+        reaction_cnt = reactions.count()
+        total_rating = 0
+        for reaction in reactions:
+            new_nose_rating = reaction.nose_rating
+            new_taste_rating = reaction.taste_rating
+            new_fin_rating = reaction.finish_rating
+            new_avg_rating = round((new_nose_rating + new_taste_rating + new_fin_rating)/3, 2)
+            total_rating += new_avg_rating
+        result = round(total_rating/reaction_cnt, 2)
+        return result
+
+    rating_counts = serializers.SerializerMethodField()
+    def get_rating_counts(self, obj):
+        cur_whisky = obj.id
+        reactions = Reaction.objects.filter(whisky_id = cur_whisky)
+        reaction_cnt = reactions.count()
+        return reaction_cnt
+
     class Meta:
         model = Whisky
         fields = '__all__'
@@ -250,21 +398,22 @@ class WhiskyConfirmListSerializer(serializers.ModelSerializer):
         model = Whisky
         fields = '__all__'
 
+
 class WhiskyConfirmSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.HyperlinkedIdentityField(view_name = 'whisky_confirm', format = 'json')
     #Work in progress
 
     class Meta:
         model = Whisky
-        fields = ('url', 'id', 'whisky_image', 'name_eng', 'name_kor', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail', 'confirmed')
-
+        fields = ('url', 'id', 'whisky_image', 'name_eng', 'name_kor', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail', 'confirmed')
 
 class WhiskyUpdateSerializer(serializers.ModelSerializer):
     whisky_image = WhiskyImageSerializer(many = True, required = False)
 
     class Meta:
         model = Whisky
-        fields = ('whisky_image', 'name_eng', 'name_kor', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage', 'bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+        fields = ('whisky_image', 'name_eng', 'name_kor', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail')
+
 
 #Whisky Create Serializer (Open-type DB function)
 class WhiskyCreateSerializer(serializers.ModelSerializer):
@@ -273,7 +422,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name_eng', 'name_kor', 'whisky_image', 'category', 'distillery', 'bottler', 'bottle_type', 'vintage','bottled', 'age', 'cask', 'casknumber', 'alcohol', 'whisky_detail')
+        fields = ('name_eng', 'name_kor', 'whisky_image', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail')
 
     def create(self, validated_data):
         current_user = self.context['request'].user
@@ -286,7 +435,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
                 WhiskyImage.objects.create(**img, whisky = whisky_instance)
             return whisky_instance
 
-        if 'whisky_image' not in validated_data:
+        else:
             whisky_instance = Whisky.objects.create(contributor = current_user, **validated_data)
             return whisky_instance
 

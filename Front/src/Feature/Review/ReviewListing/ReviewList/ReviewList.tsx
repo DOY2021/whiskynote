@@ -15,8 +15,8 @@ function ReviewList(props: {
   const history = useHistory();
 
   const handleReviewClick = () => {
-    //TODO: get whisky_pk
-    const id = 1;
+
+    let id= window.location.href.split("/").pop();
     history.push(`/newWhiskyReview/${id}`);
   };
 
