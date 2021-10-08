@@ -23,7 +23,7 @@ const ExploreMainWrapper = styled.main`
 const ExploreMainTitleWithOrdering = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   width: 100%;
   

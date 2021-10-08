@@ -11,8 +11,10 @@ const Input = styled.textarea`
   border-radius: 2px;
   padding: 6px 0px;
   padding-left: 8px;
+  margin-top: 12px;
   border: transparent;
   padding: 20px;
+
 
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -24,7 +26,8 @@ const Input = styled.textarea`
     outline: none;
   }
 
-  margin-top:16px;
+  
+
   :hover{
     outline: 1px solid black;
   }

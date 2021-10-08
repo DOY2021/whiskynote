@@ -6,7 +6,7 @@ import Palette from '../../lib/css/Pallete'
 import { TypoGraphyCategory } from '../../lib/css/TempTypo'
 import Check from '../../shared/Check/Check'
 import ImageUpload from '../../shared/ImageUpload/ImageUpload'
-
+import CSRFToken from '../../shared/CSRFToken'
 
 import P from '../../shared/P/P'
 import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace'
@@ -24,7 +24,6 @@ import RegisterDropDown, { WhiskyCategoryProps } from './Components/RegisterDrop
 import { CountryCategory, WhiskyCategory } from './constants'
 import DropDown from '../../shared/DropDown/DropDown'
 import useDebounce from '../../hook/useDebounce'
-
 function RegisterWhisky() {
   const history = useHistory();
 
@@ -33,7 +32,9 @@ function RegisterWhisky() {
   const [koreanName, setKorean] = useState('');
   const [englishName, setEng] = useState('');
   const [country, setCountry] = useState('');
-  const [category, setCategory] = useState('싱글 몰트 위스키');
+  const [countryVal, setCountryVal] = useState<number>(0);
+  const [countryDropDown, setCountryDropdown] = useState(false)
+  const [category, setCategory] = useState<WhiskyCategoryProps>(WhiskyCategory[0]);
   const [distillery, setDistillery] = useState('');
   const [bottler, setBottler] = useState('');
   const [series, setSeries] = useState('');
@@ -89,7 +90,14 @@ function RegisterWhisky() {
   },[isDistillery])
 
   const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
-    <S.DropdownItemWrapper key={item.eng_name} onClick={() => setCountry(item.kor_name)}>
+    <S.DropdownItemWrapper 
+    key={item.eng_name}
+    onClick={() => {
+      setCountry(item.eng_name)
+      setCountryVal(item.idx)
+      console.log('korname',item.kor_name)
+      setCountryDropdown(false)
+    }}>
         <P size={TypoGraphyCategory.body2}>{item.kor_name}</P>
         <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}>{item.eng_name}</P>
     </S.DropdownItemWrapper>
@@ -98,18 +106,39 @@ function RegisterWhisky() {
   const handleRegisterWhisky = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let files;
+    
     if(images){
       files = images.map( (image,idx) => ({
         id: idx,
-        image,
+        image: image,
       }))
     }
+
+    console.log('files', files)
+
+    const test = new FormData()
+
+    test.append('name_eng',englishName)
+    test.append('name_kor',koreanName)
+    test.append('whisky_image[0]image',images[0])
+    test.append('category',`${category.idx}`)
+    test.append('region',`${country}`)
+    test.append('distillery',distillery)
+    test.append('bottler',bottler)
+    test.append('vintage',vintage)
+    test.append('bottled',bottled)
+    test.append('bottle_type',bottleNumber)
+    test.append('age',age)
+    test.append('cask',cask)
+    test.append('casknumber',caskNumbers)
+    test.append('alcohol',strength)
+    test.append('whisky_detail',describe)
 
     const createForm : WhiskyCreateParamProps = {
       name_eng: englishName,
       name_kor: koreanName,
       whisky_image: files,
-      category: category,
+      category: category.idx,
       distillery: distillery,
       bottler: bottler,
       vintage: parseInt(vintage),
@@ -122,16 +151,16 @@ function RegisterWhisky() {
       whisky_detail: describe
     }
     try{
-      const result = whiskyAPI.createWhisky(createForm);
-      history.push('/afterRegister')
+      const result = whiskyAPI.createWhisky(test);
+      history.push(`/afterRegister/${koreanName}`)
     }catch(e){
       console.log(e);
     }
   }
 
   return (
-    <Container>
-      <Row>
+    <Container  fluid>
+      <Row style={{minWidth: '1200px'}}>
         <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} />
         <Col xs={10} sm={10} md={10} lg={10} xl={10} xxl={10} >
       <S.RegisterWhiskyInnerWrapper>
@@ -151,22 +180,25 @@ function RegisterWhisky() {
             <P size={TypoGraphyCategory.subtitle2} color={Palette.SemiBlack} isInline>위스키명을 입력해주세요</P>
             <P fontSize={TypoGraphyCategory.body} isInline={true} color={Palette.Orange600}>*</P>
             <WhiteSpace height='10'/>
-            <ReviewInput
-              title='국문'
-              subtitle='Korean name' 
-              type={ReviewType.text}
-              onChange={setKorean}
-              value={koreanName}
-              placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 국문 </P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Korean Name</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setKorean}
+               value={koreanName}
+               placeholder='등록하는 위스키의 정확한 국문 명칭을 입력해주세요.'
             />
-            <ReviewInput
-              title='영문'
-              subtitle='English Name'
-              type={ReviewType.text}
-              onChange={setEng}
-              value={englishName}
-              placeholder="등록하는 위스키의 정확한 영문 명칭을 입력해주세요."
+            <S.RegisterInputLabel>
+              <P size={TypoGraphyCategory.body2}> 영문 </P>
+              <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> English Name</P>
+            </S.RegisterInputLabel>
+            <RegisterInput 
+               onChange={setEng}
+               value={englishName}
+               placeholder='등록하는 위스키의 정확한 영문 명칭을 입력해주세요.'
             />
+           
           </S.RegisterTitleWrapper>
           <WhiteSpace height='40'/>
           <S.RegisterPhotoWrapper>
@@ -175,9 +207,11 @@ function RegisterWhisky() {
             <WhiteSpace height='10'/>
 
             <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 상품 이미지 사이즈 이렇게 해주세요.</P>
+            <WhiteSpace height='10'/>
             <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 위스키 대표 사진을 등록해주세요.</P>
+            <WhiteSpace height='10'/>
             <ImageUpload
-              maxFileNum={5}
+              maxFileNum={1000000}
               updateFilesCb={handleImages}
               label='Whisky'
             />
@@ -192,8 +226,8 @@ function RegisterWhisky() {
               <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}> Category</P>
             </S.RegisterInputLabel>
              <RegisterDropDown
-                        selectedValue={category}
-                          onClick={(v: string) =>setCategory(v)}
+                        selectedValue={category.kor_name}
+                          onClick={(v: WhiskyCategoryProps) =>setCategory(v)}
                           valueList={WhiskyCategory}
             />
             <S.RegisterInputLabel>
@@ -202,14 +236,21 @@ function RegisterWhisky() {
             </S.RegisterInputLabel>
             <S.RegisterWhiskySearchWrapper>
             <RegisterInput 
-               onChange={setCountry}
+               onChange={(v: string) => setCountry(v)}
+               onFocus={() => setCountryDropdown(true)}
+              //  onBlur={() => setCountryDropdown(false)}
                value={country}
                placeholder='생산 국가, 지역명을 입력해주세요.'
             />
-            {  debouncedCountry &&
+            {  countryDropDown &&  (debouncedCountry ?
               <DropDown >
-              {CountryCategory.filter(country => country.kor_name.match(debouncedCountry)).map(renderDropdownItem)}
-            </DropDown>}
+              { CountryCategory.filter(country => country.kor_name.match(debouncedCountry)).map(renderDropdownItem)}
+            </DropDown>
+            :  
+            <DropDown >
+            {CountryCategory.map(renderDropdownItem)}
+          </DropDown>)
+          }
             </S.RegisterWhiskySearchWrapper>
             <S.RegisterInputLabel>
               <P size={TypoGraphyCategory.body2}> 증류소</P>
@@ -271,6 +312,7 @@ function RegisterWhisky() {
             <RegisterInput 
                onChange={setStrength}
                value={strength}
+               unit='%'
                placeholder='알코올 함량을 입력해주세요.'
             />
             <S.RegisterInputLabel>
@@ -363,12 +405,12 @@ function RegisterWhisky() {
               </ReviewStyled.ReviewCheckWrapper>
             </ReviewStyled.ReviewInputWrapper>
           </S.RegisterDescriptWrapper>
-          <S.MarginWrapper>
+          
             <HeadLine
               inputText={'위스키에 대해 설명해주세요.'}
               isMandatory={true}
             ></HeadLine>
-          </S.MarginWrapper>
+          
           <TextField text={describe} handleTextAreaInput={(e) =>setDescribe(e.target.value)}/>
 
           <S.ButtonsWrapper>
@@ -379,6 +421,7 @@ function RegisterWhisky() {
       </S.RegisterWhiskyInnerWrapper>
         </Col>
         </Row>
+      <CSRFToken/>
     </Container>
 
   );

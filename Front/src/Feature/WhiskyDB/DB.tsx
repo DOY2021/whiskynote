@@ -9,8 +9,8 @@ import WhiteSpace from '../../shared/WhiteSpace/WhiteSpace';
 
 function DB() {
   return (
-    <Container>
-      <Row>
+    <Container  fluid>
+      <Row style={{minWidth: '1200px'}}>
         <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11}>
           <S.DBWrapper>
             <WhiteSpace height='40'/>

@@ -23,7 +23,6 @@ const RegisterDescriptWrapper = styled.section`
 `
 
 const MarginWrapper = styled.div`
-  margin-bottom: 12px;
 `;
 
 
@@ -93,6 +92,7 @@ const RegisterInputLabel = styled.div`
   }
 
   margin-top: 12px;
+  margin-bottom: 8px;
 `;
 
 const RegisterWhiskySearchWrapper = styled.div`

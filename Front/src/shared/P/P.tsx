@@ -5,11 +5,12 @@ import Palette from '../../lib/css/Pallete';
 import { TypoGraphyCategory, TypoGraphyTheme } from '../../lib/css/TempTypo';
 
 
-type StyleParenProp = Pick<ParenProp, 'pre' | 'color' | 'size' | 'isInline' | 'bold' | 'marginLeft' |'marginRight'>;
+type StyleParenProp = Pick<ParenProp, 'pre' | 'color' | 'size' | 'isInline' | 'bold' | 'marginLeft' |'marginRight' | 'semiBold'>;
 
 export interface ParenProp extends React.HTMLAttributes<HTMLParagraphElement>{
   color?: Palette;
   bold?: boolean;
+  semiBold?: boolean;
   size?: TypoGraphyCategory;
   fontSize?: TypoGraphyCategory;
   children: React.ReactNode;
@@ -29,11 +30,22 @@ function P({
   id,
   bold,
   marginLeft,
+  semiBold = false,
   marginRight,
   ...props
 }: ParenProp) {
   return (
-    <Paren bold={bold} pre={pre} color={color} size={fontSize} id={id} isInline={isInline} marginLeft={marginLeft} marginRight={marginRight} {...props}>
+    <Paren
+      bold={bold}
+      semiBold={semiBold}
+      pre={pre}
+      color={color} 
+      size={fontSize}
+      id={id}
+      isInline={isInline}
+      marginLeft={marginLeft} 
+      marginRight={marginRight} 
+      {...props}>
       {children}
     </Paren>
   );
@@ -57,6 +69,10 @@ const Paren = styled.p<StyleParenProp>`
 
   ${({bold}) => bold && css`
     font-weight: bold
+    `
+}
+  ${({semiBold}) => semiBold && css`
+    font-weight: 600;
     `
 }
   ${({pre}) => pre && css`

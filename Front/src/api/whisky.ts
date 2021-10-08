@@ -1,11 +1,12 @@
+import { WhiskyInfoProp } from "../model/Whisky"
 import { client } from "./client"
-import { WhiskyDetailsProps } from "./whiskyDB"
+
 
 export type WhiskyCreateParamProps = {
   name_eng: string;
   name_kor: string;
   whisky_image: Array<string>;
-  category: string;
+  category: number;
   distillery: string;
   bottler: string;
   bottle_type: string;
@@ -18,7 +19,7 @@ export type WhiskyCreateParamProps = {
   whisky_detail: string;
 }
 
-type WhiskyMainParamProps = {
+export type WhiskyMainParamProps = {
   search?: string;
   ordering: string;
   page: number;
@@ -28,12 +29,16 @@ export type WhiskyMainProps = {
   count: number;
   next: string;
   previous: string;
-  results: Array<WhiskyDetailsProps>
+  results: Array<WhiskyInfoProp>
 }
 
-const createWhisky = async(param: WhiskyCreateParamProps) => {
+const createWhisky = async(param: FormData) => {
   try{
-    const result = await client.post('/api/whisky/create/', param);
+    const result = await client.post('/api/whisky/create/', param, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return result.data;
   }
   catch(e){
@@ -43,10 +48,10 @@ const createWhisky = async(param: WhiskyCreateParamProps) => {
 
 const getWhiskyMain = async(param: WhiskyMainParamProps) => {
   try{
-    const result = await client.get('/api/whisky/main',{
+    const result: WhiskyMainProps = await client.get('/api/whisky/main/',{
       params: param
     })
-    return result.data as WhiskyMainProps
+    return result 
   }catch(e){
     console.log(e);
   }

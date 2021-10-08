@@ -22,8 +22,7 @@ type NewPassword = {
 
 const postLogin = async (loginParam: LoginParam) => {
   try {
-    const response = await client.post('/api/login/', loginParam);
-
+    const response = await client.post('/api/dj-rest-auth/login/', loginParam);
     return {
       type: 'success',
       data: response,
@@ -55,7 +54,7 @@ const postRegister = async (
 
 const postLogout = async () => {
   try {
-    const response = await client.post('/api/logout/');
+    const response = await client.post('/api/dj-rest-auth/logout/');
     return {
       type: 'success',
       data: response,
@@ -67,6 +66,40 @@ const postLogout = async () => {
     };
   }
 };
+
+const postTokenVerify = async (token: string) => {
+  try {
+    const response = await client.post('/api/dj-rest-auth/token/verify/', {
+      token: token
+    });
+    return response
+  } catch(e) {
+    return new Error()
+  }
+}
+
+const postRenewAccess = async (token: string) => {
+  try{
+    const response = await client.post('/api/dj-rest-auth/token/refresh/', {
+      refresh: token
+    })
+    console.log('whiy', response)
+    return response
+  } catch(e) {
+    return new Error
+  }
+}
+
+const postRenewRefresh = async (token: string) => {
+  try{
+    const response = await (await client.post('/api/dj-rest-auth/token/refresh/', {
+      refresh: token
+    })).data
+    return response
+  } catch(e) {
+    return new Error
+  }
+}
 
 const postPasswordChange = async (newPassWord: NewPassword) => {
   try {
@@ -104,4 +137,7 @@ export const authAPI = {
   postRegister,
   postPasswordChange,
   postPasswordReset,
+  postTokenVerify,
+  postRenewRefresh,
+  postRenewAccess
 };

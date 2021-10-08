@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
         margin:0;
         padding: 0;
         min-height: 100vh;
-        width: 100%;
+        min-width: 1300px;
     }
     #root {
     }

@@ -11,11 +11,12 @@ import { useState } from 'react'
 export interface WhiskyCategoryProps {
     eng_name: string
     kor_name: string
+    idx: number
 }
 
 interface RegisterDropDownProps {
     selectedValue?: string;
-    onClick: (val: string) => void;
+    onClick: (val: WhiskyCategoryProps) => void;
     valueList: Array<WhiskyCategoryProps>;
 }
 
@@ -33,7 +34,7 @@ function RegisterDropDown({
     }
 
      const renderDropdownItem = useCallback((item: WhiskyCategoryProps) => (
-        <Styled.DropdownItemWrapper key={item.eng_name} onClick={() => onClick(item.kor_name)}>
+        <Styled.DropdownItemWrapper key={item.eng_name} onClick={() => onClick(item)}>
             <P size={TypoGraphyCategory.body2}>{item.kor_name}</P>
             <P size={TypoGraphyCategory.body3} color={Palette.WhiskyGray}>{item.eng_name}</P>
         </Styled.DropdownItemWrapper>

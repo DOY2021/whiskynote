@@ -26,9 +26,9 @@ function Header() {
       <Navbar>
         <Container>
           <Navbar.Brand>
-            <Nav.Link href="/">
+            <Link to='/'>
               <Logo />
-            </Nav.Link>
+            </Link>
           </Navbar.Brand>
           <Nav>
             <Link to='/explore/popular/total' style={{color: '#212529'}}>

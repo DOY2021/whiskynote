@@ -2,9 +2,14 @@ enum Palette {
   White = "#ffffff",
   Black = "#000000",
   SemiBlack = '#201F1E',
+  WhiskySubtitle = '#2f2e2d',
   WhiskyBlack = '#3E3E33',
+  WhiskyBlack2 = '#39342E',
+  WhiskyBlack3 = '#5C5956',
+  WhiskyBlack4 = '#ACA297',
   WhiskyWhite = '#BOAC99',
   WhiskyGray = '#948A80',
+
   //WhiskyYellow
   Orange000 = "#FFF8E8",
   Orange100 = "#FEF2D4",

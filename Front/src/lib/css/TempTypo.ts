@@ -59,6 +59,11 @@ const body3 = css`
   line-height: 140%;
 `;
 
+const bodyLarge = css`
+  font-size: 24px;
+  line-height: 140%;
+`
+
 export enum TypoGraphyCategory {
   title = 'title',
   title2 = 'title2',
@@ -70,6 +75,7 @@ export enum TypoGraphyCategory {
   body1 = 'body1',
   body2 = 'body2',
   body3 = 'body3',
+  bodyLarge = 'bodyLarge',
 }
 
 export const TypoGraphyTheme: {
@@ -85,6 +91,7 @@ export const TypoGraphyTheme: {
   [TypoGraphyCategory.body1]: body1,
   [TypoGraphyCategory.body2]: body2,
   [TypoGraphyCategory.body3]: body3,
+  [TypoGraphyCategory.bodyLarge]: bodyLarge,
 };
 
 export default {
@@ -95,4 +102,6 @@ export default {
   subtitle4,
   body,
   body2,
+  body3,
+  bodyLarge
 };

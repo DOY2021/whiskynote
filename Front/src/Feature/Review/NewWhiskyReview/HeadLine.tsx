@@ -12,7 +12,7 @@ const FirstHeadLineWrapper = styled.div`
 const HeadLineWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   margin-top: 48px;
 `;
 const HeadLineText = styled.p`
