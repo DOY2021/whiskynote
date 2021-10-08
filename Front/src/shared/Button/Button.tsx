@@ -22,11 +22,12 @@ export interface ButtonProp {
   type?: any; // outline, text;
   border?: Palette | null
   color?: Palette
-  btnType?: any; //button, submit
+  btnType?: 'button' | 'submit'; //button, submit
   variant?: ButtonVariant;
   children?: any;
   className?: any;
   onClick?: (event: React.FormEvent<HTMLButtonElement>) => void;
+  borderRadius?: number,
   data_cy?: string; // testing
 }
 
@@ -198,7 +199,7 @@ const Btn = styled.button<ButtonProp>`
           css`
             1px solid ${border}
           `};
-  border-radius: 4px;
+  border-radius: ${({ borderRadius }) => borderRadius}px;
 
   &:hover {
     color: ${({color}) => color};
@@ -250,13 +251,15 @@ function Button({
   data_cy,
   paddingHorizontal,
   paddingVertical,
+  borderRadius = 4,
 }: ButtonProp) {
   return (
-    <>
+    
       <Btn
         paddingHorizontal={paddingHorizontal}
         paddingVertical={paddingVertical}
         data-cy={data_cy}
+        
         size={size}
         type={type}
         disabled={disabled}
@@ -265,9 +268,10 @@ function Button({
         border={border}
         color={color}
       >
+        <button type={btnType} style={{backgroundColor: 'inherit'}}>
         {children}
+        </button>
       </Btn>
-    </>
   );
 }
 

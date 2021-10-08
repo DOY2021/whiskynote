@@ -20,7 +20,7 @@ function Descript() {
     <Container>
       <Row>
         <Col>
-      <P color={Palette.SemiBlack} size={TypoGraphyCategory.title}>정보</P>
+      <P color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle}>정보</P>
       <S.DescriptText>
         {/* {data?.whisky_detail} */}
         {mockWhisky.whisky_detail}

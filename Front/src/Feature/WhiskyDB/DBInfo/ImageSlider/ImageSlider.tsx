@@ -3,7 +3,13 @@ import { useCallback } from 'react';
 import { useState } from 'react'
 import S from './ImageSlider.styled'
 
-function ImageSlider() {
+interface ImageSliderProps{
+  img: string
+}
+
+function ImageSlider({
+  img
+}: ImageSliderProps) {
   const [imgIdx,setIdx] = useState(0);
 
   const renderDot = (_,idx) => {
@@ -20,13 +26,13 @@ function ImageSlider() {
   return (
     <S.ImageSliderBox>
       <S.ImageSliderWrapper position={imgIdx}>
-        <S.ImageSliderItem src='https://source.unsplash.com/random'/>
-        <S.ImageSliderItem src='https://source.unsplash.com/daily'/>
-        <S.ImageSliderItem src= 'https://source.unsplash.com/random'/>
+        <S.ImageSliderItem src={img}/>
+        {/* <S.ImageSliderItem src='https://source.unsplash.com/daily'/>
+        <S.ImageSliderItem src= 'https://source.unsplash.com/random'/> */}
       </S.ImageSliderWrapper>
-      <S.ImageSliderDotWrapper>
+      {/* <S.ImageSliderDotWrapper>
         {new Array(3).fill(0).map(renderDot)}
-      </S.ImageSliderDotWrapper>
+      </S.ImageSliderDotWrapper> */}
     </S.ImageSliderBox>
   )
 }

@@ -46,7 +46,7 @@ interface InfoCardDescTagProp {
 
 const InfoCardDescTag = styled.li<InfoCardDescTagProp>`
     padding: 5px 8px;
-    margin-right: 10px;
+    margin-right: 14px;
     border-radius: 3px;
 
     ${({color}) => color && css`

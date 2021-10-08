@@ -37,7 +37,7 @@ const createProfile = async (profileData: FormData) => {
 
 const getProfile = async (id: number) => {
   try {
-    const response = await client.get(`/api/profile/${id}/`, {});
+    const response = await client.get(`/api/${id}/profile/`, {});
     console.log(response);
     return response;
   } catch (e) {

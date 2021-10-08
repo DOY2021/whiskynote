@@ -20,18 +20,18 @@ function useWhiskyMain({
   ordering = Ordering.UPDATED_AT,
   page = 1,
 }:UseWhiskyMainProp) {
-  const {data, error} = useSWR(['/api/whisky/main',ordering,page,search], async(url,search,ordering,page)=> {
+  const {data, error} = useSWR(['/api/whisky/main/',ordering,page], async(url)=> {
     const whiskyList : AxiosResponse<WhiskyMainProps> = await client.get(url, {
       params: {
-        search,
         ordering,
         page
       }
     })
-    return whiskyList.data
+    console.log(whiskyList)
+    return whiskyList.data.results
   }) 
   return ({
-    data,
+    data: data,
     error,
     isLoading: !data && !error,
   })

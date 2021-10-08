@@ -18,18 +18,22 @@ import AfterRegister from '../Feature/RegisterWhisky/AfterRegister/AfterRegister
 import NewWhiskyReview from '../Feature/Review/NewWhiskyReview/NewWhiskyReview';
 import NotFoundPage from './NotFoundPage';
 import WhiteSpace from '../shared/WhiteSpace/WhiteSpace';
+import { client } from '../api/client';
+import SignUpTwo from '../Feature/SignUp/ProfileRegister/SignUpTwo';
+import useIdVerification from '../hook/useIdVerification';
 
 function App() {
-  const [cookies] = useCookies(['user_id']);
+  const [cookies] = useCookies();
 
   const dispatch = useUserDispatch();
 
   const user = useUserState();
 
+  useIdVerification()
+
   const fetchProfile = useCallback(async () => {
     if (!dispatch) return;
-    if (!cookies) return;
-    console.log(user);
+    if (!cookies['user_id']) return;
     try {
       const profile = await profileAPI.getProfile(cookies['user_id']);
       //로컬환경인 경우 프록시 설정에 따라 주소가 변하는 이슈가 있어서 수정해주는 코드를 썼습니다.
@@ -38,7 +42,6 @@ function App() {
           '3000',
           '8000',
         );
-      console.log(profile);
       dispatch({
         type: 'LOGIN',
         payload: {
@@ -69,14 +72,16 @@ function App() {
         <Route path="/mypage" exact component={MyPage} />
         <Route path="/" exact component={Landing} />
         <Route path="/registerWhisky" exact component={RegisterWhisky} />
-        <Route path="/afterRegister" exact component={AfterRegister} />
+        <Route path="/afterRegister/:name" exact component={AfterRegister} />
         <Route path="/explore/:order_by/:category" exact component={Explore} />
         <Route path="/socialLogin" exact component={SocialLogin} />
         <Route path="/firstRegister/:name" exact component={AfterRegister} />
         <Route path="/whiskyDB/:id" exact component={DB} />
         <Route path="/newWhiskyReview/:id" exact component={NewWhiskyReview} />
+        <Route path="/register_profile" exact component={SignUpTwo} />
+        <Route path="/testing" exact component={SignUpTwo} />
         <Route component={NotFoundPage} />
-        {/* <Redirect to="/"/> */}
+        <Redirect to="/"/>
       </Switch>
       {/* //TODO Footer */}
       <WhiteSpace height='300'/>

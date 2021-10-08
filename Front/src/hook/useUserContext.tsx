@@ -68,6 +68,5 @@ export function useUserState() {
 
 export function useUserDispatch() {
   const dispatch = useContext(UserDispatchContext);
-  if (!dispatch) return;
   return dispatch;
 }

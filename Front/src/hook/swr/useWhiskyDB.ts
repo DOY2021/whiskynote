@@ -10,7 +10,7 @@ function useWhiskyDB() {
 
   console.log('whis',whisky_id);
 
-  const {data, error} = useSWR(`/api/whisky/${whisky_id}`, async(url) => {
+  const {data, error} = useSWR(`/api/whisky/${whisky_id['id']}/`, async(url) => {
     const detail = await client.get(url).then((res: AxiosResponse<WhiskyInfoProp> )=> res.data)
     return detail
   } )

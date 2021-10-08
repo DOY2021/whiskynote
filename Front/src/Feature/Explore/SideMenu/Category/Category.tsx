@@ -24,7 +24,7 @@ function Category() {
     const isSelected = item[0] === category
     return (
       <S.CategoryItemWrapper key={item[0]} onClick={() => handleClick(item[0])}>
-        <P bold={isSelected} size={TypoGraphyCategory.body2} color={isSelected ? Palette.SemiBlack : Palette.WhiskyGray}>{item[1]}</P>
+        <P bold={isSelected} size={TypoGraphyCategory.body2} color={isSelected ? Palette.WhiskyBlack2 : Palette.WhiskyBlack3}>{item[1]}</P>
       </S.CategoryItemWrapper>
     )
   },[category])

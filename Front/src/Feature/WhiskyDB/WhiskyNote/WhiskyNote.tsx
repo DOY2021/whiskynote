@@ -21,7 +21,7 @@ function WhiskyNote() {
 
   return (
     <Container>
-      <P color={Palette.SemiBlack} size={TypoGraphyCategory.subtitle}>위스키 노트</P>
+      <P color={Palette.WhiskySubtitle} size={TypoGraphyCategory.subtitle}>위스키 노트</P>
       <WhiteSpace height='20'/>
       <Row>
         {mockArr.map(item => {
