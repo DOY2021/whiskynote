@@ -1,6 +1,6 @@
 import axios from "axios";
 
-type Review = {
+export type Review = {
   id: number,
   reaction_image?: any[],
   review_title: string,
@@ -11,9 +11,25 @@ type Review = {
   flavor_tag: number[]
 }
 
+export type ReactionList = {
+  id: number,
+  reaction_image?: any[],
+  user: number,
+  userName: string,
+  whisky_name: string,
+  review_title: string,
+  review_body: string
+  nose_rating: number,
+  taste_rating: number,
+  finish_rating: number,
+  flavor_tag: number[],
+  created_at: string,
+  modified_at:string
+}
+
 async function createReview(whisky_pk:number, review: any) {
   try{
-    const response = await axios.post(`/api/reaction/${whisky_pk}/create`,
+    const response = await axios.post(`/api/reaction/${whisky_pk}/create/`,
     review);
     return response.data;
   }
