@@ -16,14 +16,13 @@ const SearchWrapper = styled.div`
   background-color: #e7e5de;
   border-radius: 2px;
 
-  padding: 6px 0px;
-  padding-left: 8px;
+  padding: 16px 16px;
 `;
 
 const SearchIcon = styled(FiSearch)`
   color: #5c5955;
   font-size: 24px;
-  margin-right: 12px;
+  margin-right: 16px;
 `;
 
 const SearchInput = styled.input`

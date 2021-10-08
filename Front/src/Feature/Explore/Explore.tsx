@@ -46,7 +46,6 @@ function Explore() {
     const test = async() => {
       const whiskyList: WhiskyMainProps | undefined =  await whiskyAPI.getWhiskyMain(data)
       setList(whiskyList?.results)
-      console.log(whiskyList)
     }
     test()
   },[])
@@ -70,7 +69,7 @@ function Explore() {
       <Container fluid>
         <Row style={{minWidth: '1200px'}}>
           <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} />
-          <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >     
+          <Col xs={10} sm={10} md={10} lg={10} xl={10} xxl={10} >     
           <Container fluid>
             <Row>
               <Col xs={2} sm={2} md={2} lg={2} xl={2} xxl={2} >
@@ -78,7 +77,12 @@ function Explore() {
           <Category/>
           <WhiteSpace height='50'/>
           <Link to='/registerWhisky'>
-            <Button paddingVertical={10} paddingHorizontal={10} variant='black'>
+            <Button 
+              paddingVertical={10}
+              paddingHorizontal={10}
+              variant='black'
+              borderRadius={0}
+            >
               <P size={TypoGraphyCategory.body2} color={Palette.White}>
               + 새로운 위스키 등록
               </P>
@@ -99,6 +103,7 @@ function Explore() {
           </Container>
       
           </Col>
+          <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1} ></Col>
         </Row>
       </Container>
     </Suspense>

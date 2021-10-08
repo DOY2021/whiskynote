@@ -53,7 +53,6 @@ function SignIn() {
       try {
         if (!dispatch) return;
         const profile = await profileAPI.getProfile(response.data.user.pk);
-        console.log(profile);
         dispatch({
           type: 'LOGIN',
           payload: {

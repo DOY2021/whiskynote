@@ -27,6 +27,7 @@ export interface ButtonProp {
   children?: any;
   className?: any;
   onClick?: (event: React.FormEvent<HTMLButtonElement>) => void;
+  borderRadius?: number,
   data_cy?: string; // testing
 }
 
@@ -198,7 +199,7 @@ const Btn = styled.button<ButtonProp>`
           css`
             1px solid ${border}
           `};
-  border-radius: 4px;
+  border-radius: ${({ borderRadius }) => borderRadius}px;
 
   &:hover {
     color: ${({color}) => color};
@@ -250,6 +251,7 @@ function Button({
   data_cy,
   paddingHorizontal,
   paddingVertical,
+  borderRadius = 4,
 }: ButtonProp) {
   return (
     
@@ -266,7 +268,7 @@ function Button({
         border={border}
         color={color}
       >
-        <button type={btnType}>
+        <button type={btnType} style={{backgroundColor: 'inherit'}}>
         {children}
         </button>
       </Btn>

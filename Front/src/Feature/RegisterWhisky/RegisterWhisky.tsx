@@ -207,7 +207,9 @@ function RegisterWhisky() {
             <WhiteSpace height='10'/>
 
             <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 상품 이미지 사이즈 이렇게 해주세요.</P>
+            <WhiteSpace height='10'/>
             <P color={Palette.Orange800} fontSize = {TypoGraphyCategory.body2}>* 위스키 대표 사진을 등록해주세요.</P>
+            <WhiteSpace height='10'/>
             <ImageUpload
               maxFileNum={1000000}
               updateFilesCb={handleImages}
