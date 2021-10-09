@@ -218,6 +218,37 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ("profile_photo", )
 
+#Profile - Whisky List (Full)
+class MenuFullSerializer(serializers.ModelSerializer):
+    #"my_ratings" field
+    my_ratings = serializers.SerializerMethodField()
+    def get_my_ratings(self, obj):
+        request = self.context['request']
+        url = request.build_absolute_uri()
+        profile_pk = int(url.split('/')[-4])
+        #How to get pk value from serializer
+        if Reaction.objects.filter(whisky = obj).exists():
+            my_reaction = Reaction.objects.get(whisky = obj, user_id = profile_pk)
+            return my_reaction.nose_rating
+            #TBU nose_rating -> average rating (single #)
+        else:
+            return False
+
+    #"public", "short_list" field
+    #public = serializers.BooleanField()
+    #short_list = serializers.BooleanField()
+
+    class Meta:
+        model = Whisky
+        fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings" )
+        read_only_fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings")
+        #"public" should be added as a custom field
+        #"my_ratings" should be added as a nested field
+
+
+#Profile - Whisky List (Short)
+
+
 #ReactionDB
 class ReactionImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -233,11 +264,15 @@ class ReactionListSerializer(serializers.ModelSerializer):
     def get_userName(self, obj):
         return obj.user.username
 
+    avg_rating = serializers.SerializerMethodField()
+    def get_avg_rating(self,obj):
+        return round((obj.nose_rating + obj.taste_rating + obj.finish_rating)/3, 2)
+
     reaction_image = ReactionImageSerializer(many = True, required = False)
 
     class Meta:
         model = Reaction
-        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
+        fields = ('id','reaction_image', 'user','userName', 'whisky_name', 'review_title', 'review_body', 'avg_rating', 'nose_rating', 'taste_rating', 'finish_rating', 'flavor_tag', 'created_at','modified_at')
         read_only_fields = ('user',)
 
 class ReactionCreateSerializer(serializers.ModelSerializer):

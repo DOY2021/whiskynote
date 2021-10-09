@@ -46,31 +46,25 @@ class Whisky(models.Model):
     cask_type = models.CharField(max_length = 100, null = True, blank = True)
     alcohol = models.FloatField(null = True)
     size = models.IntegerField(null = True, blank = True)
-
     #if single cask
     single_cask = models.BooleanField(default = False)
     cask_number = models.IntegerField(null = True, blank = True)
-
     #checklist?
     non_chillfiltered = models.BooleanField(null = True, default = False)
     natural_color = models.BooleanField(null = True, default = False)
     independent_whisky = models.BooleanField(null = True, default = False)
-
+    #final field
     whisky_detail = models.TextField(null = True, blank = True)
-
     #non-input / auto_add
     contributor = models.CharField(max_length = 100, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
     updated = models.BooleanField(default = True)
-
     #def __str__(self):
     #    return self.name
 
@@ -92,6 +86,8 @@ class Reaction(models.Model):
     review_title = models.CharField(max_length=255)
     review_body = models.TextField()
     #rating
+    avg_rating = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
+    
     nose_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
     taste_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
     finish_rating = models.IntegerField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 100, blank = False)
@@ -110,7 +106,7 @@ class Reaction(models.Model):
 class ReactionImage(models.Model):
     reaction = models.ForeignKey(Reaction, on_delete = models.CASCADE, null = True, related_name = 'reaction_image', related_query_name = 'reaction_image')
     image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
-    
+
 #Comment
 class ReactionComment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -137,3 +133,8 @@ class Wishlist(models.Model):
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
 
+#Profile - Whisky Menu 
+#class Menu(models.Model):
+#    user = models.ForeignKey(User, on_delete = models.CASCADE)
+#    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+#    created_at = models.DateTimeField()

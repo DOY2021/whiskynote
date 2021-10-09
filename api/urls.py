@@ -25,6 +25,7 @@ from api.views import NaverLoginView
 #Profile
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
 from api.views import NicknameDuplicateAPIView
+from api.views import MenuFullAPIView, MenuFullUpdateAPIView
 
 #Whisky DB
 from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyUpdateAPIView,  WhiskyConfirmListAPIView, WhiskyConfirmAPIView
@@ -82,6 +83,10 @@ urlpatterns = [
     #nickname-duplicate_check
     path("nickname-duplicate/<nickname>/", NicknameDuplicateAPIView.as_view(), name = 'nickname-duplicate_check'),
 
+    #MenuFull
+    path("<int:pk>/profile/menu-full/", MenuFullAPIView.as_view(), name = 'profile_menu_full'),
+    path("<int:pk>/profile/menu-full/update/", MenuFullUpdateAPIView.as_view(), name = 'profile_menu_full_update'),
+
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),
     path("<int:profile_pk>/following/", FollowingDetailView.as_view(), name = "followers"),
@@ -119,16 +124,16 @@ urlpatterns = [
     #reaction comment
     path('reaction/<int:reaction_pk>/comment/lists', ReactionCommentListAPIView.as_view(), name = 'reaction_comment_list'),
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
-    
+
     #jwt
     #path('token/', obtain_jwt_token),
     #path('token/verify/', verify_jwt_token),
     #path('token/refresh/', refresh_jwt_token),
-    
+
     #simple-jwt
     path('token/', TokenObtainPairView.as_view(), name = 'token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     ]
-    
+
 
 
