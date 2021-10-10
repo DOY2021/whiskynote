@@ -22,7 +22,7 @@ function DB() {
           </S.DBWrapper>
           <S.Line></S.Line>
           {/* TODO: DB페이지에서 API받아온거 넘기기 */}
-          <ReviewList></ReviewList>
+          {/* <ReviewList></ReviewList> */}
         </Col>
       </Row>
     </Container>

@@ -13,12 +13,13 @@ export type Review = {
 
 export type ReactionList = {
   id: number,
-  reaction_image?: any[],
+  reaction_image: any[],
   user: number,
   userName: string,
   whisky_name: string,
   review_title: string,
-  review_body: string
+  review_body: string,
+  avg_rating: number,
   nose_rating: number,
   taste_rating: number,
   finish_rating: number,

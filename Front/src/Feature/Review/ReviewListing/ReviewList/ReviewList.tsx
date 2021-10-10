@@ -7,13 +7,14 @@ import P from '../../../../shared/P/P';
 import { useHistory } from 'react-router';
 import { TypoGraphyCategory } from '../../../../lib/css/TempTypo';
 import Glass from '../../../../../assets/CustomIcons/reviewGlass.svg'
-import { ReactionApi } from '../../../../api/reaction';
 import { ReactionList } from '../../../../api/reaction';
 
 
 function ReviewList(props: {
-  whisky_ratings?: number;
-  rating_counts?: number;
+  whisky_ratings?: number,
+  rating_counts?: number,
+  name_kor?: string,
+  category?: number,
   reactions: ReactionList[]
 }) {
   const history = useHistory();
@@ -52,9 +53,8 @@ function ReviewList(props: {
           <Review></Review> */}
           {
             props.reactions.map(item => {
-              let reviewScore = (item.nose_rating+item.taste_rating+item.finish_rating)/3
               return (
-                <Review key={item.id} username={item.userName} reviewScore={reviewScore} reviewDate={item.modified_at} reviewText={item.review_body}></Review>
+                <Review key={item.id} username={item.userName} reviewScore={item.avg_rating} reviewDate={item.modified_at} reviewText={item.review_body} reactionImage={item.reaction_image}></Review>
               )
             })
           }

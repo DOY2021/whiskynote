@@ -4,7 +4,7 @@ import ImagePreview from './ImagePreview';
 const MAX_FILE_SIZE = 4000000; //bytes
 import S from './ImageUpload.styled';
 import Camera from '../../../assets/CustomIcons/camera.svg';
-
+import Remove from '../../../assets/CustomIcons/remove.svg'
 
 
 const convertNestedObjectToArray = (nestedObj) => 
@@ -92,7 +92,7 @@ const ImageUpload = ({
           return (
             <S.PreviewContainer key={fileName}>
               <S.DeleteBtn onClick={() => removeFile(fileName)}>
-                <S.DeleteBtnIcon src="../../../assets/CustomIcons/remove.svg"></S.DeleteBtnIcon>
+                <S.DeleteBtnIcon src={Remove}></S.DeleteBtnIcon>
               </S.DeleteBtn>
               {isImageFile && (
                 <ImagePreview key={fileName} file={file} index={index} files={files} ></ImagePreview>

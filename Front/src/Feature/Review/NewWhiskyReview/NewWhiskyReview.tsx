@@ -70,7 +70,7 @@ function NewWhiskyReview() {
     const tags = selectedTagsToIndex(selectedTags);
     let lastPart = window.location.href.split("/").pop();
     const review = {
-      
+      review_title: '',
       reaction_image: newFiles,
       review_body: text,
       nose_rating: scores.nose,
@@ -208,7 +208,6 @@ function NewWhiskyReview() {
             text={text}
             handleTextAreaInput={handleTextAreaInput}
           ></TextField>
-
           <S.ButtonsWrapper>
             <S.TempSaveBtn onClick={history.goBack} type="reset">
               뒤로가기
