@@ -13,8 +13,6 @@ import { ReactionList } from '../../../../api/reaction';
 function ReviewList(props: {
   whisky_ratings?: number,
   rating_counts?: number,
-  name_kor?: string,
-  category?: number,
   reactions: ReactionList[]
 }) {
   const history = useHistory();
