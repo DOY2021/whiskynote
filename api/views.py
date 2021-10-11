@@ -294,9 +294,6 @@ class MenuFullUpdateAPIView(generics.RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-#Profile - Whisky List (Short)
-
-
 #Whisky Mainpage
 class WhiskyMainListAPIView(generics.ListAPIView):
     queryset = Whisky.objects.filter(confirmed = True)

@@ -30,6 +30,13 @@ from api.models import Collection, Wishlist
 #Images
 from api.models import WhiskyImage, ReactionImage
 
+#Profile - WhiskyDraft
+#from api.models import WhiskyDraft
+
+#Profile - Menu
+#from api.models import Menu
+
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -244,9 +251,6 @@ class MenuFullSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings")
         #"public" should be added as a custom field
         #"my_ratings" should be added as a nested field
-
-
-#Profile - Whisky List (Short)
 
 
 #ReactionDB
