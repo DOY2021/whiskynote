@@ -135,4 +135,4 @@ dmypy.json
 media/
 secret.json
 
-api/migrations/*
+#api/migrations/*
