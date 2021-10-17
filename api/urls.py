@@ -52,7 +52,7 @@ from api.views import ReactionCommentListAPIView, ReactionCommentCreateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 #main
-from api.views import MainRecentReactionView
+from api.views import MainRecentReactionView, MainPopularWhiskyView
 
 urlpatterns = [
     #rest-auth
@@ -124,8 +124,9 @@ urlpatterns = [
     path('reaction/<int:reaction_pk>/comment/new', ReactionCommentCreateAPIView.as_view(), name = 'reaction_comment_create'),
     
     #main
-    path('main/recent/reaction', MainRecentReactionView.as_view(), name = 'main_recent_reaction'),
-    path('main/popular/whisky',),
+    path('main/recent/reaction/', MainRecentReactionView.as_view(), name = 'main_recent_reaction'),
+    path('main/popular/whisky/',MainPopularWhiskyView.as_view(), name = 'main_popular_whisky'),
+    
     #jwt
     #path('token/', obtain_jwt_token),
     #path('token/verify/', verify_jwt_token),

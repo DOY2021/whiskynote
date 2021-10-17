@@ -589,7 +589,18 @@ class MainRecentReactionView(generics.ListAPIView):
     serializer_class = ReactionListSerializer
 
     def get_queryset(self):
-        RecentWhisky = Reaction.objects.order_by('modified_at')
+        RecentReaction = Reaction.objects.order_by('-modified_at')
+        return RecentReaction
+
+class MainPopularWhiskyView(generics.ListAPIView):
+    ordering_fields = ['rating_counts']
+    #Pagination
+    pagination_class = PageSize5Pagination
+    permission_classes = [AllowAny]
+    serializer_class = WhiskySerializer
+
+    def get_queryset(self):
+        RecentWhisky = Whisky.objects.order_by('-rating_counts')
         return RecentWhisky
 
 #Social Login - Naver

@@ -66,7 +66,7 @@ class Whisky(models.Model):
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-
+    
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
     updated = models.BooleanField(default = True)
