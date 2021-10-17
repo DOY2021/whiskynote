@@ -463,7 +463,7 @@ class WhiskyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Whisky
         #Update fields according to DB categories
-        fields = ('name_eng', 'name_kor', 'whisky_image', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail')
+        fields = ('name_eng', 'name_kor', 'whisky_image', 'category',  'region', 'distillery', 'bottler', 'bottling_series', 'age', 'cask_type', 'alcohol',  'size', 'single_cask', 'cask_strength', 'cask_number', 'non_chillfiltered', 'natural_color', 'independent_whisky', 'whisky_detail')
 
     def create(self, validated_data):
         current_user = self.context['request'].user

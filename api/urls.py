@@ -25,7 +25,8 @@ from api.views import NaverLoginView
 #Profile
 from api.views import ProfileCreateAPIView, ProfileViewSet, ProfileDetailAPIView
 from api.views import NicknameDuplicateAPIView
-from api.views import MenuFullAPIView, MenuFullUpdateAPIView
+from api.views import MenuFullAPIView
+#MenuFullUpdateAPIView
 
 #Whisky DB
 from api.views import WhiskyMainListAPIView, WhiskyListAPIView, WhiskyDetailAPIView, WhiskyCreateAPIView, WhiskyUpdateAPIView,  WhiskyConfirmListAPIView, WhiskyConfirmAPIView
@@ -88,7 +89,7 @@ urlpatterns = [
 
     #MenuFull
     path("<int:pk>/profile/menu-full/", MenuFullAPIView.as_view(), name = 'profile_menu_full'),
-    path("<int:pk>/profile/menu-full/update/", MenuFullUpdateAPIView.as_view(), name = 'profile_menu_full_update'),
+    #path("<int:pk>/profile/menu-full/update/", MenuFullUpdateAPIView.as_view(), name = 'profile_menu_full_update'),
 
     #Follow
     path("follow/", FollowView.as_view(), name = "follow"),

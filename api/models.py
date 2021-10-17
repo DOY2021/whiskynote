@@ -47,7 +47,8 @@ class Whisky(models.Model):
     alcohol = models.FloatField(null = True)
     size = models.IntegerField(null = True, blank = True)
     #if single cask
-    single_cask = models.BooleanField(default = False)
+    single_cask = models.BooleanField(null = True, default = False)
+    cask_strength = models.BooleanField(null = True, default = False)
     cask_number = models.IntegerField(null = True, blank = True)
     #checklist?
     non_chillfiltered = models.BooleanField(null = True, default = False)
@@ -62,7 +63,6 @@ class Whisky(models.Model):
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
     updated = models.BooleanField(default = True)
