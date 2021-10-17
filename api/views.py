@@ -284,15 +284,15 @@ class MenuFullAPIView(generics.ListAPIView):
         menu = Whisky.objects.filter(confirmed = True, contributor = current_user)
         return menu
 
-class MenuFullUpdateAPIView(generics.RetrieveUpdateAPIView):
-    serializer_class = MenuFullSerializer
-    #Search Function Added - API extraction possible (with queryset, serializer_class)
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name_eng', 'region']
-    ordering_fields = ['name_eng', 'region', 'cask_type', 'alcohol']
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+# class MenuFullUpdateAPIView(generics.RetrieveUpdateAPIView):
+#     serializer_class = MenuFullSerializer
+#     #Search Function Added - API extraction possible (with queryset, serializer_class)
+#     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+#     search_fields = ['name_eng', 'region']
+#     ordering_fields = ['name_eng', 'region', 'cask_type', 'alcohol']
+# 
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
 
 #Whisky Mainpage
 class WhiskyMainListAPIView(generics.ListAPIView):
