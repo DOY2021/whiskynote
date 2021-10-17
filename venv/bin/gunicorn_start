@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#Django Project Name
+NAME="whiskynote"  
+
+#Django Project Directory
+DJANGODIR=/home/sunwu/whiskynote/Whisky
+#DJANGODIR=/home/user_name/djenv/project_name                
+
+#Gunicorn SOCKFILE
+SOCKFILE=/home/sunwu/whiskynote/Whisky/venv/run/gunicorn.sock  
+#SOCKFILE=/home/b0b/djenv/school/run/gunicorn.sock
+
+#Django Project Running under user vagrant
+USER=sunwu
+GROUP=doy
+NUM_WORKERS=3
+DJANGO_SETTINGS_MODULE=Whisky.settings                     
+#DJANGO_SETTINGS_MODULE=school.settings                     
+DJANGO_WSGI_MODULE=Whisky.wsgi                        
+#DJANGO_WSGI_MODULE=school.wsgi
+
+echo "Starting $NAME as `whoami`"
+
+# Activate the virtual environment
+cd $DJANGODIR
+source ../bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Create the run directory if it doesn't exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+--name $NAME \
+--workers $NUM_WORKERS \
+--user=$USER --group=$GROUP \
+--bind=unix:$SOCKFILE \
+--log-level=debug \
+--log-file=-

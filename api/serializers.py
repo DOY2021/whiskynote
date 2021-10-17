@@ -30,6 +30,13 @@ from api.models import Collection, Wishlist
 #Images
 from api.models import WhiskyImage, ReactionImage
 
+#Profile - WhiskyDraft
+#from api.models import WhiskyDraft
+
+#Profile - Menu
+#from api.models import Menu
+
+
 # This is to allow you to override the UserDetailsSerializer at any time.
 # If you're sure you won't, you can skip this and use DefaultUserDetailsSerializer directly
 rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
@@ -217,6 +224,34 @@ class ProfilePhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("profile_photo", )
+
+#Profile - Whisky List (Full)
+class MenuFullSerializer(serializers.ModelSerializer):
+    #"my_ratings" field
+    my_ratings = serializers.SerializerMethodField()
+    def get_my_ratings(self, obj):
+        request = self.context['request']
+        url = request.build_absolute_uri()
+        profile_pk = int(url.split('/')[-4])
+        #How to get pk value from serializer
+        if Reaction.objects.filter(whisky = obj).exists():
+            my_reaction = Reaction.objects.get(whisky = obj, user_id = profile_pk)
+            return my_reaction.nose_rating
+            #TBU nose_rating -> average rating (single #)
+        else:
+            return False
+
+    #"public", "short_list" field
+    #public = serializers.BooleanField()
+    #short_list = serializers.BooleanField()
+
+    class Meta:
+        model = Whisky
+        fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings" )
+        read_only_fields = ("id", "name_eng", "region", "cask_type", "alcohol", "my_ratings")
+        #"public" should be added as a custom field
+        #"my_ratings" should be added as a nested field
+
 
 #ReactionDB
 class ReactionImageSerializer(serializers.ModelSerializer):

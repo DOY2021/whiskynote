@@ -46,33 +46,57 @@ class Whisky(models.Model):
     cask_type = models.CharField(max_length = 100, null = True, blank = True)
     alcohol = models.FloatField(null = True)
     size = models.IntegerField(null = True, blank = True)
-
     #if single cask
     single_cask = models.BooleanField(default = False)
     cask_number = models.IntegerField(null = True, blank = True)
-
     #checklist?
     non_chillfiltered = models.BooleanField(null = True, default = False)
     natural_color = models.BooleanField(null = True, default = False)
     independent_whisky = models.BooleanField(null = True, default = False)
-
+    #final field
     whisky_detail = models.TextField(null = True, blank = True)
-
     #non-input / auto_add
     contributor = models.CharField(max_length = 100, null = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
     #ratings
     whisky_ratings = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(100)], default = 0)
     rating_counts = models.IntegerField(validators = [MinValueValidator(0)], default = 0)
-    
+
     #Admin confirmation
     confirmed = models.BooleanField(default = False)
     updated = models.BooleanField(default = True)
-
     #def __str__(self):
     #    return self.name
+
+#Whisky Draft
+#Keep the fields identical to Whisky Field
+#class WhiskyDraft(models.Model):
+#    #input
+#    name_eng = models.CharField(max_length = 100, null = True, blank = True)
+#    name_kor = models.CharField(max_length = 100, null = True)
+#    category = models.ForeignKey(WhiskyCategory, related_name = 'category_draft', on_delete = models.CASCADE, null = True, blank = True)
+#    region = models.CharField(max_length = 100, null = True)
+#    distillery = models.CharField(max_length = 100, null = True, blank = True)
+#    bottler = models.CharField(max_length = 100, null = True, blank = True)
+#    bottling_series = models.CharField(max_length = 100, null = True, blank = True)
+#    age = models.IntegerField(null = True)
+#    cask_type = models.CharField(max_length = 100, null = True, blank = True)
+#    alcohol = models.FloatField(null = True)
+#    size = models.IntegerField(null = True, blank = True)
+#    #if single cask
+#    single_cask = models.BooleanField(default = False)
+#    cask_number = models.IntegerField(null = True, blank = True)
+#    #checklist?
+#    non_chillfiltered = models.BooleanField(null = True, default = False)
+#    natural_color = models.BooleanField(null = True, default = False)
+#    independent_whisky = models.BooleanField(null = True, default = False)
+#    #final field
+#    whisky_detail = models.TextField(null = True, blank = True)
+#    #non-input / auto_add
+#    contributor = models.ForeignKey(User, on_delete = models.CASCADE)
+#    created_at = models.DateTimeField(auto_now_add = True)
+#    updated_at = models.DateTimeField(auto_now = True)
 
 class WhiskyImage(models.Model):
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE, null = True, related_name = 'whisky_image', related_query_name = 'whisky_image')
@@ -112,7 +136,7 @@ class Reaction(models.Model):
 class ReactionImage(models.Model):
     reaction = models.ForeignKey(Reaction, on_delete = models.CASCADE, null = True, related_name = 'reaction_image', related_query_name = 'reaction_image')
     image = models.FileField(null = True, blank = True, validators = [validate_image_file_extension])
-    
+
 #Comment
 class ReactionComment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -138,4 +162,12 @@ class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
+
+#Profile - Menu
+#class Menu(models.Model):
+#    user = models.ForeignKey(User, on_delete = models.CASCADE)
+#    whisky = models.ForeignKey(Whisky, on_delete = models.CASCADE)
+#    public = models.BooleanField(default = True)
+#    short_menu = models.BooleanField(default = True)
+
 

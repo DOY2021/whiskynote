@@ -84,6 +84,9 @@ from api.serializers import ProfileSerializer, ProfileCreateSerializer
 from api.models import Wishlist, Collection
 from api.serializers import WishlistSerializer, WishlistViewSerializer, CollectionSerializer, CollectionViewSerializer
 
+#Profile - Menu
+from api.serializers import MenuFullSerializer
+
 #Get UserModel
 from django.contrib.auth.models import User
 UserModel = get_user_model()
@@ -258,8 +261,37 @@ class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     parser_classes = (FormParser, MultiPartParser)
 
+    #def get(self, request, *args, **kwargs):
+    #    return self.retrieve(request, *args, **kwargs)
+
     def put(self, request, *args, **kwargs):
         file_obj = request.data['profile_photo']
+        return self.update(request, *args, **kwargs)
+
+#Profile - Whisky List (Full) 
+class MenuFullAPIView(generics.ListAPIView):
+    serializer_class = MenuFullSerializer
+    #Search Function Added - API extraction possible (with queryset, serializer_class)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name_eng', 'region']
+    ordering_fields = ['name_eng', 'region', 'cask_type', 'alcohol']
+
+    #contributor = ForeignKeyField 업데이트 여부 결정
+
+    def get_queryset(self):
+        queryset = Whisky.objects.all()
+        current_user = self.request.user
+        menu = Whisky.objects.filter(confirmed = True, contributor = current_user)
+        return menu
+
+class MenuFullUpdateAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = MenuFullSerializer
+    #Search Function Added - API extraction possible (with queryset, serializer_class)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name_eng', 'region']
+    ordering_fields = ['name_eng', 'region', 'cask_type', 'alcohol']
+
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
 #Whisky Mainpage
@@ -294,7 +326,7 @@ class WhiskyCreateAPIView(generics.CreateAPIView):
     serializer_class = WhiskyCreateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs): 
         return self.create(request, *args, **kwargs)
 
 #Whisky Update (Open-type DB function #2)
