@@ -267,7 +267,7 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
         cur_user = self.context['request'].user
 
-        #if whisky contains images
+        #if reaction contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
             reaction_instance = Reaction.objects.create(
@@ -323,7 +323,7 @@ class ReactionUpdateSerializer(serializers.ModelSerializer):
         cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
         cur_user = self.context['request'].user
 
-        #if whisky contains images
+        #if reaction contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
             reaction_instance = Reaction.objects.update(

@@ -580,6 +580,18 @@ class WishlistCreateAPIView(generics.CreateAPIView):
                     status=status.HTTP_200_OK,
             )
 
+#Main
+class MainRecentReactionView(generics.ListAPIView):
+    ordering_fields = ['modified_at']
+    #Pagination
+    pagination_class = PageSize5Pagination
+    permission_classes = [AllowAny]
+    serializer_class = ReactionListSerializer
+
+    def get_queryset(self):
+        RecentWhisky = Reaction.objects.order_by('modified_at')
+        return RecentWhisky
+
 #Social Login - Naver
 
 class NaverLoginView(View):
