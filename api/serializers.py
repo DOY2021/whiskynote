@@ -298,11 +298,11 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context['request']
         url = request.build_absolute_uri()
-        whisky_pk = int(url.split('/')[-2])
+        whisky_pk = int(url.split('/')[-3])
         cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
         cur_user = self.context['request'].user
 
-        #if whisky contains images
+        #if reaction contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
             reaction_instance = Reaction.objects.create(
@@ -358,7 +358,7 @@ class ReactionUpdateSerializer(serializers.ModelSerializer):
         cur_whisky = get_object_or_404(Whisky, pk = whisky_pk)
         cur_user = self.context['request'].user
 
-        #if whisky contains images
+        #if reaction contains images
         if 'reaction_image' in validated_data:
             reaction_image = validated_data.pop('reaction_image')
             reaction_instance = Reaction.objects.update(
@@ -408,6 +408,8 @@ class WhiskySerializer(serializers.ModelSerializer):
         cur_whisky = obj.id
         reactions = Reaction.objects.filter(whisky_id = cur_whisky)
         reaction_cnt = reactions.count()
+        if reaction_cnt <= 0:
+            return 0
         total_rating = 0
         for reaction in reactions:
             new_nose_rating = reaction.nose_rating
