@@ -16,7 +16,9 @@
 ![WhiskynoteLogo](https://user-images.githubusercontent.com/69205130/147818024-e1eaf2f4-fafb-4ea6-9b09-d811369f77c7.png)
 
 * <b>Whiskynote?</b> <br>
-(review platform, discover whisky, contribute to whisky db, share reviews and whisky collections)
+Whiskynote is a whisky review website where users can discover information 
+and ratings about whisky, create collections, and contribute to co-develop 
+whisky database.
 * <b>May 2021 - Nov 2021 </b>
 * <b>Project Team DOY (DevOps for Youth) </b>
     * Backend : [Sunwoo Park](https://github.com/Sunny-W-Park), [Yeonyo Kim](https://github.com/arkdusdyk)
