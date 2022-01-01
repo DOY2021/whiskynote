@@ -59,7 +59,7 @@ whisky database.
 #### 1. Sign up & Login
 ![Signinfilled](https://user-images.githubusercontent.com/69205130/147818013-eff46ef7-b305-457c-9baa-ad69f1d7d996.png)
 #### 2. Search Whisky
-![Signinfilled](https://user-images.githubusercontent.com/69205130/147818013-eff46ef7-b305-457c-9baa-ad69f1d7d996.png)
+![Explore](https://user-images.githubusercontent.com/60367230/147852822-7061b170-16d9-4e29-9e27-917efe0e103c.png)
 #### 3. Whisky DB
 ![WhiskyDB](https://user-images.githubusercontent.com/69205130/147818093-6d50a7e8-cd3f-4ea8-b31c-bce1ff667651.png)
 #### 4. Whisky Review
