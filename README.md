@@ -59,16 +59,12 @@ whisky database.
 #### 1. Sign up & Login
 ![Signinfilled](https://user-images.githubusercontent.com/69205130/147818013-eff46ef7-b305-457c-9baa-ad69f1d7d996.png)
 #### 2. Search Whisky
-Filter, Sorting 기능이 제공된다.<br>
 ![Signinfilled](https://user-images.githubusercontent.com/69205130/147818013-eff46ef7-b305-457c-9baa-ad69f1d7d996.png)
 #### 3. Whisky DB
-Whisky 정보 확인 + Users can contribute to the Whisky database. <br>
 ![WhiskyDB](https://user-images.githubusercontent.com/69205130/147818093-6d50a7e8-cd3f-4ea8-b31c-bce1ff667651.png)
 #### 4. Whisky Review
-Users can share overall ratings and flavor tags in reviews. <br>
 ![ReviewWhisky](https://user-images.githubusercontent.com/69205130/147818121-1f9bc6c3-edbf-4fe7-8cee-a22b5dffab4f.png)
 #### 5. User Profile
-Users can also share reviews, wishlist, collections with others in Profile. <br>
 ![UserReview](https://user-images.githubusercontent.com/69205130/147818122-ae56b3b7-c23f-4dc8-be62-5cd4c91407b3.png)
 
 
