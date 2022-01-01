@@ -41,7 +41,7 @@ whisky database.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/https://github.com/DOY2021/Whisky.git
+   git clone https://github.com/DOY2021/Whisky.git
    ```
 2. Install requirements
    ```sh
