@@ -13,7 +13,10 @@
 
 
 ### 1. Introduction
+<img src="https://user-images.githubusercontent.com/69205130/147818024-e1eaf2f4-fafb-4ea6-9b09-d811369f77c7.png" width="400" height="auto" />
+<!--
 ![WhiskynoteLogo](https://user-images.githubusercontent.com/69205130/147818024-e1eaf2f4-fafb-4ea6-9b09-d811369f77c7.png)
+-->
 
 * <b>Whiskynote?</b> <br>
 Whiskynote is a whisky review website where users can discover information 
