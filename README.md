@@ -48,11 +48,6 @@ whisky database.
    pip3 install -r requirements.txt
    npm install
    ```
-3. Run
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
 
 ### 4. User Interface
 
