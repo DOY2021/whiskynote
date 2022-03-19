@@ -69,6 +69,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
 ### 6. Feedback
-[각자 TBU]
+[TBU]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
